@@ -17,7 +17,15 @@ class ClientController extends Controller
     public function index()
     {
         $marches = Marche::all();
-        $clients = Client::where('user_id', auth()->user()->id)->get();
+        $clients = null;
+
+        if (auth()->user()->role_id == 1) {
+          $clients = Client::get();
+        }else {
+          $clients = Client::where('user_id', auth()->user()->id)->get();
+        }
+
+
         $users = User::where('role_id' , '2')->get();
 
         return view('client.index', compact('clients', 'marches', 'users'));
@@ -42,7 +50,7 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $client = new Client;
-          
+
         $client->create([
             'nom_prenom'=>$request->nom_prenom,
             'activite'=>$request->activite,
@@ -98,7 +106,7 @@ class ClientController extends Controller
             'telephone'=>$request->telephone,
             'marche_id'=>$request->marche_id,
             'user_id'=>$request->user_id,
-            
+
         ]);
 
         return redirect()->route('client.index');
@@ -114,7 +122,7 @@ class ClientController extends Controller
     {
         $client = Client::findOrFail($id);
         $client->delete();
-        
+
         return redirect()->route('client.index');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Credit;
+use App\Models\Client;
 use App\Models\Recouvrement;
 
 class RecouvrementController extends Controller
@@ -16,9 +17,33 @@ class RecouvrementController extends Controller
      */
     public function index()
     {
+        $recouvrements = null;
+
+        if (auth()->user()->role_id == 1) {
+            $recouvrements = Recouvrement::selectRaw(
+               'user_id,
+                SUM(encours_actualise) as encours_actualise,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('user_id')
+            ->get();
+
+
+          }else {
+            $recouvrements = Recouvrement::selectRaw(
+            'credit_id,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('credit_id')
+            ->get();
+          }
+
         $credits = Credit::where('user_id', auth()->user()->id)->get();
-        $recouvrements = Recouvrement::where('user_id', auth()->user()->id)->get();
-        
+
         return view('recouvrement.index', compact('credits','recouvrements'));
     }
 
@@ -40,12 +65,27 @@ class RecouvrementController extends Controller
      */
     public function store(Request $request)
     {
-        $recouvrement = new Recouvrement; 
-          
+
+        $recouvrement = new Recouvrement;
+
+        $recouInteret = Recouvrement::where('credit_id', $request->credit_id)->sum('interet_jrs');
+        $recouCapital = Recouvrement::where('credit_id', $request->credit_id)->sum('recouvrement_jrs');
+
+
+        $credit = Credit::where('id', $request->credit_id)->first();
+
+        $encours_actualise = abs((intval($credit->montant_interet)) -
+
+        (intval($recouInteret) +
+        intval($recouCapital) +
+        intval($request->interet_jrs) +
+        intval($request->recouvrement_jrs)
+        ));
+
         $recouvrement->create([
             'user_id'=> auth()->user()->id,
             'credit_id'=>$request->credit_id,
-            'encours_actualise'=>$request->encours_actualise,
+            'encours_actualise'=>$encours_actualise,
             'interet_jrs'=>$request->interet_jrs,
             'recouvrement_jrs'=>$request->recouvrement_jrs,
             'epargne_jrs'=>$request->epargne_jrs,

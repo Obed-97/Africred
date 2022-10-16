@@ -39,17 +39,31 @@ class CreditController extends Controller
     public function store(Request $request)
     {
         $credit = new Credit;
-          
+
+        $interet = ($request->montant + 0) * 0.2;
+
+        $frais_deblocage = 0;
+
+        if (($request->montant <= 100000)) {
+            $frais_deblocage = ($request->montant + 0) * 0.05;
+        }
+
+        if ($request->montant > 100000){
+            $frais_deblocage = ($request->montant + 0) * 0.1;
+        }
+
+        $montant_interet = ($request->montant + 0) + $interet;
+
         $credit->create([
             'client_id'=>$request->client_id,
             'user_id'=> auth()->user()->id,
             'montant'=>$request->montant,
             'date_deblocage'=>$request->date_deblocage,
             'date_fin'=>$request->date_fin,
-            'interet'=>$request->interet,
-            'frais_deblocage'=>$request->frais_deblocage,
+            'interet'=>$interet,
+            'frais_deblocage'=>$frais_deblocage,
             'frais_carte'=>$request->frais_carte,
-            'montant_interet'=>$request->montant_interet,
+            'montant_interet'=>$montant_interet,
         ]);
 
         return redirect()->route('credit.index');

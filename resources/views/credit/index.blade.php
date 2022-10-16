@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <!-- end page title -->
-    
+
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -46,7 +46,7 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                   
+
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label class="control-label" name>Bénéficiaire</label>
@@ -56,7 +56,7 @@
                                                                @endforeach
                                                             </select>
                                                         </div>
-                                                        
+
                                                         <div class="form-group ">
                                                             <label>Montant</label>
                                                             <div>
@@ -75,32 +75,30 @@
                                                                 <input class="form-control" type="date" name="date_fin"  id="date_fin">
                                                             </div>
                                                         </div>
-                                                        <div class="form-group ">
+                                                        {{-- <div class="form-group ">
                                                             <label>Intérêt</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="interet"  id="interet">
                                                             </div>
-                                                         </div>
-                                                        <div class="form-group ">
+                                                         </div> --}}
+                                                        {{-- <div class="form-group ">
                                                             <label>Frais de déblocage</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="frais_deblocage"  id="frais_deblocage">
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
                                                         <div class="form-group ">
                                                             <label>Frais de carte</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="frais_carte"  id="frais_carte">
                                                             </div>
                                                         </div>
-                                                        <div class="form-group ">
+                                                        {{-- <div class="form-group ">
                                                             <label>Montant & Intérêt</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="montant_interet"  id="montant_interet">
                                                             </div>
-                                                        </div>
-                                                        
-                                                      
+                                                        </div> --}}
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -109,7 +107,7 @@
                                                 </div>
                                             </form>
                                             </div>
-                                        </div> 
+                                        </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
@@ -124,8 +122,8 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-    
-    
+
+
                                         <tbody>
 
                                             @foreach ($credits as $item)
@@ -147,9 +145,9 @@
                                                         <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                         </form>
                                                     </td>
-                                                
+
                                                 </tr>
-                                             @endforeach 
+                                             @endforeach
 
                                         </tbody>
                                     </table>
@@ -158,10 +156,14 @@
                         </div> <!-- end col -->
                     </div> <!-- end row -->
 
-                    
+
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
+
+            <script>
+
+            </script>
 
 
 @endsection
