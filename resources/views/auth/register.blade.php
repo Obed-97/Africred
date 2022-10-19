@@ -22,7 +22,7 @@
 
     <body class="auth-body-bg">
         <div class="home-btn d-none d-sm-block">
-            <a href="index.html"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+            <a href="{{route('register')}}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
         </div>
         <div>
             <div class="container-fluid p-0">
@@ -47,14 +47,14 @@
                                             </div>
 
                                             <div class="p-2 mt-5">
-                                                <form class="form-horizontal " method="POST" action="{{ route('register') }}">
+                                                <form class="form-horizontal " method="POST" action="{{ route('register') }}" >
                                                     @csrf
 
                                                     <div class="form-group auth-form-group-custom mb-4">
                                                         <i class="ri-computer-line auti-custom-input-icon"></i>
                                                         <label for="poste">Poste</label>
                                                         <div>
-                                                            <select class="form-control" name="role" >
+                                                            <select class="form-control" name="role_id" >
                                                                 <option>Attribuer un poste</option>
                                                                 @foreach ($roles as $item)
                                                                 <i class="ri-user-3-line auti-custom-input-icon"></i>
@@ -80,7 +80,7 @@
                                                     <div class="form-group auth-form-group-custom mb-4">
                                                         <i class=" ri-phone-line auti-custom-input-icon"></i>
                                                         <label for="telephone">Téléphone</label>
-                                                        <input type="telephone" class="form-control" id="telephone" name="telephone" placeholder="Entrez votre numéro">
+                                                        <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Entrez votre numéro">
                                                     </div>
                             
                                                     <div class="form-group auth-form-group-custom mb-4">

@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0">Clientèle </h4>
+                                <h4 class="mb-0 text-success">Clientèle </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -29,12 +29,28 @@
                         </div>
                     </div>
                     <!-- end page title -->
+                    <div class="row">
+                        <div class="col-xl-2"></div>
+                       <div class="col-xl-8">
+                            <form  method="POST" action="{{route('filtre.store')}}" class="d-flex mb-4">
+                                @csrf
+                                <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
+                                <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
+                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light">Filtrer</div>
+                            </form>
+                        </div> 
+                        <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"> TOUS LES CLIENTS</a></div>
+                    </div>
     
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title text-right mb-4"><button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Nouveau client</button></h4>
+                                    <h4 class="card-title text-right mb-4">
+                                        @if (auth()->user()->role_id == 2)
+                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Nouveau client</button>
+                                        @endif
+                                    </h4>
                                         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog" >
                                                 <form action="{{route('client.store')}}" method="POST" enctype="multipart/form-data">
@@ -51,19 +67,19 @@
                                                         <div class="form-group ">
                                                             <label>Nom & Prénom</label>
                                                             <div>
-                                                                <input class="form-control" type="text" name="nom_prenom"  id="nom_prenom">
+                                                                <input class="form-control" type="text" name="nom_prenom"  id="nom_prenom" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
                                                             <label>Activité</label>
                                                             <div>
-                                                                <input class="form-control" type="text" name="activite"  id="activite">
+                                                                <input class="form-control" type="text" name="activite"  id="activite" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
                                                             <label>Téléphone</label>
                                                             <div>
-                                                                <input class="form-control" type="text" name="telephone"  id="telephone">
+                                                                <input class="form-control" type="text" name="telephone"  id="telephone" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -71,14 +87,6 @@
                                                             <select class="form-control " name="marche_id">
                                                                 @foreach ($marches as $item)
                                                                     <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label" name>Agent</label>
-                                                            <select class="form-control " name="user_id">
-                                                                @foreach ($users as $item)
-                                                                    <option value="{{$item->id}}">{{$item->nom}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -99,7 +107,9 @@
                                                 <th>Activité</th>
                                                 <th>Téléphone</th>
                                                 <th>Marché</th>
+                                                @if (auth()->user()->role_id == 1)
                                                 <th>Agent</th>
+                                                @endif
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -112,15 +122,18 @@
                                                 <td>{{$item->activite}}</td>
                                                 <td>{{$item->telephone}}</td>
                                                 <td>{{$item->Marche['libelle']}}</td>
+                                                @if (auth()->user()->role_id == 1)
                                                 <td>{{$item->User['nom']}}</td>
-
+                                                @endif
                                                 <td class="d-flex">
                                                     <a href="{{route('client.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                    @if (auth()->user()->role_id == 1)
                                                     <form method="POST" action="{{route('client.destroy', $item->id)}}">
                                                         @csrf
                                                         {{method_field('DELETE')}}
                                                     <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                     </form>
+                                                    @endif
                                                 </td>
                                             
                                             </tr>

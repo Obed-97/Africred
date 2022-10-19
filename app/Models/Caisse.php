@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Marche extends Model
+class Caisse extends Model
 {
     use HasFactory;
 
@@ -13,13 +13,13 @@ class Marche extends Model
         'libelle',
     ];
 
-    public function Client()
+    public function User()
     {
-        return $this->hasMany(Client::class);
+        return $this->belongsToMany(User::class, 'user_caisses');
     }
 
-    public function Recouvrement()
+    public function User_caisse()
     {
-        return $this->hasMany(Recouvrement::class);
+        return $this->belongsToMany(User_caisse::class);
     }
 }

@@ -1,3 +1,42 @@
+@if (auth()->user()->role_id == 4)
+   <!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title">Gestion</li>
+
+                <li>
+                    <a href="/" class="waves-effect">
+                        <i class="ri-dashboard-fill"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('depot_caisse.index')}}" class=" waves-effect">
+                        <i class="ri-store-3-line"></i>
+                        <span>Encaissement</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class=" waves-effect">
+                        <i class="ri-file-list-3-fill"></i>
+                        <span>Historique</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>
+<!-- Left Sidebar End --> 
+@else
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
 
@@ -22,6 +61,14 @@
                         <span>Recouvrement</span>
                     </a>
                 </li>
+                @if (auth()->user()->role_id == 1)
+                    <li>
+                        <a href="{{route('depot_caisse.index')}}" class=" waves-effect">
+                            <i class="ri-store-3-line"></i>
+                            <span>Encaissement</span>
+                        </a>
+                    </li>
+                @endif
                 <li>
                     <a href="{{route('historique.index')}}" class=" waves-effect">
                         <i class="ri-file-list-3-fill"></i>
@@ -43,14 +90,16 @@
 
 
                 <li class="menu-title">Administration</li>
-
-                <li>
-                    <a href="{{route('personnel.index')}}" class="waves-effect">
-                        <i class="ri-team-fill"></i>
-                        <span>Personnel</span>
-                    </a>
-                
-                </li>
+                @if (auth()->user()->role_id == 1)
+                    <li>
+                        <a href="{{route('personnel.index')}}" class="waves-effect">
+                            <i class="ri-team-fill"></i>
+                            <span>Personnel</span>
+                        </a>
+                    
+                    </li> 
+                @endif
+               
                 
                 <li>
                     <a href="{{route('client.index')}}" class="waves-effect">
@@ -59,6 +108,7 @@
                     </a>
                 
                 </li>
+                @if (auth()->user()->role_id == 1)
                 <li>
                     <a href="{{route('role.index')}}" class="waves-effect">
                         <i class="ri-computer-fill"></i>
@@ -66,6 +116,7 @@
                     </a>
                 
                 </li>
+                @endif
 
                 
 
@@ -75,3 +126,4 @@
     </div>
 </div>
 <!-- Left Sidebar End -->
+@endif

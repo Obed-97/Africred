@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
-use App\Models\Marche;
-use App\Models\User;
+use App\Models\Credit;
+use Carbon\Carbon;
 
-class ClientController extends Controller
+class EtatCreditController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,17 +16,15 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $marches = Marche::all();
-        $clients = null;
-
         if (auth()->user()->role_id == 1) {
-          $clients = Client::get();
-        }else {
-          $clients = Client::where('user_id', auth()->user()->id)->get();
-        }
-      
+            $credits = Credit::whereDate('created_at', Carbon::today())->get();
+          }else {
+            $credits = Credit::where('user_id', auth()->user()->id)->whereDate('created_at', Carbon::today())->get();
+          }
 
-        return view('client.index', compact('clients', 'marches'));
+        $clients = Client::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+        
+        return view('credit.jour', compact('clients', 'credits'));
     }
 
     /**
@@ -47,17 +45,18 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $client = new Client;
+        $date1 = $request->fdate;
+        $date2 = $request->sdate;
 
-        $client->create([
-            'nom_prenom'=>$request->nom_prenom,
-            'activite'=>$request->activite,
-            'telephone'=>$request->telephone,
-            'marche_id'=>$request->marche_id,
-            'user_id'=> auth()->user()->id,
-        ]);
+        if (auth()->user()->role_id == 1) {
+            $credits = Credit::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+          }else {
+            $credits = Credit::where('user_id', auth()->user()->id)->whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+          }
 
-        return redirect()->route('client.index');
+        $clients = Client::whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
+        
+        return view('credit.filtre', compact('clients', 'credits', 'date1', 'date2'));
     }
 
     /**
@@ -79,12 +78,7 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        $marches = Marche::all();
-        $users = User::where('role_id' , '2')->get();
-
-        $client = Client::where('id', $id)->firstOrFail();
-
-        return view('client.edit', compact('client','marches','users'));
+        //
     }
 
     /**
@@ -96,18 +90,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $client = Client::where('id', $id)->firstOrFail();
-
-        $client->update([
-            'nom_prenom'=>$request->nom_prenom,
-            'activite'=>$request->activite,
-            'telephone'=>$request->telephone,
-            'marche_id'=>$request->marche_id,
-            'user_id'=>$request->user_id,
-
-        ]);
-
-        return redirect()->route('client.index');
+        //
     }
 
     /**
@@ -118,9 +101,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $client = Client::findOrFail($id);
-        $client->delete();
-
-        return redirect()->route('client.index');
+        //
     }
 }

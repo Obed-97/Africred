@@ -70,7 +70,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label" name>Agent</label>
+                                                <label class="control-label" name>Transférer vers :</label>
                                                 <select class="form-control " name="user_id">
                                                     <option value="{{$client->user_id}}">{{$client->User['nom']}}</option>
                                                     @foreach ($users as $item)

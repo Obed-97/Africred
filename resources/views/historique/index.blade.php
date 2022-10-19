@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0">Historique </h4>
+                                <h4 class="mb-0 text-success">Historique </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -46,7 +46,11 @@
                                                 <th>Capital à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
-                                                <th>Action</th>
+                                               @if (auth()->user()->role_id ==2)
+                                                 <th>Action</th>
+                                               @else
+                                                 <th>Agent</th>
+                                               @endif
                                             </tr>
                                         </thead>
     
@@ -58,16 +62,20 @@
                                                     <td>{{(new DateTime($item->created_at))->format('d-m-Y')}} </td>
                                                     <td>{{(new DateTime($item->created_at))->format('H:i')}} </td>
                                                     <td>{{$item->Credit->Client['nom_prenom']}}</td>
-                                                    <td>{{$item->encours_actualise}} CFA</td>
-                                                    <td>{{$item->interet_jrs}} CFA</td>
-                                                    <td>{{$item->recouvrement_jrs}} CFA</td>
-                                                    <td>{{$item->epargne_jrs}} CFA</td>
-                                                    <td>{{$item->assurance}} CFA</td>
+                                                    <td>{{number_format($item->encours_actualise, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
 
-                                                    <td class="d-flex">
-                                                        <a href="" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                        
-                                                    </td>
+                                                    @if (auth()->user()->role_id ==2)
+                                                        <td class="d-flex">
+                                                            <a href="{{route('historique.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                        </td>
+                                                    @else
+                                                       <td>{{$item->user['nom']}} </td>
+                                                    @endif
+                                                    
                                                 
                                                 </tr>
                                              @endforeach 

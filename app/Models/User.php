@@ -64,4 +64,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recouvrement::class);
     }
+
+    public function Caisse()
+    {
+        return $this->belongsToMany(Caisse::class, 'user_caisses');
+    }
+
+    public function User_caisse()
+    {
+        return $this->belongsToMany(User_caisse::class);
+    }
 }

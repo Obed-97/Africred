@@ -14,6 +14,7 @@ class Recouvrement extends Model
     protected $fillable = [
         'user_id',
         'credit_id',
+        'marche_id',
         'encours_actualise',
         'interet_jrs',
         'recouvrement_jrs',
@@ -30,5 +31,10 @@ class Recouvrement extends Model
     public function Credit()
     {
         return $this->belongsTo(Credit::class);
+    }
+
+    public function Marche()
+    {
+        return $this->belongsTo(Marche::class);
     }
 }

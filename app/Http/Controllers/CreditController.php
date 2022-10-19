@@ -15,8 +15,14 @@ class CreditController extends Controller
      */
     public function index()
     {
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        if (auth()->user()->role_id == 1) {
+            $credits = Credit::get();
+          }else {
+            $credits = Credit::where('user_id', auth()->user()->id)->get();
+          }
+
         $clients = Client::where('user_id', auth()->user()->id)->get();
+        
         return view('credit.index', compact('clients', 'credits'));
     }
 
@@ -79,7 +85,7 @@ class CreditController extends Controller
     {
         //
     }
-
+ 
     /**
      * Show the form for editing the specified resource.
      *
@@ -88,7 +94,15 @@ class CreditController extends Controller
      */
     public function edit($id)
     {
-        //
+        $credit = Credit::where('id', $id)->firstOrFail();
+
+        if (auth()->user()->role_id == 1) {
+            $clients = Client::get();
+          }else {
+            $clients = Client::where('user_id', auth()->user()->id)->get();
+          }
+
+        return view('credit.edit', compact('clients','credit'));
     }
 
     /**
@@ -100,7 +114,35 @@ class CreditController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $credit = Credit::where('id', $id)->firstOrFail();
+
+        $interet = ($request->montant + 0) * 0.2;
+
+        $frais_deblocage = 0;
+
+        if (($request->montant <= 100000)) {
+            $frais_deblocage = ($request->montant + 0) * 0.05;
+        }
+
+        if ($request->montant > 100000){
+            $frais_deblocage = ($request->montant + 0) * 0.1;
+        }
+
+        $montant_interet = ($request->montant + 0) + $interet;
+
+        $credit->update([
+            'client_id'=>$request->client_id,
+            'user_id'=> auth()->user()->id,
+            'montant'=>$request->montant,
+            'date_deblocage'=>$request->date_deblocage,
+            'date_fin'=>$request->date_fin,
+            'interet'=>$interet,
+            'frais_deblocage'=>$frais_deblocage,
+            'frais_carte'=>$request->frais_carte,
+            'montant_interet'=>$montant_interet,
+        ]);
+
+        return redirect()->route('credit.index');
     }
 
     /**
@@ -111,6 +153,9 @@ class CreditController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $credit = Credit::findOrFail($id);
+        $credit->delete();
+
+        return redirect()->route('credit.index');
     }
 }

@@ -21,18 +21,18 @@
                                 <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light">Filtrer</div>
                             </form>
                         </div> 
-                        <div class="col-xl-2"><a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
+                        <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
                     </div>
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Recouvrement Global </h4>
+                                <h4 class="mb-0 text-success">Recouvrement du jour </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                        <li class="breadcrumb-item active">Recouvrement Global</li>
+                                        <li class="breadcrumb-item active">Recouvrement du jour</li>
                                     </ol>
                                 </div>
 
@@ -125,8 +125,8 @@
                                                     <th>Client</th>
                                                     <th>Marché</th>
                                                     <th>Encours actualisé</th>
-                                                    <th>Intérêt à ce jour</th>
                                                     <th>Capital à ce jour</th>
+                                                    <th>Intérêt à ce jour</th>
                                                     <th>Epargne à ce jour</th>
                                                     <th>Assurance</th>
                                                     
@@ -192,7 +192,7 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                        <li class="breadcrumb-item active">Recouvrement Global</li>
+                                        <li class="breadcrumb-item active">Recouvrement du jour</li>
                                     </ol>
                                 </div>
 
@@ -345,7 +345,7 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                        <li class="breadcrumb-item active">Recouvrement Global</li>
+                                        <li class="breadcrumb-item active">Recouvrement du jour</li>
                                     </ol>
                                 </div>
 

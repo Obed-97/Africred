@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Credit;
 use App\Models\Client;
 use App\Models\Recouvrement;
+use App\Models\Marche;
 
 class RecouvrementController extends Controller
 {
@@ -19,6 +20,7 @@ class RecouvrementController extends Controller
     {
         $recouvrements = null;
 
+
         if (auth()->user()->role_id == 1) {
             $recouvrements = Recouvrement::selectRaw(
                'user_id,
@@ -30,7 +32,6 @@ class RecouvrementController extends Controller
             ->groupBy('user_id')
             ->get();
 
-
           }else {
             $recouvrements = Recouvrement::selectRaw(
             'credit_id,
@@ -39,12 +40,44 @@ class RecouvrementController extends Controller
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
             ->groupBy('credit_id')
-            ->get();
+            ->where('user_id', auth()->user()->id)->get();
           }
 
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+          if (auth()->user()->role_id == 1) {
+            $par_marche = Recouvrement::selectRaw(
+               'marche_id,
+                SUM(encours_actualise) as encours_actualise,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('marche_id')
+            ->get();
 
-        return view('recouvrement.index', compact('credits','recouvrements'));
+          }else {
+            $par_marche = Recouvrement::selectRaw(
+            'marche_id,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('marche_id')
+            ->where('user_id', auth()->user()->id)->get();
+          }
+
+
+        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        $marches = Marche::get();
+
+        if (auth()->user()->role_id == 1) {
+            $total = Recouvrement::get();
+        } else {
+            $total = Recouvrement::where('user_id', auth()->user()->id)->get();
+        }
+        
+       
+
+        return view('recouvrement.index', compact('credits','recouvrements','marches','total','par_marche'));
     }
 
     /**
@@ -85,6 +118,7 @@ class RecouvrementController extends Controller
         $recouvrement->create([
             'user_id'=> auth()->user()->id,
             'credit_id'=>$request->credit_id,
+            'marche_id'=>$request->marche_id,
             'encours_actualise'=>$encours_actualise,
             'interet_jrs'=>$request->interet_jrs,
             'recouvrement_jrs'=>$request->recouvrement_jrs,

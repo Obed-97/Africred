@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Crédit </h4>
+                                <h4 class="mb-0 text-success">Crédit du jour </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -39,7 +39,7 @@
                                 <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light">Filtrer</div>
                             </form>
                         </div> 
-                        <div class="col-xl-2"><a href="{{route('etat_credit.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> CRÉDIT DU JOUR</a></div>
+                        <div class="col-xl-2"><a href="{{route('credit.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -158,10 +158,9 @@
 
                                                 </tr>
                                              @endforeach
-                                                
+
                                         </tbody>
                                     </table>
-                                   
                                 </div>
                             </div>
                         </div> <!-- end col -->

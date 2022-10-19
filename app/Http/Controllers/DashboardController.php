@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Credit;
+use App\Models\Recouvrement;
+use App\Models\Client;
+use App\Models\User;
+use App\Models\Caisse;
+use App\Models\User_caisse;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -13,7 +20,41 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard.index');
+        $agents = Recouvrement::selectRaw(
+            'user_id',)
+         ->groupBy('user_id')->whereDate('created_at', Carbon::today())
+         ->get();
+
+         if (auth()->user()->role_id == 1) {
+            $credits = Credit::whereDate('created_at', Carbon::today())->get();
+          }else {
+            $credits = Credit::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+          }
+
+          if (auth()->user()->role_id == 1) {
+            $recouvrements = Recouvrement::whereDate('created_at', Carbon::today())->get();
+          }else {
+            $recouvrements = Recouvrement::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+          }
+
+       
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 4) {
+        $clients = Client::whereDate('created_at', Carbon::today())->get();
+        }else {
+        $clients = Client::where('user_id', auth()->user()->id)->whereDate('created_at', Carbon::today())->get();
+        }
+        
+        $agents = User::where('role_id', '2')->get();
+
+        $caisses = Caisse::get();
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 4 ) {
+            $depots = User_caisse::whereDate('created_at', Carbon::today())->get();
+        }else {
+            $depots = User_caisse::where('user_id', auth()->user()->id)->whereDate('created_at', Carbon::today())->get();
+        }
+        
+        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents','caisses', 'depots'));
     }
 
     /**

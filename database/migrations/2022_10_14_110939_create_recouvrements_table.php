@@ -25,6 +25,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('credits')
                 ->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('marche_id');
+            $table->foreign('marche_id')
+                ->references('id')
+                ->on('marches')
+                ->onDelete('cascade')->nullable();
             $table->unsignedBigInteger('encours_actualise')->default(0);
             $table->unsignedBigInteger('interet_jrs')->default(0);
             $table->unsignedBigInteger('recouvrement_jrs')->default(0);
