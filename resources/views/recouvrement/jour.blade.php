@@ -27,7 +27,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Recouvrement du jour </h4>
+                                <h4 class="mb-0 text-success">
+                                    Aujourd'hui,&nbsp; le &nbsp;
+                                    <?php
+                                    echo date('d-m-Y');
+                                    ?> 
+                                </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
