@@ -12,6 +12,19 @@
             <div class="page-content">
                 <div class="container-fluid">
 
+                    
+                    <div class="row">
+                        <div class="col-xl-2"></div>
+                       <div class="col-xl-8">
+                            <form  method="POST" action="{{route('etat_caisse.store')}}" class="d-flex mb-4">
+                                @csrf
+                                <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
+                                <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
+                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
+                            </form>
+                        </div> 
+                        <div class="col-xl-2"><a href="{{route('etat_caisse.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
+                    </div>
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -29,19 +42,6 @@
                         </div>
                     </div>
                     <!-- end page title -->
-                    <div class="row">
-                        <div class="col-xl-2"></div>
-                       <div class="col-xl-8">
-                            <form  method="POST" action="{{route('etat_caisse.store')}}" class="d-flex mb-4">
-                                @csrf
-                                <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
-                                <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
-                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light">Filtrer</div>
-                            </form>
-                        </div> 
-                        <div class="col-xl-2"><a href="{{route('etat_caisse.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
-                    </div>
-    
                     <div class="row">
                         
                         <div class="col-8">

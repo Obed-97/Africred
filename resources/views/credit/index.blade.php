@@ -36,7 +36,7 @@
                                 @csrf
                                 <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
                                 <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
-                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light">Filtrer</div>
+                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                             </form>
                         </div> 
                         <div class="col-xl-2"><a href="{{route('etat_credit.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> CRÉDIT DU JOUR</a></div>

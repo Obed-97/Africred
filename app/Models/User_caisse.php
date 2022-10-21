@@ -15,13 +15,13 @@ class User_caisse extends Model
         'montant',
     ];
 
-    public function Users()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 
-    public function Caisses()
+    public function caisses()
     {
-        return $this->belongsTo(Caisse::class);
+        return $this->belongsToMany(Caisse::class);
     }
 }

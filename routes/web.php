@@ -14,6 +14,7 @@ use App\Http\Controllers\EtatGlobalController;
 use App\Http\Controllers\EtatRecouvrementController;
 use App\Http\Controllers\EtatCaisseController;
 use App\Http\Controllers\EtatCreditController;
+use App\Http\Controllers\EtatEncoursGlobalSIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +42,11 @@ Route::resources([
     '/recouvrement' => RecouvrementController::class,
     '/historique' => HistoriqueController::class,
     '/depot_caisse' => DepotController::class,
+    '/etat_encours_global' => EtatEncoursGlobalSIController::class,
     
 ]);
+
+Route::get('/afficher', [EtatRecouvrementController::class, 'affiche'])->name('etat_recouvrement.affiche');
 
 });
 

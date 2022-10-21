@@ -51,7 +51,7 @@ class User extends Authenticatable
     }
 
     public function Client()
-    {
+    { 
         return $this->hasMany(Client::class);
     }
 
@@ -65,13 +65,13 @@ class User extends Authenticatable
         return $this->hasMany(Recouvrement::class);
     }
 
-    public function Caisse()
+    public function caisses()
     {
         return $this->belongsToMany(Caisse::class, 'user_caisses');
     }
 
     public function User_caisse()
     {
-        return $this->belongsToMany(User_caisse::class);
+        return $this->belongsTo(User_caisse::class);
     }
 }

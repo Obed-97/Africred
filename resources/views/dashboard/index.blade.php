@@ -29,17 +29,17 @@
             </div>
         </div>
         <!-- end page title -->
-        <div class="row">
+        <div class="row mb-4">
          <div class="col-xl-2"></div>
            <div class="col-xl-8">
                 <form  method="POST" action="{{route('filtre.store')}}" class="d-flex mb-4">
                     @csrf
                     <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
                     <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
-                    <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light">Filtrer</div>
+                    <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                 </form>
             </div> 
-            <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
+            <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">ÉTAT GLOBAL</a></div>
         </div>
         @if (auth()->user()->role_id == 4)
             <div class="row">
@@ -78,8 +78,9 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
-                            <div class="col-md-3" >
-                                <div class="card">
+                        
+                            <div class="col-md-3">
+                                <div class="card ">
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
@@ -243,7 +244,7 @@
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Nombre total des clients</p>
+                                                <p class="text-truncate font-size-14 mb-2">Nouveaux clients</p>
                                                 <h4 class="mb-0">{{count($clients)}} client(s)</h4>
                                             </div>
                                             <div class="text-primary">

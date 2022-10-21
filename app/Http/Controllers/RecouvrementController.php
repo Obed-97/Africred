@@ -87,7 +87,43 @@ class RecouvrementController extends Controller
      */
     public function create()
     {
-        //
+        $recouvrements = null;
+
+          if (auth()->user()->role_id == 1) {
+            $par_marche = Recouvrement::selectRaw(
+               'marche_id,
+                SUM(encours_actualise) as encours_actualise,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('marche_id')
+            ->get();
+
+          }else {
+            $par_marche = Recouvrement::selectRaw(
+            'marche_id,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('marche_id')
+            ->where('user_id', auth()->user()->id)->get();
+          }
+
+
+        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        $marches = Marche::get();
+
+        if (auth()->user()->role_id == 1) {
+            $total = Recouvrement::get();
+        } else {
+            $total = Recouvrement::where('user_id', auth()->user()->id)->get();
+        }
+        
+       
+
+        return view('recouvrement.marche', compact('credits','marches','total','par_marche'));
     }
 
     /**

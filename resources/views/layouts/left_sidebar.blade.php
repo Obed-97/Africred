@@ -81,13 +81,42 @@
                         <span>Crédit</span>
                     </a>
                 </li>
+
+                @if (auth()->user()->role_id == 1)
                 <li>
-                    <a href="#" class=" waves-effect">
+                    <a  href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-line-chart-fill"></i>
                         <span>Tresorerie</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">AFA</a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="#">Encaissement</a></li>
+                                <li><a href="#">Décaissement</a></li>
+                                <li><a href="#">Fonctionnement</a></li>
+                            </ul>
+                            
+                        </li>
+                        <li><a href="#">AB-FINANCE</a></li>
+                        <li><a href="#">Fond de crédit</a></li>
+                    
+                    </ul>
                 </li>
 
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class=" ri-store-2-fill"></i>
+                        <span>Autres</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('etat_encours_global.index')}}">Encours Global SI</a></li>
+                    
+                    </ul>
+                </li>
+ 
+                @endif
+                
 
                 <li class="menu-title">Administration</li>
                 @if (auth()->user()->role_id == 1)
@@ -121,6 +150,7 @@
                 
 
             </ul>
+            
         </div>
         <!-- Sidebar -->
     </div>

@@ -13,7 +13,7 @@ class Caisse extends Model
         'libelle',
     ];
 
-    public function User()
+    public function user()
     {
         return $this->belongsToMany(User::class, 'user_caisses');
     }

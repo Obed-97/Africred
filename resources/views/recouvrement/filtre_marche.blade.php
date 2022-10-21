@@ -21,18 +21,18 @@
                                 <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                             </form>
                         </div> 
-                        <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
+                        <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
                     </div>
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Recouvrement du jour </h4>
+                                <h4 class="mb-0 text-success">{{(new DateTime($date1))->format('d-M-Y')}} ---> {{(new DateTime($date2))->format('d-M-Y')}} </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                        <li class="breadcrumb-item active">Recouvrement du jour</li>
+                                        <li class="breadcrumb-item active">Recouvrement Global</li>
                                     </ol>
                                 </div>
 
@@ -118,26 +118,25 @@
                                             </form>
                                             </div>
                                         </div>
-                                    <div class="row">
-                                        <div class="mb-4 col-xl-4">
-                                            <label for="">Afficher par :</label>
-                                            @if (auth()->user()->role_id == 2)
-                                            <a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                            <a href="{{route('etat_recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
-                                            @else
-                                            <a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
-
-                                            <a href="{{route('etat_recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
-                                            @endif
+                                        <div class="row">
+                                            <div class="mb-4 col-xl-4">
+                                                <label for="">Afficher par :</label>
+                                                @if (auth()->user()->role_id == 2)
+                                                <a href="{{route('etat_recouvrement.store')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2">Client</a>
+                                                <a href="{{route('etat_recouvrement.affiche')}}" class="btn btn-success btn-sm waves-effect waves-light">Marché</a>  
+                                                @else
+                                                <a href="{{route('etat_recouvrement.store')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2">Agent</a>
+    
+                                                <a href="{{route('etat_recouvrement.affiche')}}" class="btn btn-success btn-sm waves-effect waves-light">Marché</a>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             @if (auth()->user()->role_id == 2)
                                                 <tr>
-                                                    <th>Client</th>
+                                                   
                                                     <th>Marché</th>
-                                                    <th>Encours actualisé</th>
                                                     <th>Capital à ce jour</th>
                                                     <th>Intérêt à ce jour</th>
                                                     <th>Epargne à ce jour</th>
@@ -146,7 +145,7 @@
                                                 </tr>
                                             @else
                                             <tr>
-                                                <th>Agent</th>
+                                                <th>Marché</th>
                                                 <th>Capital à ce jour</th>
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
@@ -157,14 +156,12 @@
 
                                         </thead>
 
-
                                         <tbody>
                                             @if (auth()->user()->role_id == 2)
-                                                @foreach ($recouvrements as $item)
+                                                @foreach ($par_marche as $item)
                                                     <tr>
-                                                        <td>{{$item->Credit->Client['nom_prenom']}}</td>
-                                                        <td>{{$item->Credit->Client->Marche['libelle']}}</td>
-                                                        <td>{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA</td>
+                                                       
+                                                        <td>{{$item->Marche['libelle']}}</td>
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
@@ -175,9 +172,9 @@
                                                     </tr>
                                                 @endforeach
                                             @else
-                                               @foreach ($recouvrements as $item)
+                                               @foreach ($par_marche as $item)
                                                     <tr>
-                                                        <td>{{$item->User['nom']}}</td>
+                                                        <td>{{$item->Marche['libelle']}}</td>
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
@@ -196,9 +193,7 @@
                         
                          
                     </div> <!-- end row -->
-                      <!-- start page title -->
-                  
-
+                    
                     
                       <!-- start page title -->
                       <div class="row">
