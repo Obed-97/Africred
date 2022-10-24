@@ -21,7 +21,7 @@ class Credit extends Model
         'montant_interet'
     ];
 
-    
+
     public function User()
     {
         return $this->belongsTo(User::class);
@@ -32,9 +32,13 @@ class Credit extends Model
         return $this->belongsTo(Client::class);
     }
 
-    
     public function Recouvrement()
     {
         return $this->hasMany(Recouvrement::class);
+    }
+
+    public function totalRecouv()
+    {
+        return $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs');
     }
 }
