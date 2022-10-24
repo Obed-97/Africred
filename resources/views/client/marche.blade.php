@@ -116,15 +116,9 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Nom & Prénom</th>
-                                                <th>Activité</th>
-                                                <th>Téléphone</th>
                                                 <th>Marché</th>
-                                                @if (auth()->user()->role_id == 1)
-                                                <th>Agent</th>
-                                                @endif
-                                                <th>Enregistrer le :</th>
-                                                <th>Action</th>
+                                                <th>Nombre client</th>
+                                                
                                             </tr>
                                         </thead>
     
@@ -132,24 +126,8 @@
                                         <tbody>
                                         @foreach ($clients as $item)
                                             <tr>
-                                                <td>{{$item->nom_prenom}}</td>
-                                                <td>{{$item->activite}}</td>
-                                                <td>{{$item->telephone}}</td>
                                                 <td>{{$item->Marche['libelle']}}</td>
-                                                @if (auth()->user()->role_id == 1)
-                                                <td>{{$item->User['nom']}}</td>
-                                                @endif
-                                                <td>{{(new DateTime($item->created_at))->format('d-m-Y')}}</td>
-                                                <td class="d-flex">
-                                                    <a href="{{route('client.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                    @if (auth()->user()->role_id == 1)
-                                                    <form method="POST" action="{{route('client.destroy', $item->id)}}">
-                                                        @csrf
-                                                        {{method_field('DELETE')}}
-                                                    <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                                    </form>
-                                                    @endif
-                                                </td>
+                                                <td>{{$item->id}} clients</td>
                                                 
                                             </tr>
                                         @endforeach

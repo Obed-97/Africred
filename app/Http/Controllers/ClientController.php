@@ -36,7 +36,42 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        $marches = Marche::all();
+
+        if (auth()->user()->role_id == 1) {
+            $clients = Client::selectRaw(
+                'user_id,
+                 COUNT(id) as id')
+             ->groupBy('user_id')
+             ->get();
+        }else {
+          $clients = Client::where('user_id', auth()->user()->id)->get();
+        }
+      
+
+        return view('client.agent', compact('clients', 'marches'));
+    }
+
+    public function marche()
+    {
+        $marches = Marche::all();
+
+        if (auth()->user()->role_id == 1) {
+            $clients = Client::selectRaw(
+                'marche_id,
+                 COUNT(id) as id')
+             ->groupBy('marche_id')
+             ->get();
+        }else {
+            $clients = Client::selectRaw(
+                'marche_id,
+                 COUNT(id) as id')
+             ->groupBy('marche_id')->where('user_id', auth()->user()->id)
+             ->get();
+        }
+      
+
+        return view('client.marche', compact('clients', 'marches'));
     }
 
     /**
@@ -56,8 +91,8 @@ class ClientController extends Controller
             'marche_id'=>$request->marche_id,
             'user_id'=> auth()->user()->id,
         ]);
-
-        return redirect()->route('client.index');
+ 
+        return redirect()->route('etat_client.index');
     }
 
     /**

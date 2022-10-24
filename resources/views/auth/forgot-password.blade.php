@@ -62,7 +62,6 @@
                                             </div>
 
                                             <div class="mt-5 text-center">
-                                                <p><b> Vous n'avez pas un compte ? <a href="{{route('register')}}" class="font-weight-medium text-primary"> Créez votre compte</a> </b></p>
                                                 <p><b> ©  <script>document.write(new Date().getFullYear())</script> AFRICRED. </b></p>
                                             </div>
                                         </div>

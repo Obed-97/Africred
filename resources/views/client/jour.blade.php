@@ -16,7 +16,12 @@
                     <div class="row ">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Clientèle globale</h4>
+                                <h4 class="mb-0 text-success">
+                                    Aujourd'hui,&nbsp; le &nbsp;
+                                    <?php
+                                    echo date('d-m-Y');
+                                    ?> 
+                                </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -39,7 +44,7 @@
                                 <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                             </form>
                         </div> 
-                        <div class="col-xl-2"><a href="{{route('etat_client.index')}}" class="btn btn-success btn-block  waves-effect waves-light">NOUVEAUX CLIENTS</a></div>
+                        <div class="col-xl-2"><a href="{{route('client.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">TOUS LES CLIENTS</a></div>
                     </div>
     
                     <div class="row">
@@ -100,19 +105,6 @@
                                             </form>
                                             </div>
                                         </div> 
-                                        <div class="row">
-                                            <div class="mb-4 col-xl-4">
-                                                <label for="">Afficher par :</label>
-                                                @if (auth()->user()->role_id == 2)
-                                                <a href="{{route('client.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                                <a href="{{route('client.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
-                                                @else
-                                                <a href="{{route('client.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                                <a href="{{route('client.create')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
-                                                <a href="{{route('client.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
-                                                @endif
-                                            </div>
-                                        </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
@@ -123,7 +115,6 @@
                                                 @if (auth()->user()->role_id == 1)
                                                 <th>Agent</th>
                                                 @endif
-                                                <th>Enregistrer le :</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -139,7 +130,6 @@
                                                 @if (auth()->user()->role_id == 1)
                                                 <td>{{$item->User['nom']}}</td>
                                                 @endif
-                                                <td>{{(new DateTime($item->created_at))->format('d-m-Y')}}</td>
                                                 <td class="d-flex">
                                                     <a href="{{route('client.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
                                                     @if (auth()->user()->role_id == 1)
@@ -150,7 +140,7 @@
                                                     </form>
                                                     @endif
                                                 </td>
-                                                
+                                            
                                             </tr>
                                         @endforeach
                                         

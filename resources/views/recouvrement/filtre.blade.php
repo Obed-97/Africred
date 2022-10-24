@@ -11,18 +11,7 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-2"></div>
-                       <div class="col-xl-8">
-                            <form  method="POST" action="{{route('etat_recouvrement.store')}}" class="d-flex mb-4">
-                                @csrf
-                                <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
-                                <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
-                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
-                            </form>
-                        </div> 
-                        <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
-                    </div>
+                    
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -40,7 +29,25 @@
                         </div>
                     </div>
                     <!-- end page title -->
-                    
+                    <div class="row mb-4">
+                        <div class="col-xl-4">
+                           <form  method="POST" action="{{route('date.store')}}" class="d-flex mb-4">
+                               @csrf
+                               <div class="col-xl-6"><input type="date" name="date" class="form-control"></div>
+                               <div class="col-xl-2"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> </div>
+                           </form>
+                        </div>
+                          <div class="col-xl-6">
+                               <form  method="POST" action="{{route('etat_recouvrement.store')}}" class="d-flex mb-4">
+                                   @csrf
+                                   <div class="col-xl-3"><input type="date" name="fdate" class="form-control"></div>
+                                   <div class="col-xl-3"><input type="date" name="sdate"  class="form-control"></div>
+                                   <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
+                               </form>
+                           </div> 
+                           <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
+                       </div>
+                   
             
                     <div class="row">
                         <div class="col-12">
@@ -118,7 +125,18 @@
                                             </form>
                                             </div>
                                         </div>
-                                       
+                                        <div class="row">
+                                            <div class="mb-4 col-xl-4">
+                                                
+                                                @if (auth()->user()->role_id == 2)
+                                                <label for="">Afficher par :</label>
+                                                <a href="#" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
+                                                @else
+                                                <label for="">Afficher par :</label>
+                                                <a href="#" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
+                                                @endif
+                                            </div>
+                                        </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             @if (auth()->user()->role_id == 2)
@@ -166,6 +184,78 @@
                                                @foreach ($recouvrements as $item)
                                                     <tr>
                                                         <td>{{$item->User['nom']}}</td>
+                                                        <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+
+                                                        
+
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                        
+                         
+                    </div> <!-- end row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="mb-4 col-xl-4">
+                                            <label for="">Afficher par :</label>
+                                            <a href="#" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
+                                        </div>
+                                    </div>
+                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            @if (auth()->user()->role_id == 2)
+                                                <tr>
+                                                   
+                                                    <th>Marché</th>
+                                                    <th>Capital à ce jour</th>
+                                                    <th>Intérêt à ce jour</th>
+                                                    <th>Epargne à ce jour</th>
+                                                    <th>Assurance</th>
+                                                    
+                                                </tr>
+                                            @else
+                                            <tr>
+                                                <th>Marché</th>
+                                                <th>Capital à ce jour</th>
+                                                <th>Intérêt à ce jour</th>
+                                                <th>Epargne à ce jour</th>
+                                                <th>Assurance</th>
+                                               
+                                            </tr>
+                                            @endif
+
+                                        </thead>
+
+                                        <tbody>
+                                            @if (auth()->user()->role_id == 2)
+                                                @foreach ($par_marche as $item)
+                                                    <tr>
+                                                       
+                                                        <td>{{$item->Marche['libelle']}}</td>
+                                                        <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+
+                                                        
+
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                               @foreach ($par_marche as $item)
+                                                    <tr>
+                                                        <td>{{$item->Marche['libelle']}}</td>
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>

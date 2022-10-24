@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <!-- end page title -->
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-xl-2"></div>
                        <div class="col-xl-8">
                             <form  method="POST" action="{{route('etat_credit.store')}}" class="d-flex mb-4">
@@ -72,7 +72,15 @@
                                                             <label class="control-label" name>Bénéficiaire</label>
                                                             <select class="form-control " name="client_id">
                                                                @foreach ($clients as $item)
-                                                                <option value="{{$item->id}}">{{$item->nom_prenom}} -- {{$item->Marche['libelle']}}</option>
+                                                                <option value="{{$item->id}}">{{$item->nom_prenom}} </option>
+                                                               @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label" name>Marché</label>
+                                                            <select class="form-control " name="marche_id">
+                                                               @foreach ($marches as $item)
+                                                                <option value="{{$item->id}}">{{$item->libelle}}</option>
                                                                @endforeach
                                                             </select>
                                                         </div>
@@ -110,6 +118,19 @@
                                                     </div>
                                                 </div>
                                             </form>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="mb-4 col-xl-4">
+                                                <label for="">Afficher par :</label>
+                                                @if (auth()->user()->role_id == 2)
+                                                <a href="{{route('etat_credit.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
+                                                <a href="{{route('etat_credit.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
+                                                @else
+                                                <a href="{{route('etat_credit.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
+                                                <a href="{{route('etat_credit.create')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
+                                                <a href="{{route('etat_credit.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
+                                                @endif
                                             </div>
                                         </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">

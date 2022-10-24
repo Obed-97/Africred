@@ -17,13 +17,11 @@
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
                     <h4 class="mb-0 text-success">
-                        Aujourd'hui,&nbsp; le &nbsp;
-                        <?php
-                        echo date('d-m-Y');
-                        ?> 
+                       le &nbsp;
+                       {{(new DateTime($date))->format('d-M-Y')}} 
                        
                     </h4>
-                    
+                     
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0"> 
@@ -54,6 +52,7 @@
             </div> 
             <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">ÉTAT GLOBAL</a></div>
         </div>
+       
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -166,6 +165,7 @@
                             </div>
                         </div>
 
+                       
                     </div>
                     <!-- end row -->
 
@@ -232,6 +232,7 @@
                                 </div>
                             </div>
                            
+                       
                     </div>
                     <!-- end row -->
     

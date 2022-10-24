@@ -12,6 +12,7 @@ class Credit extends Model
     protected $fillable = [
         'client_id',
         'user_id',
+        'marche_id',
         'montant',
         'date_deblocage',
         'date_fin',
@@ -37,4 +38,10 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class);
     }
+
+    public function Marche()
+    {
+        return $this->belongsTo(Marche::class);
+    }
+
 }

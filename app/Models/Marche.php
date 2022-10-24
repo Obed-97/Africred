@@ -22,4 +22,10 @@ class Marche extends Model
     {
         return $this->hasMany(Recouvrement::class);
     }
+
+    
+    public function Credits()
+    {
+        return $this->hasMany(Credit::class);
+    }
 }

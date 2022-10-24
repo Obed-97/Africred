@@ -84,9 +84,9 @@
                                                     <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
                                                         Enregistrer
                                                     </button>
-                                                    <button type="reset" class="btn btn-secondary waves-effect">
+                                                    <a href="{{URL::previous()}}" type="reset" class="btn btn-secondary waves-effect">
                                                         Annuler
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>

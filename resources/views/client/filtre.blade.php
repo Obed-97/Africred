@@ -16,7 +16,7 @@
                     <div class="row ">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Clientèle globale</h4>
+                                <h4 class="mb-0 text-success">{{(new DateTime($date1))->format('d-M-Y')}} ---> {{(new DateTime($date2))->format('d-M-Y')}}</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -100,19 +100,6 @@
                                             </form>
                                             </div>
                                         </div> 
-                                        <div class="row">
-                                            <div class="mb-4 col-xl-4">
-                                                <label for="">Afficher par :</label>
-                                                @if (auth()->user()->role_id == 2)
-                                                <a href="{{route('client.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                                <a href="{{route('client.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
-                                                @else
-                                                <a href="{{route('client.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                                <a href="{{route('client.create')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
-                                                <a href="{{route('client.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
-                                                @endif
-                                            </div>
-                                        </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
