@@ -54,21 +54,16 @@
                                                     <td>{{$item->Client['nom_prenom']}}</td>
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->totalRecouv(), 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format(($item->solde($item->montant)), 0, ',', ' ')}}CFA</td>
-                                                    <td class="d-flex">
-                                                        @if (auth()->user()->role_id == 2)
-                                                        <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                        @endif
-                                                        @if (auth()->user()->role_id == 1)
-                                                            <form method="POST" action="{{route('credit.destroy', $item->id)}}">
-                                                                @csrf
-                                                                {{method_field('DELETE')}}
-                                                            <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                                            </form>
-                                                        @endif
-
-                                                    </td>
-
+                                                    <td>{{number_format(($item->solde($item->montant)), 0, ',', ' ')}} CFA</td>
+                                                    @if (($item->solde($item->montant)) == 0)
+                                                    <td>
+                                                        <div class="badge badge-soft-success font-size-12">Capital soldé</div>
+                                                        </td>  
+                                                    @else
+                                                        <td>
+                                                            <div class="badge badge-soft-danger font-size-12">Non soldé</div>
+                                                        </td>
+                                                    @endif
                                                 </tr>
                                              @endforeach
                                         </tbody>
