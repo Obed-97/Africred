@@ -41,4 +41,11 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs');
     }
+
+    public function solde($montant_credit)
+    {
+       $s = abs($montant_credit - $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs'));
+
+       return intval($s);
+    }
 }

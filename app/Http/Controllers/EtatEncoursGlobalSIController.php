@@ -17,7 +17,15 @@ class EtatEncoursGlobalSIController extends Controller
     public function index(Request $request)
     {
 
-        return view('etat_encours_si.index');
+        if (auth()->user()->role_id == 1) {
+            $credits = Credit::get();
+          }else {
+            $credits = Credit::where('user_id', auth()->user()->id)->get();
+          }
+
+        $clients = Client::where('user_id', auth()->user()->id)->get();
+
+        return view('etat_encours_si.index', compact('clients'));
     }
 
     /**
