@@ -25,7 +25,7 @@ class EtatEncoursGlobalSIController extends Controller
 
         $clients = Client::where('user_id', auth()->user()->id)->get();
 
-        return view('etat_encours_si.index', compact('clients'));
+        return view('etat_encours_si.index', compact('clients','credits'));
     }
 
     /**
