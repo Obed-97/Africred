@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Credit;
 use App\Models\Recouvrement;
+use App\Models\Client;
 
 
 class EtatEncoursGlobalSIController extends Controller

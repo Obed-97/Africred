@@ -103,7 +103,8 @@
                     
                     </ul>
                 </li>
-
+                @endif
+                
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class=" ri-store-2-fill"></i>
@@ -115,7 +116,7 @@
                     </ul>
                 </li>
  
-                @endif
+               
                 
 
                 <li class="menu-title">Administration</li>
