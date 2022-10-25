@@ -89,6 +89,7 @@ class ClientController extends Controller
             'activite'=>$request->activite,
             'telephone'=>$request->telephone,
             'marche_id'=>$request->marche_id,
+            'carte_id'=>$request->carte_id,
             'user_id'=> auth()->user()->id,
         ]);
  
@@ -101,9 +102,14 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+       
+
+        $clients = Client::get();
+
+
+        return view('client.agent', compact('agent','clients'));
     }
 
     /**
@@ -138,6 +144,7 @@ class ClientController extends Controller
             'activite'=>$request->activite,
             'telephone'=>$request->telephone,
             'marche_id'=>$request->marche_id,
+            'carte_id'=>$request->carte_id,
             'user_id'=>$request->user_id,
 
         ]);

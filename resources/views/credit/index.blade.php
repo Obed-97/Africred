@@ -237,9 +237,4 @@
             </div>
             <!-- End Page-content -->
 
-            <script>
-
-            </script>
-
-
 @endsection

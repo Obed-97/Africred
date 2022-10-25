@@ -65,6 +65,12 @@
                                                    
                                                     <div class="modal-body">
                                                         <div class="form-group ">
+                                                            <label>N° Carte NINA</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="carte_id"  id="carte_id" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
                                                             <label>Nom & Prénom</label>
                                                             <div>
                                                                 <input class="form-control" type="text" name="nom_prenom"  id="nom_prenom" required>
@@ -77,10 +83,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
-                                                            <label>Téléphone</label>
-                                                            <div>
-                                                                <input class="form-control" type="text" name="telephone"  id="telephone" required>
-                                                            </div>
+                                                            <label for="input-ip">Téléphone</label>
+                                                            <input id="telephone" class="form-control input-mask" name="telephone"  data-inputmask="'alias': 'ip'">
+                                                            <span class="text-muted">ex: "00.00.00.00"</span>
+    
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>

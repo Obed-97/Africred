@@ -47,12 +47,13 @@
 
                                             <div class="p-2 mt-5">
                                              
-                                                <form class="form-horizontal" action="index.html">
+                                                <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
+                                                    @csrf
                     
                                                     <div class="form-group auth-form-group-custom mb-4">
                                                         <i class="ri-mail-line auti-custom-input-icon"></i>
-                                                        <label for="useremail">Email</label>
-                                                        <input type="email" class="form-control" id="email" placeholder="Entrez votre email">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" name="email" id="email" placeholder="Entrez votre email">
                                                     </div>
 
                                                     <div class="mt-4 text-center">

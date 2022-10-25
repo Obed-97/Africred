@@ -41,7 +41,12 @@
                                         <form class="custom-validation" action="{{route('client.update', $client->id)}}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                              {{method_field('PUT')}}
-                                         
+                                             <div class="form-group ">
+                                                <label>N° Carte NINA</label>
+                                                <div>
+                                                    <input class="form-control" type="text" name="carte_id" value="{{$client->carte_id}}"  id="carte_id" >
+                                                </div>
+                                            </div>
                                              <div class="form-group ">
                                                 <label>Nom & Prénom</label>
                                                 <div>
@@ -55,11 +60,12 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ">
-                                                <label>Téléphone</label>
-                                                <div>
-                                                    <input class="form-control" type="text" name="telephone" value="{{$client->telephone}}"  id="telephone">
-                                                </div>
+                                                <label for="input-ip">Téléphone</label>
+                                                <input id="telephone" class="form-control input-mask" name="telephone"  value="{{$client->telephone}}"  data-inputmask="'alias': 'ip'">
+                                                <span class="text-muted">ex: "00.00.00.00"</span>
+
                                             </div>
+                                           
                                             <div class="form-group">
                                                 <label class="control-label">Marché</label>
                                                 <select class="form-control " name="marche_id">

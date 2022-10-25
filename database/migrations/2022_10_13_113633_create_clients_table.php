@@ -25,6 +25,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('marches')
                 ->onDelete('cascade')->nullable();
+            $table->string('carte_id')->nullable();
             $table->string('nom_prenom');
             $table->string('activite')->nullable();
             $table->string('telephone')->unique()->nullable();

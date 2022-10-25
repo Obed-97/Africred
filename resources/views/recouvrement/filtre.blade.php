@@ -148,6 +148,7 @@
                                                     <th>Intérêt à ce jour</th>
                                                     <th>Epargne à ce jour</th>
                                                     <th>Assurance</th>
+                                                    <th>Statut de payement</th>
                                                     
                                                 </tr>
                                             @else
@@ -175,7 +176,15 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-
+                                                        @if ((intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) == 0)
+                                                            <td>
+                                                                <div class="badge badge-soft-success font-size-12">Terminé</div>
+                                                            </td>  
+                                                        @else
+                                                            <td>
+                                                                <div class="badge badge-soft-warning font-size-12">Encours</div>
+                                                            </td>
+                                                        @endif
                                                         
 
                                                     </tr>

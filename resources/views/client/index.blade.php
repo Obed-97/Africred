@@ -65,6 +65,12 @@
                                                    
                                                     <div class="modal-body">
                                                         <div class="form-group ">
+                                                            <label>N° Carte NINA</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="carte_id"  id="carte_id" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
                                                             <label>Nom & Prénom</label>
                                                             <div>
                                                                 <input class="form-control" type="text" name="nom_prenom"  id="nom_prenom" required>
@@ -76,11 +82,12 @@
                                                                 <input class="form-control" type="text" name="activite"  id="activite" required>
                                                             </div>
                                                         </div>
+                                                       
                                                         <div class="form-group ">
-                                                            <label>Téléphone</label>
-                                                            <div>
-                                                                <input class="form-control" type="text" name="telephone"  id="telephone" required>
-                                                            </div>
+                                                            <label for="input-ip">Téléphone</label>
+                                                            <input id="telephone" class="form-control input-mask" name="telephone"  data-inputmask="'alias': 'ip'">
+                                                            <span class="text-muted">ex: "00.00.00.00"</span>
+    
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
@@ -92,6 +99,28 @@
                                                         </div>
                                                       
                                                     </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
+                                                        <button class="btn btn-primary waves-effect waves-light" type="submit">Enregistrer</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div> 
+
+                                        <div class="modal fade" id="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog" >
+                                                <form action="{{route('client.store')}}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Client</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                   
+                                                   
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
                                                         <button class="btn btn-primary waves-effect waves-light" type="submit">Enregistrer</button>
@@ -116,6 +145,7 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
+                                                <th>N° Carte NINA</th>
                                                 <th>Nom & Prénom</th>
                                                 <th>Activité</th>
                                                 <th>Téléphone</th>
@@ -132,6 +162,7 @@
                                         <tbody>
                                         @foreach ($clients as $item)
                                             <tr>
+                                                <td>{{$item->carte_id}}</td>
                                                 <td>{{$item->nom_prenom}}</td>
                                                 <td>{{$item->activite}}</td>
                                                 <td>{{$item->telephone}}</td>

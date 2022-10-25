@@ -62,8 +62,14 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                   
+                                                    
                                                     <div class="modal-body">
+                                                        <div class="form-group ">
+                                                            <label>N° Carte NINA</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" name="carte_id"  id="carte_id" >
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group ">
                                                             <label>Nom & Prénom</label>
                                                             <div>
@@ -77,10 +83,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
-                                                            <label>Téléphone</label>
-                                                            <div>
-                                                                <input class="form-control" type="text" name="telephone"  id="telephone" required>
-                                                            </div>
+                                                            <label for="input-ip">Téléphone</label>
+                                                            <input id="telephone" class="form-control input-mask" name="telephone"  data-inputmask="'alias': 'ip'">
+                                                            <span class="text-muted">ex: "00.00.00.00"</span>
+    
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
@@ -103,6 +109,7 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
+                                                <th>N° Carte NINA</th>
                                                 <th>Nom & Prénom</th>
                                                 <th>Activité</th>
                                                 <th>Téléphone</th>
@@ -119,6 +126,7 @@
                                         <tbody>
                                         @foreach ($clients as $item)
                                             <tr>
+                                                <td>{{$item->carte_id}}</td>
                                                 <td>{{$item->nom_prenom}}</td>
                                                 <td>{{$item->activite}}</td>
                                                 <td>{{$item->telephone}}</td>
