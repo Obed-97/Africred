@@ -61,14 +61,14 @@
                         <span>Recouvrement</span>
                     </a>
                 </li>
-                @if (auth()->user()->role_id == 1)
+                {{-- @if (auth()->user()->role_id == 1)
                     <li>
                         <a href="{{route('depot_caisse.index')}}" class=" waves-effect">
                             <i class="ri-store-3-line"></i>
                             <span>Encaissement</span>
                         </a>
                     </li>
-                @endif
+                @endif --}}
                 <li>
                     <a href="{{route('historique.index')}}" class=" waves-effect">
                         <i class="ri-file-list-3-fill"></i>

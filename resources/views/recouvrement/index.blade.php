@@ -11,18 +11,8 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-2"></div>
-                       <div class="col-xl-8">
-                            <form  method="POST" action="{{route('etat_recouvrement.store')}}" class="d-flex mb-4">
-                                @csrf
-                                <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
-                                <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
-                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
-                            </form>
-                        </div> 
-                        <div class="col-xl-2"><a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
-                    </div>
+                    
+                   
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -40,7 +30,24 @@
                         </div>
                     </div>
                     <!-- end page title -->
-                    
+                    <div class="row mb-4">
+                        <div class="col-xl-4">
+                           <form  method="POST" action="{{route('date.store')}}" class="d-flex mb-4">
+                               @csrf
+                               <div class="col-xl-6"><input type="date" name="date" class="form-control"></div>
+                               <div class="col-xl-2"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> </div>
+                           </form>
+                        </div>
+                          <div class="col-xl-6">
+                               <form  method="POST" action="{{route('etat_recouvrement.store')}}" class="d-flex mb-4">
+                                   @csrf
+                                   <div class="col-xl-3"><input type="date" name="fdate" class="form-control"></div>
+                                   <div class="col-xl-3"><input type="date" name="sdate"  class="form-control"></div>
+                                   <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
+                               </form>
+                           </div> 
+                           <div class="col-xl-2"><a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
+                       </div>
             
                     <div class="row">
                         <div class="col-12">
@@ -143,6 +150,7 @@
                                                     <th>Intérêt à ce jour</th>
                                                     <th>Epargne à ce jour</th>
                                                     <th>Assurance</th>
+                                                    <th>Statut de payement</th>
                                                     
                                                 </tr>
                                             @else
@@ -152,6 +160,7 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
+                                                
                                                
                                             </tr>
                                             @endif
@@ -170,7 +179,15 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-
+                                                        @if ((intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) == 0)
+                                                            <td>
+                                                                <div class="badge badge-soft-success font-size-12">Terminé</div>
+                                                            </td>  
+                                                        @else
+                                                            <td>
+                                                                <div class="badge badge-soft-warning font-size-12">Encours</div>
+                                                            </td>
+                                                        @endif
                                                         
 
                                                     </tr>
@@ -183,7 +200,6 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-
                                                         
 
                                                     </tr>

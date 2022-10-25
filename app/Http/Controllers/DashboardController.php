@@ -7,8 +7,7 @@ use App\Models\Credit;
 use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
-use App\Models\Caisse;
-use App\Models\User_caisse;
+
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -46,15 +45,8 @@ class DashboardController extends Controller
         
         $agents = User::where('role_id', '2')->get();
 
-        $caisses = Caisse::get();
-
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 4 ) {
-            $depots = User_caisse::whereDate('created_at', Carbon::today())->get();
-        }else {
-            $depots = User_caisse::where('user_id', auth()->user()->id)->whereDate('created_at', Carbon::today())->get();
-        }
-        
-        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents','caisses', 'depots'));
+       
+        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents'));
     }
 
     /**

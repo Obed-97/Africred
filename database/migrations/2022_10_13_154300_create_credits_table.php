@@ -25,6 +25,10 @@ return new class extends Migration
                 ->references('id')
                 ->on('clients')
                 ->onDelete('cascade')->nullable();
+            $table->foreign('marche_id')
+                ->references('id')
+                ->on('marches')
+                ->onDelete('cascade')->nullable();
             $table->unsignedBigInteger('montant');
             $table->date('date_deblocage');
             $table->date('date_fin');

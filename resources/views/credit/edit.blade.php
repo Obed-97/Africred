@@ -13,7 +13,7 @@
                     <div class="container-fluid">
 
                         <!-- start page title -->
-                        <div class="row">
+                        <div class="row mb-4">
                             <div class="col-12">
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
                                    
@@ -45,13 +45,21 @@
                                                 <div class="form-group">
                                                     <label class="control-label" name>Bénéficiaire</label>
                                                     <select class="form-control " name="client_id">
-                                                        <option value="{{$credit->client_id}}">{{$credit->Client['nom_prenom']}} -- {{$credit->Client->Marche['libelle']}}</option>
+                                                        <option value="{{$credit->client_id}}">{{$credit->Client['nom_prenom']}} </option>
                                                     @foreach ($clients as $item)
-                                                        <option value="{{$item->id}}">{{$item->nom_prenom}} -- {{$item->Marche['libelle']}}</option>
+                                                        <option value="{{$item->id}}">{{$item->nom_prenom}} </option>
                                                     @endforeach
                                                     </select>
                                                 </div>
-
+                                                <div class="form-group">
+                                                    <label class="control-label" name>Marché</label>
+                                                    <select class="form-control " name="marche_id">
+                                                        <option value="{{$credit->marche_id}}">{{$credit->Marche['libelle']}}</option>
+                                                       @foreach ($marches as $item)
+                                                        <option value="{{$item->id}}">{{$item->libelle}}</option>
+                                                       @endforeach
+                                                    </select>
+                                                </div>
                                                 <div class="form-group ">
                                                     <label>Montant</label>
                                                     <div>

@@ -162,7 +162,7 @@ class RecouvrementController extends Controller
             'assurance'=>$request->assurance,
         ]);
 
-        return redirect()->route('recouvrement.index');
+        return redirect()->route('etat_recouvrement.index');
     }
 
     /**

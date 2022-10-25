@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Credit;
+use App\Models\Marche;
 
 class CreditController extends Controller
 {
@@ -22,8 +23,10 @@ class CreditController extends Controller
           }
 
         $clients = Client::where('user_id', auth()->user()->id)->get();
+
+        $marches = Marche::get();
         
-        return view('credit.index', compact('clients', 'credits'));
+        return view('credit.index', compact('clients', 'credits','marches'));
     }
 
     /**
@@ -33,9 +36,63 @@ class CreditController extends Controller
      */
     public function create()
     {
-        //
+         if (auth()->user()->role_id == 1) {
+            $credits = Credit::selectRaw(
+                'user_id,
+                 SUM(montant) as montant,
+                 SUM(interet) as interet,
+                 SUM(frais_deblocage) as frais_deblocage,
+                 SUM(frais_carte) as frais_carte,
+                 SUM(montant_interet) as montant_interet,
+                 COUNT(id) as id')
+             ->groupBy('user_id')
+             ->get();
+ 
+          }else {
+            $credits = Credit::where('user_id', auth()->user()->id)->get();
+          }
+
+        $clients = Client::where('user_id', auth()->user()->id)->get();
+        
+        $marches = Marche::get();
+        
+        return view('credit.agent', compact('clients', 'credits','marches'));
     }
 
+    public function marche()
+    {
+         if (auth()->user()->role_id == 1) {
+            $credits = Credit::selectRaw(
+                'marche_id,
+                 SUM(montant) as montant,
+                 SUM(interet) as interet,
+                 SUM(frais_deblocage) as frais_deblocage,
+                 SUM(frais_carte) as frais_carte,
+                 SUM(montant_interet) as montant_interet,
+                 COUNT(id) as id')
+             ->groupBy('marche_id')
+             ->get();
+ 
+          }else {
+            $credits = Credit::selectRaw(
+                'marche_id,
+                 SUM(montant) as montant,
+                 SUM(interet) as interet,
+                 SUM(frais_deblocage) as frais_deblocage,
+                 SUM(frais_carte) as frais_carte,
+                 SUM(montant_interet) as montant_interet,
+                 COUNT(id) as id')->where('user_id', auth()->user()->id)
+             ->groupBy('marche_id')
+             ->get();
+            
+          }
+
+        $clients = Client::where('user_id', auth()->user()->id)->get();
+        
+        $marches = Marche::get();
+        
+        return view('credit.marche', compact('clients', 'credits','marches'));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -62,6 +119,7 @@ class CreditController extends Controller
 
         $credit->create([
             'client_id'=>$request->client_id,
+            'marche_id'=>$request->marche_id,
             'user_id'=> auth()->user()->id,
             'montant'=>$request->montant,
             'date_deblocage'=>$request->date_deblocage,
@@ -101,8 +159,10 @@ class CreditController extends Controller
           }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();
           }
+        
+          $marches = Marche::get();
 
-        return view('credit.edit', compact('clients','credit'));
+        return view('credit.edit', compact('clients','credit','marches'));
     }
 
     /**
@@ -132,6 +192,7 @@ class CreditController extends Controller
 
         $credit->update([
             'client_id'=>$request->client_id,
+            'marche_id'=>$request->marche_id,
             'user_id'=> auth()->user()->id,
             'montant'=>$request->montant,
             'date_deblocage'=>$request->date_deblocage,

@@ -5,6 +5,12 @@
      <script src="{{asset('assets/libs/simplebar/simplebar.min.js')}}"></script>
      <script src="{{asset('assets/libs/node-waves/waves.min.js')}}"></script>
     
+     <!-- form mask -->
+     <script src="{{asset('assets/libs/inputmask/jquery.inputmask.min.js')}}"></script>
+
+     <!-- form mask init -->
+     <script src="{{asset('assets/js/pages/form-mask.init.js')}}"></script>
+
 
      <!-- apexcharts -->
      <script src="{{asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script>

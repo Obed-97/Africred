@@ -29,53 +29,26 @@
             </div>
         </div>
         <!-- end page title -->
-        <div class="row">
-            <div class="col-xl-2"></div>
-           <div class="col-xl-8">
-                <form  method="POST" action="{{route('filtre.store')}}" class="d-flex mb-4">
-                    @csrf
-                    <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
-                    <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
-                    <div class="col-xl-4"><button type="submit"  class="btn btn-primary   waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
-                </form>
-            </div> 
-            <div class="col-xl-2"><a href="/" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
-        </div>
-        
-        @if (auth()->user()->role_id == 4)
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total montant caisse</p>
-                                        <h4 class="mb-0">{{number_format($depots->sum('montant'), 0, ',', ' ')}} CFA</h4>
-                                    </div>
-                                    <div class="text-primary">
-                                        <i class="ri-store-3-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body border-top py-3">
-                                <div class="text-truncate">
-                                    <span class="text-muted ml-2">Nombre total caisse :</span>
-                                    <span class="badge badge-soft-success font-size-20">{{count($caisses)}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end row -->
-
-                
+        <div class="row mb-4">
+            <div class="col-xl-4">
+               <form  method="POST" action="{{route('etat_global.store')}}" class="d-flex mb-4">
+                   @csrf
+                   <div class="col-xl-6"><input type="date" name="date" class="form-control"></div>
+                   <div class="col-xl-2"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> </div>
+               </form>
             </div>
-
+              <div class="col-xl-6">
+                   <form  method="POST" action="{{route('filtre.store')}}" class="d-flex mb-4">
+                       @csrf
+                       <div class="col-xl-3"><input type="date" name="fdate" class="form-control"></div>
+                       <div class="col-xl-3"><input type="date" name="sdate"  class="form-control"></div>
+                       <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
+                   </form>
+               </div> 
+               <div class="col-xl-2"><a href="/" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
+           </div>
         
-        </div> 
-    @else
+       
         <div class="row">
             <div class="col-xl-12">
                 <div class="row">
@@ -187,27 +160,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body overflow-hidden">
-                                        <p class="text-truncate font-size-14 mb-2">Total montant caisse</p>
-                                        <h4 class="mb-0">{{number_format($depots->sum('montant'), 0, ',', ' ')}} CFA</h4>
-                                    </div>
-                                    <div class="text-primary">
-                                        <i class="ri-store-3-line font-size-24"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body border-top py-3">
-                                <div class="text-truncate">
-                                    <span class="text-muted ml-2">Nombre total caisse :</span>
-                                    <span class="badge badge-soft-success font-size-20">{{count($caisses)}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                  
                 </div>
                 <!-- end row -->
 
@@ -216,7 +169,7 @@
 
         
         </div> 
-    @endif
+   
         <!-- end row -->
                <!-- start page title -->
                <div class="row">
@@ -272,23 +225,7 @@
                                    
                                 </div>
                             </div>
-                            <div class="col-md-3" >
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Nombre total caisse</p>
-                                                <h4 class="mb-0">{{count($caisses)}} caisse(s)</h4>
-                                            </div>
-                                            <div class="text-primary">
-                                                <i class="ri-store-3-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
+                           
                        
                     </div>
                     <!-- end row -->

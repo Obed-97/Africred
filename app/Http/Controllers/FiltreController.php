@@ -7,8 +7,7 @@ use App\Models\Credit;
 use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
-use App\Models\Caisse;
-use App\Models\User_caisse;
+
 
 class FiltreController extends Controller
 {
@@ -68,15 +67,9 @@ class FiltreController extends Controller
         }
         
         $agents = User::where('role_id', '2')->get();
-        $caisses = Caisse::get();
+       
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 4 ) {
-            $depots = User_caisse::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
-        }else {
-            $depots = User_caisse::where('user_id', auth()->user()->id)->get();
-        }
-
-        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents','caisses', 'depots', 'date1', 'date2'));
+        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents', 'date1', 'date2'));
     }
 
     /**

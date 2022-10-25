@@ -7,8 +7,7 @@ use App\Models\Credit;
 use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
-use App\Models\Caisse;
-use App\Models\User_caisse;
+
 use Carbon\Carbon;
 
 class EtatGlobalController extends Controller
@@ -45,16 +44,11 @@ class EtatGlobalController extends Controller
             }
         
         $agents = User::where('role_id', '2')->get();
+      
 
-        $caisses = Caisse::get();
-
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 4 ) {
-            $depots = User_caisse::get();
-        }else {
-            $depots = User_caisse::where('user_id', auth()->user()->id)->get();
-        }
+       
         
-        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents','caisses', 'depots'));
+        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents'));
     }
 
     /**
@@ -75,7 +69,37 @@ class EtatGlobalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $date = $request->date;
+
+        $agents = Recouvrement::selectRaw(
+            'user_id',)
+         ->groupBy('user_id')->whereDate('created_at', $request->date)
+         ->get();
+
+         if (auth()->user()->role_id == 1) {
+            $credits = Credit::whereDate('created_at', $request->date)->get();
+          }else {
+            $credits = Credit::whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
+          }
+
+          if (auth()->user()->role_id == 1) {
+            $recouvrements = Recouvrement::whereDate('created_at', $request->date)->get();
+          }else {
+            $recouvrements = Recouvrement::whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
+          }
+
+       
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 4) {
+        $clients = Client::whereDate('created_at', $request->date)->get();
+        }else {
+        $clients = Client::where('user_id', auth()->user()->id)->whereDate('created_at', $request->date)->get();
+        }
+        
+        $agents = User::where('role_id', '2')->get();
+
+       
+        
+        return view('dashboard.date', compact('credits', 'recouvrements','agents','clients','agents','date'));
     }
 
     /**

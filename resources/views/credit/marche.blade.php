@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Crédit Global</h4>
+                                <h4 class="mb-0 text-success"> Crédit par marché</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -38,7 +38,7 @@
                                 <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
                                 <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                             </form>
-                        </div>
+                        </div> 
                         <div class="col-xl-2"><a href="{{route('etat_credit.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> CRÉDIT DU JOUR</a></div>
                     </div>
                     <div class="row">
@@ -99,14 +99,14 @@
                                                                 <input class="form-control" type="date" name="date_fin"  id="date_fin" required>
                                                             </div>
                                                         </div>
-
+                                                     
                                                         <div class="form-group ">
                                                             <label>Frais de carte</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="frais_carte"  id="frais_carte" required>
                                                             </div>
                                                         </div>
-
+                                                    
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -133,18 +133,14 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Bénéficiaire</th>
+                                                <th>Marché</th>
                                                 <th>Montant</th>
-                                                <th>Date de déblocage</th>
-                                                <th>Date de fin</th>
                                                 <th>Intérêt</th>
                                                 <th>Frais de déblocage</th>
                                                 <th>Frais de carte</th>
                                                 <th>Montant & Intérêt</th>
-                                                    @if (auth()->user()->role_id == 1)
-                                                        <th>Agent </th>
-                                                    @endif
-                                                <th>Action</th>
+                                                <th>Nombre client</th>
+                                                
                                             </tr>
                                         </thead>
 
@@ -153,51 +149,32 @@
 
                                             @foreach ($credits as $item)
                                                 <tr>
-                                                    <td>{{$item->Client['nom_prenom']}}</td>
+                                                    <td>{{$item->Marche['libelle']}}</td>
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
-                                                    <td>{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
                                                     <td>{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}}CFA</td>
+                                                    <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
-                                                    @if (auth()->user()->role_id == 1)
-                                                        <td>{{$item->User['nom']}}</td>
-                                                    @endif
-
-                                                    <td class="d-flex">
-                                                        @if (auth()->user()->role_id == 2)
-                                                        <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                        @endif
-                                                        @if (auth()->user()->role_id == 1)
-                                                            <form method="POST" action="{{route('credit.destroy', $item->id)}}">
-                                                                @csrf
-                                                                {{method_field('DELETE')}}
-                                                            <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                                            </form>
-                                                        @endif
-
-                                                    </td>
-
+                                                    <td>{{$item->id}} clients </td>
                                                 </tr>
                                              @endforeach
-
+                                                
                                         </tbody>
                                     </table>
-
+                                   
                                 </div>
                             </div>
                         </div> <!-- end col -->
                         <div class="col-4">
                             <div class="card">
                                 <div class="card-body">
-
+                                      
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                         <thead>
+                                        <thead>
                                             <tr style="font-size: 16px">
                                                 <th><b>Désignations</b> </th>
                                                 <th><b>Total</b> </th>
-
+                                                
                                             </tr>
                                         </thead>
 
@@ -223,10 +200,10 @@
                                                 <td>Montant & intérêt</td>
                                                 <td class="text-success">{{number_format($credits->sum('montant_interet'), 0, ',', ' ')}} CFA</td>
                                             </tr>
-
+                                                
                                         </tbody>
                                     </table>
-
+                                   
                                 </div>
                             </div>
                         </div> <!-- end col -->
@@ -236,5 +213,10 @@
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
+
+            <script>
+
+            </script>
+
 
 @endsection
