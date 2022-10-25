@@ -38,7 +38,7 @@
                                 <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
                                 <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                             </form>
-                        </div> 
+                        </div>
                         <div class="col-xl-2"><a href="{{route('etat_credit.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> CRÉDIT DU JOUR</a></div>
                     </div>
                     <div class="row">
@@ -99,14 +99,14 @@
                                                                 <input class="form-control" type="date" name="date_fin"  id="date_fin" required>
                                                             </div>
                                                         </div>
-                                                     
+
                                                         <div class="form-group ">
                                                             <label>Frais de carte</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="frais_carte"  id="frais_carte" required>
                                                             </div>
                                                         </div>
-                                                    
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -176,28 +176,28 @@
                                                             <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                             </form>
                                                         @endif
-                                                       
+
                                                     </td>
 
                                                 </tr>
                                              @endforeach
-                                                
+
                                         </tbody>
                                     </table>
-                                   
+
                                 </div>
                             </div>
                         </div> <!-- end col -->
                         <div class="col-4">
                             <div class="card">
                                 <div class="card-body">
-                                      
-                                    <table id="datatable-buttons" class="table dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
+
+                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                         <thead>
                                             <tr style="font-size: 16px">
                                                 <th><b>Désignations</b> </th>
                                                 <th><b>Total</b> </th>
-                                                
+
                                             </tr>
                                         </thead>
 
@@ -223,10 +223,10 @@
                                                 <td>Montant & intérêt</td>
                                                 <td class="text-success">{{number_format($credits->sum('montant_interet'), 0, ',', ' ')}} CFA</td>
                                             </tr>
-                                                
+
                                         </tbody>
                                     </table>
-                                   
+
                                 </div>
                             </div>
                         </div> <!-- end col -->
