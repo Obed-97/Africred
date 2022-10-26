@@ -39,8 +39,8 @@
                                 <div class="card-body">
                                     <h4 class="card-title text-right mb-4">
                                         @if (auth()->user()->role_id == 2)
-                                            <button type="button" class="btn btn-success  waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Dépôt</button>
-                                            <button type="button" class="btn btn-danger  waves-effect waves-light" data-toggle="modal" data-target="#static">Retrait</button>
+                                        <button type="button" class="btn btn-success  waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop"><i class="  ri-arrow-down-line"></i> Dépôt</button>
+                                        <button type="button" class="btn btn-danger  waves-effect waves-light" data-toggle="modal" data-target="#static"><i class="  ri-arrow-up-line"></i> Retrait</button>
                                         @endif
                                     </h4>
                                         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -73,7 +73,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group ">
-                                                            <label>Dépot</label>
+                                                            <label>Montant</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="depot"  id="depot" required >
                                                             </div>
@@ -83,7 +83,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-success waves-effect waves-light" type="submit">Déposer</button>
+                                                        <button class="btn btn-success waves-effect waves-light" type="submit"><i class="  ri-arrow-down-line"></i> Déposer</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -120,7 +120,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group ">
-                                                            <label>Retrait</label>
+                                                            <label>Montant</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="retrait"  id="retrait" required >
                                                             </div>
@@ -130,7 +130,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-danger waves-effect waves-light" type="submit">Retirer</button>
+                                                        <button class="btn btn-danger waves-effect waves-light" type="submit"><i class="  ri-arrow-up-line"></i> Retirer</button>
                                                     </div>
                                                 </div>
                                             </form>
