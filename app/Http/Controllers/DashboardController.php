@@ -7,6 +7,7 @@ use App\Models\Credit;
 use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Depot;
 
 use Carbon\Carbon;
 
@@ -45,8 +46,21 @@ class DashboardController extends Controller
         
         $agents = User::where('role_id', '2')->get();
 
+
+        if (auth()->user()->role_id == 1) {
+            $epargne = Depot::where('type_depot_id', 2)->whereDate('created_at', Carbon::today())->get();
+        }else {
+            $epargne = Depot::where('type_depot_id', 2)->whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+        }
+
+        if (auth()->user()->role_id == 1) {
+            $tontine = Depot::where('type_depot_id', 1)->whereDate('created_at', Carbon::today())->get();
+        }else {
+            $tontine = Depot::where('type_depot_id', 1)->whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+        }
+
        
-        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents'));
+        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents', 'epargne','tontine'));
     }
 
     /**

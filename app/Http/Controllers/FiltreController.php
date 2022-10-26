@@ -7,6 +7,7 @@ use App\Models\Credit;
 use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Depot;
 
 
 class FiltreController extends Controller
@@ -67,9 +68,21 @@ class FiltreController extends Controller
         }
         
         $agents = User::where('role_id', '2')->get();
+
+        if (auth()->user()->role_id == 1) {
+            $epargne = Depot::where('type_depot_id', 2)->whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+        }else {
+            $epargne = Depot::where('type_depot_id', 2)->whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
+        }
+
+        if (auth()->user()->role_id == 1) {
+            $tontine = Depot::where('type_depot_id', 1)->whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+        }else {
+            $tontine = Depot::where('type_depot_id', 1)->whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
+        }
        
 
-        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents', 'date1', 'date2'));
+        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents', 'date1', 'date2', 'epargne','tontine'));
     }
 
     /**

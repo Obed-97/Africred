@@ -166,6 +166,50 @@
                             </div>
                         </div>
 
+                        <div class="col-md-3">
+                            <div class="card bg-secondary">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="media-body overflow-hidden">
+                                            <p class="text-white font-size-14 mb-2">Solde épargne</p>
+                                            <h4 class="mb-0 text-white">{{number_format(($epargne->sum('depot')) - ($epargne->sum('retrait')), 0, ',', ' ')}} CFA</h4>
+                                        </div>
+                                        <div class="text-white">
+                                            <i class="ri-funds-line font-size-24"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border-top py-3">
+                                    <div class="text-truncate">
+                                        <span class="text-white ml-2">Nombre clients :</span>
+                                        <span class="badge badge-soft-success font-size-20">{{count($epargne)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card bg-secondary">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="media-body overflow-hidden">
+                                            <p class="text-white font-size-14 mb-2">Solde tontine</p>
+                                            <h4 class="mb-0 text-white">{{number_format(($tontine->sum('depot')) - ($tontine->sum('retrait')), 0, ',', ' ')}} CFA</h4>
+                                        </div>
+                                        <div class="text-white">
+                                            <i class="ri-recycle-line font-size-24"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border-top py-3">
+                                    <div class="text-truncate">
+                                        <span class="text-white ml-2">Nombre clients :</span>
+                                        <span class="badge badge-soft-success font-size-20">{{count($tontine)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <!-- end row -->
 

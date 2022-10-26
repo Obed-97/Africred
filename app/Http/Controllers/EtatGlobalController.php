@@ -7,6 +7,7 @@ use App\Models\Credit;
 use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Depot;
 
 use Carbon\Carbon;
 
@@ -46,9 +47,20 @@ class EtatGlobalController extends Controller
         $agents = User::where('role_id', '2')->get();
       
 
-       
+        if (auth()->user()->role_id == 1) {
+            $epargne = Depot::where('type_depot_id', 2)->get();
+        }else {
+            $epargne = Depot::where('type_depot_id', 2)->where('user_id', auth()->user()->id)->get();
+        }
+
+        if (auth()->user()->role_id == 1) {
+            $tontine = Depot::where('type_depot_id', 1)->get();
+        }else {
+            $tontine = Depot::where('type_depot_id', 1)->where('user_id', auth()->user()->id)->get();
+        }
+
         
-        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents'));
+        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents','epargne','tontine'));
     }
 
     /**
@@ -97,9 +109,21 @@ class EtatGlobalController extends Controller
         
         $agents = User::where('role_id', '2')->get();
 
+        if (auth()->user()->role_id == 1) {
+          $epargne = Depot::where('type_depot_id', 2)->whereDate('created_at', $request->date)->get();
+          }else {
+              $epargne = Depot::where('type_depot_id', 2)->whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
+          }
+
+          if (auth()->user()->role_id == 1) {
+              $tontine = Depot::where('type_depot_id', 1)->whereDate('created_at', $request->date)->get();
+          }else {
+              $tontine = Depot::where('type_depot_id', 1)->whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
+          }
+
        
         
-        return view('dashboard.date', compact('credits', 'recouvrements','agents','clients','agents','date'));
+        return view('dashboard.date', compact('credits', 'recouvrements','agents','clients','agents','date','epargne','tontine'));
     }
 
     /**
