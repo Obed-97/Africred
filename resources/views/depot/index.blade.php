@@ -135,7 +135,7 @@
                                         </div> 
                                         <div class="row">
                                             <div class="mb-4 col-xl-4">
-                                                <a href="{{route('depot.tontine')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class=" ri-hand-coin-line"></i> Tontine</a>
+                                                <a href="{{route('depot.tontine')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-recycle-line"></i> Tontine</a>
                                                 <a href="{{route('depot.epargne')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Épargne</a>  
                                                
                                             </div>
