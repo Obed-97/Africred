@@ -74,4 +74,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User_caisse::class);
     }
+
+    public function Depots()
+    {
+        return $this->hasMany(Depot::class);
+    }
 }

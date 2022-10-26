@@ -15,6 +15,8 @@ use App\Http\Controllers\EtatCreditController;
 use App\Http\Controllers\EtatEncoursGlobalSIController;
 use App\Http\Controllers\EtatClientController;
 use App\Http\Controllers\DateRecController;
+use App\Http\Controllers\DepotController;
+use App\Http\Controllers\HistDepotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +45,8 @@ Route::resources([
     '/historique' => HistoriqueController::class,
     '/etat_encours_global' => EtatEncoursGlobalSIController::class,
     '/date' => DateRecController::class,
+    '/depot' => DepotController::class,
+    '/historique_depot' => HistDepotController::class,
     
 ]);
 
@@ -51,6 +55,10 @@ Route::get('/marche', [CreditController::class, 'marche'])->name('credit.marche'
 Route::get('/marche/jour', [EtatCreditController::class, 'marche'])->name('etat_credit.marche');
 
 Route::get('/marche/client', [clientController::class, 'marche'])->name('client.marche');
+
+Route::post('/retrait', [DepotController::class, 'retrait'])->name('depot.retrait');
+Route::get('/tontine', [DepotController::class, 'tontine'])->name('depot.tontine');
+Route::get('/epargne', [DepotController::class, 'epargne'])->name('depot.epargne');
 
 
 });

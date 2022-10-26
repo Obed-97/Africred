@@ -114,6 +114,12 @@
                         <li><a href="{{route('etat_encours_global.index')}}">Encours Global SI</a></li>
                     
                     </ul>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('depot.index')}}">Liste des dépôts</a></li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('historique_depot.index')}}">Historique dépôts</a></li>
+                    </ul>
                 </li>
  
                
