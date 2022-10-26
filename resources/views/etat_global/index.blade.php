@@ -13,13 +13,13 @@
     <div class="container-fluid">
 
         <!-- start page title -->
-        <div class="row">
+        <div class="row" >
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
                     <h4 class="mb-0 text-success"> État Global </h4>
 
                     <div class="page-title-right">
-                        <ol class="breadcrumb m-0"> 
+                        <ol class="breadcrumb m-0" id="web"> 
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
                             <li class="breadcrumb-item active">État Global</li>
                         </ol>
@@ -30,14 +30,14 @@
         </div>
         <!-- end page title -->
         <div class="row mb-4">
-            <div class="col-xl-4">
+            <div class="col-xl-4" id="web">
                <form  method="POST" action="{{route('etat_global.store')}}" class="d-flex mb-4">
                    @csrf
                    <div class="col-xl-6"><input type="date" name="date" class="form-control"></div>
                    <div class="col-xl-2"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> </div>
                </form>
             </div>
-              <div class="col-xl-6">
+              <div class="col-xl-6" id="web">
                    <form  method="POST" action="{{route('filtre.store')}}" class="d-flex mb-4">
                        @csrf
                        <div class="col-xl-3"><input type="date" name="fdate" class="form-control"></div>

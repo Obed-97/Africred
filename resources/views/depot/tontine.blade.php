@@ -19,7 +19,7 @@
                                 <h4 class="mb-0 text-success">TONTINE </h4>
 
                                 <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
+                                    <ol class="breadcrumb m-0" id="web">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
                                         <li class="breadcrumb-item active">Tontine</li>
                                     </ol>
@@ -185,7 +185,7 @@
 
 
                     
-                    <div class="row">
+                    <div class="row" id="web">
                         <div class="col-4">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
                                 <h4 class="mb-0 text-success">STATISTIQUES  </h4>

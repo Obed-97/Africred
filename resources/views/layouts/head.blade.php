@@ -27,6 +27,29 @@
     <!-- App Css-->
     <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
 
+    <style>
+
+        @media only screen
+
+        and (min-device-width : 280px)
+
+        and (max-device-width : 653px){  #web{display: none;}}
+        
+        @media only screen
+
+        and (min-device-width : 320px)
+
+        and (max-device-width : 500px){  #web{display: none;}}
+
+        @media only screen
+
+        and (min-device-width : 540px)
+
+        and (max-device-width : 720px){  #web{display: none;}}
+
+
+    </style>
+
     
 
 </head>

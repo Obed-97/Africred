@@ -19,7 +19,7 @@
                                 <h4 class="mb-0 text-success">État Encours Global S.I </h4>
 
                                 <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
+                                    <ol class="breadcrumb m-0" id="web">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
                                         <li class="breadcrumb-item active">État Encours Global S.I</li>
                                     </ol>

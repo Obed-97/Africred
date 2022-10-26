@@ -19,7 +19,7 @@
                                 <h4 class="mb-0 text-success">Clientèle globale</h4>
 
                                 <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
+                                    <ol class="breadcrumb m-0" id="web">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
                                         <li class="breadcrumb-item active">Clientèle</li>
                                     </ol>
@@ -31,7 +31,7 @@
                     <!-- end page title -->
                     <div class="row mb-4">
                         <div class="col-xl-2"></div>
-                       <div class="col-xl-8">
+                       <div class="col-xl-8" id="web">
                             <form  method="POST" action="{{route('etat_client.store')}}" class="d-flex mb-4">
                                 @csrf
                                 <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>

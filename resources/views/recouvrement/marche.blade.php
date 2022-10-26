@@ -14,13 +14,13 @@
                     
                    
                     <!-- start page title -->
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
                                 <h4 class="mb-0 text-success">Recouvrement Global </h4>
 
                                 <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
+                                    <ol class="breadcrumb m-0" id="web">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
                                         <li class="breadcrumb-item active">Recouvrement Global</li>
                                     </ol>
@@ -30,15 +30,15 @@
                         </div>
                     </div>
                     <!-- end page title -->
-                    <div class="row mb-4">
-                        <div class="col-xl-4">
+                    <div class="row mb-4" >
+                        <div class="col-xl-4" id="web">
                            <form  method="POST" action="{{route('date.store')}}" class="d-flex mb-4">
                                @csrf
                                <div class="col-xl-6"><input type="date" name="date" class="form-control"></div>
                                <div class="col-xl-2"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> </div>
                            </form>
                         </div>
-                          <div class="col-xl-6">
+                          <div class="col-xl-6" id="web">
                                <form  method="POST" action="{{route('etat_recouvrement.store')}}" class="d-flex mb-4">
                                    @csrf
                                    <div class="col-xl-3"><input type="date" name="fdate" class="form-control"></div>
@@ -206,60 +206,63 @@
                    
                     
                       <!-- start page title -->
-                      <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">STATISTIQUES  </h4>
-
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        
-                                    </ol>
+                      <div id="web">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0 text-success">STATISTIQUES  </h4>
+    
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            
+                                        </ol>
+                                    </div>
+    
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-body">
-                                      
-                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr style="font-size: 16px">
-                                                <th><b>Désignations</b> </th>
-                                                <th><b>Total</b> </th>
-                                                
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            <tr>
-                                                <td>Capital recouvré</td>
-                                                <td class="text-success">{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Intérêt net</td>
-                                                <td class="text-success">{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Épargne</td>
-                                                <td class="text-success">{{number_format($total->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Assurance</td>
-                                                <td class="text-success">{{number_format($total->sum('assurance'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                                
-                                        </tbody>
-                                    </table>
-                                   
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                          
+                                        <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr style="font-size: 16px">
+                                                    <th><b>Désignations</b> </th>
+                                                    <th><b>Total</b> </th>
+                                                    
+                                                </tr>
+                                            </thead>
+    
+    
+                                            <tbody>
+                                                <tr>
+                                                    <td>Capital recouvré</td>
+                                                    <td class="text-success">{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Intérêt net</td>
+                                                    <td class="text-success">{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Épargne</td>
+                                                    <td class="text-success">{{number_format($total->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Assurance</td>
+                                                    <td class="text-success">{{number_format($total->sum('assurance'), 0, ',', ' ')}} CFA</td>
+                                                </tr>
+                                                    
+                                            </tbody>
+                                        </table>
+                                       
+                                    </div>
                                 </div>
-                            </div>
-                        </div> <!-- end col -->
-                    </div>
+                            </div> <!-- end col -->
+                        </div>
+                      </div>
+                     
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
