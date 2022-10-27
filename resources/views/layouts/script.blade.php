@@ -10,14 +10,7 @@
 
      <!-- form mask init -->
      <script src="{{asset('assets/js/pages/form-mask.init.js')}}"></script>
-
-
-     <!-- apexcharts -->
-     <script src="{{asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script>
-
-     <!-- jquery.vectormap map -->
-     <script src="{{asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
-     <script src="{{asset('assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js')}}"></script>
+    
 
      <!-- Required datatable js -->
      <script src="{{asset('assets/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
@@ -42,6 +35,5 @@
      <!-- Datatable init js -->
      <script src="{{asset('assets/js/pages/datatables.init.js')}}"></script>
 
-     <script src="{{asset('assets/js/pages/dashboard.init.js')}}"></script>
 
      <script src="{{asset('assets/js/app.js')}}"></script>

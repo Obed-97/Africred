@@ -17,6 +17,8 @@ use App\Http\Controllers\EtatClientController;
 use App\Http\Controllers\DateRecController;
 use App\Http\Controllers\DepotController;
 use App\Http\Controllers\HistDepotController;
+use App\Http\Controllers\EncaissementController;
+use App\Http\Controllers\DecaissementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +49,8 @@ Route::resources([
     '/date' => DateRecController::class,
     '/depot' => DepotController::class,
     '/historique_depot' => HistDepotController::class,
+    '/encaissement' => EncaissementController::class,
+    '/decaissement' => DecaissementController::class,
     
 ]);
 
