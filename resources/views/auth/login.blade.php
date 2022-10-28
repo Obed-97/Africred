@@ -55,7 +55,7 @@
                                                         <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre email">
                                                     </div>
                             
-                                                    <div class="form-group auth-form-group-custom mb-4">
+                                                    <div class="form-group auth-form-group-custom mb-4" >
                                                         <i class="ri-lock-2-line auti-custom-input-icon"></i>
                                                         <label for="password">Mot de passe</label>
                                                         <input type="password" class="form-control" id="password" required autocomplete="current-password" name="password" placeholder="Enter password">

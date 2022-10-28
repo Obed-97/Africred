@@ -110,7 +110,7 @@
                 <li>
                     <a href="{{route('credit.index')}}" class=" waves-effect">
                         <i class="ri-hand-coin-fill"></i>
-                        <span>Crédit</span>
+                        <span>Déblocage</span>
                     </a>
                 </li>
 

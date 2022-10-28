@@ -142,7 +142,7 @@
                             <div class="card-body ">
                                 <div class="media">
                                     <div class="media-body overflow-hidden">
-                                        <p class=" font-size-14 mb-2">Total montant crédit</p>
+                                        <p class=" font-size-14 mb-2">Total montant déblocage</p>
                                         <h4 class="mb-0 text-white">{{number_format($credits->sum('montant'), 0, ',', ' ')}} CFA</h4>
                                     </div>
                                     <div >
@@ -153,7 +153,7 @@
 
                             <div class="card-body text-white border-top py-3">
                                 <div class="text-truncate">
-                                    <span class=" ml-2">Nombre total des crédits :</span>
+                                    <span class=" ml-2">Nombre total de déblocages :</span>
                                     <span class="badge badge-soft-success font-size-20">{{count($credits)}}</span>
                                 </div>
                             </div>

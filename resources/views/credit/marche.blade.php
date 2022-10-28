@@ -16,12 +16,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success"> Crédit par marché</h4>
+                                <h4 class="mb-0 text-success"> Déblocage par marché</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0" id="web">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                        <li class="breadcrumb-item active">Crédit</li>
+                                        <li class="breadcrumb-item active">Déblocage</li>
                                     </ol>
                                 </div>
 
@@ -39,7 +39,7 @@
                                 <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                             </form>
                         </div> 
-                        <div class="col-xl-2"><a href="{{route('etat_credit.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> CRÉDIT DU JOUR</a></div>
+                        <div class="col-xl-2"><a href="{{route('etat_credit.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> DÉBLOCAGE DU JOUR</a></div>
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -47,7 +47,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title text-right mb-4">
                                         @if (auth()->user()->role_id == 2)
-                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Nouveau crédit</button>
+                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Nouveau déblocage</button>
                                         @endif
                                     </h4>
                                         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -56,7 +56,7 @@
                                                     @csrf
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Nouveau crédit</h5>
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Nouveau déblocage</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
