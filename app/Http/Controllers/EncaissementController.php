@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Micro_finance;
 
 class EncaissementController extends Controller
 {
@@ -13,7 +14,9 @@ class EncaissementController extends Controller
      */
     public function index()
     {
-        return view('encaissement.index');
+        $micros = Micro_finance::all();
+
+        return view('encaissement.index', compact('micros'));
     }
 
     /**

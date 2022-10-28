@@ -42,7 +42,39 @@
 
     <div data-simplebar class="h-100">
 
-        <!--- Sidemenu -->
+        @if (auth()->user()->role_id == 5)
+                <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title">Gestion</li>
+
+                <li>
+                    <a href="/" class="waves-effect">
+                        <i class="ri-dashboard-fill"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('encaissement.index')}}">
+                        <i class="ri-arrow-down-fill text-success"></i> 
+                        <span>Encaissement</span> 
+                    </a>
+                </li> 
+                <li>
+                    <a href="{{route('decaissement.index')}}">
+                        <i class="ri-arrow-up-fill text-danger"></i>
+                         Décaissement
+                    </a>
+                </li>
+
+            </ul>
+            
+        </div>
+        <!-- Sidebar --> 
+        @else
+            <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
@@ -86,7 +118,7 @@
                 <li>
                     <a  href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-line-chart-fill"></i>
-                        <span>Tresorerie</span>
+                        <span>Trésorerie</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('encaissement.index')}}"><i class="ri-arrow-down-fill text-success"></i> Encaissement</a></li> 
@@ -111,8 +143,6 @@
                         <li><a href="{{route('historique_depot.index')}}"><i class="ri-file-list-3-fill"></i> Historique dépôts</a></li>
                     </ul>
                 </li>
- 
-               
                 
 
                 <li class="menu-title">Administration</li>
@@ -149,7 +179,9 @@
             </ul>
             
         </div>
-        <!-- Sidebar -->
+        <!-- Sidebar --> 
+        @endif
+       
     </div>
 </div>
 <!-- Left Sidebar End -->

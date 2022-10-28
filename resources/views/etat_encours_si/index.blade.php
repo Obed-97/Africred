@@ -42,7 +42,7 @@
                                             <th>Capital encours</th>
                                             <th>Capital recouvré</th>
                                             <th>Solde</th><i class="fas fa-engine-warning"></i>
-                                            <th>Action</th>
+                                            <th>Statut</th>
 
                                         </tr>
                                         </thead>

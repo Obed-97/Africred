@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Micro_finance;
 
 class DecaissementController extends Controller
 {
@@ -13,7 +14,9 @@ class DecaissementController extends Controller
      */
     public function index()
     {
-        return view('decaissement.index');
+        $micros = Micro_finance::all();
+        
+        return view('decaissement.index', compact('micros'));
     }
 
     /**

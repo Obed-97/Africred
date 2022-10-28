@@ -1,51 +1,106 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+<!doctype html>
+<html lang="en">
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
+    <head>
+        
+        <meta charset="utf-8" />
+        <title>Bienvenue à AFRICRED</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+        <meta content="Themesdesign" name="author" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}">
+    
+        <!-- Bootstrap Css -->
+        <link href="{{asset('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+    
+    </head>
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+    <body class="auth-body-bg">
+        <div class="home-btn d-none d-sm-block">
+            <a href="index.html"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+        </div>
+        <div>
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    <div class="col-lg-4">
+                     
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
+                            <div class="w-100">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-9 card">
+                                        <div>
+                                            <div class="text-center mt-4">
+                                                <div>
+                                                    <a href="{{route('login')}}" class="logo"><img src="{{asset('assets/images/Logo AfriCRED.png')}}" height="60" alt="logo"></a>
+                                                </div>
+    
+                                                <h4 class="font-size-18 mt-4">Réinitialiser mot de passe</h4>
+                                                <p class="text-muted">Réinitialisez votre mot de passe AFRICRED.</p>
+                                            </div>
 
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
+                                            <div class="p-2 mt-5">
+                                             
+                                                <form class="form-horizontal" method="POST" action="{{ route('password.update') }}">
+                                                    @csrf
 
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+                                                    <!-- Password Reset Token -->
+                                                    <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                    
+                                                    <div class="form-group auth-form-group-custom mb-4">
+                                                        <i class="ri-mail-line auti-custom-input-icon"></i>
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" name="email" id="email" :value="old('email', $request->email)" placeholder="Entrez votre email">
+                                                    </div>
+                                                    <div class="form-group auth-form-group-custom mb-4">
+                                                        <i class="ri-lock-2-line auti-custom-input-icon"></i>
+                                                        <label for="password">Mot de passe</label>
+                                                        <input type="password" class="form-control" name="password" id="password"  placeholder="Nouveau mot de passe">
+                                                    </div>
+                                                    <div class="form-group auth-form-group-custom mb-4">
+                                                        <i class="ri-lock-2-line auti-custom-input-icon"></i>
+                                                        <label for="password_confirmation">Confirmer mot de passe</label>
+                                                        <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
+                                                    </div>
+                                                    
 
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                                    <div class="mt-4 text-center">
+                                                        <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Réinitialiser</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <div class="mt-5 text-center">
+                                                <p><b> ©  <script>document.write(new Date().getFullYear())</script> AFRICRED. </b></p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
             </div>
+        </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
+        
 
-                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required />
+        <!-- JAVASCRIPT -->
+        <script src="assets/libs/jquery/jquery.min.js"></script>
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="assets/libs/node-waves/waves.min.js"></script>
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
+        <script src="assets/js/app.js"></script>
 
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
-
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-primary-button>
-                    {{ __('Reset Password') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+    </body>
+</html>
