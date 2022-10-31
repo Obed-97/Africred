@@ -16,7 +16,13 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Décaissement </h4>
+                                <h4 class="mb-0 text-success">
+                                    Aujourd'hui,&nbsp; le &nbsp;
+                                    <?php
+                                    echo date('d-m-Y');
+                                    ?> 
+                                </h4>
+
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0" id="web">
@@ -38,14 +44,14 @@
                            </form>
                         </div>
                           <div class="col-xl-6" id="web">
-                               <form  method="POST" action="{{route('etat_encaissement.store')}}" class="d-flex mb-4">
+                               <form  method="POST" action="{{route('etat_decaissement.store')}}" class="d-flex mb-4">
                                    @csrf
                                    <div class="col-xl-3"><input type="date" name="fdate" class="form-control"></div>
                                    <div class="col-xl-3"><input type="date" name="sdate"  class="form-control"></div>
                                    <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                                </form>
                            </div> 
-                           <div class="col-xl-2"><a href="{{route('etat_decaissement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
+                           <div class="col-xl-2"><a href="{{route('decaissement.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
                        </div>
                     <!-- end page title -->
     

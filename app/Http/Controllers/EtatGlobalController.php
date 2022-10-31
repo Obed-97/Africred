@@ -8,6 +8,8 @@ use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Depot;
+use App\Models\Encaissement;
+use App\Models\Decaissement;
 
 use Carbon\Carbon;
 
@@ -59,8 +61,11 @@ class EtatGlobalController extends Controller
             $tontine = Depot::where('type_depot_id', 1)->where('user_id', auth()->user()->id)->get();
         }
 
+        $encaissements = Encaissement::get();
+        $decaissements = Decaissement::get();
+
         
-        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents','epargne','tontine'));
+        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents','epargne','tontine','encaissements','decaissements'));
     }
 
     /**
@@ -121,9 +126,12 @@ class EtatGlobalController extends Controller
               $tontine = Depot::where('type_depot_id', 1)->whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
           }
 
+          $encaissements = Encaissement::whereDate('date', $request->date)->get();
+          $decaissements = Decaissement::whereDate('date', $request->date)->get();
+
        
         
-        return view('dashboard.date', compact('credits', 'recouvrements','agents','clients','agents','date','epargne','tontine'));
+        return view('dashboard.date', compact('credits', 'recouvrements','agents','clients','agents','date','epargne','tontine','encaissements','decaissements'));
     }
 
     /**

@@ -13,4 +13,14 @@ class Micro_finance extends Model
         'pays_id',
         'libelle',
     ];
+
+    public function Encaissement()
+    {
+        return $this->hasMany(Encaissement::class);
+    }
+
+    public function Decaissement()
+    {
+        return $this->hasMany(Decaissement::class);
+    }
 }

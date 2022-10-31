@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Micro_finance;
-use App\Models\Encaissement;
+use App\Models\Decaissement;
 
-class EncaissementController extends Controller
+use Carbon\Carbon;
+
+class EtatDecController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +19,9 @@ class EncaissementController extends Controller
     {
         $micros = Micro_finance::all();
 
-        $encaissements = Encaissement::all();
+        $decaissements = Decaissement::whereDate('date', Carbon::today())->get();;
 
-        return view('encaissement.index', compact('micros','encaissements'));
+        return view('decaissement.jour', compact('micros','decaissements'));
     }
 
     /**
@@ -40,18 +42,26 @@ class EncaissementController extends Controller
      */
     public function store(Request $request)
     {
-        $encaissement = new Encaissement;
-          
-        $encaissement->create([
-            'micro_finance_id'=>$request->micro_finance_id,
-            'user_id'=>auth()->user()->id,
-            'date'=>$request->date,
-            'nature'=>$request->nature,
-            'montant'=>$request->montant,
-            'observation'=>$request->observation,
-        ]);
+        $date1 = $request->fdate;
+        $date2 = $request->sdate;
 
-        return redirect()->route('encaissement.index');
+        $micros = Micro_finance::all();
+
+        $decaissements = Decaissement::whereBetween('date', [$request->fdate, $request->sdate])->get();;
+
+        return view('decaissement.filtre', compact('micros','decaissements','date1','date2','micros'));
+    }
+
+    public function date(Request $request)
+    {
+        $date = $request->date;
+       
+
+        $micros = Micro_finance::all();
+
+        $decaissements = Decaissement::whereDate('date', $request->date)->get();
+
+        return view('decaissement.date', compact('micros','decaissements','date','micros'));
     }
 
     /**
@@ -62,7 +72,7 @@ class EncaissementController extends Controller
      */
     public function show($id)
     {
-        // 
+        //
     }
 
     /**
@@ -73,11 +83,7 @@ class EncaissementController extends Controller
      */
     public function edit($id)
     {
-        $micros = Micro_finance::all();
-
-        $encaissement = Encaissement::where('id', $id)->firstOrFail();
-
-        return view('encaissement.edit', compact('encaissement', 'micros'));
+        //
     }
 
     /**
@@ -89,18 +95,7 @@ class EncaissementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $encaissement = Encaissement::where('id', $id)->firstOrFail();
-
-        $encaissement->update([
-            'micro_finance_id'=>$request->micro_finance_id,
-            'user_id'=>auth()->user()->id,
-            'date'=>$request->date,
-            'nature'=>$request->nature,
-            'montant'=>$request->montant,
-            'observation'=>$request->observation,
-        ]);
-
-        return redirect()->route('encaissement.index');
+        //
     }
 
     /**

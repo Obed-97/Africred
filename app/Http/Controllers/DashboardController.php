@@ -8,6 +8,8 @@ use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Depot;
+use App\Models\Encaissement;
+use App\Models\Decaissement;
 
 use Carbon\Carbon;
 
@@ -59,8 +61,11 @@ class DashboardController extends Controller
             $tontine = Depot::where('type_depot_id', 1)->whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
         }
 
+        $encaissements = Encaissement::whereDate('date', Carbon::today())->get();
+        $decaissements = Decaissement::whereDate('date', Carbon::today())->get();
+
        
-        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents', 'epargne','tontine'));
+        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements'));
     }
 
     /**

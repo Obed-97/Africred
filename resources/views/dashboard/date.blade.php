@@ -53,11 +53,81 @@
             <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">ÉTAT GLOBAL</a></div>
         </div>
        
+         @if (auth()->user()->role_id == 5)
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="media-body overflow-hidden">
+                                            <p class="text-truncate font-size-14 mb-2">Encaissement</p>
+                                            <h4 class="mb-0">{{number_format($encaissements->sum('montant'), 0, ',', ' ')}} CFA</h4>
+                                        </div>
+                                        <div class="text-success">
+                                            <i class="ri-arrow-down-fill font-size-24"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border-top py-3">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="media-body overflow-hidden">
+                                            <p class="text-truncate font-size-14 mb-2">Décaissement</p>
+                                            <h4 class="mb-0">{{number_format($decaissements->sum('montant'), 0, ',', ' ')}} CFA</h4>
+                                        </div>
+                                        <div class="text-danger">
+                                            <i class="ri-arrow-up-fill font-size-24"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border-top py-3">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card bg-success">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="media-body overflow-hidden">
+                                            <p class="text-white font-size-14 mb-2">Caisse</p>
+                                            <h4 class="mb-0 text-white">{{ number_format(($encaissements->sum('montant') - ($decaissements->sum('montant'))), 0, ',', ' ')}} CFA</h4>
+                                        </div>
+                                        <div class="text-white">
+                                            <i class="ri-line-chart-fill font-size-24"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border-top py-3">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- end row -->
+
+                    
+                </div>
+
+            
+            </div>  
+            @else
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
                         
-                       
+                           
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
@@ -181,12 +251,12 @@
                                 <div class="card-body border-top py-3">
                                     <div class="text-truncate">
                                         <span class="text-white ml-2">Nombre clients :</span>
-                                        <span class="badge badge-soft-success font-size-20">0</span>
+                                        <span class="badge badge-soft-success font-size-20">{{count($epargne)}}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="col-md-3">
                             <div class="card bg-secondary">
                                 <div class="card-body">
@@ -203,12 +273,36 @@
                                 <div class="card-body border-top py-3">
                                     <div class="text-truncate">
                                         <span class="text-white ml-2">Nombre clients :</span>
-                                        <span class="badge badge-soft-success font-size-20">0</span>
+                                        <span class="badge badge-soft-success font-size-20">{{count($tontine)}}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                       
+
+                        <div class="col-md-3">
+                            <div class="card bg-success">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="media-body overflow-hidden">
+                                            <p class="text-white font-size-14 mb-2">Caisse</p>
+                                            <h4 class="mb-0 text-white">{{ number_format(($encaissements->sum('montant') - ($decaissements->sum('montant'))), 0, ',', ' ')}} CFA</h4>
+                                        </div>
+                                        <div class="text-white">
+                                            <i class="ri-line-chart-fill font-size-24"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border-top py-3">
+                                    <div class="text-truncate">
+                                        <span class="text-white ml-2">Enc. :</span>
+                                            <span class="badge badge-soft-white text-white font-size-12">{{number_format($encaissements->sum('montant'), 0, ',', ' ')}} CFA</span>
+                                            <span class="text-white ml-2">Déc. :</span>
+                                            <span class="badge badge-soft-white text-white font-size-12">{{number_format($decaissements->sum('montant'), 0, ',', ' ')}} CFA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <!-- end row -->
 
@@ -216,7 +310,8 @@
                 </div>
 
             
-            </div> 
+            </div>  
+            @endif
        
       
         <!-- end row -->

@@ -8,7 +8,8 @@ use App\Models\Recouvrement;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Depot;
-
+use App\Models\Encaissement;
+use App\Models\Decaissement;
 
 class FiltreController extends Controller
 {
@@ -80,9 +81,12 @@ class FiltreController extends Controller
         }else {
             $tontine = Depot::where('type_depot_id', 1)->whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
         }
+
+        $encaissements = Encaissement::whereBetween('date', [$request->fdate, $request->sdate])->get();
+        $decaissements = Decaissement::whereBetween('date', [$request->fdate, $request->sdate])->get();
        
 
-        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents', 'date1', 'date2', 'epargne','tontine'));
+        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents', 'date1', 'date2', 'epargne','tontine','encaissements','decaissements'));
     }
 
     /**

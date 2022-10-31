@@ -19,6 +19,8 @@ use App\Http\Controllers\DepotController;
 use App\Http\Controllers\HistDepotController;
 use App\Http\Controllers\EncaissementController;
 use App\Http\Controllers\DecaissementController;
+use App\Http\Controllers\EtatEncController;
+use App\Http\Controllers\EtatDecController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +53,8 @@ Route::resources([
     '/historique_depot' => HistDepotController::class,
     '/encaissement' => EncaissementController::class,
     '/decaissement' => DecaissementController::class,
+    '/etat_encaissement' => EtatEncController::class,
+    '/etat_decaissement' => EtatDecController::class,
     
 ]);
 
@@ -63,6 +67,9 @@ Route::get('/marche/client', [clientController::class, 'marche'])->name('client.
 Route::post('/retrait', [DepotController::class, 'retrait'])->name('depot.retrait');
 Route::get('/tontine', [DepotController::class, 'tontine'])->name('depot.tontine');
 Route::get('/epargne', [DepotController::class, 'epargne'])->name('depot.epargne');
+
+Route::post('/date_encaissement', [EtatEncController::class, 'date'])->name('etat_encaissement.date');
+Route::post('/date_decaissement', [EtatDecController::class, 'date'])->name('etat_decaissement.date');
 
 
 });

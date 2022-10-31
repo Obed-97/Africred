@@ -28,6 +28,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mb-4" >
+                        <div class="col-xl-4" id="web">
+                           <form  method="POST" action="{{route('etat_encaissement.date')}}" class="d-flex mb-4">
+                               @csrf
+                               <div class="col-xl-6"><input type="date" name="date" class="form-control"></div>
+                               <div class="col-xl-2"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> </div>
+                           </form>
+                        </div>
+                          <div class="col-xl-6" id="web">
+                               <form  method="POST" action="{{route('etat_encaissement.store')}}" class="d-flex mb-4">
+                                   @csrf
+                                   <div class="col-xl-3"><input type="date" name="fdate" class="form-control"></div>
+                                   <div class="col-xl-3"><input type="date" name="sdate"  class="form-control"></div>
+                                   <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
+                               </form>
+                           </div> 
+                           <div class="col-xl-2"><a href="{{route('etat_encaissement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT DU JOUR</a></div>
+                       </div>
                     <!-- end page title -->
     
                     <div class="row">
@@ -41,7 +59,7 @@
                                     </h4>
                                         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog" >
-                                                <form action="#" method="POST" enctype="multipart/form-data">
+                                                <form action="{{route('encaissement.store')}}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -54,7 +72,7 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label class="control-label">Micro-finance</label>
-                                                            <select class="form-control " name="micro-finance" required>
+                                                            <select class="form-control " name="micro_finance_id" required>
                                                                @foreach ($micros as $item)
                                                                  <option value="{{$item->id}}">{{$item->libelle}}</option>
                                                                @endforeach
@@ -70,6 +88,7 @@
                                                             <label class="control-label">Nature</label>
                                                             <select class="form-control " name="nature" required>
                                                                     <option value="Recouvrement journalier">Recouvrement journalier</option>
+                                                                    <option value="Injection capital">Injection capital</option>
                                                                     <option value="Autres">Autres</option>
                                                             </select>
                                                         </div>
@@ -110,17 +129,19 @@
     
     
                                         <tbody>
-                                            <tr>
-                                                <td>10-10-2022</td>
-                                                <td>Recouvrement journalier</td>
-                                                <td>1000 CFA</td>
-                                                <td>AB-FINANCE</td>
-                                                <td class="d-flex">
-                                                    <a href="#" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                    <a href="#" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Voir plus"><i class="mdi mdi-eye font-size-18"></i></a>
-                                                </td>
-                                                
-                                            </tr>
+                                            @foreach ($encaissements as $item)
+                                                <tr>
+                                                    <td>{{(new DateTime($item->date))->format('d-m-Y')}}</td>
+                                                    <td>{{$item->nature}}</td>
+                                                    <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{$item->Micro_finance['libelle']}}</td>
+                                                    <td class="d-flex">
+                                                        <a href="{{route('encaissement.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Voir plus"><i class="mdi mdi-eye font-size-20"></i></a>
+                                                    </td>
+                                                    
+                                                </tr> 
+                                            @endforeach
+                                            
                                         </tbody>
                                     </table>
                                 </div>

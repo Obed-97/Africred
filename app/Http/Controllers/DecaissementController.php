@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Micro_finance;
+use App\Models\Decaissement;
 
 class DecaissementController extends Controller
 {
@@ -15,8 +16,9 @@ class DecaissementController extends Controller
     public function index()
     {
         $micros = Micro_finance::all();
+        $decaissements = Decaissement::all();
         
-        return view('decaissement.index', compact('micros'));
+        return view('decaissement.index', compact('micros','decaissements'));
     }
 
     /**
@@ -37,7 +39,18 @@ class DecaissementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $decaissements = new Decaissement;
+          
+        $decaissements->create([
+            'micro_finance_id'=>$request->micro_finance_id,
+            'user_id'=>auth()->user()->id,
+            'date'=>$request->date,
+            'motif'=>$request->motif,
+            'montant'=>$request->montant,
+            'observation'=>$request->observation,
+        ]);
+
+        return redirect()->route('decaissement.index');
     }
 
     /**
@@ -59,7 +72,11 @@ class DecaissementController extends Controller
      */
     public function edit($id)
     {
-        //
+        $micros = Micro_finance::all();
+
+        $decaissement = Decaissement::where('id', $id)->firstOrFail();
+
+        return view('decaissement.edit', compact('decaissement', 'micros'));
     }
 
     /**
@@ -71,7 +88,18 @@ class DecaissementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $decaissement = Decaissement::where('id', $id)->firstOrFail();
+
+        $decaissement->update([
+            'micro_finance_id'=>$request->micro_finance_id,
+            'user_id'=>auth()->user()->id,
+            'date'=>$request->date,
+            'motif'=>$request->motif,
+            'montant'=>$request->montant,
+            'observation'=>$request->observation,
+        ]);
+
+        return redirect()->route('decaissement.index');
     }
 
     /**
