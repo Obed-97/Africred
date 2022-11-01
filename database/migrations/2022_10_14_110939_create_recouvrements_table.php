@@ -30,6 +30,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('marches')
                 ->onDelete('cascade')->nullable();
+            $table->date('date')->nullable();
             $table->unsignedBigInteger('encours_actualise')->default(0);
             $table->unsignedBigInteger('interet_jrs')->default(0);
             $table->unsignedBigInteger('recouvrement_jrs')->default(0);

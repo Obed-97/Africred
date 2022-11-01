@@ -111,6 +111,9 @@ class EncaissementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $encaissement = Encaissement::findOrFail($id);
+        $encaissement->delete();
+
+        return redirect()->route('encaissement.index');
     }
 }

@@ -115,6 +115,12 @@
                                             </form>
                                             </div>
                                         </div> 
+                                        <div class="row">
+                                            <div class="mb-4 col-xl-4">
+                                                <h4 class="text-success mb-2"><img src="{{asset('assets/images/caisse-enregistreuse.png')}}" height="45" width="45" class="mr-2"> Total : {{number_format($encaissements->sum('montant'), 0, ',', ' ')}} CFA </h4>
+                                                
+                                            </div>
+                                        </div>
                                     
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
@@ -137,6 +143,11 @@
                                                     <td>{{$item->Micro_finance['libelle']}}</td>
                                                     <td class="d-flex">
                                                         <a href="{{route('encaissement.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Voir plus"><i class="mdi mdi-eye font-size-20"></i></a>
+                                                        <form method="POST" action="{{route('encaissement.destroy', $item->id)}}">
+                                                            @csrf
+                                                            {{method_field('DELETE')}}
+                                                        <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
+                                                        </form>
                                                     </td>
                                                     
                                                 </tr> 

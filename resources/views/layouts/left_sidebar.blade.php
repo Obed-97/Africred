@@ -68,6 +68,7 @@
                          Décaissement
                     </a>
                 </li>
+                <li><a href="{{route('banque.index')}}"><i class="ri-bank-fill text-primary"></i> Banque</a></li>
 
             </ul>
             
@@ -123,6 +124,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('encaissement.index')}}"><i class="ri-arrow-down-fill text-success"></i> Encaissement</a></li> 
                         <li><a href="{{route('decaissement.index')}}"><i class="ri-arrow-up-fill text-danger"></i> Décaissement</a></li>
+                        <li><a href="{{route('banque.index')}}"><i class="ri-bank-fill text-primary"></i> Banque</a></li>
                     </ul>
                 </li>
                 @endif

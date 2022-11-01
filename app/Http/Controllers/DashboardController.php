@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Depot;
 use App\Models\Encaissement;
 use App\Models\Decaissement;
+use App\Models\Banque;
 
 use Carbon\Carbon;
 
@@ -64,8 +65,12 @@ class DashboardController extends Controller
         $encaissements = Encaissement::whereDate('date', Carbon::today())->get();
         $decaissements = Decaissement::whereDate('date', Carbon::today())->get();
 
+        $depots = Banque::where('type','Dépôt')->whereDate('date', Carbon::today())->get();
+        $retraits = Banque::where('type','Rétrait')->whereDate('date', Carbon::today())->get();
+
+
        
-        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements'));
+        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

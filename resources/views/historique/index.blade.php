@@ -39,7 +39,6 @@
                                         <thead>
                                             <tr>
                                                 <th>Date</th>
-                                                <th>Heure</th>
                                                 <th>Client</th>
                                                 <th>Encours actualisé</th>
                                                 <th>Intérêt à ce jour</th>
@@ -50,7 +49,9 @@
                                                  <th>Action</th>
                                                @else
                                                  <th>Agent</th>
+                                                 <th>Action</th>
                                                @endif
+                                              
                                             </tr>
                                         </thead>
     
@@ -59,8 +60,7 @@
 
                                             @foreach ($historiques as $item)
                                                 <tr>
-                                                    <td>{{(new DateTime($item->created_at))->format('d-m-Y')}} </td>
-                                                    <td>{{(new DateTime($item->created_at))->format('H:i')}} </td>
+                                                    <td>{{(new DateTime($item->date))->format('d-m-Y')}} </td>
                                                     <td>{{$item->Credit->Client['nom_prenom']}}</td>
                                                     <td>{{number_format($item->encours_actualise, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
@@ -74,8 +74,15 @@
                                                         </td>
                                                     @else
                                                        <td>{{$item->user['nom']}} </td>
+                                                       
+                                                       <td>
+                                                            <form method="POST" action="{{route('historique.destroy', $item->id)}}">
+                                                                @csrf
+                                                                {{method_field('DELETE')}}
+                                                            <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
+                                                            </form>
+                                                       </td>
                                                     @endif
-                                                    
                                                 
                                                 </tr>
                                              @endforeach 

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Depot;
 use App\Models\Encaissement;
 use App\Models\Decaissement;
+use App\Models\Banque;
 
 class FiltreController extends Controller
 {
@@ -46,19 +47,19 @@ class FiltreController extends Controller
 
         $agents = Recouvrement::selectRaw(
             'user_id',)
-         ->groupBy('user_id')->whereBetween('created_at', [$request->fdate, $request->sdate])
+         ->groupBy('user_id')->whereBetween('date', [$request->fdate, $request->sdate])
          ->get();
 
          if (auth()->user()->role_id == 1) {
-            $credits = Credit::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+            $credits = Credit::whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
           }else {
-            $credits = Credit::where('user_id', auth()->user()->id)->whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+            $credits = Credit::where('user_id', auth()->user()->id)->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
           }
 
           if (auth()->user()->role_id == 1) {
-            $recouvrements = Recouvrement::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+            $recouvrements = Recouvrement::whereBetween('date', [$request->fdate, $request->sdate])->get();
           }else {
-            $recouvrements = Recouvrement::where('user_id', auth()->user()->id)->whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+            $recouvrements = Recouvrement::where('user_id', auth()->user()->id)->whereBetween('date', [$request->fdate, $request->sdate])->get();
           }
 
        
@@ -84,9 +85,12 @@ class FiltreController extends Controller
 
         $encaissements = Encaissement::whereBetween('date', [$request->fdate, $request->sdate])->get();
         $decaissements = Decaissement::whereBetween('date', [$request->fdate, $request->sdate])->get();
+
+        $depots = Banque::where('type','Dépôt')->whereBetween('date', [$request->fdate, $request->sdate])->get();
+        $retraits = Banque::where('type','Rétrait')->whereBetween('date', [$request->fdate, $request->sdate])->get();
        
 
-        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents', 'date1', 'date2', 'epargne','tontine','encaissements','decaissements'));
+        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents', 'date1', 'date2', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

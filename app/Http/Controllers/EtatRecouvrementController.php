@@ -28,7 +28,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('user_id')->whereDate('created_at', Carbon::today())
+            ->groupBy('user_id')->whereDate('date', Carbon::today())
             ->get();
 
           }else {
@@ -38,7 +38,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('credit_id')->whereDate('created_at', Carbon::today())
+            ->groupBy('credit_id')->whereDate('date', Carbon::today())
             ->where('user_id', auth()->user()->id)->get();
           }
 
@@ -50,7 +50,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')->whereDate('created_at', Carbon::today())
+            ->groupBy('marche_id')->whereDate('date', Carbon::today())
             ->get();
 
           }else {
@@ -60,7 +60,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')->whereDate('created_at', Carbon::today())
+            ->groupBy('marche_id')->whereDate('date', Carbon::today())
             ->where('user_id', auth()->user()->id)->get();
           }
 
@@ -68,9 +68,9 @@ class EtatRecouvrementController extends Controller
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
-            $total = Recouvrement::whereDate('created_at', Carbon::today())->get();
+            $total = Recouvrement::whereDate('date', Carbon::today())->get();
         } else {
-            $total = Recouvrement::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+            $total = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
         }
 
         return view('recouvrement.jour', compact('credits','recouvrements','total','marches','par_marche'));
@@ -94,7 +94,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')->whereDate('created_at', Carbon::today())
+            ->groupBy('marche_id')->whereDate('date', Carbon::today())
             ->get();
 
           }else {
@@ -104,7 +104,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')->whereDate('created_at', Carbon::today())
+            ->groupBy('marche_id')->whereDate('date', Carbon::today())
             ->where('user_id', auth()->user()->id)->get();
           }
 
@@ -112,9 +112,9 @@ class EtatRecouvrementController extends Controller
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
-            $total = Recouvrement::whereDate('created_at', Carbon::today())->get();
+            $total = Recouvrement::whereDate('date', Carbon::today())->get();
         } else {
-            $total = Recouvrement::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+            $total = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
         }
 
         return view('recouvrement.marche_jr', compact('credits','total','marches','par_marche'));
@@ -138,7 +138,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')->whereBetween('created_at', [$request->fdate, $request->sdate])
+            ->groupBy('marche_id')->whereBetween('date', [$request->fdate, $request->sdate])
             ->get();
 
           }else {
@@ -148,7 +148,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')->whereBetween('created_at', [$request->fdate, $request->sdate])
+            ->groupBy('marche_id')->whereBetween('date', [$request->fdate, $request->sdate])
             ->where('user_id', auth()->user()->id)->get();
           }
 
@@ -156,9 +156,9 @@ class EtatRecouvrementController extends Controller
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
-            $total = Recouvrement::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+            $total = Recouvrement::whereBetween('date', [$request->fdate, $request->sdate])->get();
         } else {
-            $total = Recouvrement::whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
+            $total = Recouvrement::whereBetween('date', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
         }
 
         return view('recouvrement.filtre_marche', compact('credits', 'date1', 'date2', 'total','marches','par_marche'));
@@ -187,7 +187,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('user_id')->whereBetween('created_at', [$request->fdate, $request->sdate])
+            ->groupBy('user_id')->whereBetween('date', [$request->fdate, $request->sdate])
             ->get();
 
           }else {
@@ -197,7 +197,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('credit_id')->whereBetween('created_at', [$request->fdate, $request->sdate])
+            ->groupBy('credit_id')->whereBetween('date', [$request->fdate, $request->sdate])
             ->where('user_id', auth()->user()->id)->get();
           }
 
@@ -209,7 +209,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')->whereBetween('created_at', [$request->fdate, $request->sdate])
+            ->groupBy('marche_id')->whereBetween('date', [$request->fdate, $request->sdate])
             ->get();
 
           }else {
@@ -219,7 +219,7 @@ class EtatRecouvrementController extends Controller
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')->whereBetween('created_at', [$request->fdate, $request->sdate])
+            ->groupBy('marche_id')->whereBetween('date', [$request->fdate, $request->sdate])
             ->where('user_id', auth()->user()->id)->get();
           }
 
@@ -227,9 +227,9 @@ class EtatRecouvrementController extends Controller
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
-            $total = Recouvrement::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+            $total = Recouvrement::whereBetween('date', [$request->fdate, $request->sdate])->get();
         } else {
-            $total = Recouvrement::whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
+            $total = Recouvrement::whereBetween('date', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
         }
 
         return view('recouvrement.filtre', compact('credits','recouvrements', 'date1', 'date2', 'total','marches','par_marche'));

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Depot;
 use App\Models\Encaissement;
 use App\Models\Decaissement;
+use App\Models\Banque;
 
 use Carbon\Carbon;
 
@@ -64,8 +65,12 @@ class EtatGlobalController extends Controller
         $encaissements = Encaissement::get();
         $decaissements = Decaissement::get();
 
+        $depots = Banque::where('type','Dépôt')->get();
+        $retraits = Banque::where('type','Rétrait')->get();
+
+
         
-        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents','epargne','tontine','encaissements','decaissements'));
+        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents','epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**
@@ -90,19 +95,19 @@ class EtatGlobalController extends Controller
 
         $agents = Recouvrement::selectRaw(
             'user_id',)
-         ->groupBy('user_id')->whereDate('created_at', $request->date)
+         ->groupBy('user_id')->whereDate('date', $request->date)
          ->get();
 
          if (auth()->user()->role_id == 1) {
-            $credits = Credit::whereDate('created_at', $request->date)->get();
+            $credits = Credit::whereDate('date_deblocage', $request->date)->get();
           }else {
-            $credits = Credit::whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
+            $credits = Credit::whereDate('date_deblocage', $request->date)->where('user_id', auth()->user()->id)->get();
           }
 
           if (auth()->user()->role_id == 1) {
-            $recouvrements = Recouvrement::whereDate('created_at', $request->date)->get();
+            $recouvrements = Recouvrement::whereDate('date', $request->date)->get();
           }else {
-            $recouvrements = Recouvrement::whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
+            $recouvrements = Recouvrement::whereDate('date', $request->date)->where('user_id', auth()->user()->id)->get();
           }
 
        
@@ -117,7 +122,7 @@ class EtatGlobalController extends Controller
         if (auth()->user()->role_id == 1) {
           $epargne = Depot::where('type_depot_id', 2)->whereDate('created_at', $request->date)->get();
           }else {
-              $epargne = Depot::where('type_depot_id', 2)->whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
+          $epargne = Depot::where('type_depot_id', 2)->whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
           }
 
           if (auth()->user()->role_id == 1) {
@@ -129,9 +134,12 @@ class EtatGlobalController extends Controller
           $encaissements = Encaissement::whereDate('date', $request->date)->get();
           $decaissements = Decaissement::whereDate('date', $request->date)->get();
 
+          $depots = Banque::where('type','Dépôt')->whereDate('date', $request->date)->get();
+          $retraits = Banque::where('type','Rétrait')->whereDate('date', $request->date)->get();
+
        
         
-        return view('dashboard.date', compact('credits', 'recouvrements','agents','clients','agents','date','epargne','tontine','encaissements','decaissements'));
+        return view('dashboard.date', compact('credits', 'recouvrements','agents','clients','agents','date','epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

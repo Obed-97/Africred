@@ -86,6 +86,9 @@ class HistDepotController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $depot = Depot::findOrFail($id);
+        $depot->delete();
+        
+        return redirect()->route('historique_depot.index');
     }
 }

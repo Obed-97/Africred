@@ -155,6 +155,7 @@ class RecouvrementController extends Controller
             'user_id'=> auth()->user()->id,
             'credit_id'=>$request->credit_id,
             'marche_id'=>$request->marche_id,
+            'date'=>$request->date,
             'encours_actualise'=>$encours_actualise,
             'interet_jrs'=>$request->interet_jrs,
             'recouvrement_jrs'=>$request->recouvrement_jrs,

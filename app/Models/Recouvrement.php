@@ -15,6 +15,7 @@ class Recouvrement extends Model
         'user_id',
         'credit_id',
         'marche_id',
+        'date',
         'encours_actualise',
         'interet_jrs',
         'recouvrement_jrs',

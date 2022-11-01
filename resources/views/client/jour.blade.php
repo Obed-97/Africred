@@ -70,7 +70,7 @@
                                                    
                                                     <div class="modal-body">
                                                         <div class="form-group ">
-                                                            <label>N° Carte NINA</label>
+                                                            <label>N° Carte</label>
                                                             <div>
                                                                 <input class="form-control" type="text" name="carte_id"  id="carte_id" >
                                                             </div>
@@ -114,7 +114,7 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>N° Carte NINA</th>
+                                                <th>N° Carte</th>
                                                 <th>Nom & Prénom</th>
                                                 <th>Activité</th>
                                                 <th>Téléphone</th>

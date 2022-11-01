@@ -71,6 +71,13 @@
                                                     </div>
 
                                                     <div class="modal-body">
+                                                        <div class="form-group ">
+                                                            <label>Date</label>
+                                                            <div>
+                                                                <input class="form-control" type="date" name="date"  id="date" required>
+                                                            </div>
+                                                        </div>
+
                                                         <div class="form-group">
                                                             <label class="control-label" name>Client</label>
                                                             <select class="form-control " name="credit_id" required>

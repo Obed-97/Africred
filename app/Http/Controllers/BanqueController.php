@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Banque;
 use App\Models\Micro_finance;
-use App\Models\Decaissement;
 
-class DecaissementController extends Controller
+class BanqueController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,13 @@ class DecaissementController extends Controller
     public function index()
     {
         $micros = Micro_finance::all();
-        $decaissements = Decaissement::all();
-        
-        return view('decaissement.index', compact('micros','decaissements'));
+
+        $banques = Banque::all();
+
+        $depots = Banque::where('type','Dépôt');
+        $retraits = Banque::where('type','Rétrait');
+
+        return view('banque.index',compact('micros','banques','depots','retraits'));
     }
 
     /**
@@ -39,18 +43,18 @@ class DecaissementController extends Controller
      */
     public function store(Request $request)
     {
-        $decaissements = new Decaissement;
+        $banque = new Banque;
           
-        $decaissements->create([
+        $banque->create([
             'micro_finance_id'=>$request->micro_finance_id,
             'user_id'=>auth()->user()->id,
             'date'=>$request->date,
-            'motif'=>$request->motif,
+            'nom_banque'=>$request->nom_banque,
             'montant'=>$request->montant,
-            'observation'=>$request->observation,
+            'type'=>$request->type,
         ]);
 
-        return redirect()->route('decaissement.index');
+        return redirect()->route('banque.index');
     }
 
     /**
@@ -74,9 +78,9 @@ class DecaissementController extends Controller
     {
         $micros = Micro_finance::all();
 
-        $decaissement = Decaissement::where('id', $id)->firstOrFail();
+        $banque = Banque::where('id', $id)->firstOrFail();
 
-        return view('decaissement.edit', compact('decaissement', 'micros'));
+        return view('banque.edit', compact('banque', 'micros'));
     }
 
     /**
@@ -88,18 +92,18 @@ class DecaissementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $decaissement = Decaissement::where('id', $id)->firstOrFail();
+        $banque = Banque::where('id', $id)->firstOrFail();
 
-        $decaissement->update([
+        $banque->update([
             'micro_finance_id'=>$request->micro_finance_id,
             'user_id'=>auth()->user()->id,
             'date'=>$request->date,
-            'motif'=>$request->motif,
+            'nom_banque'=>$request->nom_banque,
             'montant'=>$request->montant,
-            'observation'=>$request->observation,
+            'type'=>$request->type,
         ]);
 
-        return redirect()->route('decaissement.index');
+        return redirect()->route('banque.index');
     }
 
     /**
@@ -110,9 +114,9 @@ class DecaissementController extends Controller
      */
     public function destroy($id)
     {
-        $decaissement = Decaissement::findOrFail($id);
-        $decaissement->delete();
+        $banque = Banque::findOrFail($id);
+        $banque->delete();
 
-        return redirect()->route('decaissement.index');
+        return redirect()->route('banque.index');
     }
 }

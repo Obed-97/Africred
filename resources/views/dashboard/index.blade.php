@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="media">
@@ -78,7 +78,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="media">
@@ -97,8 +97,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="card bg-success">
+                        <div class="col-md-3">
+                            <div class="card bg-primary">
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body overflow-hidden">
@@ -106,7 +106,25 @@
                                             <h4 class="mb-0 text-white">{{ number_format(($encaissements->sum('montant') - ($decaissements->sum('montant'))), 0, ',', ' ')}} CFA</h4>
                                         </div>
                                         <div class="text-white">
-                                            <i class="ri-line-chart-fill font-size-24"></i>
+                                            <i class="ri-coin-line font-size-24"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border-top py-3">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-success">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="media-body overflow-hidden">
+                                            <p class="text-white font-size-14 mb-2">Banque</p>
+                                            <h4 class="mb-0 text-white">{{ number_format(($depots->sum('montant') - ($retraits->sum('montant'))), 0, ',', ' ')}} CFA</h4>
+                                        </div>
+                                        <div class="text-white">
+                                            <i class="ri-bank-fill font-size-24"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -118,6 +136,71 @@
                         
                     </div>
                     <!-- end row -->
+                    <!-- end row -->
+               <!-- start page title -->
+               <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0"> ADMINISTRATION</h4>
+    
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0"> 
+                                
+                            </ol>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="row">
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Nouveaux clients</p>
+                                                <h4 class="mb-0">{{count($clients)}} client(s)</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Nombre total agent de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}} agent(s)</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                           
+                    </div>
+                    <!-- end row -->
+    
+                    
+                </div>
+    
+              
+            </div>
+
 
                     
                 </div>
@@ -282,7 +365,7 @@
                         </div>
 
                         <div class="col-md-3">
-                            <div class="card bg-success">
+                            <div class="card bg-primary">
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body overflow-hidden">
@@ -290,7 +373,7 @@
                                             <h4 class="mb-0 text-white">{{ number_format(($encaissements->sum('montant') - ($decaissements->sum('montant'))), 0, ',', ' ')}} CFA</h4>
                                         </div>
                                         <div class="text-white">
-                                            <i class="ri-line-chart-fill font-size-24"></i>
+                                            <i class="ri-coin-line font-size-24"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -307,17 +390,7 @@
 
                     </div>
                     <!-- end row -->
-
-                    
-                </div>
-
-            
-            </div>  
-            @endif
-           
-       
-      
-        <!-- end row -->
+                    <!-- end row -->
                <!-- start page title -->
                <div class="row">
                 <div class="col-12">
@@ -372,6 +445,24 @@
                                    
                                 </div>
                             </div>
+
+                            <div class="col-md-3" >
+                                <div class="card bg-success">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-white font-size-14 mb-2">Solde bancaire</p>
+                                                <h4 class="mb-0 text-white">{{ number_format(($depots->sum('montant') - ($retraits->sum('montant'))), 0, ',', ' ')}} CFA</h4>
+                                            </div>
+                                            <div class="text-white">
+                                                <i class=" ri-bank-fill font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
                            
                     </div>
                     <!-- end row -->
@@ -381,7 +472,13 @@
     
               
             </div>
-
+            </div>
+        </div>  
+        @endif
+           
+       
+      
+        
     </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->

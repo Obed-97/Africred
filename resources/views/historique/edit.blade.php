@@ -43,6 +43,12 @@
                                              {{method_field('PUT')}}
                                          
                                              <div class="form-group">
+                                                <div class="form-group ">
+                                                    <label  class="control-label">Date</label>
+                                                    <div>
+                                                        <input class="form-control" type="date" value="{{$historique->date}}" name="date"  id="date" required>
+                                                    </div>
+                                                </div>
                                                 <label class="control-label" name>Client</label>
                                                 <select class="form-control " name="credit_id">
                                                     <option value="{{$historique->credit_id}}">{{$historique->Credit->Client['nom_prenom']}} </option>
@@ -53,7 +59,8 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label" name>Client</label>
+                                                
+                                                <label class="control-label" >Marché</label>
                                                 <select class="form-control " name="marche_id">
                                                     <option value="{{$historique->Marche['id']}}">{{$historique->Marche['libelle']}} </option>
                                                    @foreach ($marches as $item)

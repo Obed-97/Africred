@@ -47,6 +47,7 @@
                                             @if (auth()->user()->role_id == 1)
                                                 <th>Opérateur</th>
                                             @endif
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
     
@@ -72,6 +73,13 @@
                                             @if (auth()->user()->role_id == 1)
                                                 <td>{{$item->User['nom']}}</td>  
                                             @endif
+                                            <td>
+                                                <form method="POST" action="{{route('historique_depot.destroy', $item->id)}}">
+                                                    @csrf
+                                                    {{method_field('DELETE')}}
+                                                <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
+                                                </form>
+                                           </td>
                                         </tr>
                                        @endforeach
                                            

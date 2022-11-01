@@ -65,7 +65,7 @@
                                                    
                                                     <div class="modal-body">
                                                         <div class="form-group ">
-                                                            <label>N° Carte NINA</label>
+                                                            <label>N° Carte</label>
                                                             <div>
                                                                 <input class="form-control" type="text" name="carte_id"  id="carte_id" >
                                                             </div>

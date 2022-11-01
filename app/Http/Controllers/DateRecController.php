@@ -52,7 +52,7 @@ class DateRecController extends Controller
               SUM(epargne_jrs) as epargne_jrs,
               SUM(assurance) as assurance,
               SUM(interet_jrs) as interet_jrs')
-          ->groupBy('user_id')->whereDate('created_at', $request->date)
+          ->groupBy('user_id')->whereDate('date', $request->date)
           ->get();
 
         }else {
@@ -62,7 +62,7 @@ class DateRecController extends Controller
               SUM(epargne_jrs) as epargne_jrs,
               SUM(assurance) as assurance,
               SUM(interet_jrs) as interet_jrs')
-          ->groupBy('credit_id')->whereDate('created_at', $request->date)
+          ->groupBy('credit_id')->whereDate('date', $request->date)
           ->where('user_id', auth()->user()->id)->get();
         }
 
@@ -74,7 +74,7 @@ class DateRecController extends Controller
               SUM(epargne_jrs) as epargne_jrs,
               SUM(assurance) as assurance,
               SUM(interet_jrs) as interet_jrs')
-          ->groupBy('marche_id')->whereDate('created_at', $request->date)
+          ->groupBy('marche_id')->whereDate('date', $request->date)
           ->get();
 
         }else {
@@ -84,7 +84,7 @@ class DateRecController extends Controller
               SUM(epargne_jrs) as epargne_jrs,
               SUM(assurance) as assurance,
               SUM(interet_jrs) as interet_jrs')
-          ->groupBy('marche_id')->whereDate('created_at', $request->date)
+          ->groupBy('marche_id')->whereDate('date', $request->date)
           ->where('user_id', auth()->user()->id)->get();
         }
 
@@ -92,9 +92,9 @@ class DateRecController extends Controller
       $marches = Marche::get();
 
       if (auth()->user()->role_id == 1) {
-          $total = Recouvrement::whereDate('created_at', $request->date)->get();
+          $total = Recouvrement::whereDate('date', $request->date)->get();
       } else {
-          $total = Recouvrement::whereDate('created_at', $request->date)->where('user_id', auth()->user()->id)->get();
+          $total = Recouvrement::whereDate('date', $request->date)->where('user_id', auth()->user()->id)->get();
       }
 
       return view('recouvrement.date', compact('credits','recouvrements', 'date', 'total','marches','par_marche'));

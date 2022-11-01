@@ -23,4 +23,9 @@ class Micro_finance extends Model
     {
         return $this->hasMany(Decaissement::class);
     }
+
+    public function Banque()
+    {
+        return $this->hasMany(Banque::class);
+    }
 }

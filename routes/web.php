@@ -21,6 +21,7 @@ use App\Http\Controllers\EncaissementController;
 use App\Http\Controllers\DecaissementController;
 use App\Http\Controllers\EtatEncController;
 use App\Http\Controllers\EtatDecController;
+use App\Http\Controllers\BanqueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,7 @@ Route::resources([
     '/decaissement' => DecaissementController::class,
     '/etat_encaissement' => EtatEncController::class,
     '/etat_decaissement' => EtatDecController::class,
+    '/banque' => BanqueController::class,
     
 ]);
 
