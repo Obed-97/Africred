@@ -42,7 +42,7 @@
                                             <th>Nom complet</th>
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
-                                            <th>Solde</th>
+                                            
                                             <th>Statut</th>
                                             @if (auth()->user()->role_id == 1)
                                                 <th>Opérateur</th>
@@ -60,7 +60,7 @@
                                             <td>{{$item->Client['nom_prenom']}}</td>
                                             <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
-                                            <td>{{number_format($item->solde, 0, ',', ' ')}} CFA</td>
+                                            
                                             @if ((intval($item->depot) - intval($item->retrait)) > 0)
                                                 <td>
                                                     <div class="badge badge-soft-success font-size-12">Solde positif</div>
@@ -73,7 +73,9 @@
                                             @if (auth()->user()->role_id == 1)
                                                 <td>{{$item->User['nom']}}</td>  
                                             @endif
-                                            <td>
+                                            <td class="d-flex">
+                                                <a href="{{route('historique_depot.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
+
                                                 <form method="POST" action="{{route('historique_depot.destroy', $item->id)}}">
                                                     @csrf
                                                     {{method_field('DELETE')}}
