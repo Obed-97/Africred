@@ -25,19 +25,43 @@ class DashboardController extends Controller
     {
         $agents = Recouvrement::selectRaw(
             'user_id',)
-         ->groupBy('user_id')->whereDate('created_at', Carbon::today())
+         ->groupBy('user_id')->whereDate('date', Carbon::today())
          ->get();
 
          if (auth()->user()->role_id == 1) {
-            $credits = Credit::whereDate('created_at', Carbon::today())->get();
+            $credits = Credit::whereDate('date_deblocage', Carbon::today())->get();
           }else {
-            $credits = Credit::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+            $credits = Credit::whereDate('date_deblocage', Carbon::today())->where('user_id', auth()->user()->id)->get();
           }
 
           if (auth()->user()->role_id == 1) {
-            $recouvrements = Recouvrement::whereDate('created_at', Carbon::today())->get();
+            $credits_hier = Credit::whereDate('date_deblocage', Carbon::yesterday())->get();
           }else {
-            $recouvrements = Recouvrement::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
+            $credits_hier = Credit::whereDate('date_deblocage', Carbon::yesterday())->where('user_id', auth()->user()->id)->get();
+          }
+
+          if (auth()->user()->role_id == 1) {
+            $credits_av_hier = Credit::whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
+          }else {
+            $credits_av_hier = Credit::whereDate('date_deblocage', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
+          }
+
+          if (auth()->user()->role_id == 1) {
+            $recouvrements = Recouvrement::whereDate('date', Carbon::today())->get();
+          }else {
+            $recouvrements = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
+          }
+
+          if (auth()->user()->role_id == 1) {
+            $hier = Recouvrement::whereDate('date', Carbon::yesterday())->get();
+          }else {
+            $hier = Recouvrement::whereDate('date', Carbon::yesterday())->where('user_id', auth()->user()->id)->get();
+          }
+
+          if (auth()->user()->role_id == 1) {
+            $avant_hier = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->get();
+          }else {
+            $avant_hier = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
           }
 
        
@@ -70,7 +94,7 @@ class DashboardController extends Controller
 
 
        
-        return view('dashboard.index', compact('credits', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
+        return view('dashboard.index', compact('credits','hier','credits_hier','avant_hier','credits_av_hier', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

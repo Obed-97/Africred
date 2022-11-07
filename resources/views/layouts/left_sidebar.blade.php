@@ -50,7 +50,7 @@
                 <li class="menu-title">Gestion</li>
 
                 <li>
-                    <a href="/" class="waves-effect">
+                    <a href="/index.php" class="waves-effect">
                         <i class="ri-dashboard-fill"></i>
                         <span>Tableau de bord</span>
                     </a>
