@@ -20,7 +20,6 @@ class Etat_actualiseController extends Controller
      */
     public function index()
     {
-       
         $recouvrements = Recouvrement::selectRaw(
             'credit_id,
             SUM(encours_actualise) as encours_actualise,
@@ -28,7 +27,7 @@ class Etat_actualiseController extends Controller
             SUM(epargne_jrs) as epargne_jrs,
             SUM(assurance) as assurance,
             SUM(interet_jrs) as interet_jrs')
-        ->groupBy('credit_id')
+        ->groupBy('credit_id')->where($recouvrements->encours_actualise ,"!=", 0)
         ->get();
 
          

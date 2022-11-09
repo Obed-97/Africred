@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recouvrement;
+use App\Models\Credit;
 
 use Carbon\Carbon;
 
@@ -39,6 +40,8 @@ class ControleController extends Controller
      */
     public function create()
     {
+
+
         $recouvrements = Recouvrement::selectRaw(
             'credit_id,
                 SUM(recouvrement_jrs) as recouvrement_jrs,

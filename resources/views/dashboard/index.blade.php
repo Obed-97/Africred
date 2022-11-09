@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Tableau de bord')
 
 @extends('master')
 
@@ -244,7 +244,7 @@
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body overflow-hidden">
-                                            <p class="text-primary font-size-16 mb-4"><b>Total capital recouvré</b></p>
+                                            <p class="text-black font-size-14 mb-4"><b>Total capital recouvré</b></p>
                                             <div class="row">
                                                 <div class="col-10">
                                                     <p class="mb-2" >Aujourd'hui : <b>{{number_format($recouvrements->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</b></p>
@@ -288,7 +288,7 @@
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body overflow-hidden">
-                                            <p class="text-primary font-size-16 mb-4"><b>Recouvrement intérêt net</b></p>
+                                            <p class="text-black font-size-14 mb-4"><b>Recouvrement intérêt net</b></p>
                                             <div class="row">
                                                 <div class="col-10">
                                                     <p class="mb-2" >Aujourd'hui : <b>{{number_format($recouvrements->sum('interet_jrs'), 0, ',', ' ')}} CFA</b></p>
@@ -333,7 +333,7 @@
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body overflow-hidden">
-                                            <p class="text-primary font-size-16 mb-4"><b>Total frais de déblocage</b></p>
+                                            <p class="text-black font-size-14 mb-4"><b>Total frais de déblocage</b></p>
                                             <div class="row">
                                                 <div class="col-10">
                                                     <p class="mb-2" >Aujourd'hui : <b>{{number_format($credits->sum('frais_deblocage'), 0, ',', ' ')}} CFA</b></p>
@@ -379,7 +379,7 @@
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body overflow-hidden">
-                                            <p class="text-primary font-size-16 mb-4"><b>Total frais de carte</b></p>
+                                            <p class="text-black font-size-14 mb-4"><b>Total frais de carte</b></p>
                                             <div class="row">
                                                 <div class="col-10">
                                                     <p class="mb-2" >Aujourd'hui : <b>{{number_format($credits->sum('frais_carte'), 0, ',', ' ')}} CFA</b></p>
@@ -576,7 +576,7 @@
                                                 <h4 class="mb-0">{{count($marches)}} marché(s)</h4>
                                             </div>
                                             <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
+                                                <i class="ri-store-2-line font-size-24"></i>
                                             </div>
                                         </div>
                                     </div>
