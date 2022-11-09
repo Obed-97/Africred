@@ -22,6 +22,8 @@ use App\Http\Controllers\DecaissementController;
 use App\Http\Controllers\EtatEncController;
 use App\Http\Controllers\EtatDecController;
 use App\Http\Controllers\BanqueController;
+use App\Http\Controllers\Etat_actualiseController;
+use App\Http\Controllers\ControleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +59,8 @@ Route::resources([
     '/etat_encaissement' => EtatEncController::class,
     '/etat_decaissement' => EtatDecController::class,
     '/banque' => BanqueController::class,
+    '/etat_actualise' => Etat_actualiseController::class, 
+    '/controle' => ControleController::class,
     
 ]);
 
@@ -72,6 +76,11 @@ Route::get('/epargne', [DepotController::class, 'epargne'])->name('depot.epargne
 
 Route::post('/date_encaissement', [EtatEncController::class, 'date'])->name('etat_encaissement.date');
 Route::post('/date_decaissement', [EtatDecController::class, 'date'])->name('etat_decaissement.date');
+
+Route::get('/retard/2', [ControleController::class, 'retard2'])->name('retard2');
+Route::get('/retard/3', [ControleController::class, 'retard3'])->name('retard3');
+Route::get('/retard/4', [ControleController::class, 'retard4'])->name('retard4');
+
 
 
 });

@@ -1,80 +1,10 @@
-@if (auth()->user()->role_id == 4)
-   <!-- ========== Left Sidebar Start ========== -->
-<div class="vertical-menu">
 
-    <div data-simplebar class="h-100">
-
-        <!--- Sidemenu -->
-        <div id="sidebar-menu">
-            <!-- Left Menu Start -->
-            <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title">Gestion</li>
-
-                <li>
-                    <a href="/" class="waves-effect">
-                        <i class="ri-dashboard-fill"></i>
-                        <span>Tableau de bord</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{route('depot_caisse.index')}}" class=" waves-effect">
-                        <i class="ri-store-3-line"></i>
-                        <span>Encaissement</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class=" waves-effect">
-                        <i class="ri-file-list-3-fill"></i>
-                        <span>Historique</span>
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-        <!-- Sidebar -->
-    </div>
-</div>
 <!-- Left Sidebar End --> 
-@else
+@if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
 
     <div data-simplebar class="h-100">
-
-        @if (auth()->user()->role_id == 5)
-                <!--- Sidemenu -->
-        <div id="sidebar-menu">
-            <!-- Left Menu Start -->
-            <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title">Gestion</li>
-
-                <li>
-                    <a href="/index.php" class="waves-effect">
-                        <i class="ri-dashboard-fill"></i>
-                        <span>Tableau de bord</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{route('encaissement.index')}}">
-                        <i class="ri-arrow-down-fill text-success"></i> 
-                        <span>Encaissement</span> 
-                    </a>
-                </li> 
-                <li>
-                    <a href="{{route('decaissement.index')}}">
-                        <i class="ri-arrow-up-fill text-danger"></i>
-                         Décaissement
-                    </a>
-                </li>
-                <li><a href="{{route('banque.index')}}"><i class="ri-bank-fill text-primary"></i> Banque</a></li>
-
-            </ul>
-            
-        </div>
-        <!-- Sidebar --> 
-        @else
             <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
@@ -94,14 +24,7 @@
                         <span>Recouvrement</span>
                     </a>
                 </li>
-                {{-- @if (auth()->user()->role_id == 1)
-                    <li>
-                        <a href="{{route('depot_caisse.index')}}" class=" waves-effect">
-                            <i class="ri-store-3-line"></i>
-                            <span>Encaissement</span>
-                        </a>
-                    </li>
-                @endif --}}
+                
                 <li>
                     <a href="{{route('historique.index')}}" class=" waves-effect">
                         <i class="ri-file-list-3-fill"></i>
@@ -138,6 +61,10 @@
                         <li><a href="{{route('etat_encours_global.index')}}"><i class="ri-pushpin-fill"></i> Encours Global SI</a></li> 
                     
                     </ul>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('etat_actualise.index')}}"><i class="ri-pushpin-fill"></i> Encours Global</a></li> 
+                    
+                    </ul>
                     <ul class="sub-menu" aria-expanded="false"> 
                         <li><a href="{{route('depot.index')}}"><i class="ri-database-2-fill "></i> Liste des dépôts</a></li>
                     </ul>
@@ -165,7 +92,7 @@
                         <span>Clientèle</span>
                     </a>
                 
-                </li>
+                </li> 
                 @if (auth()->user()->role_id == 1)
                 <li>
                     <a href="{{route('role.index')}}" class="waves-effect">
@@ -175,16 +102,105 @@
                 
                 </li>
                 @endif
+            </ul>
+        </div>
+        <!-- Sidebar --> 
+    </div>
+</div>
 
+@endif
+
+@if (auth()->user()->role_id == 5)
+<div class="vertical-menu">
+    <div data-simplebar class="h-100">
+                <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title">Gestion</li>
+
+                <li>
+                    <a href="/index.php" class="waves-effect">
+                        <i class="ri-dashboard-fill"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('encaissement.index')}}">
+                        <i class="ri-arrow-down-fill text-success"></i> 
+                        <span>Encaissement</span> 
+                    </a>
+                </li> 
+                <li>
+                    <a href="{{route('decaissement.index')}}">
+                        <i class="ri-arrow-up-fill text-danger"></i>
+                         Décaissement
+                    </a>
+                </li>
+                <li><a href="{{route('banque.index')}}"><i class="ri-bank-fill text-primary"></i> Banque</a></li>
+
+            </ul>
+            
+        </div>
+    </div>
+</div>
+
+@endif
+
+@if (auth()->user()->role_id == 6)
+<div class="vertical-menu">
+    <div data-simplebar class="h-100">
+                <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title">Gestion</li>
+
+                <li>
+                    <a href="/" class="waves-effect">
+                        <i class="ri-dashboard-fill"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('controle.index')}}">
+                        <i class="ri-calendar-check-fill"></i> 
+                        <span>Recouvrement</span> 
+                    </a>
+                </li> 
+                <li>
+                    <a href="{{route('controle.create')}}">
+                        <i class="ri-team-fill text-success"></i>
+                        <span>Retard J-J</span> 
+                    </a>
+                </li> 
+                <li>
+                    <a href="{{route('retard2')}}">
+                        <i class="ri-team-fill text-secondary"></i>
+                        <span>Retard J-1</span> 
+                    </a>
+                </li> 
+                <li>
+                    <a href="{{route('retard3')}}">
+                        <i class="ri-team-fill text-warning"></i>
+                        <span>Retard J-2</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('retard4')}}">
+                        <i class="ri-team-fill text-danger"></i>
+                        <span>Retard J-3</span> 
+                    </a>
+                </li>  
+                
                 
 
             </ul>
             
         </div>
-        <!-- Sidebar --> 
-        @endif
-       
     </div>
 </div>
-<!-- Left Sidebar End -->
+
 @endif
