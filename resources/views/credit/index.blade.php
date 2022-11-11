@@ -137,6 +137,7 @@
                                                 <th>Montant</th>
                                                 <th>Date de déblocage</th>
                                                 <th>Date de fin</th>
+                                                <th>Nombre de jours</th>
                                                 <th>Intérêt</th>
                                                 <th>Frais de déblocage</th>
                                                 <th>Frais de carte</th>
@@ -157,6 +158,8 @@
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     <td>{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
+                                                    <td>{{\Carbon\Carbon::createMidnightDate($item->date_deblocage)->diffInDays($item->date_fin)}} jours</td>
+
                                                     <td>{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}}CFA</td>
                                                     <td>{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>

@@ -27,7 +27,7 @@ class Etat_actualiseController extends Controller
             SUM(epargne_jrs) as epargne_jrs,
             SUM(assurance) as assurance,
             SUM(interet_jrs) as interet_jrs')
-        ->groupBy('credit_id')->where($recouvrements->encours_actualise ,"!=", 0)
+        ->groupBy('credit_id')
         ->get();
 
          

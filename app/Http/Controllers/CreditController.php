@@ -18,9 +18,12 @@ class CreditController extends Controller
     {
         if (auth()->user()->role_id == 1) {
             $credits = Credit::get();
+
           }else {
             $credits = Credit::where('user_id', auth()->user()->id)->get();
           }
+
+        
 
         $clients = Client::where('user_id', auth()->user()->id)->get();
 

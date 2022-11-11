@@ -49,7 +49,7 @@
                                                 <th>Capital à ce jour</th>
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
-                                                <th>Assurance</th>
+                                                <th>Jour restant</th>
                                                 <th>Statut de payement</th>
                                                 
                                             </tr>
@@ -66,7 +66,14 @@
                                                     <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+
+                                                    @if (\Carbon\Carbon::now() < $item->Credit['date_fin'])
+                                                        <td class="text-success font-size-15">{{\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin'])}} jours</td>
+                                                    @else
+                                                        <td class="text-danger font-size-15">Délai expiré </td>
+                                                    @endif
+
+
                                                     @if ((intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) == 0)
                                                         <td>
                                                             <div class="badge badge-soft-success font-size-12">Terminé</div>
