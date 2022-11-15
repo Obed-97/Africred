@@ -102,18 +102,17 @@
                                                         </div>
 
                                                         <div class="form-group ">
-                                                            <label>Intérêt</label>
-                                                            <div>
-                                                                <input class="form-control" type="number" name="interet_jrs"  id="interet_jrs" required>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group ">
                                                             <label>Capital</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="recouvrement_jrs"  id="recouvrement_jrs" required>
                                                             </div>
                                                          </div>
+                                                        <div class="form-group ">
+                                                            <label>Intérêt</label>
+                                                            <div>
+                                                                <input class="form-control" type="number" name="interet_jrs"  id="interet_jrs" required>
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group ">
                                                             <label>Epargne</label>
                                                             <div>
