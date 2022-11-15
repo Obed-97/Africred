@@ -79,20 +79,22 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="control-label" name>Client</label>
-                                                            <select class="form-control " name="credit_id" required>
-                                                               @foreach ($credits as $item)
+                                                            <label class="control-label">Client</label>
+                                                            <select class="form-control select2" name="client_id">
+                                                                @foreach ($credits as $item)
                                                                 <option value="{{$item->id}}">{{$item->Client['nom_prenom']}} </option>
                                                                @endforeach
                                                             </select>
+                                                            
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="control-label" name>Marché</label>
-                                                            <select class="form-control " name="marche_id" required>
-                                                               @foreach ($marches as $item)
+                                                            <label class="control-label">Marché</label>
+                                                            <select class="form-control select2" name="marche_id">
+                                                                @foreach ($marches as $item)
                                                                 <option value="{{$item->id}}">{{$item->libelle}} </option>
                                                                @endforeach
                                                             </select>
+                                                            
                                                         </div>
                                                        
 

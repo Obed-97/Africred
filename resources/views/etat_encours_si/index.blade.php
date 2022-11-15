@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Encours Global S.I')
 
 @extends('master')
 
@@ -38,11 +38,16 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
-                                            <th>Nom complet</th>
+                                            <th>Client</th>
+                                            <th>Marché</th>
                                             <th>Capital encours</th>
                                             <th>Capital recouvré</th>
-                                            <th>Solde</th><i class="fas fa-engine-warning"></i>
-                                            <th>Statut</th>
+                                            <th>Solde</th>
+                                            <th>Délai</th>
+                                            <th>Statut de payement</th>
+                                            @if(auth()->user()->role_id == 1)
+                                            <th>Agent</th>
+                                            @endif
 
                                         </tr>
                                         </thead>
@@ -52,17 +57,36 @@
                                             @foreach ($credits as $item)
                                                 <tr>
                                                     <td>{{$item->Client['nom_prenom']}}</td>
+                                                    <td>{{$item->Marche['libelle']}}</td>
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->totalRecouv(), 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format(($item->solde($item->montant)), 0, ',', ' ')}} CFA</td>
+                                                    @if(($item->solde($item->montant)) < 0)
+                                                    <td class="text-danger">{{number_format(($item->solde($item->montant)), 0, ',', ' ')}} CFA (Erreur)</td>
+                                                    @elseif(($item->solde($item->montant)) == 0)
+                                                    <td class="text-success">{{number_format(($item->solde($item->montant)), 0, ',', ' ')}} CFA -- Terminé</td>
+                                                    @else
+                                                    <td >{{number_format(($item->solde($item->montant)), 0, ',', ' ')}} CFA</td>
+                                                    @endif
+                                                    
+                                                    @if ((\Carbon\Carbon::now() < $item->date_fin) && (\Carbon\Carbon::now()->diffInDays($item->date_fin) != 0))
+                                                        <td class="text-success font-size-15">Dans {{\Carbon\Carbon::now()->diffInDays($item->date_fin)}} jrs</td>
+                                                    @elseif(\Carbon\Carbon::now()->diffInDays($item->date_fin) == 0)
+                                                        <td class="text-primary font-size-15">Aujourd'hui </td>
+                                                    @else
+                                                        <td class="text-danger font-size-15">Expiré </td>
+                                                    @endif
+                                                    
                                                     @if (($item->solde($item->montant)) == 0)
                                                     <td>
-                                                        <div class="badge badge-soft-success font-size-12">Capital soldé</div>
+                                                        <div class="badge badge-soft-success font-size-12">Soldé</div>
                                                         </td>  
                                                     @else
                                                         <td>
-                                                            <div class="badge badge-soft-danger font-size-12">Non soldé</div>
+                                                            <div class="badge badge-soft-warning font-size-12">Encours</div>
                                                         </td>
+                                                    @endif
+                                                    @if(auth()->user()->role_id == 1)
+                                                        <td>{{$item->User['nom']}}</td>
                                                     @endif
                                                 </tr>
                                              @endforeach

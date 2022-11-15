@@ -69,20 +69,23 @@
 
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label class="control-label" name>Bénéficiaire</label>
-                                                            <select class="form-control " name="client_id">
-                                                               @foreach ($clients as $item)
-                                                                <option value="{{$item->id}}">{{$item->nom_prenom}} </option>
+                                                            <label class="control-label">Bénéficiaire</label>
+                                                            <select class="form-control select2" name="client_id">
+                                                                @foreach ($clients as $item)
+                                                                <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
                                                                @endforeach
                                                             </select>
+                                                            
                                                         </div>
+
                                                         <div class="form-group">
-                                                            <label class="control-label" name>Marché</label>
-                                                            <select class="form-control " name="marche_id">
-                                                               @foreach ($marches as $item)
-                                                                <option value="{{$item->id}}">{{$item->libelle}}</option>
+                                                            <label class="control-label">Marché</label>
+                                                            <select class="form-control select2" name="marche_id">
+                                                                @foreach ($marches as $item)
+                                                                <option value="{{$item->id}}">{{$item->libelle}} </option>
                                                                @endforeach
                                                             </select>
+                                                            
                                                         </div>
 
                                                         <div class="form-group ">

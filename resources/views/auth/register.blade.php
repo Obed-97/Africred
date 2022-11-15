@@ -20,10 +20,8 @@
     </head>
 
     <body class="auth-body-bg">
-        <div class="home-btn d-none d-sm-block">
-            <a href="{{route('register')}}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
-        </div>
-        <div>
+        
+        <div style="background-image: url('assets/images/sea-3052592_1920.jpg')">
             <div class="container-fluid p-0">
                 <div class="row no-gutters">
                     <div class="col-lg-4">

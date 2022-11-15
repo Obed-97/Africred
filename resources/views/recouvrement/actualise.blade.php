@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Recouvrement')
 
 @extends('master')
 
@@ -44,13 +44,17 @@
                                         <thead>
                                             <tr>
                                                 <th>Client</th>
-                                                <th>Marché</th>
-                                                <th>Encours actualisé</th>
+                                                <td>Marché</td>
+                                                <th>Capital & Intérêt</th>
                                                 <th>Capital à ce jour</th>
                                                 <th>Intérêt à ce jour</th>
-                                                <th>Epargne à ce jour</th>
-                                                <th>Jour restant</th>
+                                                <th>Encours global</th>
+                                                <th>Date limite</th>
+                                                <th>Jours restant</th>
                                                 <th>Statut de payement</th>
+                                                @if(auth()->user()->role_id == 1)
+                                                <th>Agent</th>
+                                                @endif
                                                 
                                             </tr>
 
@@ -61,20 +65,36 @@
                                             @foreach ($recouvrements as $item)
                                                 <tr>
                                                     <td>{{$item->Credit->Client['nom_prenom']}}</td>
-                                                    <td>{{$item->Credit->Client->Marche['libelle']}}</td>
-                                                    <td>{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA</td>
+                                                    <td>{{$item->Credit->Marche['libelle']}}</td>
+                                                    <td>{{number_format($item->Credit['montant_interet'], 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
-
-                                                    @if (\Carbon\Carbon::now() < $item->Credit['date_fin'])
+                                                    
+                                                    @if (intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) == 0 )
+                                                    
+                                                    <td class="text-success">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA -- Terminé</td>
+                                                    
+                                                    @elseif(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) < 0 )
+                                                    
+                                                    <td class="text-danger">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA (Erreur)</td>
+                                                    
+                                                    @else
+                                                    
+                                                    <td >{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA</td>
+                                                    @endif
+                                                    
+                                                    
+                                                    <td>{{(new DateTime($item->Credit['date_fin']))->format('d-m-Y')}} </td>
+                                                    
+                                                    @if ((\Carbon\Carbon::now() < $item->Credit['date_fin']) && (\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) != 0))
                                                         <td class="text-success font-size-15">{{\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin'])}} jours</td>
+                                                    @elseif(\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) == 0)
+                                                        <td class="text-primary font-size-15">Aujourd'hui </td>
                                                     @else
                                                         <td class="text-danger font-size-15">Délai expiré </td>
                                                     @endif
-
-
-                                                    @if ((intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) == 0)
+                                                    
+                                                    @if ((intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) == 0 || (intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) < 0)
                                                         <td>
                                                             <div class="badge badge-soft-success font-size-12">Terminé</div>
                                                         </td>  
@@ -84,6 +104,9 @@
                                                         </td>
                                                     @endif
                                                     
+                                                    @if(auth()->user()->role_id == 1)
+                                                    <td>{{$item->Credit->User['nom']}}</td>
+                                                    @endif
 
                                                 </tr>
                                             @endforeach
@@ -135,16 +158,16 @@
                                                 <td class="text-success">{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
                                             </tr>
                                             <tr>
-                                                <td>Intérêt net</td>
+                                                <td>Capital restant</td>
+                                                <td class="text-danger">{{number_format(($credits->sum('montant')) - ($total->sum('recouvrement_jrs')), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Intérêt recouvré</td>
                                                 <td class="text-success">{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
                                             </tr>
                                             <tr>
-                                                <td>Épargne</td>
-                                                <td class="text-success">{{number_format($total->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Assurance</td>
-                                                <td class="text-success">{{number_format($total->sum('assurance'), 0, ',', ' ')}} CFA</td>
+                                                <td>Intérêt restant</td>
+                                                <td class="text-danger">{{number_format(($credits->sum('interet')) - ($total->sum('interet_jrs')) , 0, ',', ' ')}} CFA</td>
                                             </tr>
                                                 
                                         </tbody>

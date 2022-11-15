@@ -6,7 +6,6 @@
         <meta charset="utf-8" />
         <title>Bienvenue à AFRICRED</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}">
     
@@ -20,8 +19,8 @@
     </head>
 
     <body class="auth-body-bg">
-        
-        <div style="background-image: url('assets/images/bg.jpg')">
+       
+        <div style="background-image: url('assets/images/sea-3052592_1920.jpg')">
             <div class="container-fluid p-0">
                 <div class="row no-gutters">
                     <div class="col-lg-4">
@@ -41,6 +40,14 @@
                                                 <h4 class="font-size-18 mt-4">Bienvenue à AFRICRED !</h4>
                                                 <p class="text-muted">Connectez-vous pour commencer.</p>
                                             </div>
+                                            @if($errors)
+                                                @foreach($errors->all() as $errors)
+                                                    <div class="alert alert-danger">
+                                                         <li> {{$errors}}</li>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                           
 
                                             <div class="p-2 mt-5">
                                                 <form class="form-horizontal" method="POST" action="{{ route('login') }}">
@@ -49,7 +56,7 @@
                                                     <div class="form-group auth-form-group-custom mb-4">
                                                         <i class="ri-mail-line auti-custom-input-icon"></i>
                                                         <label for="email">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre email">
+                                                        <input type="email" class="form-control" id="email" name="email" required  placeholder="Entrez votre email">
                                                     </div>
                             
                                                     <div class="form-group auth-form-group-custom mb-4" >

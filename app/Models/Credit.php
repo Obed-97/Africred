@@ -42,10 +42,22 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs');
     }
+    
+    public function totalIntreret()
+    {
+        return $this->hasMany(Recouvrement::class)->sum('interet_jrs');
+    }
+    
+    public function encours($montant_interet)
+    {
+       $e = ($montant_interet - ($this->hasMany(Recouvrement::class)->sum('recouvrement_jrs') + $this->hasMany(Recouvrement::class)->sum('interet_jrs')));
+
+       return intval($e);
+    }
 
     public function solde($montant_credit)
     {
-       $s = abs($montant_credit - $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs'));
+       $s = ($montant_credit - $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs'));
 
        return intval($s);
     }

@@ -244,18 +244,18 @@
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body overflow-hidden">
-                                            <p class="text-black font-size-14 mb-4"><b>Total capital recouvré</b></p>
+                                            <p class="text-black font-size-14 mb-4"><b>Recouvrement capital</b></p>
                                             <div class="row">
                                                 <div class="col-10">
-                                                    <p class="mb-2" >Aujourd'hui : <b>{{number_format($recouvrements->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hier : <b>{{number_format($hier->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2" > &nbsp;Avant-hier : <b>{{number_format($avant_hier->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > Aujourd'hui : <b>{{number_format($recouvrements->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hier : <b>{{number_format($hier->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > &nbsp; Avant-hier : <b>{{number_format($avant_hier->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</b></p>
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($recouvrements->sum('recouvrement_jrs')) < ($hier->sum('recouvrement_jrs')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
                                                     @elseif(($recouvrements->sum('recouvrement_jrs')) == ($hier->sum('recouvrement_jrs')))
-                                                        <i class="ri-arrow-right-line text-primary font-size-15"></i> 
+                                                        <i class="ri-arrow-right-line text-primary font-size-15"></i> <br/>
                                                     @else
                                                         <i class="ri-arrow-up-fill text-success font-size-15"></i> 
                                                     @endif
@@ -291,15 +291,15 @@
                                             <p class="text-black font-size-14 mb-4"><b>Recouvrement intérêt net</b></p>
                                             <div class="row">
                                                 <div class="col-10">
-                                                    <p class="mb-2" >Aujourd'hui : <b>{{number_format($recouvrements->sum('interet_jrs'), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hier : <b>{{number_format($hier->sum('interet_jrs'), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2" > &nbsp;Avant-hier : <b>{{number_format($avant_hier->sum('interet_jrs'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > Aujourd'hui : <b>{{number_format($recouvrements->sum('interet_jrs'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hier : <b>{{number_format($hier->sum('interet_jrs'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > &nbsp; Avant-hier : <b>{{number_format($avant_hier->sum('interet_jrs'), 0, ',', ' ')}} CFA</b></p>
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($recouvrements->sum('interet_jrs')) < ($hier->sum('interet_jrs')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
                                                     @elseif(($recouvrements->sum('interet_jrs')) == ($hier->sum('interet_jrs')))
-                                                        <i class="ri-arrow-right-line text-primary font-size-15"></i> 
+                                                        <i class="ri-arrow-right-line text-primary font-size-15"></i> <br/>
                                                     @else
                                                         <i class="ri-arrow-up-fill text-success font-size-15"></i> 
                                                     @endif
@@ -336,15 +336,15 @@
                                             <p class="text-black font-size-14 mb-4"><b>Total frais de déblocage</b></p>
                                             <div class="row">
                                                 <div class="col-10">
-                                                    <p class="mb-2" >Aujourd'hui : <b>{{number_format($credits->sum('frais_deblocage'), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hier : <b>{{number_format($credits_hier->sum('frais_deblocage'), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2" > &nbsp;Avant-hier : <b>{{number_format($credits_av_hier->sum('frais_deblocage'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > Aujourd'hui : <b>{{number_format($credits->sum('frais_deblocage'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hier : <b>{{number_format($credits_hier->sum('frais_deblocage'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > &nbsp; Avant-hier : <b>{{number_format($credits_av_hier->sum('frais_deblocage'), 0, ',', ' ')}} CFA</b></p>
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($credits->sum('frais_deblocage')) < ($credits_hier->sum('frais_deblocage')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
                                                     @elseif(($credits->sum('frais_deblocage')) == ($credits_hier->sum('frais_deblocage')))
-                                                        <i class="ri-arrow-right-line text-primary font-size-15"></i> 
+                                                        <i class="ri-arrow-right-line text-primary font-size-15"></i> <br/>
                                                     @else
                                                         <i class="ri-arrow-up-fill text-success font-size-15"></i> 
                                                     @endif
@@ -382,15 +382,15 @@
                                             <p class="text-black font-size-14 mb-4"><b>Total frais de carte</b></p>
                                             <div class="row">
                                                 <div class="col-10">
-                                                    <p class="mb-2" >Aujourd'hui : <b>{{number_format($credits->sum('frais_carte'), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hier : <b>{{number_format($credits_hier->sum('frais_carte'), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2" > &nbsp;Avant-hier : <b>{{number_format($credits_av_hier->sum('frais_carte'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > Aujourd'hui : <b>{{number_format($credits->sum('frais_carte'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hier : <b>{{number_format($credits_hier->sum('frais_carte'), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2" > &nbsp; Avant-hier : <b>{{number_format($credits_av_hier->sum('frais_carte'), 0, ',', ' ')}} CFA</b></p>
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($credits->sum('frais_carte')) < ($credits_hier->sum('frais_carte')))
-                                                    <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                    <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
                                                     @elseif(($credits->sum('frais_carte')) == ($credits_hier->sum('frais_carte')))
-                                                        <i class="ri-arrow-right-line text-primary font-size-15"></i> 
+                                                        <i class="ri-arrow-right-line text-primary font-size-15"></i> <br/>
                                                     @else
                                                         <i class="ri-arrow-up-fill text-success font-size-15"></i> 
                                                     @endif
@@ -631,10 +631,10 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">Retard de paiement du jour</p>
+                                    <p class="text-black font-size-16 mb-2">Retard J-J</p>
                                     <h4 class="mb-0">{{number_format($encaissements->sum('montant'), 0, ',', ' ')}} Clients</h4>
                                 </div>
-                                <div class="text-success">
+                                <div class="text-primary">
                                     <i class="ri-team-fill font-size-24"></i>
                                 </div>
                             </div>
@@ -650,7 +650,7 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">Retard de paiement hier</p>
+                                    <p class="text-black font-size-16 mb-2">Retard J-1</p>
                                     <h4 class="mb-0">{{number_format($decaissements->sum('montant'), 0, ',', ' ')}} Clients</h4>
                                 </div>
                                 <div class="text-secondary">
@@ -669,7 +669,7 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">Retard de paiement avant-hier</p>
+                                    <p class="text-black font-size-16 mb-2">Retard J-2</p>
                                     <h4 class="mb-0">{{number_format($decaissements->sum('montant'), 0, ',', ' ')}} Clients</h4>
                                 </div>
                                 <div class="text-warning">
@@ -688,7 +688,7 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">Retard de paiement J-3</p>
+                                    <p class="text-black font-size-16 mb-2">Retard J-3</p>
                                     <h4 class="mb-0">{{number_format($decaissements->sum('montant'), 0, ',', ' ')}} Clients</h4>
                                 </div>
                                 <div class="text-danger">
@@ -701,13 +701,8 @@
                         </div>
                     </div>
                 </div>
-                
-                
+            
             </div>
-            <!-- end row -->
-            <!-- end row -->
-      
-
 </div> <!-- container-fluid -->
 </div>
 <!-- End Page-content -->

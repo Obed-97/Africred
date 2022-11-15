@@ -90,11 +90,12 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
-                                                            <select class="form-control " name="marche_id">
+                                                            <select class="form-control select2" name="marche_id">
                                                                 @foreach ($marches as $item)
-                                                                    <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                                                @endforeach
+                                                                <option value="{{$item->id}}">{{$item->libelle}} </option>
+                                                               @endforeach
                                                             </select>
+                                                            
                                                         </div>
                                                       
                                                     </div>

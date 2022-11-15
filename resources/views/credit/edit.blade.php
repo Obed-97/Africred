@@ -43,22 +43,23 @@
                                              {{method_field('PUT')}}
                                          
                                                 <div class="form-group">
-                                                    <label class="control-label" name>Bénéficiaire</label>
-                                                    <select class="form-control " name="client_id">
-                                                        <option value="{{$credit->client_id}}">{{$credit->Client['nom_prenom']}} </option>
-                                                    @foreach ($clients as $item)
-                                                        <option value="{{$item->id}}">{{$item->nom_prenom}} </option>
+                                                    <label class="control-label">Bénéficiaire</label>
+                                                    <select class="form-control select2" name="client_id">
+                                                        @foreach ($clients as $item)
+                                                        <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
                                                     @endforeach
                                                     </select>
+                                                    
                                                 </div>
+
                                                 <div class="form-group">
-                                                    <label class="control-label" name>Marché</label>
-                                                    <select class="form-control " name="marche_id">
-                                                        <option value="{{$credit->marche_id}}">{{$credit->Marche['libelle']}}</option>
-                                                       @foreach ($marches as $item)
-                                                        <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                                       @endforeach
+                                                    <label class="control-label">Marché</label>
+                                                    <select class="form-control select2" name="marche_id">
+                                                        @foreach ($marches as $item)
+                                                        <option value="{{$item->id}}">{{$item->libelle}} </option>
+                                                    @endforeach
                                                     </select>
+                                                    
                                                 </div>
                                                 <div class="form-group ">
                                                     <label>Montant</label>

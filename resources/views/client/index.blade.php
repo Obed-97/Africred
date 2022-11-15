@@ -91,11 +91,12 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
-                                                            <select class="form-control " name="marche_id">
+                                                            <select class="form-control select2" name="marche_id">
                                                                 @foreach ($marches as $item)
-                                                                    <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                                                @endforeach
+                                                                <option value="{{$item->id}}">{{$item->libelle}} </option>
+                                                               @endforeach
                                                             </select>
+                                                            
                                                         </div>
                                                       
                                                     </div>
@@ -145,7 +146,6 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>N° Carte</th>
                                                 <th>Nom & Prénom</th>
                                                 <th>Activité</th>
                                                 <th>Téléphone</th>
@@ -162,7 +162,6 @@
                                         <tbody>
                                         @foreach ($clients as $item)
                                             <tr>
-                                                <td>{{$item->carte_id}}</td>
                                                 <td>{{$item->nom_prenom}}</td>
                                                 <td>{{$item->activite}}</td>
                                                 <td>{{$item->telephone}}</td>
