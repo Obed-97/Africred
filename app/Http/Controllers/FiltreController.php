@@ -11,6 +11,9 @@ use App\Models\Depot;
 use App\Models\Encaissement;
 use App\Models\Decaissement;
 use App\Models\Banque;
+use App\Models\Marche;
+
+
 
 class FiltreController extends Controller
 {
@@ -88,9 +91,11 @@ class FiltreController extends Controller
 
         $depots = Banque::where('type','Dépôt')->whereBetween('date', [$request->fdate, $request->sdate])->get();
         $retraits = Banque::where('type','Rétrait')->whereBetween('date', [$request->fdate, $request->sdate])->get();
+        
+        $marches = Marche::all();
        
 
-        return view('filtre.index', compact('credits', 'recouvrements','agents','clients','agents', 'date1', 'date2', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
+        return view('filtre.index', compact('marches','credits', 'recouvrements','agents','clients','agents', 'date1', 'date2', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

@@ -11,6 +11,8 @@ use App\Models\Depot;
 use App\Models\Encaissement;
 use App\Models\Decaissement;
 use App\Models\Banque;
+use App\Models\Marche;
+
 
 use Carbon\Carbon;
 
@@ -67,10 +69,12 @@ class EtatGlobalController extends Controller
 
         $depots = Banque::where('type','Dépôt')->get();
         $retraits = Banque::where('type','Rétrait')->get();
+        
+        $marches = Marche::all();
 
 
         
-        return view('etat_global.index', compact('credits', 'recouvrements','agents','clients','agents','epargne','tontine','encaissements','decaissements','depots','retraits'));
+        return view('etat_global.index', compact('marches','credits', 'recouvrements','agents','clients','agents','epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**
@@ -136,10 +140,12 @@ class EtatGlobalController extends Controller
 
           $depots = Banque::where('type','Dépôt')->whereDate('date', $request->date)->get();
           $retraits = Banque::where('type','Rétrait')->whereDate('date', $request->date)->get();
+          
+          $marches = Marche::all();
 
        
         
-        return view('dashboard.date', compact('credits', 'recouvrements','agents','clients','agents','date','epargne','tontine','encaissements','decaissements','depots','retraits'));
+        return view('dashboard.date', compact('marches','credits', 'recouvrements','agents','clients','agents','date','epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

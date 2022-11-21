@@ -9,9 +9,6 @@ use App\Models\Client;
 use App\Models\Recouvrement;
 use App\Models\Marche;
 
-use Carbon\Carbon;
-
-
 class RecouvrementController extends Controller
 {
     /**
@@ -43,30 +40,6 @@ class RecouvrementController extends Controller
                 SUM(assurance) as assurance,
                 SUM(interet_jrs) as interet_jrs')
             ->groupBy('credit_id')
-            ->where('user_id', auth()->user()->id)->get();
-          }
-
-          $jour = null;
-
-          if (auth()->user()->role_id == 1) {
-            $jour = Recouvrement::selectRaw(
-               'user_id,
-                SUM(encours_actualise) as encours_actualise,
-                SUM(recouvrement_jrs) as recouvrement_jrs,
-                SUM(epargne_jrs) as epargne_jrs,
-                SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
-            ->groupBy('user_id')->whereDate('date', Carbon::today())
-            ->get();
-
-          }else {
-            $jour = Recouvrement::selectRaw(
-            'credit_id,
-                SUM(recouvrement_jrs) as recouvrement_jrs,
-                SUM(epargne_jrs) as epargne_jrs,
-                SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
-            ->groupBy('credit_id')->whereDate('date', Carbon::today())
             ->where('user_id', auth()->user()->id)->get();
           }
 
@@ -104,7 +77,7 @@ class RecouvrementController extends Controller
         
        
 
-        return view('recouvrement.index', compact('credits','jour','recouvrements','marches','total','par_marche'));
+        return view('recouvrement.index', compact('credits','recouvrements','marches','total','par_marche'));
     }
 
     /**
@@ -170,13 +143,7 @@ class RecouvrementController extends Controller
 
         $credit = Credit::where('id', $request->credit_id)->first();
 
-        $encours_actualise = abs((intval($credit->montant_interet)) -
-
-        (intval($recouInteret) +
-        intval($recouCapital) +
-        intval($request->interet_jrs) +
-        intval($request->recouvrement_jrs)
-        ));
+        $encours_actualise =  abs((intval($credit->montant_interet)) - (intval($recouInteret) + intval($recouCapital) + intval($request->interet_jrs) + intval($request->recouvrement_jrs)));
 
         $recouvrement->create([
             'user_id'=> auth()->user()->id,

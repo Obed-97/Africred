@@ -65,6 +65,50 @@ class DateRecController extends Controller
           ->groupBy('credit_id')->whereDate('date', $request->date)
           ->where('user_id', auth()->user()->id)->get();
         }
+        
+        if (auth()->user()->role_id == 1) {
+          $hier = Recouvrement::selectRaw(
+             'user_id,
+              SUM(encours_actualise) as encours_actualise,
+              SUM(recouvrement_jrs) as recouvrement_jrs,
+              SUM(epargne_jrs) as epargne_jrs,
+              SUM(assurance) as assurance,
+              SUM(interet_jrs) as interet_jrs')
+          ->groupBy('user_id')->whereDate('date', Carbon::createMidnightDate($request->date)->subDays(1))
+          ->get();
+
+        }else {
+          $hier = Recouvrement::selectRaw(
+          'credit_id,
+              SUM(recouvrement_jrs) as recouvrement_jrs,
+              SUM(epargne_jrs) as epargne_jrs,
+              SUM(assurance) as assurance,
+              SUM(interet_jrs) as interet_jrs')
+          ->groupBy('credit_id')->whereDate('date', Carbon::createMidnightDate($request->date)->subDays(1))
+          ->where('user_id', auth()->user()->id)->get();
+        }
+        
+         if (auth()->user()->role_id == 1) {
+          $avant_hier = Recouvrement::selectRaw(
+             'user_id,
+              SUM(encours_actualise) as encours_actualise,
+              SUM(recouvrement_jrs) as recouvrement_jrs,
+              SUM(epargne_jrs) as epargne_jrs,
+              SUM(assurance) as assurance,
+              SUM(interet_jrs) as interet_jrs')
+          ->groupBy('user_id')->whereDate('date', Carbon::createMidnightDate($request->date)->subDays(2))
+          ->get();
+
+        }else {
+          $avant_hier = Recouvrement::selectRaw(
+          'credit_id,
+              SUM(recouvrement_jrs) as recouvrement_jrs,
+              SUM(epargne_jrs) as epargne_jrs,
+              SUM(assurance) as assurance,
+              SUM(interet_jrs) as interet_jrs')
+          ->groupBy('credit_id')->whereDate('date', Carbon::createMidnightDate($request->date)->subDays(2))
+          ->where('user_id', auth()->user()->id)->get();
+        }
 
         if (auth()->user()->role_id == 1) {
           $par_marche = Recouvrement::selectRaw(
@@ -96,8 +140,20 @@ class DateRecController extends Controller
       } else {
           $total = Recouvrement::whereDate('date', $request->date)->where('user_id', auth()->user()->id)->get();
       }
+      
+      if (auth()->user()->role_id == 1) {
+          $total_hier = Recouvrement::whereDate('date', Carbon::createMidnightDate($request->date)->subDays(1))->get();
+      } else {
+          $total_hier = Recouvrement::whereDate('date', Carbon::createMidnightDate($request->date)->subDays(1))->where('user_id', auth()->user()->id)->get();
+      }
+      
+      if (auth()->user()->role_id == 1) {
+          $total_j_2 = Recouvrement::whereDate('date', Carbon::createMidnightDate($request->date)->subDays(2))->get();
+      } else {
+          $total_j_2 = Recouvrement::whereDate('date', Carbon::createMidnightDate($request->date)->subDays(2))->where('user_id', auth()->user()->id)->get();
+      }
 
-      return view('recouvrement.date', compact('credits','recouvrements', 'date', 'total','marches','par_marche'));
+      return view('recouvrement.date', compact('credits','recouvrements','hier','avant_hier', 'total_hier','total_j_2', 'date', 'total','marches','par_marche'));
     }
 
     /**

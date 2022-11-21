@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Recouvrement')
 
 @extends('master')
 
@@ -45,7 +45,7 @@
                                    <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                                </form>
                            </div> 
-                           <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
+                           <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
                        </div>
                    
             
@@ -77,19 +77,26 @@
                                                                 <input class="form-control" type="date" name="date"  id="date" required>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
+                                                       <div class="form-group">
                                                             <label class="control-label">Client</label>
-                                                            <select class="form-control select2" name="client_id">
+                                                            <select class="form-control select2" name="credit_id" required>
                                                                 @foreach ($credits as $item)
-                                                                <option value="{{$item->id}}">{{$item->Client['nom_prenom']}} </option>
+                                                                <option value="{{$item->id}}">
+                                                                    {{$item->Client['nom_prenom']}} -- {{number_format($item->montant_interet, 0, ',', ' ')}} CFA --
+                                                                    @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                                        <div class="text-success font-size-12">Payé</div>
+                                                                    @else
+                                                                        <div class="text-danger font-size-12">Encours</div>
+                                                                    @endif
+                                                                </option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
-                                                            <select class="form-control select2" name="marche_id">
-                                                                @foreach ($marches as $item)
+                                                            <select class="form-control select2" name="marche_id" required>
+                                                               @foreach ($marches as $item)
                                                                 <option value="{{$item->id}}">{{$item->libelle}} </option>
                                                                @endforeach
                                                             </select>
@@ -132,6 +139,7 @@
                                             </form>
                                             </div>
                                         </div>
+                                        
                                         <div class="row">
                                             <div class="mb-4 col-xl-4">
                                                 
@@ -165,6 +173,7 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
+                                                <th class="text-success">Total</th>
                                                
                                             </tr>
                                             @endif
@@ -197,14 +206,69 @@
                                                     </tr>
                                                 @endforeach
                                             @else
-                                               @foreach ($recouvrements as $item)
-                                                    <tr>
+                                               @forelse ($recouvrements as $item)
+                                                    <tr style="background-color: #1cbb8c;; color: white ">
                                                         <td>{{$item->User['nom']}}</td>
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+                                                        <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
+                                                        
 
+                                                    </tr>
+                                                @empty
+                                                    <tr style="background-color: #1cbb8c;; color: white ">
+                                                        <td>Alou Konaté</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td >0 CFA</td>
+                                                        
+
+                                                    </tr>
+                                                    <tr style="background-color: #1cbb8c;; color: white ">
+                                                        <td>Awa Diallo</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td >0 CFA</td>
+                                                        
+
+                                                    </tr>
+                                                    <tr style="background-color: #1cbb8c;; color: white ">
+                                                        <td>Awa Tounkara</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td>0 CFA</td>
+                                                        <td >0 CFA</td>
+                                                        
+
+                                                    </tr>
+                                                @endforelse
+                                                @foreach ($hier as $item)
+                                                    <tr>
+                                                        <td>{{$item->User['nom']}}  <div class="badge badge-soft-danger font-size-12">J-1</div></td>
+                                                        <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+                                                        <td class="text-success">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
+                                                        
+
+                                                    </tr>
+                                                @endforeach
+                                                @foreach ($avant_hier as $item)
+                                                    <tr>
+                                                        <td>{{$item->User['nom']}}  <div class="badge badge-soft-danger font-size-12">J-2</div></td>
+                                                        <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+                                                        <td class="text-success">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
                                                         
 
                                                     </tr>
@@ -248,7 +312,7 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
-                                               
+                                               <th class="text-success">Total</th>
                                             </tr>
                                             @endif
 
@@ -277,7 +341,7 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-
+                                                        <td class="text-success">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
                                                         
 
                                                     </tr>
@@ -307,11 +371,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                   <div class="row" id="web">
                         <div class="col-4">
                             <div class="card">
                                 <div class="card-body">
-                                      
+                                     <div class="badge badge-soft-success font-size-18 mb-4">J-J = {{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') ), 0, ',', ' ')}} CFA</div> 
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr style="font-size: 16px">
@@ -346,6 +410,85 @@
                                 </div>
                             </div>
                         </div> <!-- end col -->
+                        @if(auth()->user()->role_id == 1)
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-body">
+                                     <div class="badge badge-soft-primary font-size-18 mb-4">J-1 = {{number_format(($total_hier->sum('recouvrement_jrs') + $total_hier->sum('interet_jrs') + $total_hier->sum('epargne_jrs') + $total_hier->sum('assurance') ), 0, ',', ' ')}} CFA</div>
+                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            <tr style="font-size: 16px">
+                                                <th><b>Désignations</b> </th>
+                                                <th><b>Total</b> </th>
+                                                
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                            <tr>
+                                                <td>Capital recouvré</td>
+                                                <td class="text-primary">{{number_format($total_hier->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Intérêt net</td>
+                                                <td class="text-primary">{{number_format($total_hier->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Épargne</td>
+                                                <td class="text-primary">{{number_format($total_hier->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Assurance</td>
+                                                <td class="text-primary">{{number_format($total_hier->sum('assurance'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                                
+                                        </tbody>
+                                    </table>
+                                   
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                        
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-body">
+                                     <div class="badge badge-soft-danger font-size-18 mb-4">J-2 = {{number_format(($total_j_2->sum('recouvrement_jrs') + $total_j_2->sum('interet_jrs') + $total_j_2->sum('epargne_jrs') + $total_j_2->sum('assurance') ), 0, ',', ' ')}} CFA</div>
+                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            <tr style="font-size: 16px">
+                                                <th><b>Désignations</b> </th>
+                                                <th><b>Total</b> </th>
+                                                
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                            <tr>
+                                                <td>Capital recouvré</td>
+                                                <td class="text-danger">{{number_format($total_j_2->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Intérêt net</td>
+                                                <td class="text-danger">{{number_format($total_j_2->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Épargne</td>
+                                                <td class="text-danger">{{number_format($total_j_2->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Assurance</td>
+                                                <td class="text-danger">{{number_format($total_j_2->sum('assurance'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                                
+                                        </tbody>
+                                    </table>
+                                   
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                        @endif
                     </div>
                 </div> <!-- container-fluid -->
             </div>

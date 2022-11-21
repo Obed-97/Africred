@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Tableau de bord')
 
 @extends('master')
 
@@ -226,9 +226,29 @@
                <div class="row">
                    <div class="col-xl-12">
                        <div class="row">
-                           
+                           <div class="col-md-4">
+                               <div class="card bg-primary">
+                                   <div class="card-body">
+                                       <div class="media">
+                                           <div class="media-body overflow-hidden">
+                                               <p class="text-white font-size-14 mb-2">Total Recouvrement & Frais</p>
+                                               <h4 class="mb-0 text-white">{{number_format(($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte') ), 0, ',', ' ')}} CFA</h4>
+                                           </div>
+                                           <div class="text-white">
+                                               <i class=" ri-scales-line  font-size-24"></i>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="card-body border-top py-3">
+                                       <div class="text-white">
+                                           <span class="text-white ml-2">Agents en charge :</span>
+                                           <span class="badge badge-soft-success font-size-20">{{count($agents)}} </span>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
                               
-                           <div class="col-md-3">
+                           <div class="col-md-4">
                                <div class="card">
                                    <div class="card-body">
                                        <div class="media">
@@ -249,16 +269,58 @@
                                    </div>
                                </div>
                            </div>
+                           <div class="col-md-4">
+                               <div class="card">
+                                   <div class="card-body">
+                                       <div class="media">
+                                           <div class="media-body overflow-hidden">
+                                               <p class="text-truncate font-size-14 mb-2">Total intérêt net recouvré</p>
+                                               <h4 class="mb-0">{{number_format($recouvrements->sum('interet_jrs'), 0, ',', ' ')}} CFA</h4>
+                                           </div>
+                                           <div class="text-primary">
+                                               <i class=" ri-calendar-check-line font-size-24"></i>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="card-body border-top py-3">
+                                       <div class="text-truncate">
+                                           <span class="text-muted ml-2">Agents en charge :</span>
+                                           <span class="badge badge-soft-success font-size-20">{{count($agents)}} </span>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
                            <div class="col-md-3">
                                <div class="card">
                                    <div class="card-body">
                                        <div class="media">
                                            <div class="media-body overflow-hidden">
-                                               <p class="text-truncate font-size-14 mb-2">Recouvrement intérêt net</p>
-                                               <h4 class="mb-0">{{number_format($recouvrements->sum('interet_jrs'), 0, ',', ' ')}} CFA</h4>
+                                               <p class="text-truncate font-size-14 mb-2">Total épargne recouvrée</p>
+                                               <h4 class="mb-0">{{number_format($recouvrements->sum('epargne_jrs'), 0, ',', ' ')}} CFA</h4>
                                            </div>
                                            <div class="text-primary">
-                                               <i class=" ri-calendar-check-line font-size-24"></i>
+                                               <i class="ri-funds-line font-size-24"></i>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="card-body border-top py-3">
+                                       <div class="text-truncate">
+                                           <span class="text-muted ml-2">Agents en charge :</span>
+                                           <span class="badge badge-soft-success font-size-20">{{count($agents)}} </span>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="col-md-3">
+                               <div class="card">
+                                   <div class="card-body">
+                                       <div class="media">
+                                           <div class="media-body overflow-hidden">
+                                               <p class="text-truncate font-size-14 mb-2">Total assurance recouvrée</p>
+                                               <h4 class="mb-0">{{number_format($recouvrements->sum('assurance'), 0, ',', ' ')}} CFA</h4>
+                                           </div>
+                                           <div class="text-primary">
+                                               <i class="ri-vip-crown-line font-size-24"></i>
                                            </div>
                                        </div>
                                    </div>
@@ -380,7 +442,7 @@
                            </div>
    
                            <div class="col-md-3">
-                               <div class="card bg-primary">
+                               <div class="card bg-info">
                                    <div class="card-body">
                                        <div class="media">
                                            <div class="media-body overflow-hidden">
@@ -426,40 +488,57 @@
                <div class="row">
                    <div class="col-xl-12">
                        <div class="row">
-                               <div class="col-md-3" >
-                                   <div class="card">
-                                       <div class="card-body">
-                                           <div class="media">
-                                               <div class="media-body overflow-hidden">
-                                                   <p class="text-truncate font-size-14 mb-2">Nouveaux clients</p>
-                                                   <h4 class="mb-0">{{count($clients)}} client(s)</h4>
-                                               </div>
-                                               <div class="text-primary">
-                                                   <i class=" ri-team-line font-size-24"></i>
-                                               </div>
-                                           </div>
-                                       </div>
-       
-                                      
-                                   </div>
-                               </div>
-                               <div class="col-md-3" >
-                                   <div class="card">
-                                       <div class="card-body">
-                                           <div class="media">
-                                               <div class="media-body overflow-hidden">
-                                                   <p class="text-truncate font-size-14 mb-2">Nombre total agent de terrain</p>
-                                                   <h4 class="mb-0">{{count($agents)}} agent(s)</h4>
-                                               </div>
-                                               <div class="text-primary">
-                                                   <i class=" ri-team-line font-size-24"></i>
-                                               </div>
-                                           </div>
-                                       </div>
-       
-                                      
-                                   </div>
-                               </div>
+                                 <div class="col-md-2" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Nouveaux clients</p>
+                                                <h4 class="mb-0">{{count($clients)}} client(s)</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-2" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Agent de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}} agent(s)</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-2" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Marché</p>
+                                                <h4 class="mb-0">{{count($marches)}} marché(s)</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class="ri-store-2-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
    
                                <div class="col-md-3" >
                                 <div class="card bg-info">

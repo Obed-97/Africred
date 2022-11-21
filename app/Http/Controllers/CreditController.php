@@ -106,7 +106,7 @@ class CreditController extends Controller
     {
         $credit = new Credit;
 
-        $interet = ($request->montant + 0) * 0.2;
+        $interet = ($request->montant + 0) * ($request->taux + 0);
 
         $frais_deblocage = 0;
 

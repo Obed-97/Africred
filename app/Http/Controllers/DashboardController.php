@@ -13,6 +13,7 @@ use App\Models\Decaissement;
 use App\Models\Banque;
 use App\Models\Marche;
 
+
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -92,12 +93,12 @@ class DashboardController extends Controller
 
         $depots = Banque::where('type','Dépôt')->whereDate('date', Carbon::today())->get();
         $retraits = Banque::where('type','Rétrait')->whereDate('date', Carbon::today())->get();
-
+        
         $marches = Marche::all();
 
 
        
-        return view('dashboard.index', compact('credits','marches','hier','credits_hier','avant_hier','credits_av_hier', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
+        return view('dashboard.index', compact('marches','credits','hier','credits_hier','avant_hier','credits_av_hier', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

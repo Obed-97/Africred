@@ -77,7 +77,7 @@
                                                     @endif
                                                     
                                                     @if (($item->solde($item->montant)) == 0 || ($item->solde($item->montant)) < 0)
-                                                    <td>
+                                                        <td>
                                                         <div class="badge badge-soft-success font-size-12">Soldé</div>
                                                         </td>  
                                                     @else

@@ -42,7 +42,7 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs');
     }
-    
+     
     public function totalIntreret()
     {
         return $this->hasMany(Recouvrement::class)->sum('interet_jrs');

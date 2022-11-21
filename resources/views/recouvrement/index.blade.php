@@ -169,8 +169,6 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
-                                                
-                                               
                                             </tr>
                                             @endif
 
@@ -201,14 +199,15 @@
 
                                                     </tr>
                                                 @endforeach
-                                            @else
-                                               @foreach ($recouvrements as $item)
+                                                @else
+                                                @foreach ($recouvrements as $item)
                                                     <tr>
                                                         <td>{{$item->User['nom']}}</td>
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+                                                       
                                                     </tr>
                                                 @endforeach
                                             @endif

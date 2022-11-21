@@ -19,7 +19,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('recouvrement.index')}}" class=" waves-effect">
+                    <a href="{{route('etat_recouvrement.index')}}" class=" waves-effect">
                         <i class="ri-calendar-check-fill"></i>
                         <span>Recouvrement</span>
                     </a>

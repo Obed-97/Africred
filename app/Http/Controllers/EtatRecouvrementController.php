@@ -41,6 +41,50 @@ class EtatRecouvrementController extends Controller
             ->groupBy('credit_id')->whereDate('date', Carbon::today())
             ->where('user_id', auth()->user()->id)->get();
           }
+          
+          if (auth()->user()->role_id == 1) {
+            $hier = Recouvrement::selectRaw(
+               'user_id,
+                SUM(encours_actualise) as encours_actualise,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('user_id')->whereDate('date', Carbon::yesterday())
+            ->get();
+
+          }else {
+            $hier = Recouvrement::selectRaw(
+            'credit_id,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('credit_id')->whereDate('date', Carbon::now()->subDays(2))
+            ->where('user_id', auth()->user()->id)->get();
+          }
+          
+          if (auth()->user()->role_id == 1) {
+            $avant_hier = Recouvrement::selectRaw(
+               'user_id,
+                SUM(encours_actualise) as encours_actualise,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('user_id')->whereDate('date', Carbon::now()->subDays(2))
+            ->get();
+
+          }else {
+            $avant_hier = Recouvrement::selectRaw(
+            'credit_id,
+                SUM(recouvrement_jrs) as recouvrement_jrs,
+                SUM(epargne_jrs) as epargne_jrs,
+                SUM(assurance) as assurance,
+                SUM(interet_jrs) as interet_jrs')
+            ->groupBy('credit_id')->whereDate('date', Carbon::yesterday())
+            ->where('user_id', auth()->user()->id)->get();
+          }
 
           if (auth()->user()->role_id == 1) {
             $par_marche = Recouvrement::selectRaw(
@@ -63,8 +107,10 @@ class EtatRecouvrementController extends Controller
             ->groupBy('marche_id')->whereDate('date', Carbon::today())
             ->where('user_id', auth()->user()->id)->get();
           }
-
+        
+      
         $credits = Credit::where('user_id', auth()->user()->id)->get();
+   
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
@@ -72,8 +118,20 @@ class EtatRecouvrementController extends Controller
         } else {
             $total = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
         }
+        
+        if (auth()->user()->role_id == 1) {
+            $total_hier = Recouvrement::whereDate('date', Carbon::yesterday())->get();
+        } else {
+            $total_hier = Recouvrement::whereDate('date', Carbon::yesterday())->where('user_id', auth()->user()->id)->get();
+        }
+        
+        if (auth()->user()->role_id == 1) {
+            $total_j_2 = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->get();
+        } else {
+            $total_j_2 = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
+        }
 
-        return view('recouvrement.jour', compact('credits','recouvrements','total','marches','par_marche'));
+        return view('recouvrement.jour', compact( 'credits','hier','total_hier','total_j_2','avant_hier','recouvrements','total','marches','par_marche'));
     }
 
     /**

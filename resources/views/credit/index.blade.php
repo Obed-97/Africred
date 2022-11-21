@@ -89,6 +89,17 @@
                                                                 <input class="form-control" type="number" name="montant"  id="montant" required>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Taux d'intérêt</label>
+                                                            <select class="form-control " name="taux">
+                                                                <option value="0.2">20%</option>
+                                                                <option value="0.15">15%</option>
+                                                                <option value="0.1">10%</option>
+                                                                <option value="0.05">5%</option>
+                                                                
+                                                            </select>
+                                                            
+                                                        </div>
                                                         <div class="form-group ">
                                                             <label>Date de déblocage</label>
                                                             <div>
@@ -156,7 +167,7 @@
 
                                             @foreach ($credits as $item)
                                                 <tr>
-                                                    <td>{{$item->Client['nom_prenom']}}</td>
+                                                    <td >{{$item->Client['nom_prenom']}}</td>
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     <td>{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
@@ -171,21 +182,21 @@
                                                     @endif
 
                                                     <td class="d-flex">
-                                                        @if (auth()->user()->role_id == 2)
+                                                        
                                                         <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                        @endif
-                                                        @if (auth()->user()->role_id == 1)
-                                                            <form method="POST" action="{{route('credit.destroy', $item->id)}}">
-                                                                @csrf
-                                                                {{method_field('DELETE')}}
-                                                            <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                                            </form>
-                                                        @endif
+                                                        
+                                                        <form method="POST" action="{{route('credit.destroy', $item->id)}}">
+                                                            @csrf
+                                                            {{method_field('DELETE')}}
+                                                        <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
+                                                        </form>
+                                                        
 
                                                     </td>
 
                                                 </tr>
                                              @endforeach
+                                             
 
                                         </tbody>
                                     </table>
