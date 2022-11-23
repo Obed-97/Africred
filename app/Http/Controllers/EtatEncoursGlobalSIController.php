@@ -23,10 +23,16 @@ class EtatEncoursGlobalSIController extends Controller
           }else {
             $credits = Credit::where('user_id', auth()->user()->id)->get();
           }
-
+    
+        if (auth()->user()->role_id == 1) {
+            $total = Recouvrement::get();
+        } else {
+            $total = Recouvrement::where('user_id', auth()->user()->id)->get();
+        }
+        
         $clients = Client::where('user_id', auth()->user()->id)->get();
 
-        return view('etat_encours_si.index', compact('clients','credits'));
+        return view('etat_encours_si.index', compact('clients','credits','total'));
     }
 
     /**

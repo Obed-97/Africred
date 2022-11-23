@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Recouvrement')
 
 @extends('master')
 
@@ -71,34 +71,39 @@
                                                     </div>
 
                                                     <div class="modal-body">
-                                                        
-
                                                         <div class="form-group ">
                                                             <label>Date</label>
                                                             <div>
                                                                 <input class="form-control" type="date" name="date"  id="date" required>
                                                             </div>
                                                         </div>
-
+                                                        
                                                         <div class="form-group">
                                                             <label class="control-label">Client</label>
-                                                            <select class="form-control select2" name="client_id">
+                                                            <select class="form-control select2" name="credit_id" required>
                                                                 @foreach ($credits as $item)
-                                                                <option value="{{$item->id}}">{{$item->Client['nom_prenom']}} </option>
+                                                                <option value="{{$item->id}}">
+                                                                    {{$item->Client['nom_prenom']}} -- {{number_format($item->montant_interet, 0, ',', ' ')}} CFA --
+                                                                    @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                                        <div class="text-success font-size-12">Payé</div>
+                                                                    @else
+                                                                        <div class="text-danger font-size-12">Encours</div>
+                                                                    @endif
+                                                                </option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
-                                                            <select class="form-control select2" name="marche_id">
-                                                                @foreach ($marches as $item)
+                                                            <select class="form-control select2" name="marche_id" required>
+                                                               @foreach ($marches as $item)
                                                                 <option value="{{$item->id}}">{{$item->libelle}} </option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
-                                                        <div class="form-group ">
+                                                         <div class="form-group ">
                                                             <label>Capital</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="recouvrement_jrs"  id="recouvrement_jrs" required>
@@ -110,7 +115,8 @@
                                                                 <input class="form-control" type="number" name="interet_jrs"  id="interet_jrs" required>
                                                             </div>
                                                         </div>
-                                                        
+
+                                                       
                                                         <div class="form-group ">
                                                             <label>Epargne</label>
                                                             <div>
@@ -135,6 +141,12 @@
                                             </div>
                                         </div>
                                     <div class="row">
+                                        <div class="mb-4 col-xl-8">
+                                            <h4 class="text-success mb-2"> Total = {{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')), 0, ',', ' ')}} CFA </h4>
+                                             
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="mb-4 col-xl-4">
                                             <label for="">Afficher par :</label>
                                             @if (auth()->user()->role_id == 2)
@@ -154,12 +166,15 @@
                                                 <tr>
                                                     <th>Client</th>
                                                     <th>Marché</th>
+                                                    <th>Montant & Intérêt</th>
                                                     <th>Encours actualisé</th>
                                                     <th>Capital à ce jour</th>
                                                     <th>Intérêt à ce jour</th>
                                                     <th>Epargne à ce jour</th>
                                                     <th>Assurance</th>
-                                                    <th>Statut de payement</th>
+                                                    <th>Jours restant</th>
+                                                    <th>Statut</th>
+                                                    
                                                     
                                                 </tr>
                                             @else
@@ -169,6 +184,11 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
+                                                <th style="background-color: #5664d2; color:white">Frais déblocage</th>
+                                                <th style="background-color: #5664d2; color:white">Frais carte</th>
+                                                <th style="background-color: #1cbb8c;; color: white ">Total</th>
+                                                
+                                               
                                             </tr>
                                             @endif
 
@@ -181,11 +201,26 @@
                                                     <tr>
                                                         <td>{{$item->Credit->Client['nom_prenom']}}</td>
                                                         <td>{{$item->Credit->Client->Marche['libelle']}}</td>
+                                                        <td>{{number_format(($item->Credit['montant_interet']), 0, ',', ' ')}} CFA</td>
+                                                        @if(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) < 0)
+                                                        <td class="text-danger">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA (Erreur)</td>
+                                                        @elseif(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) == 0)
+                                                        <td class="text-success">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA -- Terminé</td>
+                                                        @else
                                                         <td>{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA</td>
+                                                        @endif
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
-                                                        <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>                                                  
+                                                        @if ((\Carbon\Carbon::now() < $item->Credit['date_fin']) && (\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) != 0))
+                                                            <td class="text-success font-size-15">{{\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin'])}} jours</td>
+                                                        @elseif(\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) == 0)
+                                                            <td class="text-primary font-size-15">Aujourd'hui </td>
+                                                        @else
+                                                            <td class="text-danger font-size-15">Expiré </td>
+                                                        @endif
+                                                        
                                                         @if ((intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) == 0)
                                                             <td>
                                                                 <div class="badge badge-soft-success font-size-12">Terminé</div>
@@ -196,18 +231,23 @@
                                                             </td>
                                                         @endif
                                                         
+                                                       
+                                                        
 
                                                     </tr>
                                                 @endforeach
-                                                @else
-                                                @foreach ($recouvrements as $item)
+                                            @else
+                                               @foreach ($recouvrements as $item)
                                                     <tr>
                                                         <td>{{$item->User['nom']}}</td>
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-                                                       
+                                                        <td>{{number_format($item->getFraisDeblocage($item->user_id), 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->getFraisCarte($item->user_id), 0, ',', ' ')}} CFA</td>
+                                                        <td class="text-success">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->getFraisDeblocage($item->user_id) + $item->getFraisCarte($item->user_id)) , 0, ',', ' ')}} CFA</td>
+
                                                     </tr>
                                                 @endforeach
                                             @endif
@@ -225,7 +265,7 @@
                       <!-- start page title -->
                       <div id="web">
                       <div class="row">
-                        <div class="col-12">
+                        <div class="col-12"> 
                             <div class="page-title-box d-flex align-items-center justify-content-between">
                                 <h4 class="mb-0 text-success">STATISTIQUES  </h4>
 
@@ -269,6 +309,14 @@
                                             <tr>
                                                 <td>Assurance</td>
                                                 <td class="text-success">{{number_format($total->sum('assurance'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Frais déblocage</td>
+                                                <td class="text-success">{{number_format($credits->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Frais carte</td>
+                                                <td class="text-success">{{number_format($credits->sum('frais_carte'), 0, ',', ' ')}} CFA</td>
                                             </tr>
                                                 
                                         </tbody>

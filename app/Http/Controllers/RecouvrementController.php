@@ -65,8 +65,12 @@ class RecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
 
-
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        if (auth()->user()->role_id == 1) {
+            $credits = Credit::get();
+        } else {
+            $credits = Credit::where('user_id', auth()->user()->id)->get();
+        }
+        
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
@@ -143,7 +147,13 @@ class RecouvrementController extends Controller
 
         $credit = Credit::where('id', $request->credit_id)->first();
 
-        $encours_actualise =  abs((intval($credit->montant_interet)) - (intval($recouInteret) + intval($recouCapital) + intval($request->interet_jrs) + intval($request->recouvrement_jrs)));
+        $encours_actualise = abs((intval($credit->montant_interet)) -
+
+        (intval($recouInteret) +
+        intval($recouCapital) +
+        intval($request->interet_jrs) +
+        intval($request->recouvrement_jrs)
+        ));
 
         $recouvrement->create([
             'user_id'=> auth()->user()->id,

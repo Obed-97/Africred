@@ -18,12 +18,9 @@ class CreditController extends Controller
     {
         if (auth()->user()->role_id == 1) {
             $credits = Credit::get();
-
           }else {
             $credits = Credit::where('user_id', auth()->user()->id)->get();
           }
-
-        
 
         $clients = Client::where('user_id', auth()->user()->id)->get();
 
@@ -179,7 +176,7 @@ class CreditController extends Controller
     {
         $credit = Credit::where('id', $id)->firstOrFail();
 
-        $interet = ($request->montant + 0) * 0.2;
+        $interet = ($request->montant + 0) * ($request->taux + 0);
 
         $frais_deblocage = 0;
 

@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Déblocage')
 
 @extends('master')
 
@@ -88,6 +88,17 @@
                                                                 <input class="form-control" type="number" name="montant"  id="montant" required>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Taux d'intérêt</label>
+                                                            <select class="form-control " name="taux">
+                                                                <option value="0.2">20%</option>
+                                                                <option value="0.15">15%</option>
+                                                                <option value="0.1">10%</option>
+                                                                <option value="0.05">5%</option>
+                                                                
+                                                            </select>
+                                                            
+                                                        </div>
                                                         <div class="form-group ">
                                                             <label>Date de déblocage</label>
                                                             <div>
@@ -128,6 +139,7 @@
                                                 <th>Frais de déblocage</th>
                                                 <th>Frais de carte</th>
                                                 <th>Montant & Intérêt</th>
+                                                <th>Statut</th>
                                                     @if (auth()->user()->role_id == 1)
                                                         <th>Agent </th>
                                                     @endif
@@ -148,6 +160,15 @@
                                                     <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}}CFA</td>
                                                     <td>{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                    <td>
+                                                        <div class="badge badge-soft-success font-size-12">Payé</div>
+                                                        </td>  
+                                                    @else
+                                                        <td>
+                                                            <div class="badge badge-soft-warning font-size-12">Encours</div>
+                                                        </td>
+                                                    @endif
                                                     @if (auth()->user()->role_id == 1)
                                                         <td>{{$item->User['nom']}}</td>
                                                     @endif

@@ -36,10 +36,13 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title text-right mb-4">
-                                       
-                                    </h4>
-                                       
+                                    
+                                    <div class="row">
+                                        <div class="mb-4 col-xl-8">
+                                            <h4 class="text-success mb-2"> Total = {{number_format(($credits->sum('montant_interet') - ($total->sum('recouvrement_jrs') + $total->sum('interet_jrs'))), 0, ',', ' ')}} CFA </h4>
+                                            
+                                        </div>
+                                    </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
@@ -115,12 +118,8 @@
                                 </div>
                             </div>
                         </div> <!-- end col -->
-                        
-                         
                     </div> <!-- end row -->
-                  
 
-                    
                       <!-- start page title -->
                       <div id="web">
                       <div class="row">

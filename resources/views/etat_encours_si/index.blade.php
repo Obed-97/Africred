@@ -34,7 +34,12 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-
+                                    <div class="row">
+                                        <div class="mb-4 col-xl-8">
+                                            <h4 class="text-success mb-2"> Total = {{number_format(($credits->sum('montant') - $total->sum('recouvrement_jrs')), 0, ',', ' ')}} CFA </h4>
+                                            
+                                        </div>
+                                    </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
@@ -77,7 +82,7 @@
                                                     @endif
                                                     
                                                     @if (($item->solde($item->montant)) == 0 || ($item->solde($item->montant)) < 0)
-                                                        <td>
+                                                    <td>
                                                         <div class="badge badge-soft-success font-size-12">Soldé</div>
                                                         </td>  
                                                     @else

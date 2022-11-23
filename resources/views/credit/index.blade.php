@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Déblocage')
 
 @extends('master')
 
@@ -63,26 +63,25 @@
                                                     </div>
 
                                                     <div class="modal-body">
+                                                        
                                                         <div class="form-group">
-                                                            <label class="control-label">Bénéficiaire</label>
-                                                            <select class="form-control select2" name="client_id">
-                                                                @foreach ($clients as $item)
+                                                            <label class="control-label">Bénéficiare</label>
+                                                            <select class="form-control select2" name="client_id" required>
+                                                               @foreach ($clients as $item)
                                                                 <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
-
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
-                                                            <select class="form-control select2" name="marche_id">
-                                                                @foreach ($marches as $item)
-                                                                <option value="{{$item->id}}">{{$item->libelle}} </option>
+                                                            <select class="form-control select2" name="marche_id" required>
+                                                               @foreach ($marches as $item)
+                                                                <option value="{{$item->id}}">{{$item->libelle}}</option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
-
                                                         <div class="form-group ">
                                                             <label>Montant</label>
                                                             <div>
@@ -155,6 +154,8 @@
                                                 <th>Frais de déblocage</th>
                                                 <th>Frais de carte</th>
                                                 <th>Montant & Intérêt</th>
+                                        
+                                                <th>Statut</th>
                                                     @if (auth()->user()->role_id == 1)
                                                         <th>Agent </th>
                                                     @endif
@@ -167,36 +168,50 @@
 
                                             @foreach ($credits as $item)
                                                 <tr>
-                                                    <td >{{$item->Client['nom_prenom']}}</td>
+                                                    <td>{{$item->Client['nom_prenom']}}</td>
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     <td>{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
-                                                    <td>{{\Carbon\Carbon::createMidnightDate($item->date_deblocage)->diffInDays($item->date_fin)}} jours</td>
-
+                                                    @if(($item->date_deblocage) < ($item->date_fin))
+                                                     <td class="text-success">{{\Carbon\Carbon::createMidnightDate($item->date_deblocage)->diffInDays($item->date_fin)}} jours</td>
+                                                    @else
+                                                     <td class="text-danger"><i class="ri-error-warning-line"></i> Erreur date de fin</td>
+                                                    @endif
                                                     <td>{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}}CFA</td>
                                                     <td>{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    
+                                                    
+                                                    @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                    <td>
+                                                        <div class="badge badge-soft-success font-size-12">Payé</div>
+                                                        </td>  
+                                                    @else
+                                                        <td>
+                                                            <div class="badge badge-soft-warning font-size-12">Encours</div>
+                                                        </td>
+                                                    @endif
+                                                    
                                                     @if (auth()->user()->role_id == 1)
                                                         <td>{{$item->User['nom']}}</td>
                                                     @endif
 
                                                     <td class="d-flex">
-                                                        
+                                                        @if (auth()->user()->role_id == 2)
                                                         <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                        
+                                                        @endif
+                                                       
                                                         <form method="POST" action="{{route('credit.destroy', $item->id)}}">
                                                             @csrf
                                                             {{method_field('DELETE')}}
                                                         <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                         </form>
-                                                        
-
+                                                       
                                                     </td>
 
                                                 </tr>
                                              @endforeach
-                                             
 
                                         </tbody>
                                     </table>

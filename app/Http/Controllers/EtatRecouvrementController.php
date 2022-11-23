@@ -107,9 +107,27 @@ class EtatRecouvrementController extends Controller
             ->groupBy('marche_id')->whereDate('date', Carbon::today())
             ->where('user_id', auth()->user()->id)->get();
           }
+          
+        if (auth()->user()->role_id == 1) { 
+            $credits = Credit::whereDate('date_deblocage', Carbon::today())->get();
+        } else {
+            $credits = Credit::where('user_id', auth()->user()->id)->get();
+        }
         
-      
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        $credit_j = Credit::where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::today())->get();
+        
+        if (auth()->user()->role_id == 1) { 
+            $credits_hier = Credit::whereDate('date_deblocage', Carbon::yesterday())->get();
+        } else {
+            $credits_hier = Credit::where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::yesterday())->get();
+        }
+        
+        if (auth()->user()->role_id == 1) { 
+            $credits_j_2 = Credit::whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
+        } else {
+            $credits_j_2 = Credit::where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
+        }
+        
    
         $marches = Marche::get();
 
@@ -131,7 +149,7 @@ class EtatRecouvrementController extends Controller
             $total_j_2 = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
         }
 
-        return view('recouvrement.jour', compact( 'credits','hier','total_hier','total_j_2','avant_hier','recouvrements','total','marches','par_marche'));
+        return view('recouvrement.jour', compact( 'credits','credit_j','hier','total_hier','total_j_2','credits_hier','credits_j_2','avant_hier','recouvrements','total','marches','par_marche'));
     }
 
     /**

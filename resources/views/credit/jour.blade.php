@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Déblocage')
 
 @extends('master')
 
@@ -44,7 +44,7 @@
                                 <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                             </form>
                         </div> 
-                        <div class="col-xl-2"><a href="{{route('credit.index')}}" class="btn btn-success btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
+                        <div class="col-xl-2"><a href="{{route('credit.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"> ÉTAT GLOBAL</a></div>
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -68,7 +68,7 @@
                                                     </div>
 
                                                     <div class="modal-body">
-                                                        <div class="form-group">
+                                                       <div class="form-group">
                                                             <label class="control-label">Bénéficiaire</label>
                                                             <select class="form-control select2" name="client_id">
                                                                 @foreach ($clients as $item)
@@ -87,13 +87,28 @@
                                                             </select>
                                                             
                                                         </div>
-
-                                                        <div class="form-group ">
+                                                        
+                                                        <div class="form-group  ">
                                                             <label>Montant</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="montant"  id="montant" required>
                                                             </div>
                                                         </div>
+                                                    
+                                                   
+                                                        <div class="form-group ">
+                                                            <label class="control-label">Taux d'intérêt</label>
+                                                            <select class="form-control " name="taux">
+                                                                <option value="0.2">20%</option>
+                                                                <option value="0.15">15%</option>
+                                                                <option value="0.1">10%</option>
+                                                                <option value="0.05">5%</option>
+                                                                
+                                                            </select>
+                                                            
+                                                        </div>
+                                                            
+                                                        
                                                         <div class="form-group ">
                                                             <label>Date de déblocage</label>
                                                             <div>
@@ -143,10 +158,12 @@
                                                 <th>Montant</th>
                                                 <th>Date de déblocage</th>
                                                 <th>Date de fin</th>
+                                                <th>Nombre de jours</th>
                                                 <th>Intérêt</th>
                                                 <th>Frais de déblocage</th>
                                                 <th>Frais de carte</th>
                                                 <th>Montant & Intérêt</th>
+                                                <th>Statut</th>
                                                     @if (auth()->user()->role_id == 1)
                                                         <th>Agent </th>
                                                     @endif
@@ -163,10 +180,24 @@
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     <td>{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
+                                                    @if(($item->date_deblocage) < ($item->date_fin))
+                                                     <td class="text-success">{{\Carbon\Carbon::createMidnightDate($item->date_deblocage)->diffInDays($item->date_fin)}} jours</td>
+                                                    @else
+                                                     <td class="text-danger"><i class="ri-error-warning-line"></i> Erreur date de fin</td>
+                                                    @endif
                                                     <td>{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}}CFA</td>
                                                     <td>{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                    <td>
+                                                        <div class="badge badge-soft-success font-size-12">Payé</div>
+                                                        </td>  
+                                                    @else
+                                                        <td>
+                                                            <div class="badge badge-soft-warning font-size-12">Encours</div>
+                                                        </td>
+                                                    @endif
                                                     @if (auth()->user()->role_id == 1)
                                                         <td>{{$item->User['nom']}}</td>
                                                     @endif
