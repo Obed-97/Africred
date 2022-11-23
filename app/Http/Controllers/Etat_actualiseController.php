@@ -20,6 +20,10 @@ class Etat_actualiseController extends Controller
      */
     public function index()
     {
+        $recouvrements = null;
+        
+        if (auth()->user()->role_id == 1) {
+       
         $recouvrements = Recouvrement::selectRaw(
             'credit_id,
             SUM(encours_actualise) as encours_actualise,
@@ -29,10 +33,26 @@ class Etat_actualiseController extends Controller
             SUM(interet_jrs) as interet_jrs')
         ->groupBy('credit_id')
         ->get();
+        
+        } else {
 
-         
-
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        $recouvrements = Recouvrement::selectRaw(
+            'credit_id,
+            SUM(encours_actualise) as encours_actualise,
+            SUM(recouvrement_jrs) as recouvrement_jrs,
+            SUM(epargne_jrs) as epargne_jrs,
+            SUM(assurance) as assurance,
+            SUM(interet_jrs) as interet_jrs')
+        ->groupBy('credit_id')->where('user_id', auth()->user()->id)
+        ->get();
+        
+        }
+        
+         if (auth()->user()->role_id == 1) {
+            $credits = Credit::get();
+         } else {
+            $credits = Credit::where('user_id', auth()->user()->id)->get();
+         }    
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
