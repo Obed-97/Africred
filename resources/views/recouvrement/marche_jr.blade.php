@@ -1,12 +1,78 @@
-@section('title', 'Bienvenue à AFRICRED')
+<!DOCTYPE html>
+<html>
+	<head>
+        
+    <meta charset="utf-8" />
+    <title>AFRICRED | Recouvrement</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}">
+    
+    <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
 
-@extends('master')
+    <!-- DataTables -->
+    <link href="{{asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 
-@section('content')
+    <!-- Responsive datatable examples -->
+    <link href="{{asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />  
 
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
+    <!-- Bootstrap Css -->
+    <link href="{{asset('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+
+    <style>
+
+        @media only screen
+
+        and (min-device-width : 280px)
+
+        and (max-device-width : 653px){  #web{display: none;}}
+        
+        @media only screen
+
+        and (min-device-width : 320px)
+
+        and (max-device-width : 500px){  #web{display: none;}}
+
+        @media only screen
+
+        and (min-device-width : 540px)
+
+        and (max-device-width : 720px){  #web{display: none;}}
+
+
+        </style>
+        
+         <style>
+        .myDiv{
+        	display:none;
+           
+        }  
+        
+        </style>
+
+    
+
+</head>
+	<body data-sidebar="dark">
+	    <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <i class="ri-loader-line spin-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        @include('layouts.header')
+
+		@include('layouts.left_sidebar')
+
         <div class="main-content">
 
             <div class="page-content">
@@ -80,17 +146,24 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Client</label>
-                                                            <select class="form-control select2" name="client_id">
+                                                            <select class="form-control select2" name="credit_id" required>
                                                                 @foreach ($credits as $item)
-                                                                <option value="{{$item->id}}">{{$item->Client['nom_prenom']}} </option>
+                                                                <option value="{{$item->id}}">
+                                                                    {{$item->Client['nom_prenom']}} -- {{number_format($item->montant_interet, 0, ',', ' ')}} CFA --
+                                                                    @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                                        <div class="text-success font-size-12">Payé</div>
+                                                                    @else
+                                                                        <div class="text-danger font-size-12">Encours</div>
+                                                                    @endif
+                                                                </option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
-                                                            <select class="form-control select2" name="marche_id">
-                                                                @foreach ($marches as $item)
+                                                            <select class="form-control select2" name="marche_id" required>
+                                                               @foreach ($marches as $item)
                                                                 <option value="{{$item->id}}">{{$item->libelle}} </option>
                                                                @endforeach
                                                             </select>
@@ -133,6 +206,12 @@
                                             </form>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="mb-4 col-xl-8">
+                                                <h4 class="text-success mb-2"> Total = {{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') ), 0, ',', ' ')}} CFA </h4>
+                                                
+                                            </div>
+                                        </div>
 
                                         <div class="row">
                                             <div class="mb-4 col-xl-4">
@@ -166,6 +245,7 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
+                                                <th class="text-success">Total</th>
                                                
                                             </tr>
                                             @endif
@@ -195,7 +275,7 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-
+                                                        <td class="text-success">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
                                                         
 
                                                     </tr>
@@ -270,4 +350,12 @@
             <!-- End Page-content -->
 
 
-@endsection
+            @include('layouts.footer')
+		
+	   
+
+            @include('layouts.script')
+    
+    
+        </body>
+    </html>

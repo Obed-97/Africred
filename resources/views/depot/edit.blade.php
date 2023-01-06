@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Dépôt')
 
 @extends('master')
 
@@ -41,18 +41,7 @@
                                         <form class="custom-validation" action="{{route('historique_depot.update', $depot->id)}}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                              {{method_field('PUT')}}
-                                         
-                                             <div class="form-group">
-                                                
-                                                <label class="control-label" name>Client</label>
-                                                <select class="form-control" name="client_id">
-                                                    <option value="{{$depot->client_id}}">{{$depot->Client['nom_prenom']}} </option>
-                                                   @foreach ($clients as $item)
-                                                    <option value="{{$item->id}}">{{$item->nom_prenom}} </option>
-                                                   @endforeach
-                                                </select>
-                                            </div>
-
+                                             
                                             <div class="form-group">
                                                 <label class="control-label" >Type</label>
                                                 <select class="form-control " name="type_depot_id">
@@ -62,20 +51,25 @@
                                                    @endforeach
                                                 </select>
                                             </div>
-
+                                         
+                                             <div class="form-group">
+                                                
+                                                <label class="control-label" name>Client</label>
+                                                <select class="form-control select2" name="client_id" required>
+                                                   <option value="{{$depot->client_id}}">{{$depot->Client['nom_prenom']}} ---> de {{$depot->Client->Marche['libelle']}}</option>
+                                                   @foreach ($clients as $item)
+                                                    <option value="{{$item->id}}">{{$item->nom_prenom}} ---> de {{$item->Marche['libelle']}}</option>
+                                                   @endforeach
+                                                </select>
+                                            </div>
                                             <div class="form-group ">
-                                                <label>Dépôt</label>
+                                                <label>Date</label>
                                                 <div>
-                                                    <input class="form-control" type="number" name="depot" value="{{$depot->depot}}"  id="depot" required>
+                                                    <input class="form-control" type="date" name="date" value="{{$depot->date}}"  id="date" required >
                                                 </div>
                                             </div>
 
-                                            <div class="form-group ">
-                                                <label>Rétrait</label>
-                                                <div>
-                                                    <input class="form-control" type="number" name="retrait" value="{{$depot->retrait}}"  id="depot" required>
-                                                </div>
-                                            </div>
+                                           
 
                                             
                                             <div class="form-group mb-0">

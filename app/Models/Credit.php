@@ -19,7 +19,9 @@ class Credit extends Model
         'interet',
         'frais_deblocage',
         'frais_carte',
-        'montant_interet'
+        'montant_interet',
+        'montant_par_jour',
+        'statut',
     ];
 
 
@@ -42,7 +44,7 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs');
     }
-     
+    
     public function totalIntreret()
     {
         return $this->hasMany(Recouvrement::class)->sum('interet_jrs');

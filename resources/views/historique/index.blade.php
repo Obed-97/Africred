@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Historique')
 
 @extends('master')
 
@@ -40,9 +40,10 @@
                                             <tr>
                                                 <th>Date</th>
                                                 <th>Client</th>
-                                                <th>Encours actualisé</th>
-                                                <th>Intérêt à ce jour</th>
+                                               
                                                 <th>Capital à ce jour</th>
+                                                <th>Intérêt à ce jour</th>
+                                                
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
                                                @if (auth()->user()->role_id ==2)
@@ -62,27 +63,28 @@
                                                 <tr>
                                                     <td>{{(new DateTime($item->date))->format('d-m-Y')}} </td>
                                                     <td>{{$item->Credit->Client['nom_prenom']}}</td>
-                                                    <td>{{number_format($item->encours_actualise, 0, ',', ' ')}} CFA</td>
+                                                    
+                                                     <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
+                                                   
                                                     <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
 
-                                                    @if (auth()->user()->role_id ==2)
-                                                        <td class="d-flex">
-                                                            <a href="{{route('historique.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                        </td>
-                                                    @else
+                                                   
+                                                        
+                                                    @if (auth()->user()->role_id ==1)
                                                        <td>{{$item->user['nom']}} </td>
+                                                    @endif 
                                                        
-                                                       <td>
+                                                       <td class="d-flex">
+                                                           <a href="{{route('historique.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
                                                             <form method="POST" action="{{route('historique.destroy', $item->id)}}">
                                                                 @csrf
                                                                 {{method_field('DELETE')}}
                                                             <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                             </form>
                                                        </td>
-                                                    @endif
+                                                  
                                                 
                                                 </tr>
                                              @endforeach 

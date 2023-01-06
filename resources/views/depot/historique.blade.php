@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Dépôt')
 
 @extends('master')
 
@@ -38,7 +38,7 @@
                                         <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>Heure</th>
+                                            
                                             <th>Nom complet</th>
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
@@ -55,8 +55,8 @@
                                         <tbody>
                                        @foreach ($depots as $item)
                                         <tr>
-                                            <td>{{(new DateTime($item->created_at))->format('d-m-Y')}} </td>
-                                            <td>{{(new DateTime($item->created_at))->format('H:i')}} </td>
+                                            <td>{{(new DateTime($item->date))->format('d-m-Y')}} </td>
+                                            
                                             <td>{{$item->Client['nom_prenom']}}</td>
                                             <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>

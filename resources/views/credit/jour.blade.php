@@ -1,4 +1,4 @@
-@section('title', 'Déblocage')
+@section('title', 'Crédit')
 
 @extends('master')
 
@@ -50,11 +50,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title text-right mb-4">
-                                        @if (auth()->user()->role_id == 2)
-                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Nouveau déblocage</button>
-                                        @endif
-                                    </h4>
+                                    
                                         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog" >
                                                 <form action="{{route('credit.store')}}" method="POST" enctype="multipart/form-data">
@@ -202,17 +198,19 @@
                                                         <td>{{$item->User['nom']}}</td>
                                                     @endif
 
-                                                    <td class="d-flex">
+                                                   <td class="d-flex">
                                                         @if (auth()->user()->role_id == 2)
                                                         <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                        <form method="POST" action="{{route('credit.destroy', $item->id)}}">
+                                                            @csrf
+                                                            {{method_field('DELETE')}}
+                                                        <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
+                                                        </form>
                                                         @endif
                                                         @if (auth()->user()->role_id == 1)
-                                                            <form method="POST" action="{{route('credit.destroy', $item->id)}}">
-                                                                @csrf
-                                                                {{method_field('DELETE')}}
-                                                            <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                                            </form>
+                                                        <a href="{{route('credit.show', $item->id)}}" class="mr-3 text-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Contrat"><i class="mdi mdi-eye font-size-18"></i></a>
                                                         @endif
+                                                        
                                                        
                                                     </td>
 

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('nom_prenom');
             $table->string('activite')->nullable();
             $table->string('telephone')->unique()->nullable();
+            $table->string('adresse')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

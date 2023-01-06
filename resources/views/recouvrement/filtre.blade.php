@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Recouvrement')
 
 @extends('master')
 
@@ -79,17 +79,24 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Client</label>
-                                                            <select class="form-control select2" name="client_id">
+                                                            <select class="form-control select2" name="credit_id" required>
                                                                 @foreach ($credits as $item)
-                                                                <option value="{{$item->id}}">{{$item->Client['nom_prenom']}} </option>
+                                                                <option value="{{$item->id}}">
+                                                                    {{$item->Client['nom_prenom']}} -- {{number_format($item->montant_interet, 0, ',', ' ')}} CFA --
+                                                                    @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                                        <div class="text-success font-size-12">Payé</div>
+                                                                    @else
+                                                                        <div class="text-danger font-size-12">Encours</div>
+                                                                    @endif
+                                                                </option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
-                                                            <select class="form-control select2" name="marche_id">
-                                                                @foreach ($marches as $item)
+                                                            <select class="form-control select2" name="marche_id" required>
+                                                               @foreach ($marches as $item)
                                                                 <option value="{{$item->id}}">{{$item->libelle}} </option>
                                                                @endforeach
                                                             </select>
@@ -133,6 +140,12 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                        <div class="mb-4 col-xl-8">
+                                            <h4 class="text-success mb-2"> Total = {{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') ), 0, ',', ' ')}} CFA </h4>
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="mb-4 col-xl-4">
                                                 
                                                 @if (auth()->user()->role_id == 2)
@@ -165,6 +178,7 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
+                                                <th class="text-success">Total</th>
                                                
                                             </tr>
                                             @endif
@@ -204,7 +218,7 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-
+                                                        <td class="text-success">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
                                                         
 
                                                     </tr>
@@ -247,6 +261,7 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
+                                                <th class="text-success">Total</th>
                                                
                                             </tr>
                                             @endif
@@ -276,7 +291,7 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-
+                                                        <td class="text-success">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
                                                         
 
                                                     </tr>

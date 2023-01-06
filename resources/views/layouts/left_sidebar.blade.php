@@ -1,4 +1,3 @@
-
 <!-- Left Sidebar End --> 
 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
 <!-- ========== Left Sidebar Start ========== -->
@@ -8,36 +7,47 @@
             <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
-            <ul class="metismenu list-unstyled" id="side-menu">
+            <ul class="metismenu list-unstyled" id="side-menu" >
                 <li class="menu-title">Gestion</li>
 
-                <li>
+                <li >
                     <a href="/" class="waves-effect">
                         <i class="ri-dashboard-fill"></i>
-                        <span>Tableau de bord</span>
+                        <span >Tableau de bord</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="{{route('etat_recouvrement.index')}}" class=" waves-effect">
                         <i class="ri-calendar-check-fill"></i>
-                        <span>Recouvrement</span>
+                        <span>Recouvrements</span>
                     </a>
                 </li>
                 
                 <li>
                     <a href="{{route('historique.index')}}" class=" waves-effect">
                         <i class="ri-file-list-3-fill"></i>
-                        <span>Historique</span>
+                        <span>Historiques</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('credit.index')}}" class=" waves-effect">
-                        <i class="ri-hand-coin-fill"></i>
-                        <span>Déblocage</span>
+                    <a  href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-wallet-fill"></i>
+                        <span>Crédit</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('attente.index')}}"><i class="ri-stack-fill"></i> Liste d'attente <div class="badge badge-soft-warning font-size-12">{{$attentes->count()}}</div></a></li> 
+                        <li><a href="{{route('credit.index')}}"><i class="ri-hand-coin-fill"></i> Déblocages <div class="badge badge-soft-success font-size-12">{{$deblocages->count()}}</div></a></li> 
+                    </ul>
+                </li>
+                @if (auth()->user()->role_id == 2)
+                <li>
+                    <a href="{{route('journalier.index')}}" class=" waves-effect">
+                        <i class="ri-funds-box-fill"></i>
+                        <span>Dûs Journaliers </span>
                     </a>
                 </li>
-
+                @endif
                 @if (auth()->user()->role_id == 1)
                 <li>
                     <a  href="javascript: void(0);" class="has-arrow waves-effect">
@@ -45,9 +55,10 @@
                         <span>Trésorerie</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('journalier.index')}}"><i class="ri-funds-box-fill"></i> Dûs Journaliers</a></li> 
                         <li><a href="{{route('encaissement.index')}}"><i class="ri-arrow-down-fill text-success"></i> Encaissement</a></li> 
                         <li><a href="{{route('decaissement.index')}}"><i class="ri-arrow-up-fill text-danger"></i> Décaissement</a></li>
-                        <li><a href="{{route('banque.index')}}"><i class="ri-bank-fill text-primary"></i> Banque</a></li>
+                        <li><a href="{{route('banque.index')}}"><i class="ri-bank-fill "></i> Banque</a></li>
                     </ul>
                 </li>
                 @endif
@@ -88,8 +99,8 @@
                 
                 <li>
                     <a href="{{route('client.index')}}" class="waves-effect">
-                        <i class="ri-team-fill"></i>
-                        <span>Clientèle</span>
+                        <i class="ri-bank-card-fill"></i>
+                        <span>Comptes <div class="badge badge-soft-success font-size-12">{{$comptes->count()}}</div></span>
                     </a>
                 
                 </li> 
@@ -97,7 +108,7 @@
                 <li>
                     <a href="{{route('role.index')}}" class="waves-effect">
                         <i class="ri-computer-fill"></i>
-                        <span>Poste</span>
+                        <span>Postes</span>
                     </a>
                 
                 </li>
@@ -171,32 +182,18 @@
                     </a>
                 </li> 
                 <li>
-                    <a href="{{route('controle.create')}}">
-                        <i class="ri-team-fill text-success"></i>
-                        <span>Retard J-J</span> 
-                    </a>
-                </li> 
-                <li>
-                    <a href="{{route('retard2')}}">
-                        <i class="ri-team-fill text-secondary"></i>
-                        <span>Retard J-1</span> 
-                    </a>
-                </li> 
-                <li>
-                    <a href="{{route('retard3')}}">
-                        <i class="ri-team-fill text-warning"></i>
-                        <span>Retard J-2</span> 
+                    <a href="{{route('journalier.index')}}" class=" waves-effect">
+                        <i class="ri-funds-box-fill"></i>
+                        <span>Dûs Journaliers </span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('retard4')}}">
-                        <i class="ri-team-fill text-danger"></i>
-                        <span>Retard J-3</span> 
+                    <a href="{{route('attente.index')}}" class=" waves-effect">
+                        <i class="ri-stack-fill"></i>
+                        <span>Liste d'attente <div class="badge badge-soft-warning font-size-12">{{$attentes->count()}}</div></span>
                     </a>
-                </li>  
-                
-                
-
+                </li>
+        
             </ul>
             
         </div>

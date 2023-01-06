@@ -18,9 +18,9 @@ class EtatCreditController extends Controller
     public function index()
     {
         if (auth()->user()->role_id == 1) {
-            $credits = Credit::whereDate('date_deblocage', Carbon::today())->get();
+            $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
           }else {
-            $credits = Credit::where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::today())->get();
+            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::today())->get();
           }
 
         $clients = Client::where('user_id', auth()->user()->id)->get();
@@ -46,11 +46,11 @@ class EtatCreditController extends Controller
                  SUM(frais_carte) as frais_carte,
                  SUM(montant_interet) as montant_interet,
                  COUNT(id) as id')
-             ->groupBy('user_id')->whereDate('date_deblocage', Carbon::today())
+             ->groupBy('user_id')->where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())
              ->get();
            
           }else {
-            $credits = Credit::where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::today())->get();
+            $credits = Credit::where('user_id', auth()->user()->id)->where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
           }
 
         $clients = Client::where('user_id', auth()->user()->id)->get();
@@ -71,7 +71,7 @@ class EtatCreditController extends Controller
                  SUM(frais_carte) as frais_carte,
                  SUM(montant_interet) as montant_interet,
                  COUNT(id) as id')
-             ->groupBy('marche_id')->whereDate('date_deblocage', Carbon::today())
+             ->groupBy('marche_id')->where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())
              ->get();
  
           }else {
@@ -82,7 +82,7 @@ class EtatCreditController extends Controller
                  SUM(frais_deblocage) as frais_deblocage,
                  SUM(frais_carte) as frais_carte,
                  SUM(montant_interet) as montant_interet,
-                 COUNT(id) as id')->whereDate('date_deblocage', Carbon::today())
+                 COUNT(id) as id')->where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())
                 ->where('user_id', auth()->user()->id)
                 ->groupBy('marche_id')
                 ->get();
@@ -108,9 +108,9 @@ class EtatCreditController extends Controller
         $date2 = $request->sdate;
 
         if (auth()->user()->role_id == 1) {
-            $credits = Credit::whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
+            $credits = Credit::where('statut', 'Accordé')->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
           }else {
-            $credits = Credit::where('user_id', auth()->user()->id)->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
+            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
           }
 
         $clients = Client::where('user_id', auth()->user()->id)->get();

@@ -1,18 +1,12 @@
 <head>
         
     <meta charset="utf-8" />
-    <title>@yield('title')</title>
+    <title>AFRICRED | @yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}">
-
-    <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/libs/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet" />
     
-
+    <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- DataTables -->
     <link href="{{asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
@@ -50,7 +44,15 @@
         and (max-device-width : 720px){  #web{display: none;}}
 
 
-    </style>
+        </style>
+        
+         <style>
+        .myDiv{
+        	display:none;
+           
+        }  
+        
+        </style>
 
     
 

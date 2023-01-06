@@ -1,4 +1,4 @@
-@section('title', 'Recouvrement')
+@section('title', 'Encours Global')
 
 @extends('master')
 
@@ -152,21 +152,22 @@
 
 
                                         <tbody>
-                                            <tr>
+                                            <tr  class="text-white bg-success">
                                                 <td>Capital recouvré</td>
-                                                <td class="text-success">{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
+                                                <td >{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
                                             </tr>
-                                            <tr>
-                                                <td>Capital restant</td>
-                                                <td class="text-danger">{{number_format(($credits->sum('montant')) - ($total->sum('recouvrement_jrs')), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
+                                            <tr  class="text-white bg-success">
                                                 <td>Intérêt recouvré</td>
-                                                <td class="text-success">{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
+                                                <td >{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
                                             </tr>
-                                            <tr>
+                                            <tr class="text-white bg-danger">
+                                                <td>Capital restant</td>
+                                                <td >{{number_format(($credits->sum('montant')) - ($total->sum('recouvrement_jrs')), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                           
+                                            <tr class="text-white bg-danger">
                                                 <td>Intérêt restant</td>
-                                                <td class="text-danger">{{number_format(($credits->sum('interet')) - ($total->sum('interet_jrs')) , 0, ',', ' ')}} CFA</td>
+                                                <td >{{number_format(($credits->sum('interet')) - ($total->sum('interet_jrs')) , 0, ',', ' ')}} CFA</td>
                                             </tr>
                                                 
                                         </tbody>

@@ -88,8 +88,9 @@ class ClientController extends Controller
             'nom_prenom'=>$request->nom_prenom,
             'activite'=>$request->activite,
             'telephone'=>$request->telephone,
+            'adresse'=>$request->adresse,
             'marche_id'=>$request->marche_id,
-            'carte_id'=>$request->carte_id,
+            
             'user_id'=> auth()->user()->id,
         ]);
  
@@ -143,8 +144,9 @@ class ClientController extends Controller
             'nom_prenom'=>$request->nom_prenom,
             'activite'=>$request->activite,
             'telephone'=>$request->telephone,
+            'adresse'=>$request->adresse,
             'marche_id'=>$request->marche_id,
-            'carte_id'=>$request->carte_id,
+            
             'user_id'=>$request->user_id,
 
         ]);

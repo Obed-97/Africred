@@ -1,4 +1,4 @@
-@section('title', 'Déblocage')
+@section('title', 'Crédit')
 
 @extends('master')
 

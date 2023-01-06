@@ -53,7 +53,90 @@
                     <div class="col-xl-3"><input type="date" name="sdate"  class="form-control"></div>
                     <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                 </form>
-            </div> 
+            </div>
+             <h4 class="card-title text-right mb-4">
+                    @if (auth()->user()->role_id == 2)
+                        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Demande de pr&ecirc;t</button>
+                    @endif
+                </h4>
+                 <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog" >
+                        <form action="{{route('credit.store')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Demande de pr&ecirc;t</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                
+                                <div class="form-group">
+                                    <label class="control-label">B&eacute;n&eacute;ficiare</label>
+                                    <select class="form-control select2" name="client_id" required>
+                                       @foreach ($clients as $item)
+                                        <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
+                                       @endforeach
+                                    </select>
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">March&eacute;</label>
+                                    <select class="form-control select2" name="marche_id" required>
+                                       @foreach ($marches as $item)
+                                        <option value="{{$item->id}}">{{$item->libelle}}</option>
+                                       @endforeach
+                                    </select>
+                                    
+                                </div>
+                                <div class="form-group ">
+                                    <label>Montant</label>
+                                    <div>
+                                        <input class="form-control" type="number" name="montant"  id="montant" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Taux d'int&eacute;r&ecirc;t</label>
+                                    <select class="form-control " name="taux">
+                                        <option value="0.2">20%</option>
+                                        <option value="0.15">15%</option>
+                                        <option value="0.1">10%</option>
+                                        <option value="0.05">5%</option>
+                                        
+                                    </select>
+                                    
+                                </div>
+                                <div class="form-group ">
+                                    <label>Date de d&eacute;blocage</label>
+                                    <div>
+                                        <input class="form-control" type="date" name="date_deblocage"  id="date_deblocage" required>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label>Date de fin</label>
+                                    <div>
+                                        <input class="form-control" type="date" name="date_fin"  id="date_fin" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label>Frais de carte</label>
+                                    <div>
+                                        <input class="form-control" type="number" name="frais_carte"  id="frais_carte" required>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
+                                <button class="btn btn-primary waves-effect waves-light" type="submit">Enregistrer</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div> 
             <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">ÉTAT GLOBAL</a></div>
         </div>
 
@@ -164,11 +247,11 @@
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Nouveaux clients</p>
-                                                <h4 class="mb-0">{{count($clients)}} client(s)</h4>
+                                                <p class="text-truncate font-size-14 mb-2">Nouveaux comptes</p>
+                                                <h4 class="mb-0">{{count($clients)}} </h4>
                                             </div>
                                             <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
+                                                <i class=" ri-bank-card-line font-size-24"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -181,8 +264,8 @@
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Nombre total agent de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}} agent(s)</h4>
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}} </h4>
                                             </div>
                                             <div class="text-primary">
                                                 <i class=" ri-team-line font-size-24"></i>
@@ -251,19 +334,19 @@
                                                 </div>
                                                 <div class="col-0">
                                                     @if (($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance')) < ($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
+                                                      <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18">   <br/>
                                                     @elseif(($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance')) == ($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance')))
                                                         <i class="ri-arrow-right-fill text-white font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> <br/>
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18">  <br/>
                                                     @endif
                                                         
                                                     @if (($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance')) < ($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                        <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/> 
                                                     @elseif(($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance')) == ($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance')))
-                                                        <i class="ri-arrow-right-fill text-white font-size-15"></i> 
+                                                        <i class="ri-arrow-right-fill text-white font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> 
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"> <br/>
                                                     @endif
                                   
                                                 </div>
@@ -297,19 +380,19 @@
                                                 </div>
                                                 <div class="col-0">
                                                     @if (($recouvrements->sum('recouvrement_jrs')) < ($hier->sum('recouvrement_jrs')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
+                                                        <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18">  <br/>
                                                     @elseif(($recouvrements->sum('recouvrement_jrs')) == ($hier->sum('recouvrement_jrs')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> <br/>
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"> <br/>
                                                     @endif
 
                                                     @if (($hier->sum('recouvrement_jrs')) < ($avant_hier->sum('recouvrement_jrs')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                       <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18">  <br/>
                                                     @elseif(($hier->sum('recouvrement_jrs')) == ($avant_hier->sum('recouvrement_jrs')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> 
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> 
+                                                       <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"> 
                                                     @endif
                                                 </div>
                                             </div>
@@ -341,19 +424,19 @@
                                                 </div>
                                                 <div class="col-0">
                                                     @if (($recouvrements->sum('interet_jrs')) < ($hier->sum('interet_jrs')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
+                                                        <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18">  <br/>
                                                     @elseif(($recouvrements->sum('interet_jrs')) == ($hier->sum('interet_jrs')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i><br/> 
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"> <br/>
                                                     @endif
 
                                                     @if (($hier->sum('interet_jrs')) < $avant_hier->sum('interet_jrs'))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                       <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($hier->sum('interet_jrs')) == ($avant_hier->sum('interet_jrs')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> 
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> 
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"> 
                                                     @endif
                                   
                                                 </div>
@@ -386,19 +469,19 @@
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($recouvrements->sum('epargne_jrs')) < ($hier->sum('epargne_jrs')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
+                                                       <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($recouvrements->sum('epargne_jrs')) == ($hier->sum('epargne_jrs')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> <br/>
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"><br/>
                                                     @endif
 
                                                     @if (($hier->sum('epargne_jrs')) < ($avant_hier->sum('epargne_jrs')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                        <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($hier->sum('epargne_jrs')) == ($avant_hier->sum('epargne_jrs')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> 
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> 
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"> 
                                                     @endif
                                   
                                                 </div>
@@ -432,19 +515,19 @@
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($recouvrements->sum('assurance')) < ($hier->sum('assurance')))
-                                                    <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
+                                                    <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($recouvrements->sum('assurance')) == ($hier->sum('assurance')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> <br/>
+                                                       <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"><br/>
                                                     @endif
     
                                                     @if (($hier->sum('assurance')) < ($avant_hier->sum('assurance')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                        <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($hier->sum('assurance')) == ($avant_hier->sum('assurance')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> 
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> 
+                                                       <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18">
                                                     @endif
                               
                                                 </div>
@@ -478,19 +561,19 @@
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($credits->sum('frais_deblocage')) < ($credits_hier->sum('frais_deblocage')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
+                                                        <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($credits->sum('frais_deblocage')) == ($credits_hier->sum('frais_deblocage')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> <br/>
+                                                       <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"><br/>
                                                     @endif
 
                                                     @if (($credits_hier->sum('frais_deblocage')) < ($credits_av_hier->sum('frais_deblocage')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                       <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($credits_hier->sum('frais_deblocage')) == ($credits_av_hier->sum('frais_deblocage')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> 
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> 
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18">
                                                     @endif
                                   
                                                 </div>
@@ -524,19 +607,19 @@
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($credits->sum('frais_carte')) < ($credits_hier->sum('frais_carte')))
-                                                    <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
+                                                    <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18" > <br/>
                                                     @elseif(($credits->sum('frais_carte')) == ($credits_hier->sum('frais_carte')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> <br/>
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="18" height="18"><br/>
                                                     @endif
     
                                                     @if (($credits_hier->sum('frais_carte')) < ($credits_av_hier->sum('frais_carte')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                       <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($credits_hier->sum('frais_carte')) == ($credits_av_hier->sum('frais_carte')))
                                                         <i class="ri-arrow-right-fill text-primary font-size-15"></i> 
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> 
+                                                       <img src="{{asset('assets/images/growth-chart.png')}}" alt="" width="18" height="18">
                                                     @endif
                               
                                                 </div>
@@ -572,19 +655,19 @@
                                                 </div>
                                                 <div class="col-2">
                                                     @if (($credits->sum('montant')) < ($credits_hier->sum('montant')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> <br/>
+                                                        <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($credits->sum('montant')) == ($credits_hier->sum('montant')))
                                                         <i class="ri-arrow-right-fill text-white font-size-15"></i> <br/>
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> <br/>
+                                                       <img src="{{asset('assets/images/growth-chart.png')}}" alt="" width="18" height="18"><br/>
                                                     @endif
 
                                                     @if (($credits_hier->sum('montant')) < ($credits_av_hier->sum('montant')))
-                                                        <i class="ri-arrow-down-fill text-danger font-size-15"></i> 
+                                                       <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="18" height="18"> <br/>
                                                     @elseif(($credits_hier->sum('montant')) == ($credits_av_hier->sum('montant')))
                                                         <i class="ri-arrow-right-fill text-white font-size-15"></i> 
                                                     @else
-                                                        <i class="ri-arrow-up-fill text-success font-size-15"></i> 
+                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt="" width="18" height="18">
                                                     @endif
                                   
                                                 </div>
@@ -700,11 +783,11 @@
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Nouveaux clients</p>
-                                                <h4 class="mb-0">{{count($clients)}} client(s)</h4>
+                                                <p class="text-truncate font-size-14 mb-2">Nouveaux comptes</p>
+                                                <h4 class="mb-0">{{count($clients)}} </h4>
                                             </div>
                                             <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
+                                                <i class="ri-bank-card-line font-size-24"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -717,8 +800,8 @@
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Agent de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}} agent(s)</h4>
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}}</h4>
                                             </div>
                                             <div class="text-primary">
                                                 <i class=" ri-team-line font-size-24"></i>
@@ -735,7 +818,7 @@
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
                                                 <p class="text-truncate font-size-14 mb-2">Marchés</p>
-                                                <h4 class="mb-0">{{count($marches)}} marché(s)</h4>
+                                                <h4 class="mb-0">{{count($marches)}} </h4>
                                             </div>
                                             <div class="text-primary">
                                                 <i class="ri-store-2-line font-size-24"></i>
@@ -793,11 +876,11 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-black font-size-16 mb-2">Retard J-J</p>
-                                    <h4 class="mb-0">{{number_format($encaissements->sum('montant'), 0, ',', ' ')}} Clients</h4>
+                                    <p class="text-black font-size-16 mb-2">Recouvrement</p>
+                                    <h4 class="mb-0">{{number_format(($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')), 0, ',', ' ')}} CFA</h4>
                                 </div>
                                 <div class="text-primary">
-                                    <i class="ri-team-fill font-size-24"></i>
+                                    <i class="ri-calendar-check-fill font-size-24"></i>
                                 </div>
                             </div>
                         </div>
@@ -812,11 +895,11 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-black font-size-16 mb-2">Retard J-1</p>
-                                    <h4 class="mb-0">{{number_format($decaissements->sum('montant'), 0, ',', ' ')}} Clients</h4>
+                                    <p class="text-black font-size-16 mb-2">Dûs Journaliers</p>
+                                    <h4 class="mb-0">{{number_format($credits->sum('montant_par_jr'), 0, ',', ' ')}} CFA</h4>
                                 </div>
                                 <div class="text-secondary">
-                                    <i class="ri-team-fill font-size-24"></i>
+                                    <i class="ri-funds-box-fill font-size-24"></i>
                                 </div>
                             </div>
                         </div>
@@ -831,8 +914,8 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-black font-size-16 mb-2">Retard J-2</p>
-                                    <h4 class="mb-0">{{number_format($decaissements->sum('montant'), 0, ',', ' ')}} Clients</h4>
+                                    <p class="text-black font-size-16 mb-2">Liste d'attente</p>
+                                    <h4 class="mb-0">{{$attentes->count()}} Clients</h4>
                                 </div>
                                 <div class="text-warning">
                                     <i class="ri-team-fill font-size-24"></i>
@@ -845,24 +928,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="media-body overflow-hidden">
-                                    <p class="text-black font-size-16 mb-2">Retard J-3</p>
-                                    <h4 class="mb-0">{{number_format($decaissements->sum('montant'), 0, ',', ' ')}} Clients</h4>
-                                </div>
-                                <div class="text-danger">
-                                    <i class="ri-team-fill font-size-24"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body border-top py-3">
-                            
-                        </div>
-                    </div>
-                </div>
+               
             
             </div>
 </div> <!-- container-fluid -->

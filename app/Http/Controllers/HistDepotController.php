@@ -94,18 +94,17 @@ class HistDepotController extends Controller
         $depots = Depot::where('client_id', $request->client_id)->sum('depot');
         $retraits = Depot::where('client_id', $request->client_id)->sum('retrait');
 
-        $solde = abs((intval($depots) + intval($request->depot)) - (intval($retraits) + intval($request->retrait)));
+        $solde = abs(intval($request->depot) - intval($request->retrait));
 
         $depot->update([
             'user_id'=>auth()->user()->id,
             'client_id'=>$request->client_id,
             'type_depot_id'=>$request->type_depot_id,
-            'depot'=>$request->depot,
-            'retrait'=>$request->retrait,
-            'solde'=>$solde,
+            'date'=>$request->date,
+            
         ]);
 
-        return redirect()->route('depot.index');
+        return redirect()->route('historique_depot.index');
     }
 
     /**

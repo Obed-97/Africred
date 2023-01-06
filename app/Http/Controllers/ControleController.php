@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Recouvrement;
 use App\Models\Credit;
+use App\Models\Client;
+use App\Models\Recouvrement;
+use App\Models\Marche;
 
 use Carbon\Carbon;
 
@@ -40,22 +42,29 @@ class ControleController extends Controller
      */
     public function create()
     {
-
-
-        $recouvrements = Recouvrement::selectRaw(
-            'credit_id,
-                SUM(recouvrement_jrs) as recouvrement_jrs,
-                SUM(epargne_jrs) as epargne_jrs,
-                SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
-            ->groupBy('credit_id')
-            ->whereDate('date', '!=' ,Carbon::today())
-            ->get();
-
         
-        $total = Recouvrement::whereDate('date', '!=' ,Carbon::today())->get();
+         $recouvrements = Recouvrement::selectRaw(
+            'credit_id,
+            SUM(encours_actualise) as encours_actualise,
+            SUM(recouvrement_jrs) as recouvrement_jrs,
+            SUM(epargne_jrs) as epargne_jrs,
+            SUM(assurance) as assurance,
+            SUM(interet_jrs) as interet_jrs')
+        ->groupBy('credit_id')
+        ->get();
 
-        return view('controle.retard1', compact('recouvrements','total'));
+         
+
+        $credits = Credit::get();
+        $marches = Marche::get();
+
+        if (auth()->user()->role_id == 1) {
+            $total = Recouvrement::get();
+        } else {
+            $total = Recouvrement::where('user_id', auth()->user()->id)->get();
+        }
+
+        return view('controle.retard1', compact('credits','recouvrements','marches','total'));
     }
 
     public function retard2()
@@ -75,7 +84,7 @@ class ControleController extends Controller
         $total = Recouvrement::whereDate('date', '!=' ,Carbon::today())
                             ->whereDate('date', '!=' ,Carbon::now()->subDays(1))->get();
 
-        return view('controle.retard1', compact('recouvrements','total'));
+        return view('controle.retard2', compact('recouvrements','total'));
     }
 
     public function retard3()

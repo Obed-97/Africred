@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Dépôt')
 
 @extends('master')
 
@@ -28,6 +28,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <!-- end page title -->
                     <div class="row mb-4">
                         <div class="col-xl-10"></div>
@@ -64,13 +65,20 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
+                                                       <div class="form-group ">
+                                                            <label>Date</label>
+                                                            <div>
+                                                                <input class="form-control" type="date" name="date"  id="date" required >
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Client</label>
-                                                            <select class="form-control " name="client_id" required>
-                                                                @foreach ($clients as $item)
-                                                                    <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
-                                                                @endforeach
+                                                            <select class="form-control select2" name="client_id" required>
+                                                               @foreach ($clients as $item)
+                                                                <option value="{{$item->id}}">{{$item->nom_prenom}} ---> de {{$item->Marche['libelle']}}</option>
+                                                               @endforeach
                                                             </select>
+                                                            
                                                         </div>
                                                         <div class="form-group ">
                                                             <label>Montant</label>
@@ -115,7 +123,7 @@
                                                             <label class="control-label">Client</label>
                                                             <select class="form-control " name="client_id" required>
                                                                 @foreach ($clients as $item)
-                                                                    <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
+                                                                    <option value="{{$item->id}}">{{$item->nom_prenom}} ---> de {{$item->Marche['libelle']}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -147,11 +155,17 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
+                                            <th>N° Compte</th>
                                             <th>Nom complet</th>
+                                            <th>Marché</th>
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
                                             <th>Solde</th>
+                                            
                                             <th>Statut</th>
+                                            @if(auth()->user()->role_id == 1)
+                                            <th>Opérateur</th>
+                                            @endif
                                         </tr>
                                         </thead>
     
@@ -159,7 +173,9 @@
                                         <tbody>
                                        @foreach ($depots as $item)
                                         <tr>
+                                            <td>ABF-{{$item->Client['id']}}</td>
                                             <td>{{$item->Client['nom_prenom']}}</td>
+                                            <td>{{$item->Client->Marche['libelle']}}</td>
                                             <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format(intval($item->depot) - intval($item->retrait), 0, ',', ' ')}} CFA</td>
@@ -171,6 +187,9 @@
                                                 <td>
                                                     <div class="badge badge-soft-danger font-size-12">Solde nul</div>
                                                 </td>
+                                            @endif
+                                            @if(auth()->user()->role_id == 1)
+                                            <td>{{$item->Client->User['nom']}}</td>
                                             @endif
                                         </tr>
                                        @endforeach

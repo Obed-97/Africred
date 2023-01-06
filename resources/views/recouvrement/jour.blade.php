@@ -165,11 +165,11 @@
                                                     <th>Client</th>
                                                     <th>Marché</th>
                                                     <th>Montant & Intérêt</th>
-                                                    <th>Encours actualisé</th>
-                                                    <th>Capital à ce jour</th>
-                                                    <th>Intérêt à ce jour</th>
-                                                    <th>Epargne à ce jour</th>
-                                                    <th>Assurance</th>
+                                                    
+                                                    <th>Capital du jour</th>
+                                                    <th>Intérêt du jour</th>
+                                                    <th>Epargne du jour</th>
+                                                    <th>Assurance du jour</th>
                                                     <th>Jours restant</th>
                                                     <th>Statut</th>
                                                     
@@ -178,12 +178,12 @@
                                             @else
                                             <tr>
                                                 <th>Agent</th>
-                                                <th>Capital à ce jour</th>
-                                                <th>Intérêt à ce jour</th>
-                                                <th>Epargne à ce jour</th>
-                                                <th>Assurance</th>
-                                                <th style="background-color: #5664d2; color:white">Frais déblocage</th>
-                                                <th style="background-color: #5664d2; color:white">Frais carte</th>
+                                                <th>Capital du jour</th>
+                                                <th>Intérêt du jour</th>
+                                                <th>Epargne du jour</th>
+                                                <th>Assurance du jour</th>
+                                                <th style="background-color: #569ad2; color:white">Frais déblocage</th>
+                                                <th style="background-color: #569ad2; color:white">Frais carte</th>
                                                 <th style="background-color: #1cbb8c;; color: white ">Total</th>
                                                
                                             </tr>
@@ -199,13 +199,7 @@
                                                         <td>{{$item->Credit->Client['nom_prenom']}}</td>
                                                         <td>{{$item->Credit->Client->Marche['libelle']}}</td>
                                                         <td>{{number_format(($item->Credit['montant_interet']), 0, ',', ' ')}} CFA</td>
-                                                        @if(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) < 0)
-                                                        <td class="text-danger">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA (Erreur)</td>
-                                                        @elseif(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) == 0)
-                                                        <td class="text-success">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA -- Terminé</td>
-                                                        @else
-                                                        <td>{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA</td>
-                                                        @endif
+                                                       
                                                        
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
@@ -249,7 +243,7 @@
                                                     </tr>
                                                 @empty
                                                     <tr style="background-color: #1cbb8c;; color: white ">
-                                                        <td>Alou Konaté</td>
+                                                        <td>Soumaïla Cissé</td>
                                                         <td>0 CFA</td>
                                                         <td>0 CFA</td>
                                                         <td>0 CFA</td>

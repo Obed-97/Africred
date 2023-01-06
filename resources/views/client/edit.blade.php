@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Compte')
 
 @extends('master')
 
@@ -21,7 +21,7 @@
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                            <li class="breadcrumb-item active">Editer le client</li>
+                                            <li class="breadcrumb-item active">Editer le compte</li>
                                         </ol>
                                     </div>
 
@@ -41,12 +41,7 @@
                                         <form class="custom-validation" action="{{route('client.update', $client->id)}}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                              {{method_field('PUT')}}
-                                             <div class="form-group ">
-                                                <label>N° Carte</label>
-                                                <div>
-                                                    <input class="form-control" type="text" name="carte_id" value="{{$client->carte_id}}"  id="carte_id" >
-                                                </div>
-                                            </div>
+                                             
                                              <div class="form-group ">
                                                 <label>Nom & Prénom</label>
                                                 <div>
@@ -64,6 +59,12 @@
                                                 <input id="telephone" class="form-control input-mask" name="telephone"  value="{{$client->telephone}}"  data-inputmask="'alias': 'ip'">
                                                 <span class="text-muted">ex: "00.00.00.00"</span>
 
+                                            </div>
+                                            <div class="form-group ">
+                                                <label>Adresse</label>
+                                                <div>
+                                                    <input class="form-control" type="text" name="adresse" value="{{$client->adresse}}"  id="adresse" >
+                                                </div>
                                             </div>
                                            
                                             <div class="form-group">

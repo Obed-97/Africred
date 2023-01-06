@@ -36,6 +36,8 @@ return new class extends Migration
             $table->unsignedBigInteger('frais_deblocage');
             $table->unsignedBigInteger('frais_carte');
             $table->unsignedBigInteger('montant_interet');
+            $table->unsignedBigInteger('montant_par_jour');
+             $table->string('statut')->default('Accordé');
             $table->timestamps();
         });
     }

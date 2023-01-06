@@ -24,6 +24,8 @@ use App\Http\Controllers\EtatDecController;
 use App\Http\Controllers\BanqueController;
 use App\Http\Controllers\Etat_actualiseController;
 use App\Http\Controllers\ControleController;
+use App\Http\Controllers\JournalierController;
+use App\Http\Controllers\AttenteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +63,8 @@ Route::resources([
     '/banque' => BanqueController::class,
     '/etat_actualise' => Etat_actualiseController::class, 
     '/controle' => ControleController::class,
+    '/journalier' => JournalierController::class,
+    '/attente' => AttenteController::class,
     
 ]);
 
@@ -73,6 +77,7 @@ Route::get('/marche/client', [clientController::class, 'marche'])->name('client.
 Route::post('/retrait', [DepotController::class, 'retrait'])->name('depot.retrait');
 Route::get('/tontine', [DepotController::class, 'tontine'])->name('depot.tontine');
 Route::get('/epargne', [DepotController::class, 'epargne'])->name('depot.epargne');
+Route::post('/solde_épargne', [DepotController::class, 'livret'])->name('depot.livret');
 
 Route::post('/date_encaissement', [EtatEncController::class, 'date'])->name('etat_encaissement.date');
 Route::post('/date_decaissement', [EtatDecController::class, 'date'])->name('etat_decaissement.date');

@@ -160,11 +160,11 @@
                                        <div class="card-body">
                                            <div class="media">
                                                <div class="media-body overflow-hidden">
-                                                   <p class="text-truncate font-size-14 mb-2">Nouveaux clients</p>
-                                                   <h4 class="mb-0">{{count($clients)}} client(s)</h4>
+                                                   <p class="text-truncate font-size-14 mb-2">Nouveaux comptes</p>
+                                                   <h4 class="mb-0">{{count($clients)}}</h4>
                                                </div>
                                                <div class="text-primary">
-                                                   <i class=" ri-team-line font-size-24"></i>
+                                                   <i class=" ri-bank-card-line font-size-24"></i>
                                                </div>
                                            </div>
                                        </div>
@@ -177,8 +177,8 @@
                                        <div class="card-body">
                                            <div class="media">
                                                <div class="media-body overflow-hidden">
-                                                   <p class="text-truncate font-size-14 mb-2">Nombre total agent de terrain</p>
-                                                   <h4 class="mb-0">{{count($agents)}} agent(s)</h4>
+                                                   <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                   <h4 class="mb-0">{{count($agents)}}</h4>
                                                </div>
                                                <div class="text-primary">
                                                    <i class=" ri-team-line font-size-24"></i>
@@ -493,11 +493,11 @@
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Nouveaux clients</p>
-                                                <h4 class="mb-0">{{count($clients)}} client(s)</h4>
+                                                <p class="text-truncate font-size-14 mb-2">Nouveaux comptes</p>
+                                                <h4 class="mb-0">{{count($clients)}} </h4>
                                             </div>
                                             <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
+                                                <i class="ri-bank-card-line font-size-24"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -510,8 +510,8 @@
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Agent de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}} agent(s)</h4>
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}} </h4>
                                             </div>
                                             <div class="text-primary">
                                                 <i class=" ri-team-line font-size-24"></i>
@@ -528,7 +528,7 @@
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
                                                 <p class="text-truncate font-size-14 mb-2">Marché</p>
-                                                <h4 class="mb-0">{{count($marches)}} marché(s)</h4>
+                                                <h4 class="mb-0">{{count($marches)}} </h4>
                                             </div>
                                             <div class="text-primary">
                                                 <i class="ri-store-2-line font-size-24"></i>

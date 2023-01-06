@@ -7,6 +7,8 @@ use App\Models\Client;
 use App\Models\Credit;
 use App\Models\Marche;
 
+use Carbon\Carbon;
+
 class CreditController extends Controller
 {
     /**
@@ -17,9 +19,9 @@ class CreditController extends Controller
     public function index()
     {
         if (auth()->user()->role_id == 1) {
-            $credits = Credit::get();
+            $credits = Credit::where('statut', 'Accordé')->get();
           }else {
-            $credits = Credit::where('user_id', auth()->user()->id)->get();
+            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
           }
 
         $clients = Client::where('user_id', auth()->user()->id)->get();
@@ -46,10 +48,10 @@ class CreditController extends Controller
                  SUM(montant_interet) as montant_interet,
                  COUNT(id) as id')
              ->groupBy('user_id')
-             ->get();
+             ->where('statut', 'Accordé')->get();
  
           }else {
-            $credits = Credit::where('user_id', auth()->user()->id)->get();
+            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
           }
 
         $clients = Client::where('user_id', auth()->user()->id)->get();
@@ -71,7 +73,7 @@ class CreditController extends Controller
                  SUM(montant_interet) as montant_interet,
                  COUNT(id) as id')
              ->groupBy('marche_id')
-             ->get();
+             ->where('statut', 'Accordé')->get();
  
           }else {
             $credits = Credit::selectRaw(
@@ -81,7 +83,7 @@ class CreditController extends Controller
                  SUM(frais_deblocage) as frais_deblocage,
                  SUM(frais_carte) as frais_carte,
                  SUM(montant_interet) as montant_interet,
-                 COUNT(id) as id')->where('user_id', auth()->user()->id)
+                 COUNT(id) as id')->where('statut', 'Accordé')->where('user_id', auth()->user()->id)
              ->groupBy('marche_id')
              ->get();
             
@@ -116,6 +118,12 @@ class CreditController extends Controller
         }
 
         $montant_interet = ($request->montant + 0) + $interet;
+        
+        $nbjrs = Carbon::createMidnightDate($request->date_deblocage)->diffInDays($request->date_fin);
+
+        $montant_par_jour = $montant_interet / $nbjrs;
+        
+        $statut = "En attente";
 
         $credit->create([
             'client_id'=>$request->client_id,
@@ -128,9 +136,11 @@ class CreditController extends Controller
             'frais_deblocage'=>$frais_deblocage,
             'frais_carte'=>$request->frais_carte,
             'montant_interet'=>$montant_interet,
+            'montant_par_jour'=>$montant_par_jour,
+            'statut'=>$statut,
         ]);
 
-        return redirect()->route('credit.index');
+        return redirect()->route('attente.index');
     }
 
     /**
@@ -141,7 +151,16 @@ class CreditController extends Controller
      */
     public function show($id)
     {
-        //
+        $credits = $credits = Credit::selectRaw(
+                'client_id,
+                 SUM(montant) as montant,
+                 COUNT(id) as id')
+             ->groupBy('client_id')
+             ->get();
+             
+        $credit = Credit::where('id', $id)->firstOrFail();
+
+        return view('credit.show', compact('credit','credits'));
     }
  
     /**
@@ -189,6 +208,10 @@ class CreditController extends Controller
         }
 
         $montant_interet = ($request->montant + 0) + $interet;
+        
+        $nbjrs = Carbon::createMidnightDate($request->date_deblocage)->diffInDays($request->date_fin);
+
+        $montant_par_jour = $montant_interet / $nbjrs;
 
         $credit->update([
             'client_id'=>$request->client_id,
@@ -201,6 +224,7 @@ class CreditController extends Controller
             'frais_deblocage'=>$frais_deblocage,
             'frais_carte'=>$request->frais_carte,
             'montant_interet'=>$montant_interet,
+            'montant_par_jour'=>$montant_par_jour,
         ]);
 
         return redirect()->route('credit.index');
@@ -217,6 +241,6 @@ class CreditController extends Controller
         $credit = Credit::findOrFail($id);
         $credit->delete();
 
-        return redirect()->route('credit.index');
+        return redirect()->route('attente.index');
     }
 }

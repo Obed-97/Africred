@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Historique')
 
 @extends('master')
 
@@ -41,32 +41,40 @@
                                         <form class="custom-validation" action="{{route('historique.update', $historique->id)}}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                              {{method_field('PUT')}}
-                                         
-                                             <div class="form-group">
-                                                <div class="form-group ">
-                                                    <label  class="control-label">Date</label>
-                                                    <div>
-                                                        <input class="form-control" type="date" value="{{$historique->date}}" name="date"  id="date" required>
-                                                    </div>
+                                            
+                                            <div class="form-group ">
+                                                <label  class="control-label">Date</label>
+                                                <div>
+                                                    <input class="form-control" type="date" value="{{$historique->date}}" name="date"  id="date" required>
                                                 </div>
-                                                <label class="control-label" name>Client</label>
-                                                <select class="form-control " name="credit_id">
-                                                    <option value="{{$historique->credit_id}}">{{$historique->Credit->Client['nom_prenom']}} </option>
-                                                   @foreach ($credits as $item)
-                                                    <option value="{{$item->id}}">{{$item->Client['nom_prenom']}} </option>
+                                            </div>
+                                                
+                                            <div class="form-group">
+                                                <label class="control-label">Client</label>
+                                                <select class="form-control select2" name="credit_id" required>
+                                                    <option value="{{$historique->credit_id}}">{{$historique->Credit->Client['nom_prenom']}} -- {{number_format($historique->Credit['montant_interet'], 0, ',', ' ')}} CFA </option>
+                                                    @foreach ($credits as $item)
+                                                    <option value="{{$item->id}}">
+                                                        {{$item->Client['nom_prenom']}} -- {{number_format($item->montant_interet, 0, ',', ' ')}} CFA --
+                                                        @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                            <div class="text-success font-size-12">Payé</div>
+                                                        @else
+                                                            <div class="text-danger font-size-12">Encours</div>
+                                                        @endif
+                                                    </option>
                                                    @endforeach
                                                 </select>
-                                            </div>
-
-                                            <div class="form-group">
                                                 
-                                                <label class="control-label" >Marché</label>
-                                                <select class="form-control " name="marche_id">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Marché</label>
+                                                <select class="form-control select2" name="marche_id" required>
                                                     <option value="{{$historique->Marche['id']}}">{{$historique->Marche['libelle']}} </option>
                                                    @foreach ($marches as $item)
                                                     <option value="{{$item->id}}">{{$item->libelle}} </option>
                                                    @endforeach
                                                 </select>
+                                                
                                             </div>
 
                                             <div class="form-group ">

@@ -25,6 +25,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        
+        
+          
         $agents = Recouvrement::selectRaw(
             'user_id',)
          ->groupBy('user_id')->whereDate('date', Carbon::today())

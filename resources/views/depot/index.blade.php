@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Dépôt')
 
 @extends('master')
 
@@ -29,6 +29,29 @@
                         </div>
                     </div>
                     <!-- end page title -->
+                    <div class="row mb-4">
+                        <div class="col-xl-3"></div>
+                       <div class="col-xl-8" id="web">
+                            <form  method="POST" action="{{route('depot.livret')}}" class="d-flex mb-4">
+                                @csrf
+                                <div class="col-xl-7">
+                                    <select class="form-control select2" name="client_id" required>
+                                        @foreach ($clients as $item)
+                                            <option value="{{$item->id}}">ABF-{{$item->id}} ---> {{$item->nom_prenom}} ---> de 
+                                            @if($item->adresse == NULL)
+                                            {{$item->Marche['libelle']}}
+                                            @else
+                                            {{$item->adresse}} 
+                                            @endif
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light">ATTESTATION DE SOLDE</div>
+                            </form>
+                        </div>
+                        <div class="col-xl-2"></div>
+                    </div>
     
                     <div class="row">
                         <div class="col-12">
@@ -61,14 +84,22 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
+                                                        <div class="form-group ">
+                                                            <label>Date</label>
+                                                            <div>
+                                                                <input class="form-control" type="date" name="date"  id="date" required >
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Client</label>
-                                                            <select class="form-control " name="client_id" required>
-                                                                @foreach ($clients as $item)
-                                                                    <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
-                                                                @endforeach
+                                                            <select class="form-control select2" name="client_id" required>
+                                                               @foreach ($clients as $item)
+                                                                <option value="{{$item->id}}">{{$item->nom_prenom}} ---> de {{$item->Marche['libelle']}}</option>
+                                                               @endforeach
                                                             </select>
+                                                            
                                                         </div>
+                                                        
                                                         <div class="form-group ">
                                                             <label>Montant</label>
                                                             <div>
@@ -108,13 +139,20 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
+                                                        <div class="form-group ">
+                                                            <label>Date</label>
+                                                            <div>
+                                                                <input class="form-control" type="date" name="date"  id="date" required >
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Client</label>
-                                                            <select class="form-control " name="client_id" required>
-                                                                @foreach ($clients as $item)
-                                                                    <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
-                                                                @endforeach
+                                                            <select class="form-control select2" name="client_id" required>
+                                                               @foreach ($clients as $item)
+                                                                <option value="{{$item->id}}">{{$item->nom_prenom}} ---> de {{$item->Marche['libelle']}}</option>
+                                                               @endforeach
                                                             </select>
+                                                            
                                                         </div>
                                                         <div class="form-group ">
                                                             <label>Montant</label>
@@ -144,11 +182,17 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
+                                            <th>N° Compte</th>
                                             <th>Nom complet</th>
+                                            <th>Adresse</th>
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
                                             <th>Solde</th>
+                                            
                                             <th>Statut</th>
+                                            @if(auth()->user()->role_id == 1)
+                                            <th>Opérateur</th>
+                                            @endif
                                         </tr>
                                         </thead>
     
@@ -156,7 +200,13 @@
                                         <tbody>
                                        @foreach ($depots as $item)
                                         <tr>
+                                            <td>ABF-{{$item->Client['id']}}</td>
                                             <td>{{$item->Client['nom_prenom']}}</td>
+                                            <td>@if($item->adresse == NULL)
+                                                {{$item->Client->Marche['libelle']}}
+                                                @else
+                                                {{$item->adresse}} 
+                                                @endif</td>
                                             <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format(intval($item->depot) - intval($item->retrait), 0, ',', ' ')}} CFA</td>
@@ -168,6 +218,9 @@
                                                 <td>
                                                     <div class="badge badge-soft-danger font-size-12">Solde nul</div>
                                                 </td>
+                                            @endif
+                                            @if(auth()->user()->role_id == 1)
+                                            <td>{{$item->Client->User['nom']}}</td>
                                             @endif
                                         </tr>
                                        @endforeach
@@ -183,49 +236,6 @@
 
                     
                     <div class="row " id="web">
-                        <div class="col-4">
-                            <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">TONTINE  </h4>
-
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        
-                                    </ol>
-                                </div>
-
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                      
-                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr style="font-size: 16px">
-                                                <th><b>Désignations</b> </th>
-                                                <th><b>Total</b> </th>
-                                                
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            <tr>
-                                                <td>Dépôt</td>
-                                                <td class="text-success">{{number_format($tontine->sum('depot'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Retrait</td>
-                                                <td class="text-success">{{number_format($tontine->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Solde</td>
-                                                <td class="text-success">{{number_format(($tontine->sum('depot')) - ($tontine->sum('retrait')), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                   
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
                         <div class="col-4">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
                                 <h4 class="mb-0 text-success">ÉPARGNE  </h4>
@@ -270,6 +280,50 @@
                                 </div>
                             </div>
                         </div> <!-- end col -->
+                        <div class="col-4">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="mb-0 text-success">TONTINE  </h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        
+                                    </ol>
+                                </div>
+
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                      
+                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            <tr style="font-size: 16px">
+                                                <th><b>Désignations</b> </th>
+                                                <th><b>Total</b> </th>
+                                                
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                            <tr>
+                                                <td>Dépôt</td>
+                                                <td class="text-success">{{number_format($tontine->sum('depot'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Retrait</td>
+                                                <td class="text-success">{{number_format($tontine->sum('retrait'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Solde</td>
+                                                <td class="text-success">{{number_format(($tontine->sum('depot')) - ($tontine->sum('retrait')), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                   
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                        
                     </div>
                     
                 </div> <!-- container-fluid -->

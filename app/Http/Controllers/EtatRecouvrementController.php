@@ -109,23 +109,23 @@ class EtatRecouvrementController extends Controller
           }
           
         if (auth()->user()->role_id == 1) { 
-            $credits = Credit::whereDate('date_deblocage', Carbon::today())->get();
+            $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
         } else {
-            $credits = Credit::where('user_id', auth()->user()->id)->get();
+            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         }
         
-        $credit_j = Credit::where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::today())->get();
+        $credit_j = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::today())->get();
         
         if (auth()->user()->role_id == 1) { 
-            $credits_hier = Credit::whereDate('date_deblocage', Carbon::yesterday())->get();
+            $credits_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::yesterday())->get();
         } else {
-            $credits_hier = Credit::where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::yesterday())->get();
+            $credits_hier = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::yesterday())->get();
         }
         
         if (auth()->user()->role_id == 1) { 
-            $credits_j_2 = Credit::whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
+            $credits_j_2 = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
         } else {
-            $credits_j_2 = Credit::where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
+            $credits_j_2 = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
         }
         
    
@@ -184,7 +184,7 @@ class EtatRecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
 
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
@@ -228,7 +228,7 @@ class EtatRecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
 
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {
@@ -299,7 +299,7 @@ class EtatRecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
 
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {

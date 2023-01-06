@@ -1,4 +1,4 @@
-@section('title', 'Bienvenue à AFRICRED')
+@section('title', 'Personnel')
 
 @extends('master')
 
@@ -57,11 +57,7 @@
                                                 <td>{{$item->telephone}}</td>
                                                 <td class="d-flex">
                                                     <a href="{{route('personnel.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                    <form method="POST" action="{{route('personnel.destroy', $item->id)}}">
-                                                        @csrf
-                                                        {{method_field('DELETE')}}
-                                                    <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                                    </form>
+                                                    
                                                 </td>
                                             
                                             </tr>

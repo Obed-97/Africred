@@ -66,9 +66,9 @@ class RecouvrementController extends Controller
           }
 
         if (auth()->user()->role_id == 1) {
-            $credits = Credit::get();
+            $credits = Credit::where('statut', 'Accordé')->get();
         } else {
-            $credits = Credit::where('user_id', auth()->user()->id)->get();
+            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         }
         
         $marches = Marche::get();
@@ -116,7 +116,7 @@ class RecouvrementController extends Controller
           }
 
 
-        $credits = Credit::where('user_id', auth()->user()->id)->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1) {

@@ -1,4 +1,4 @@
-@section('title', 'Déblocage')
+@section('title', 'Crédit')
 
 @extends('master')
 
@@ -45,89 +45,8 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title text-right mb-4">
-                                        @if (auth()->user()->role_id == 2)
-                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Nouveau déblocage</button>
-                                        @endif
-                                    </h4>
-                                        <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog" >
-                                                <form action="{{route('credit.store')}}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Nouveau déblocage</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="modal-body">
-                                                        
-                                                        <div class="form-group">
-                                                            <label class="control-label">Bénéficiare</label>
-                                                            <select class="form-control select2" name="client_id" required>
-                                                               @foreach ($clients as $item)
-                                                                <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
-                                                               @endforeach
-                                                            </select>
-                                                            
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label">Marché</label>
-                                                            <select class="form-control select2" name="marche_id" required>
-                                                               @foreach ($marches as $item)
-                                                                <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                                               @endforeach
-                                                            </select>
-                                                            
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Montant</label>
-                                                            <div>
-                                                                <input class="form-control" type="number" name="montant"  id="montant" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label">Taux d'intérêt</label>
-                                                            <select class="form-control " name="taux">
-                                                                <option value="0.2">20%</option>
-                                                                <option value="0.15">15%</option>
-                                                                <option value="0.1">10%</option>
-                                                                <option value="0.05">5%</option>
-                                                                
-                                                            </select>
-                                                            
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Date de déblocage</label>
-                                                            <div>
-                                                                <input class="form-control" type="date" name="date_deblocage"  id="date_deblocage" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Date de fin</label>
-                                                            <div>
-                                                                <input class="form-control" type="date" name="date_fin"  id="date_fin" required>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group ">
-                                                            <label>Frais de carte</label>
-                                                            <div>
-                                                                <input class="form-control" type="number" name="frais_carte"  id="frais_carte" required>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-primary waves-effect waves-light" type="submit">Enregistrer</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            </div>
-                                        </div>
+                                    
+                                        
                                         <div class="row">
                                             <div class="mb-4 col-xl-4">
                                                 <label for="">Afficher par :</label>
@@ -145,6 +64,7 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
+                                                <th>N° Compte</th>
                                                 <th>Bénéficiaire</th>
                                                 <th>Montant</th>
                                                 <th>Date de déblocage</th>
@@ -168,12 +88,13 @@
 
                                             @foreach ($credits as $item)
                                                 <tr>
+                                                    <td>ABF-{{$item->Client['id']}}</td>
                                                     <td>{{$item->Client['nom_prenom']}}</td>
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     <td>{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
                                                     @if(($item->date_deblocage) < ($item->date_fin))
-                                                     <td class="text-success">{{\Carbon\Carbon::createMidnightDate($item->date_deblocage)->diffInDays($item->date_fin)}} jours</td>
+                                                     <td >{{\Carbon\Carbon::createMidnightDate($item->date_deblocage)->diffInDays($item->date_fin)}} jours</td>
                                                     @else
                                                      <td class="text-danger"><i class="ri-error-warning-line"></i> Erreur date de fin</td>
                                                     @endif
@@ -200,13 +121,16 @@
                                                     <td class="d-flex">
                                                         @if (auth()->user()->role_id == 2)
                                                         <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                        @endif
-                                                       
                                                         <form method="POST" action="{{route('credit.destroy', $item->id)}}">
                                                             @csrf
                                                             {{method_field('DELETE')}}
                                                         <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                         </form>
+                                                        @endif
+                                                        @if (auth()->user()->role_id == 1)
+                                                        <a href="{{route('credit.show', $item->id)}}" class="mr-3 text-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Contrat"><i class="mdi mdi-eye font-size-18"></i></a>
+                                                        @endif
+                                                        
                                                        
                                                     </td>
 

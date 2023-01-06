@@ -167,7 +167,8 @@
                                                     <th>Client</th>
                                                     <th>Marché</th>
                                                     <th>Montant & Intérêt</th>
-                                                    <th>Encours actualisé</th>
+                                                    <th style="background-color: #ff3d60; color: white ">Montant restant</th>
+                                                    <th style="background-color: #1cbb8c; color: white ">Montant payé</th>
                                                     <th>Capital à ce jour</th>
                                                     <th>Intérêt à ce jour</th>
                                                     <th>Epargne à ce jour</th>
@@ -184,9 +185,9 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
-                                                <th style="background-color: #5664d2; color:white">Frais déblocage</th>
-                                                <th style="background-color: #5664d2; color:white">Frais carte</th>
-                                                <th style="background-color: #1cbb8c;; color: white ">Total</th>
+                                                <th style="background-color: #569ad2; color:white">Frais déblocage</th>
+                                                <th style="background-color: #569ad2; color:white">Frais carte</th>
+                                                <th style="background-color: #1cbb8c; color: white ">Total</th>
                                                 
                                                
                                             </tr>
@@ -203,12 +204,13 @@
                                                         <td>{{$item->Credit->Client->Marche['libelle']}}</td>
                                                         <td>{{number_format(($item->Credit['montant_interet']), 0, ',', ' ')}} CFA</td>
                                                         @if(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) < 0)
-                                                        <td class="text-danger">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA (Erreur)</td>
+                                                        <td style="background-color: #ff3d60; color: white ">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA (Erreur)</td>
                                                         @elseif(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) == 0)
-                                                        <td class="text-success">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA -- Terminé</td>
+                                                        <td style="background-color: #1cbb8c; color: white ">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA -- Terminé</td>
                                                         @else
-                                                        <td>{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA</td>
+                                                        <td style="background-color: #ff3d60; color: white ">{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA</td>
                                                         @endif
+                                                        <td style="background-color: #1cbb8c;; color: white ">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
@@ -244,9 +246,9 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-                                                        <td>{{number_format($item->getFraisDeblocage($item->user_id), 0, ',', ' ')}} CFA</td>
-                                                        <td>{{number_format($item->getFraisCarte($item->user_id), 0, ',', ' ')}} CFA</td>
-                                                        <td class="text-success">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->getFraisDeblocage($item->user_id) + $item->getFraisCarte($item->user_id)) , 0, ',', ' ')}} CFA</td>
+                                                        <td style="background-color: #569ad2; color:white">{{number_format($item->getFraisDeblocage($item->user_id), 0, ',', ' ')}} CFA</td>
+                                                        <td style="background-color: #569ad2;  color:white">{{number_format($item->getFraisCarte($item->user_id), 0, ',', ' ')}} CFA</td>
+                                                        <td style="background-color: #1cbb8c; color: white ">{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->getFraisDeblocage($item->user_id) + $item->getFraisCarte($item->user_id)) , 0, ',', ' ')}} CFA</td>
 
                                                     </tr>
                                                 @endforeach

@@ -173,7 +173,9 @@
                                                 <th>Intérêt à ce jour</th>
                                                 <th>Epargne à ce jour</th>
                                                 <th>Assurance</th>
-                                                <th class="text-success">Total</th>
+                                               
+                                                
+                                                <th style="background-color: #1cbb8c;; color: white ">Total</th>
                                                
                                             </tr>
                                             @endif
@@ -213,6 +215,7 @@
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+                                                       
                                                         <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
                                                         
 

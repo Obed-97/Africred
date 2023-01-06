@@ -16,6 +16,12 @@ class DepotController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->role_id == 1) {
+            $tout_depot = Depot::get();
+        }else {
+            $tout_depot = Depot::where('user_id', auth()->user()->id)->get();
+        }
+        
         $depots = null;
 
         if (auth()->user()->role_id == 1) {
@@ -59,7 +65,29 @@ class DepotController extends Controller
 
         $types =Type_depot::get();
 
-        return view('depot.index', compact('depots','clients','types','tontine','epargne'));
+        return view('depot.index', compact('depots','clients','types','tontine','epargne','tout_depot'));
+    }
+    
+    public function livret(Request $request)
+    {
+        $client_id = $request->client_id;
+
+        $info = Depot::where('client_id', $request->client_id)->first();
+        
+        if (auth()->user()->role_id == 1) {
+            $client = Client::get();
+        }else {
+            $client = Client::where('user_id', auth()->user()->id)->get();
+        }
+   
+
+        if (auth()->user()->role_id == 1) {
+            $livret = Depot::where('client_id', $request->client_id)->get();
+        }else {
+            $livret = Depot::where('client_id', $request->client_id)->where('user_id', auth()->user()->id)->get();
+        }
+
+        return view('depot.show', compact('livret','client_id','info','client'));
     }
 
 
@@ -174,6 +202,7 @@ class DepotController extends Controller
             'user_id'=>auth()->user()->id,
             'client_id'=>$request->client_id,
             'type_depot_id'=>$request->type_depot_id,
+            'date'=>$request->date,
             'depot'=>$request->depot,
             'solde'=>$solde,
         ]);
@@ -188,12 +217,13 @@ class DepotController extends Controller
         $depots = Depot::where('client_id', $request->client_id)->sum('depot');
         $retraits = Depot::where('client_id', $request->client_id)->sum('retrait');
 
-        $solde = abs((intval($depots) - intval($retraits) + intval($request->retrait)) );
+        $solde = abs((intval($depots) - (intval($retraits) + intval($request->retrait))) );
 
         $depot->create([
             'user_id'=>auth()->user()->id,
             'client_id'=>$request->client_id,
             'type_depot_id'=>$request->type_depot_id,
+            'date'=>$request->date,
             'retrait'=>$request->retrait,
             'solde'=>$solde,
         ]);
