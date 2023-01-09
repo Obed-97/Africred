@@ -40,7 +40,7 @@ class Recouvrement extends Model
   
     public function getFraisDeblocage($item)
     {
-        $credits = Credit::where('user_id', $item)->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->get();
 
         $frais_deblocage = 0;
 
@@ -55,7 +55,7 @@ class Recouvrement extends Model
     
     public function getFraisDeblocageDay($item)
     {
-        $credits = Credit::where('user_id', $item)->whereDate('date_deblocage', Carbon::today())->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::today())->get();
 
         $frais_deblocage = 0;
 
@@ -70,7 +70,7 @@ class Recouvrement extends Model
     
     public function DeblocageHier($item)
     {
-        $credits = Credit::where('user_id', $item)->whereDate('date_deblocage', Carbon::yesterday())->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::yesterday())->get();
 
         $frais_deblocage = 0;
 
@@ -85,7 +85,7 @@ class Recouvrement extends Model
     
     public function DeblocageJ_2($item)
     {
-        $credits = Credit::where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
 
         $frais_deblocage = 0;
 
@@ -100,7 +100,7 @@ class Recouvrement extends Model
 
     public function getFraisCarte($item)
     {
-        $credits = Credit::where('user_id', $item)->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->get();
 
         $frais_carte = 0;
 
@@ -115,7 +115,7 @@ class Recouvrement extends Model
     
     public function getFraisCarteDay($item)
     {
-        $credits = Credit::where('user_id', $item)->whereDate('date_deblocage', Carbon::today())->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::today())->get();
 
         $frais_carte = 0;
 
@@ -130,7 +130,7 @@ class Recouvrement extends Model
     
     public function CarteHier($item)
     {
-        $credits = Credit::where('user_id', $item)->whereDate('date_deblocage', Carbon::yesterday())->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::yesterday())->get();
 
         $frais_carte = 0;
 
@@ -145,7 +145,7 @@ class Recouvrement extends Model
     
     public function CarteJ_2($item)
     {
-        $credits = Credit::where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
+        $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
 
         $frais_carte = 0;
 
