@@ -12,6 +12,7 @@ use App\Models\Encaissement;
 use App\Models\Decaissement;
 use App\Models\Banque;
 use App\Models\Marche;
+use Illuminate\Support\Facades\DB;
 
 
 use Carbon\Carbon;
@@ -34,21 +35,21 @@ class DashboardController extends Controller
          ->get();
 
          if (auth()->user()->role_id == 1) {
-            $credits = Credit::whereDate('date_deblocage', Carbon::today())->get();
+            $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
           }else {
-            $credits = Credit::whereDate('date_deblocage', Carbon::today())->where('user_id', auth()->user()->id)->get();
+            $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->where('user_id', auth()->user()->id)->get();
           }
 
           if (auth()->user()->role_id == 1) {
-            $credits_hier = Credit::whereDate('date_deblocage', Carbon::yesterday())->get();
+            $credits_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::yesterday())->get();
           }else {
-            $credits_hier = Credit::whereDate('date_deblocage', Carbon::yesterday())->where('user_id', auth()->user()->id)->get();
+            $credits_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::yesterday())->where('user_id', auth()->user()->id)->get();
           }
 
           if (auth()->user()->role_id == 1) {
-            $credits_av_hier = Credit::whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
+            $credits_av_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
           }else {
-            $credits_av_hier = Credit::whereDate('date_deblocage', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
+            $credits_av_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
           }
 
           if (auth()->user()->role_id == 1) {
@@ -100,8 +101,55 @@ class DashboardController extends Controller
         $marches = Marche::all();
 
 
-       
-        return view('dashboard.index', compact('marches','credits','hier','credits_hier','avant_hier','credits_av_hier', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
+        $donnes_client = Client::select(DB::raw("COUNT(*) as count"))
+                    ->whereYear('created_at', date('Y'))
+                    ->groupBy(DB::raw("Month(created_at)"))
+                    ->pluck("count");
+        $months = Client::select(DB::raw("Month(created_at) as month"))
+                    ->whereYear('created_at', date('Y'))
+                    ->groupBy(DB::raw("Month(created_at)"))
+                    ->pluck("month");
+
+        $datas = array(0,0,0,0,0,0,0,0,0,0,0,0);
+
+        foreach($months as $index => $month)
+        {
+            $datas[$month] = $donnes_client[$index]; 
+        }
+
+        $deblocages = Credit::select(DB::raw("COUNT(*) as count"))
+                  ->whereYear('date_deblocage', date('Y'))->where('statut', 'Accordé')
+                  ->groupBy(DB::raw("Month(date_deblocage)"))
+                  ->pluck("count");
+        $mois_deblocage = Credit::select(DB::raw("Month(date_deblocage) as mois"))
+                  ->whereYear('date_deblocage', date('Y'))->where('statut', 'Accordé')
+                  ->groupBy(DB::raw("Month(date_deblocage)"))
+                  ->pluck("mois");
+
+        $donnes_deblocage = array(0,0,0,0,0,0,0,0,0,0,0,0);
+
+        foreach($mois_deblocage as $index => $mois)
+        {
+            $donnes_deblocage[$mois] = $deblocages[$index]; 
+        }
+
+        $attentes = Credit::select(DB::raw("COUNT(*) as count"))
+                ->whereYear('created_at', date('Y'))->where('statut', 'En attente')
+                ->groupBy(DB::raw("Month(created_at)"))
+                ->pluck("count");
+        $mois_attente = Credit::select(DB::raw("Month(created_at) as mois"))
+                ->whereYear('created_at', date('Y'))->where('statut', 'En attente')
+                ->groupBy(DB::raw("Month(created_at)"))
+                ->pluck("mois");
+
+        $donnes_attente = array(0,0,0,0,0,0,0,0,0,0,0,0);
+
+        foreach($mois_attente as $index => $mois)
+        {
+          $donnes_attente[$mois] = $attentes[$index]; 
+        }
+                
+        return view('dashboard.index', compact('donnes_attente','donnes_deblocage','datas','marches','credits','hier','credits_hier','avant_hier','credits_av_hier', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

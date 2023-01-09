@@ -49,6 +49,7 @@
                                             <th>Capital recouvré</th>
                                             <th>Solde</th>
                                             <th>Délai</th>
+                                            <th>Jours de retard</th>
                                             <th>Statut de payement</th>
                                             @if(auth()->user()->role_id == 1)
                                             <th>Agent</th>
@@ -80,7 +81,16 @@
                                                     @else
                                                         <td class="text-danger font-size-15">Expiré </td>
                                                     @endif
-                                                    
+
+                                                    @if ((\Carbon\Carbon::now() > $item->date_fin) && (\Carbon\Carbon::now()->diffInDays($item->date_fin) != 0) && ($item->solde($item->montant)) != 0)
+                                                     <td class="text-danger font-size-15"> {{\Carbon\Carbon::createMidnightDate($item->date_fin)->diffInDays(\Carbon\Carbon::now())}} jrs</td>
+                                                    @elseif(\Carbon\Carbon::now()->diffInDays($item->date_fin) == 0)
+                                                     <td class="text-primary font-size-15">Aujourd'hui </td>
+                                                    @else
+                                                     <td class="text-success font-size-15">Pas de retard </td>
+                                                    @endif
+
+
                                                     @if (($item->solde($item->montant)) == 0 || ($item->solde($item->montant)) < 0)
                                                     <td>
                                                         <div class="badge badge-soft-success font-size-12">Soldé</div>

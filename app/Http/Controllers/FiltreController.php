@@ -54,9 +54,9 @@ class FiltreController extends Controller
          ->get();
 
          if (auth()->user()->role_id == 1) {
-            $credits = Credit::whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
+            $credits = Credit::where('statut', 'Accordé')->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
           }else {
-            $credits = Credit::where('user_id', auth()->user()->id)->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
+            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
           }
 
           if (auth()->user()->role_id == 1) {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Credit;
 use App\Models\Marche;
+Use Alert;
 
 class AttenteController extends Controller
 {
@@ -90,6 +91,9 @@ class AttenteController extends Controller
             
             'statut'=>$statut,
         ]);
+
+        Alert::success('Accordé!', 'La demande de prêt est accordée');
+
 
         return redirect()->route('attente.index');
     }

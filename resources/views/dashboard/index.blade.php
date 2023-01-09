@@ -54,89 +54,7 @@
                     <div class="col-xl-3"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
                 </form>
             </div>
-             <h4 class="card-title text-right mb-4">
-                    @if (auth()->user()->role_id == 2)
-                        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Demande de pr&ecirc;t</button>
-                    @endif
-                </h4>
-                 <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog" >
-                        <form action="{{route('credit.store')}}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Demande de pr&ecirc;t</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <div class="modal-body">
-                                
-                                <div class="form-group">
-                                    <label class="control-label">B&eacute;n&eacute;ficiare</label>
-                                    <select class="form-control select2" name="client_id" required>
-                                       @foreach ($clients as $item)
-                                        <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
-                                       @endforeach
-                                    </select>
-                                    
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">March&eacute;</label>
-                                    <select class="form-control select2" name="marche_id" required>
-                                       @foreach ($marches as $item)
-                                        <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                       @endforeach
-                                    </select>
-                                    
-                                </div>
-                                <div class="form-group ">
-                                    <label>Montant</label>
-                                    <div>
-                                        <input class="form-control" type="number" name="montant"  id="montant" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Taux d'int&eacute;r&ecirc;t</label>
-                                    <select class="form-control " name="taux">
-                                        <option value="0.2">20%</option>
-                                        <option value="0.15">15%</option>
-                                        <option value="0.1">10%</option>
-                                        <option value="0.05">5%</option>
-                                        
-                                    </select>
-                                    
-                                </div>
-                                <div class="form-group ">
-                                    <label>Date de d&eacute;blocage</label>
-                                    <div>
-                                        <input class="form-control" type="date" name="date_deblocage"  id="date_deblocage" required>
-                                    </div>
-                                </div>
-                                <div class="form-group ">
-                                    <label>Date de fin</label>
-                                    <div>
-                                        <input class="form-control" type="date" name="date_fin"  id="date_fin" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group ">
-                                    <label>Frais de carte</label>
-                                    <div>
-                                        <input class="form-control" type="number" name="frais_carte"  id="frais_carte" required>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                <button class="btn btn-primary waves-effect waves-light" type="submit">Enregistrer</button>
-                            </div>
-                        </div>
-                    </form>
-                    </div>
-                </div> 
+            
             <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">ÉTAT GLOBAL</a></div>
         </div>
 
@@ -317,6 +235,10 @@
                 </div> 
                 <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">ÉTAT GLOBAL</a></div>
             </div>
+            <div id="web">
+                <div id="container" class="mb-4"></div>
+            </div>
+            
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -865,6 +787,9 @@
                         </div>
                     </div>
                 </div>
+
+               
+                
             </div>
         </div>  
     @else
@@ -935,5 +860,93 @@
 </div>
 <!-- End Page-content -->
 @endif
+
+@endsection
+
+@section('extra-js')
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript">
+
+    var datas =<?php echo json_encode($datas)?>;
+    var donnes_deblocage =<?php echo json_encode($donnes_deblocage)?>;
+    var donnes_attente =<?php echo json_encode($donnes_attente)?>;
+    
+
+    Highcharts.chart('container', {
+
+       title:{
+           text: 'Statistiques de l\'année <?php echo date('Y')?>'
+       }, 
+       subtitle:{
+           text: 'Source : AFRICRED'
+       }, 
+
+       xAxis:{
+        categories: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre',
+
+                'Octobre', 'Novembre', 'Décembre']
+       },
+
+       yAxis: [{
+                    title: {
+                        text: 'Échelles'
+                    },
+
+                }
+                ],
+
+       legend:{
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign :'middle',
+       },
+
+       plotOptions:{
+            series:{
+                allowPointSelect:true
+            }
+       },
+       series: [{
+            name: 'Comptes crées',
+            type: 'column',
+            color:'#5664d2',
+            data: datas
+        },{
+            name: 'Déblocages',
+            type: 'spline',
+            color: '#1cbb8c',
+            data: donnes_deblocage
+        },
+        {
+            name: 'Liste d\'attente',
+            type: 'spline',
+            color: '#fcb92c',
+            data: donnes_attente
+        },
+        
+    
+    ],
+
+       responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+    });
+    
+
+  
+</script>
+    
 
 @endsection

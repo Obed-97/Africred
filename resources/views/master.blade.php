@@ -19,11 +19,15 @@
 
 		@yield('content')
 
+		@yield('extra-js')
+
 		@include('layouts.footer')
 		
 	    @include('layouts.right_sidebar')
 
 		@include('layouts.script')
+
+		@include('sweetalert::alert')
 
 
 	</body>

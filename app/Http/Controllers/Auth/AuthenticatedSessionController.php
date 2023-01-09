@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Alert;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,6 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        toast('Vous êtes connecté!','success');
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -48,7 +50,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
+        
+        toast('Vous êtes déconnecté!','info');
         return redirect('/');
     }
 }

@@ -54,6 +54,7 @@
                                                 <th>Encours global</th>
                                                 <th>Date limite</th>
                                                 <th>Jours restant</th>
+                                                <th>Retard</th>
                                                 <th>Statut de payement</th>
                                                 @if(auth()->user()->role_id == 1)
                                                 <th>Agent</th>
@@ -95,6 +96,14 @@
                                                         <td class="text-primary font-size-15">Aujourd'hui </td>
                                                     @else
                                                         <td class="text-danger font-size-15">Délai expiré </td>
+                                                    @endif
+
+                                                    @if ((\Carbon\Carbon::now() > $item->Credit['date_fin']) && (\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) != 0) && (intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) != 0)
+                                                        <td class="text-danger font-size-15">{{\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin'])}} jours</td>
+                                                    @elseif(\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) == 0)
+                                                        <td class="text-primary font-size-15">Aujourd'hui </td>
+                                                    @else
+                                                        <td class="text-success font-size-15">Pas de retard </td>
                                                     @endif
                                                     
                                                     @if ((intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) == 0 || (intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs))) < 0)
