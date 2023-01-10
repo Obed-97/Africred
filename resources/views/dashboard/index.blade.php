@@ -866,11 +866,14 @@
 @section('extra-js')
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript">
 
     var datas =<?php echo json_encode($datas)?>;
     var donnes_deblocage =<?php echo json_encode($donnes_deblocage)?>;
     var donnes_attente =<?php echo json_encode($donnes_attente)?>;
+   
     
 
     Highcharts.chart('container', {
@@ -924,6 +927,7 @@
             color: '#fcb92c',
             data: donnes_attente
         },
+       
         
     
     ],

@@ -84,8 +84,7 @@
 
                                                     @if ((\Carbon\Carbon::now() > $item->date_fin) && (\Carbon\Carbon::now()->diffInDays($item->date_fin) != 0) && ($item->solde($item->montant)) != 0)
                                                      <td class="text-danger font-size-15"> {{\Carbon\Carbon::createMidnightDate($item->date_fin)->diffInDays(\Carbon\Carbon::now())}} jrs</td>
-                                                    @elseif(\Carbon\Carbon::now()->diffInDays($item->date_fin) == 0)
-                                                     <td class="text-primary font-size-15">Aujourd'hui </td>
+                                                    
                                                     @else
                                                      <td class="text-success font-size-15">Pas de retard </td>
                                                     @endif

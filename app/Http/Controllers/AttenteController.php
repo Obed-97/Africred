@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Credit;
 use App\Models\Marche;
-Use Alert;
+
+use Carbon\Carbon;
 
 class AttenteController extends Controller
 {
@@ -18,7 +19,7 @@ class AttenteController extends Controller
     public function index()
     {
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
-            $credits = Credit::where('statut', 'En attente')->get();
+            $credits = Credit::where('statut', 'En attente')->orWhereDate('updated_at', Carbon::now())->get();
         }else {
             $credits = Credit::where('statut', 'En attente')->where('user_id', auth()->user()->id)->get();
         }
@@ -91,9 +92,6 @@ class AttenteController extends Controller
             
             'statut'=>$statut,
         ]);
-
-        Alert::success('Accordé!', 'La demande de prêt est accordée');
-
 
         return redirect()->route('attente.index');
     }

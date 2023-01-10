@@ -156,9 +156,9 @@
                                                    
                                                     
                                                     
-                                                    @if ($item->statut == "R&eacute;j&eacute;t&eacute;")
+                                                    @if ($item->statut == "Accordé")
                                                     <td>
-                                                        <div class="badge badge-soft-danger font-size-12">{{$item->statut}}</div>
+                                                        <div class="badge badge-soft-success font-size-12">{{$item->statut}}</div>
                                                         </td>  
                                                     @else
                                                         <td>

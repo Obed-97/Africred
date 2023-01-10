@@ -101,54 +101,150 @@ class DashboardController extends Controller
         $marches = Marche::all();
 
 
-        $donnes_client = Client::select(DB::raw("COUNT(*) as count"))
-                    ->whereYear('created_at', date('Y'))
-                    ->groupBy(DB::raw("Month(created_at)"))
-                    ->pluck("count");
-        $months = Client::select(DB::raw("Month(created_at) as month"))
-                    ->whereYear('created_at', date('Y'))
-                    ->groupBy(DB::raw("Month(created_at)"))
-                    ->pluck("month");
+        $client_01 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '01')
+                      ->count();
+        $client_02 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '02')
+                      ->count();
+        $client_03 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '03')
+                      ->count();
+        $client_04 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '04')
+                      ->count();
+        $client_05 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '05')
+                      ->count();
+        $client_06 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '06')
+                      ->count();
+        $client_07 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '07')
+                      ->count();
+        $client_08 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '08')
+                      ->count();
+        $client_09 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '09')
+                      ->count();
+        $client_10 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '10')
+                      ->count();
+        $client_11 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '11')
+                      ->count();
+        $client_12 = Client::whereYear('created_at', date('Y'))
+                      ->whereMonth('created_at', '12')
+                      ->count();
 
-        $datas = array(0,0,0,0,0,0,0,0,0,0,0,0);
+        $datas = array($client_01,$client_02,$client_03,$client_04,$client_05,$client_06,$client_07,$client_08,$client_09,$client_10,$client_11,$client_12);
 
-        foreach($months as $index => $month)
-        {
-            $datas[$month] = $donnes_client[$index]; 
-        }
+        $deblocage_01 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '01')
+                      ->count();
+        $deblocage_02 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '02')
+                      ->count();
+        $deblocage_03 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '03')
+                      ->count();
+        $deblocage_04 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '04')
+                      ->count();
+        $deblocage_05 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '05')
+                      ->count();
+        $deblocage_06 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '06')
+                      ->count();
+        $deblocage_07 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '07')
+                      ->count();
+        $deblocage_08 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '08')
+                      ->count();
+        $deblocage_09 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '09')
+                      ->count();
+        $deblocage_10 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '10')
+                      ->count();
+        $deblocage_11 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '11')
+                      ->count();
+        $deblocage_12 = Credit::whereYear('date_deblocage', date('Y'))
+                      ->where('statut', 'Accordé')
+                      ->whereMonth('date_deblocage', '12')
+                      ->count();
 
-        $deblocages = Credit::select(DB::raw("COUNT(*) as count"))
-                  ->whereYear('date_deblocage', date('Y'))->where('statut', 'Accordé')
-                  ->groupBy(DB::raw("Month(date_deblocage)"))
-                  ->pluck("count");
-        $mois_deblocage = Credit::select(DB::raw("Month(date_deblocage) as mois"))
-                  ->whereYear('date_deblocage', date('Y'))->where('statut', 'Accordé')
-                  ->groupBy(DB::raw("Month(date_deblocage)"))
-                  ->pluck("mois");
+        $donnes_deblocage = array($deblocage_01,$deblocage_02,$deblocage_03,$deblocage_04,$deblocage_05,$deblocage_06,$deblocage_07,$deblocage_08,$deblocage_09,$deblocage_10,$deblocage_11,$deblocage_12);
 
-        $donnes_deblocage = array(0,0,0,0,0,0,0,0,0,0,0,0);
+        $attente_01 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '01')
+                      ->count();
+        $attente_02 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '02')
+                      ->count();
+        $attente_03 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '03')
+                      ->count();
+        $attente_04 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '04')
+                      ->count();
+        $attente_05 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '05')
+                      ->count();
+        $attente_06 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '06')
+                      ->count();
+        $attente_07 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '07')
+                      ->count();
+        $attente_08 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '08')
+                      ->count();
+        $attente_09 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '09')
+                      ->count();
+        $attente_10 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '10')
+                      ->count();
+        $attente_11 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '11')
+                      ->count();
+        $attente_12 = Credit::whereYear('created_at', date('Y'))
+                      ->where('statut', 'En attente')
+                      ->whereMonth('created_at', '12')
+                      ->count();
 
-        foreach($mois_deblocage as $index => $mois)
-        {
-            $donnes_deblocage[$mois] = $deblocages[$index]; 
-        }
+        $donnes_attente = array($attente_01,$attente_02,$attente_03,$attente_04,$attente_05,$attente_06,$attente_07,$attente_08,$attente_09,$attente_10,$attente_11,$attente_12);
+        
 
-        $attentes = Credit::select(DB::raw("COUNT(*) as count"))
-                ->whereYear('created_at', date('Y'))->where('statut', 'En attente')
-                ->groupBy(DB::raw("Month(created_at)"))
-                ->pluck("count");
-        $mois_attente = Credit::select(DB::raw("Month(created_at) as mois"))
-                ->whereYear('created_at', date('Y'))->where('statut', 'En attente')
-                ->groupBy(DB::raw("Month(created_at)"))
-                ->pluck("mois");
-
-        $donnes_attente = array(0,0,0,0,0,0,0,0,0,0,0,0);
-
-        foreach($mois_attente as $index => $mois)
-        {
-          $donnes_attente[$mois] = $attentes[$index]; 
-        }
-                
+        
+        
         return view('dashboard.index', compact('donnes_attente','donnes_deblocage','datas','marches','credits','hier','credits_hier','avant_hier','credits_av_hier', 'recouvrements','agents','clients','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
