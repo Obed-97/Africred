@@ -15,30 +15,56 @@
         <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- App Css-->
         <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+        
+        <style type="text/css">
+        
+        * {
+            margin : 0;
+        }
+        
+        .bloc {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .bloc video {
+            position: absolute;
+            min-height: 100%;
+            min-width: 100%;
+            top: 50%;
+            left: 50%;
+            z-index: -100;
+            transform: translate(-50%,-50%);
+        }
+       
+            
+        </style>
     
     </head>
 
     <body class="auth-body-bg">
        
-        <div style="background-image: url('assets/images/sea-3052592_1920.jpg')">
+        
+        <div  class="bloc" style="background-image: url('assets/images/stones-1372677_1920.jpg')">
+            
             <div class="container-fluid p-0">
-                <div class="row no-gutters">
-                    <div class="col-lg-4">
-                       
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
-                            <div class="w-100">
+                <div class="row">
+                   <div class="col-lg-3 mr-5"></div>
+                    <div class="col-lg-5" >
+                        <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100" >
+                            <div class="w-100" >
                                 <div class="row justify-content-center">
-                                    <div class="col-lg-9 card">
+                                    <div class="col-lg-9 card Larger shadow" >
                                         <div>
                                             <div class="text-center mt-4">
                                                 <div>
                                                     <a href="{{route('login')}}" class="logo"><img src="{{asset('assets/images/Logo AfriCRED.png')}}" height="60" alt="logo"></a>
                                                 </div>
     
-                                                <h4 class="font-size-18 mt-4">Bienvenue à AFRICRED !</h4>
-                                                <p class="text-muted">Connectez-vous pour commencer.</p>
+                                                <h4 class="font-size-18 mt-4">Bienvenue à AFRICRED</h4>
+                                                <p class="text-muted">Connectez-vous pour commencer</p>
                                             </div>
                                             @if($errors)
                                                 @foreach($errors->all() as $errors)
@@ -55,14 +81,14 @@
                     
                                                     <div class="form-group auth-form-group-custom mb-4">
                                                         <i class="ri-mail-line auti-custom-input-icon"></i>
-                                                        <label for="email">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email" required  placeholder="Entrez votre email">
+                                                        <label for="email">Adresse e-mail</label>
+                                                        <input type="email" class="form-control" id="email" name="email" required placeholder="|">
                                                     </div>
                             
                                                     <div class="form-group auth-form-group-custom mb-4" >
                                                         <i class="ri-lock-2-line auti-custom-input-icon"></i>
                                                         <label for="password">Mot de passe</label>
-                                                        <input type="password" class="form-control" id="password" required autocomplete="current-password" name="password" placeholder="Enter password">
+                                                        <input type="password" class="form-control" id="password" required autocomplete="current-password" name="password" placeholder="|">
                                                     </div>
                             
                                                     <div class="custom-control custom-checkbox">
@@ -83,7 +109,7 @@
                                             </div>
                                             <div class="mt-5 text-center">
                                                 
-                                                <p><b> ©  <script>document.write(new Date().getFullYear())</script> AFRICRED. </b></p>
+                                                <p><b><script>document.write(new Date().getFullYear())</script> © AFRICRED </b></p>
                                             </div>
                                         </div>
 
@@ -92,7 +118,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                 
                 </div>
             </div>
         </div>

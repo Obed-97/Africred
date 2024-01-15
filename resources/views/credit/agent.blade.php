@@ -1,79 +1,16 @@
-<!DOCTYPE html>
-<html>
-	<head>
-        
-    <meta charset="utf-8" />
-    <title>AFRICRED | Crédit</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}">
-    
-    <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+@section('title', 'Crédit')
 
-    <!-- DataTables -->
-    <link href="{{asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+@extends('master')
 
-    <!-- Responsive datatable examples -->
-    <link href="{{asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />  
+@section('content')
 
-    <!-- Bootstrap Css -->
-    <link href="{{asset('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+@php
+    use App\Services\Tool;
+    $tool = new Tool();
+@endphp
 
-    <style>
-
-        @media only screen
-
-        and (min-device-width : 280px)
-
-        and (max-device-width : 653px){  #web{display: none;}}
-        
-        @media only screen
-
-        and (min-device-width : 320px)
-
-        and (max-device-width : 500px){  #web{display: none;}}
-
-        @media only screen
-
-        and (min-device-width : 540px)
-
-        and (max-device-width : 720px){  #web{display: none;}}
-
-
-        </style>
-        
-         <style>
-        .myDiv{
-        	display:none;
-           
-        }  
-        
-        </style>
-
-    
-
-</head>
-	<body data-sidebar="dark">
-	    <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <i class="ri-loader-line spin-icon"></i>
-                </div>
-            </div>
-        </div>
-
-        @include('layouts.header')
-
-		@include('layouts.left_sidebar')
-        <div class="main-content">
-
+<div class="main-content">
+      
             <div class="page-content">
                 <div class="container-fluid">
 
@@ -110,90 +47,8 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title text-right mb-4">
-                                        @if (auth()->user()->role_id == 2)
-                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Nouveau déblocage</button>
-                                        @endif
-                                    </h4>
-                                        <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog" >
-                                                <form action="{{route('credit.store')}}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Nouveau déblocage</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="modal-body">
-                                                       <div class="form-group">
-                                                            <label class="control-label">Bénéficiaire</label>
-                                                            <select class="form-control select2" name="client_id">
-                                                                @foreach ($clients as $item)
-                                                                <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
-                                                               @endforeach
-                                                            </select>
-                                                            
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="control-label">Marché</label>
-                                                            <select class="form-control select2" name="marche_id">
-                                                                @foreach ($marches as $item)
-                                                                <option value="{{$item->id}}">{{$item->libelle}} </option>
-                                                               @endforeach
-                                                            </select>
-                                                            
-                                                        </div>
-
-                                                        <div class="form-group ">
-                                                            <label>Montant</label>
-                                                            <div>
-                                                                <input class="form-control" type="number" name="montant"  id="montant" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label">Taux d'intérêt</label>
-                                                            <select class="form-control " name="taux">
-                                                                <option value="0.2">20%</option>
-                                                                <option value="0.15">15%</option>
-                                                                <option value="0.1">10%</option>
-                                                                <option value="0.05">5%</option>
-                                                                
-                                                            </select>
-                                                            
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Date de déblocage</label>
-                                                            <div>
-                                                                <input class="form-control" type="date" name="date_deblocage"  id="date_deblocage" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Date de fin</label>
-                                                            <div>
-                                                                <input class="form-control" type="date" name="date_fin"  id="date_fin" required>
-                                                            </div>
-                                                        </div>
-                                                     
-                                                        <div class="form-group ">
-                                                            <label>Frais de carte</label>
-                                                            <div>
-                                                                <input class="form-control" type="number" name="frais_carte"  id="frais_carte" required>
-                                                            </div>
-                                                        </div>
-                                                    
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-primary waves-effect waves-light" type="submit">Enregistrer</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            </div>
-                                        </div>
+                                   
+                                       
                                         <div class="row">
                                             <div class="mb-4 col-xl-4">
                                                 <label for="">Afficher par :</label>
@@ -211,13 +66,14 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Agent</th>
                                                 <th>Montant</th>
                                                 <th>Intérêt</th>
                                                 <th>Frais de déblocage</th>
                                                 <th>Frais de carte</th>
                                                 <th>Montant & Intérêt</th>
-                                                <th>Nombre client</th>
+                                                
                                                 
                                             </tr>
                                         </thead>
@@ -227,57 +83,16 @@
 
                                             @foreach ($credits as $item)
                                                 <tr>
-                                                    <td>{{$item->User['nom']}}</td>
-                                                    <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{$item->id}} clients </td>
+                                                    <td><img src="/assets/images/users/{{$tool->getUser($item['user_id'])->image}}" alt="" class="rounded-circle avatar-sm"></td>
+                                                    <td>{{$tool->getUser($item['user_id'])->nom}}</td>
+                                                    <td>{{number_format($item['montant'], 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item['interet'], 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item['frais_deblocage'], 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item['frais_carte'], 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item['montant_interet'], 0, ',', ' ')}} CFA</td>
+                                                    
                                                 </tr>
                                              @endforeach
-                                                
-                                        </tbody>
-                                    </table>
-                                   
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
-                        <div class="col-4" id="web">
-                            <div class="card">
-                                <div class="card-body">
-                                      
-                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr style="font-size: 16px">
-                                                <th><b>Désignations</b> </th>
-                                                <th><b>Total</b> </th>
-                                                
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            <tr>
-                                                <td>Montant</td>
-                                                <td class="text-success">{{number_format($credits->sum('montant'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Intérêt</td>
-                                                <td class="text-success">{{number_format($credits->sum('interet'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Frais de déblocage</td>
-                                                <td class="text-success">{{number_format($credits->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Frais de carte</td>
-                                                <td class="text-success">{{number_format($credits->sum('frais_carte'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Montant & intérêt</td>
-                                                <td class="text-success">{{number_format($credits->sum('montant_interet'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
                                                 
                                         </tbody>
                                     </table>
@@ -292,16 +107,4 @@
             </div>
             <!-- End Page-content -->
 
-            <script>
-
-            </script>
-
-            @include('layouts.footer')
-		
-	   
-
-            @include('layouts.script')
-    
-    
-        </body>
-    </html> 
+@endsection

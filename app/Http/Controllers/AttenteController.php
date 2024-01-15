@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Credit;
 use App\Models\Marche;
-
+use App\Models\Type;
+use App\Models\Recouvrement;
 use Carbon\Carbon;
+use Alert;
 
 class AttenteController extends Controller
 {
@@ -19,16 +21,22 @@ class AttenteController extends Controller
     public function index()
     {
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
-            $credits = Credit::where('statut', 'En attente')->orWhereDate('updated_at', Carbon::now())->get();
+            $credits = Credit::where('statut', 'En attente')->orWhereDate('date_deblocage', Carbon::now())->orWhereDate('date_deblocage', Carbon::now()->subDays(1))->get();
         }else {
             $credits = Credit::where('statut', 'En attente')->where('user_id', auth()->user()->id)->get();
         }
-
-        $clients = Client::where('user_id', auth()->user()->id)->get();
+        
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $clients = Client::get();
+        }else {
+            $clients = Client::where('user_id', auth()->user()->id)->get();
+        }
+        
 
         $marches = Marche::get();
+        $types = Type::get();
         
-        return view('credit.attente', compact('clients', 'credits','marches'));
+        return view('credit.attente', compact('clients', 'credits','marches','types'));
     }
 
     /**
@@ -38,7 +46,39 @@ class AttenteController extends Controller
      */
     public function create()
     {
-        //
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $credits = Credit::selectRaw(
+               'client_id,
+                SUM(montant) as montant,
+                SUM(interet) as interet,
+                SUM(frais_deblocage) as frais_deblocage,
+                SUM(frais_carte) as frais_carte')
+            ->groupBy('client_id')->where('statut', 'Accordé')->whereYear('date_deblocage', date('Y'))
+            ->get();
+            
+        }else {
+            $credits = Credit::selectRaw(
+               'client_id,
+                SUM(montant) as montant,
+                SUM(interet) as interet,
+                SUM(frais_deblocage) as frais_deblocage,
+                SUM(frais_carte) as frais_carte')
+            ->groupBy('client_id')->where('statut', 'Accordé')->whereYear('date_deblocage', date('Y'))->where('user_id', auth()->user()->id)
+            ->get();
+           
+        }
+        
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $clients = Client::get();
+        }else {
+            $clients = Client::where('user_id', auth()->user()->id)->get();
+        }
+        
+
+        $marches = Marche::get();
+        $types = Type::get();
+        
+        return view('credit.rotation', compact('clients', 'credits','marches','types'));
     }
 
     /**
@@ -49,7 +89,18 @@ class AttenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client_id = $request->client_id;
+        
+        $client = Client::where('id', $client_id)->first();
+        
+        $credits = Credit::where('client_id', $client_id)->where('statut', 'Accordé')->get();
+        
+        $credits_attente = Credit::where('client_id', $client_id)->where('statut', 'En attente')->get();
+        
+        $renouvellement = Credit::where('client_id', $client_id)->get();
+      
+        
+        return view('credit.dossier_credit', compact('client','credits','credits_attente','renouvellement'));
     }
 
     /**
@@ -81,17 +132,22 @@ class AttenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $credit = Credit::where('id', $id)->firstOrFail();
+        $credit = Credit::where('id', $request->deblocage)->firstOrFail();
 
-        
+        $date_deblocage = $request->date_deblocage;
+        $date_fin = Carbon::create($date_deblocage)->addDays($credit->nbre_jrs);
+       
         $statut = "Accordé";
 
         $credit->update([
-            
+            'date_deblocage'=>$date_deblocage,
+            'date_fin'=>$date_fin,
             'statut'=>$statut,
         ]);
+
+        alert()->image('Crédit accordé!','La demande de crédit a été accordée!','assets/images/accept.png','100','100');
 
         return redirect()->route('attente.index');
     }
@@ -102,8 +158,11 @@ class AttenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $credit = Credit::findOrFail($request->credit);
+        $credit->delete();
+        alert()->image('Supprimée!!!','','assets/images/recycle.png','150','150');
+        return redirect()->route('attente.index');
     }
 }

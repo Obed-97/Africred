@@ -7,6 +7,8 @@ use App\Models\Recouvrement;
 use App\Models\Credit;
 use App\Models\Marche;
 
+use Carbon\Carbon;
+
 class HistoriqueController extends Controller
 {
     /**
@@ -16,13 +18,19 @@ class HistoriqueController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id == 1) {
-            $historiques = Recouvrement::get();
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $historiques = Recouvrement::whereDate('date', Carbon::today())->get();
           }else {
-            $historiques = Recouvrement::where('user_id', auth()->user()->id)->get();
+            $historiques = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
+          }
+         
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $credits = Credit::all();
+          }else {
+            $credits = Credit::where('user_id', auth()->user()->id)->get(); 
           }
 
-        return view('historique.index', compact('historiques'));
+        return view('historique.index', compact('historiques','credits'));
     }
 
     /**
@@ -43,7 +51,30 @@ class HistoriqueController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $date = $request->date;
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $historiques = Recouvrement::whereDate('date', $request->date)->get();
+          }else {
+            $historiques = Recouvrement::whereDate('date', $request->date)->where('user_id', auth()->user()->id)->get();
+          }
+
+        return view('historique.date', compact('date','historiques'));
+    }
+    
+    public function hist(Request $request)
+    {
+        $credit_id = $request->credit_id;
+
+        $historiques = Recouvrement::where('credit_id', $credit_id)->get();
+        
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $credits = Credit::all();
+          }else {
+            $credits = Credit::where('user_id', auth()->user()->id)->get(); 
+          }
+        
+        return view('historique.global', compact('historiques','credits'));
     }
 
     /**
@@ -86,7 +117,7 @@ class HistoriqueController extends Controller
 
         $recouInteret = Recouvrement::where('credit_id', $request->credit_id)->sum('interet_jrs');
         $recouCapital = Recouvrement::where('credit_id', $request->credit_id)->sum('recouvrement_jrs');
-
+    
 
         $credit = Credit::where('id', $request->credit_id)->first();
         
@@ -100,7 +131,7 @@ class HistoriqueController extends Controller
         ));
 
         $historique->update([
-            'user_id'=> auth()->user()->id,
+            
             'credit_id'=>$request->credit_id,
             'marche_id'=>$request->marche_id,
             'date'=>$request->date,
@@ -110,8 +141,10 @@ class HistoriqueController extends Controller
             'epargne_jrs'=>$request->epargne_jrs,
             'assurance'=>$request->assurance,
         ]);
+        
+        alert()->image('Modifier','Le recouvrement a été modifié','/assets/images/accept.png','100','100');
 
-        return redirect()->route('recouvrement.index');
+        return redirect()->route('etat_recouvrement.index');
     }
 
     /**
@@ -120,11 +153,12 @@ class HistoriqueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $historique = Recouvrement::findOrFail($id);
+        $historique = Recouvrement::findOrFail($request->historique);
         $historique->delete();
         
-        return redirect()->route('historique.index');
+        alert()->image('Supprimé!!!','','/assets/images/recycle.png','150','150');
+        return redirect()->back();
     }
 }

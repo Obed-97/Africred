@@ -13,6 +13,14 @@
 
      <!-- form mask init -->
      <script src="{{asset('assets/js/pages/form-mask.init.js')}}"></script>
+     
+     <!-- twitter-bootstrap-wizard js -->
+    <script src="{{asset('assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
+
+    <script src="{{asset('assets/libs/twitter-bootstrap-wizard/prettify.js')}}"></script>
+
+    <!-- form wizard init -->
+    <script src="{{asset('assets/js/pages/form-wizard.init.js')}}"></script>
     
 
      <!-- Required datatable js -->
@@ -49,4 +57,35 @@
             });
         });
     </script>
+    <script>
+        function showMe(value) {
+            if(value=="1"){
+                document.getElementById('x').style.display="block";
+                document.getElementById('y').style.display="none";
+            }
+            if(value=="2"){
+                document.getElementById('x').style.display="none";
+                document.getElementById('y').style.display="block";
+            }
+        }
+    </script>
+    
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+                    $('#imagePreview').hide();
+                    $('#imagePreview').fadeIn(650);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#imageUpload").change(function() {
+            readURL(this);
+        });
+    </script>
+    
+    
 

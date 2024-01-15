@@ -20,11 +20,21 @@ return new class extends Migration
                   ->references('id')
                   ->on('roles')
                   ->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('pays_id');
+            $table->foreign('pays_id')
+                  ->references('id')
+                  ->on('pays')
+                  ->onDelete('cascade')->nullable();
             $table->string('nom');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('telephone')->nullable();
+            $table->string('sexe')->nullable();
+            $table->date('date_n')->nullable();
+            $table->string('lieu_n')->nullable();
+            $table->string('ville')->nullable();
             $table->string('adresse')->nullable();
+            $table->string('image')->default('avatar.png');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

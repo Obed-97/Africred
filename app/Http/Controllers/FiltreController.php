@@ -53,20 +53,20 @@ class FiltreController extends Controller
          ->groupBy('user_id')->whereBetween('date', [$request->fdate, $request->sdate])
          ->get();
 
-         if (auth()->user()->role_id == 1) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $credits = Credit::where('statut', 'Accordé')->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
           }else {
             $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
           }
 
-          if (auth()->user()->role_id == 1) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $recouvrements = Recouvrement::whereBetween('date', [$request->fdate, $request->sdate])->get();
           }else {
             $recouvrements = Recouvrement::where('user_id', auth()->user()->id)->whereBetween('date', [$request->fdate, $request->sdate])->get();
           }
 
        
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id ) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 ) {
         $clients = Client::get();
         }else {
         $clients = Client::where('user_id', auth()->user()->id)->whereBetween('created_at', [$request->fdate, $request->sdate])->get();
@@ -74,13 +74,13 @@ class FiltreController extends Controller
         
         $agents = User::where('role_id', '2')->get();
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $epargne = Depot::where('type_depot_id', 2)->whereBetween('created_at', [$request->fdate, $request->sdate])->get();
         }else {
             $epargne = Depot::where('type_depot_id', 2)->whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
         }
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $tontine = Depot::where('type_depot_id', 1)->whereBetween('created_at', [$request->fdate, $request->sdate])->get();
         }else {
             $tontine = Depot::where('type_depot_id', 1)->whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();

@@ -30,6 +30,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('type_depots')
                 ->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('nature')->nullable();
+            $table->string('sexe')->nullable();
             $table->unsignedBigInteger('depot')->default(0);
             $table->unsignedBigInteger('retrait')->default(0);
             $table->unsignedBigInteger('solde')->default(0);

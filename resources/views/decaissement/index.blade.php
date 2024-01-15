@@ -54,7 +54,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title text-right mb-4">
-                                        @if (auth()->user()->role_id == 5)
+                                        @if (auth()->user()->role_id == 1)
                                             <button type="button" class="btn btn-danger  waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop"><i class="  ri-arrow-up-line"></i> Décaissement</button>
                                         @endif
                                     </h4>

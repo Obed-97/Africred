@@ -6,7 +6,7 @@
 <div class="main-content">
 
     <div class="page-content">
-        <div class="container-fluid">
+        
         <div class="row" >
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -22,8 +22,8 @@
             </div>
         </div>
         <!-- end page title -->
-        <div class="container mt-4 mb-4" style=" border:1px solid white; background-color:rgb(240, 128, 128); color:black">
-            <div class="row mt-4 mb-4 text-center">
+        <div class="container mt-2 mb-4" style=" border:1px solid white; background-color:rgb(240, 128, 128); color:black">
+            <div class="row mt-2 mb-4 text-center">
                
                 <div class="col-md-5 ">
                     <h5 ><b> </b> </h5>
@@ -43,7 +43,15 @@
                     <p><br>
                     
                     </p>
-                    <img src="{{asset('assets/images/users/avatar.png')}}" width="125" height="125"><br><br>
+                    @if($info->Client['type_compte_id'] == 1)
+                    <img src="/assets/images/users/{{$info->Client['image']}}" width="125" height="125"><br><br>
+                    @else
+                        @if($info->Client['image'] == 'avatar.png')
+                        <img src="/assets/images/default-logo.png" alt="" width="125" height="125" >
+                        @else
+                        <img src="/assets/images/{{$info->Client['image']}}" alt="" width="125" height="125">
+                        @endif
+                    @endif
                     <p>À AB-FINANCE, le {{(new DateTime($info->Client['created_at']))->format('d-m-Y')}} <br>
                     COMPTE
                     N° ABF-{{$info->Client['id']}}<br>
@@ -79,7 +87,7 @@
                                  @endif
                       <br>
                       Détient une part sociale de : <br><br>
-                      En foi de quoi nous lui délivrons le présent livret d'épargne et de crédit qui vaut titre<br>
+                      En foi de quoi nous lui délivrons le présent livret d'épargne et de crédit qui vaut titre.<br>
                       À Bamako, le <?php
                                     echo date('d-m-Y');
                                     ?>

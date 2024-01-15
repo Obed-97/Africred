@@ -32,16 +32,16 @@
                     <!-- end page title -->
                     <div class="row mb-4">
                         <div class="col-xl-10"></div>
-                        <div class="col-xl-2"><a href="{{route('depot.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"> LISTE DES DÉPOTS</a></div>
+                        <div class="col-xl-2"><a href="{{route('depot.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"><i class="  ri-file-list-3-line align-middle mr-2"></i> LISTE DES DÉPOTS</a></div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title text-right mb-4">
                                         @if (auth()->user()->role_id == 2)
-                                        <button type="button" class="btn btn-success  waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop"><i class="  ri-arrow-down-line"></i> Dépôt</button>
-                                        <button type="button" class="btn btn-danger  waves-effect waves-light" data-toggle="modal" data-target="#static"><i class="  ri-arrow-up-line"></i> Retrait</button>
+                                            <button type="button" class="btn btn-success  waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop"><i class="  ri-arrow-down-line align-middle mr-2"></i> Dépôt</button>
+                                            <button type="button" class="btn btn-danger  waves-effect waves-light" data-toggle="modal" data-target="#static"><i class="  ri-arrow-up-line align-middle mr-2"></i> Retrait</button>
                                         @endif
                                     </h4>
                                         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -65,7 +65,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                       <div class="form-group ">
+                                                        <div class="form-group ">
                                                             <label>Date</label>
                                                             <div>
                                                                 <input class="form-control" type="date" name="date"  id="date" required >
@@ -75,11 +75,12 @@
                                                             <label class="control-label">Client</label>
                                                             <select class="form-control select2" name="client_id" required>
                                                                @foreach ($clients as $item)
-                                                                <option value="{{$item->id}}">{{$item->nom_prenom}} ---> de {{$item->Marche['libelle']}}</option>
+                                                                <option value="{{$item->id}}|{{$item->type_compte_id}}|{{$item->sexe}}">{{$item->nom_prenom}} </option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
+                                                        
                                                         <div class="form-group ">
                                                             <label>Montant</label>
                                                             <div>
@@ -91,7 +92,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-success waves-effect waves-light" type="submit"><i class="  ri-arrow-down-line"></i> Déposer</button>
+                                                        <button class="btn btn-success waves-effect waves-light" type="submit"><i class="  ri-arrow-up-line align-middle mr-2"></i> Déposer</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -104,7 +105,7 @@
                                                     @csrf
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Retrait</h5>
+                                                        <h5 class="modal-title" id="staticBackdropLabel"> Retrait</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
@@ -115,17 +116,24 @@
                                                             <label class="control-label">Type retrait</label>
                                                             <select class="form-control " name="type_depot_id" required>
                                                                 @foreach ($types as $item)
-                                                                    <option value="{{$item->id}}">{{$item->libelle}}</option>
+                                                                    <option value="{{$item->id}}|{{$item->type_compte_id}}|{{$item->sexe}}">{{$item->libelle}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
+                                                        <div class="form-group ">
+                                                            <label>Date</label>
+                                                            <div>
+                                                                <input class="form-control" type="date" name="date"  id="date" required >
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group">
                                                             <label class="control-label">Client</label>
-                                                            <select class="form-control " name="client_id" required>
-                                                                @foreach ($clients as $item)
-                                                                    <option value="{{$item->id}}">{{$item->nom_prenom}} ---> de {{$item->Marche['libelle']}}</option>
-                                                                @endforeach
+                                                            <select class="form-control select2" name="client_id" required>
+                                                               @foreach ($clients as $item)
+                                                                <option value="{{$item->id}}">{{$item->nom_prenom}} </option>
+                                                               @endforeach
                                                             </select>
+                                                            
                                                         </div>
                                                         <div class="form-group ">
                                                             <label>Montant</label>
@@ -138,7 +146,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-danger waves-effect waves-light" type="submit"><i class="  ri-arrow-up-line"></i> Retirer</button>
+                                                        <button class="btn btn-danger waves-effect waves-light" type="submit"><i class="  ri-arrow-up-line align-middle mr-2"></i> Retirer</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -146,7 +154,7 @@
                                         </div> 
                                         <div class="row">
                                             <div class="mb-4 col-xl-4">
-                                                <a href="{{route('depot.tontine')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class=" ri-recycle-line"></i> Tontine</a>
+                                                <a href="{{route('depot.tontine')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-recycle-line"></i> Tontine</a>
                                                 <a href="{{route('depot.epargne')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Épargne</a>  
                                                
                                             </div>
@@ -155,9 +163,10 @@
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
+                                            <th></th>
                                             <th>N° Compte</th>
                                             <th>Nom complet</th>
-                                            <th>Marché</th>
+                                            <th>Téléphone</th>
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
                                             <th>Solde</th>
@@ -173,9 +182,10 @@
                                         <tbody>
                                        @foreach ($depots as $item)
                                         <tr>
+                                            <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                             <td>ABF-{{$item->Client['id']}}</td>
                                             <td>{{$item->Client['nom_prenom']}}</td>
-                                            <td>{{$item->Client->Marche['libelle']}}</td>
+                                            <td> {{$item->Client['telephone']}}</td>
                                             <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format(intval($item->depot) - intval($item->retrait), 0, ',', ' ')}} CFA</td>

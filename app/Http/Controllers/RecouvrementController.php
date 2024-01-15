@@ -8,6 +8,9 @@ use App\Models\Credit;
 use App\Models\Client;
 use App\Models\Recouvrement;
 use App\Models\Marche;
+use App\Services\Tool;
+use App\Models\User;
+use Alert;
 
 class RecouvrementController extends Controller
 {
@@ -21,15 +24,15 @@ class RecouvrementController extends Controller
         $recouvrements = null;
 
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $recouvrements = Recouvrement::selectRaw(
-               'user_id,
-                SUM(encours_actualise) as encours_actualise,
+            'credit_id,
                 SUM(recouvrement_jrs) as recouvrement_jrs,
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
-            ->groupBy('user_id')
+                SUM(interet_jrs) as interet_jrs,
+                SUM(retrait) as retrait')
+            ->groupBy('credit_id')
             ->get();
 
           }else {
@@ -38,50 +41,63 @@ class RecouvrementController extends Controller
                 SUM(recouvrement_jrs) as recouvrement_jrs,
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
+                SUM(interet_jrs) as interet_jrs,
+                SUM(retrait) as retrait')
             ->groupBy('credit_id')
             ->where('user_id', auth()->user()->id)->get();
           }
 
-          if (auth()->user()->role_id == 1) {
-            $par_marche = Recouvrement::selectRaw(
-               'marche_id,
-                SUM(encours_actualise) as encours_actualise,
-                SUM(recouvrement_jrs) as recouvrement_jrs,
-                SUM(epargne_jrs) as epargne_jrs,
-                SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')
-            ->get();
 
-          }else {
-            $par_marche = Recouvrement::selectRaw(
-            'marche_id,
-                SUM(recouvrement_jrs) as recouvrement_jrs,
-                SUM(epargne_jrs) as epargne_jrs,
-                SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
-            ->groupBy('marche_id')
-            ->where('user_id', auth()->user()->id)->get();
-          }
+        $tool = new Tool();
+        $credits = [];
 
-        if (auth()->user()->role_id == 1) {
-            $credits = Credit::where('statut', 'Accordé')->get();
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $listes = Credit::where('statut', 'Accordé')->get();
+              
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
         } else {
-            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
+            $listes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
+
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
         }
+
+        
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $epargnes = Credit::where('statut', 'Accordé')->get();
+        } else {
+            $epargnes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
+
+        }
+        
         
         $marches = Marche::get();
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $total = Recouvrement::get();
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
+
         }
         
-       
+       $agents = User::where('role_id', '2')->get();
 
-        return view('recouvrement.index', compact('credits','recouvrements','marches','total','par_marche'));
+       return view('recouvrement.index', compact('epargnes','credits','recouvrements','marches','total','agents'));
     }
 
     /**
@@ -93,14 +109,15 @@ class RecouvrementController extends Controller
     {
         $recouvrements = null;
 
-          if (auth()->user()->role_id == 1) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $par_marche = Recouvrement::selectRaw(
                'marche_id,
                 SUM(encours_actualise) as encours_actualise,
                 SUM(recouvrement_jrs) as recouvrement_jrs,
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
+                SUM(interet_jrs) as interet_jrs,
+                SUM(retrait) as retrait')
             ->groupBy('marche_id')
             ->get();
 
@@ -110,16 +127,24 @@ class RecouvrementController extends Controller
                 SUM(recouvrement_jrs) as recouvrement_jrs,
                 SUM(epargne_jrs) as epargne_jrs,
                 SUM(assurance) as assurance,
-                SUM(interet_jrs) as interet_jrs')
+                SUM(interet_jrs) as interet_jrs,
+                SUM(retrait) as retrait')
             ->groupBy('marche_id')
             ->where('user_id', auth()->user()->id)->get();
           }
 
-
-        $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
+        
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $credits = Credit::where('statut', 'Accordé')->get();
+        } else {
+            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
+        }
+        
+        
+        
         $marches = Marche::get();
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $total = Recouvrement::get();
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
@@ -140,6 +165,10 @@ class RecouvrementController extends Controller
     {
 
         $recouvrement = new Recouvrement;
+        
+        $results = $request['credit_id'];
+
+        $data_credit = explode('|', $results);
 
         $recouInteret = Recouvrement::where('credit_id', $request->credit_id)->sum('interet_jrs');
         $recouCapital = Recouvrement::where('credit_id', $request->credit_id)->sum('recouvrement_jrs');
@@ -157,8 +186,9 @@ class RecouvrementController extends Controller
 
         $recouvrement->create([
             'user_id'=> auth()->user()->id,
-            'credit_id'=>$request->credit_id,
-            'marche_id'=>$request->marche_id,
+            'credit_id'=>$data_credit[0],
+            'marche_id'=>$data_credit[1],
+            'type_id'=>$data_credit[3],
             'date'=>$request->date,
             'encours_actualise'=>$encours_actualise,
             'interet_jrs'=>$request->interet_jrs,
@@ -166,6 +196,8 @@ class RecouvrementController extends Controller
             'epargne_jrs'=>$request->epargne_jrs,
             'assurance'=>$request->assurance,
         ]);
+
+        alert()->image('Recouvrement réussi','Le recouvrement a été effectué!','assets/images/money.png','175','175');
 
         return redirect()->route('etat_recouvrement.index');
     }
@@ -213,5 +245,26 @@ class RecouvrementController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function retrait(Request $request)
+    {
+        $retrait = new Recouvrement;
+        
+        $results = $request['credit_id'];
+
+        $data_credit = explode('|', $results);
+
+        $retrait->create([
+            'user_id'=>auth()->user()->id,
+            'credit_id'=>$data_credit[0],
+            'marche_id'=>$data_credit[1],
+            'type_id'=>$data_credit[3],
+            'date'=>$request->date,
+            
+            'retrait'=>$request->retrait,
+        ]);
+        alert()->image('Retrait effectué!','Le retrait a été effectué avec succès!','assets/images/salary.png','125','125');
+        return redirect()->back();
     }
 }

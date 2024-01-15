@@ -1,79 +1,10 @@
-<!DOCTYPE html>
-<html>
-	<head>
-        
-    <meta charset="utf-8" />
-    <title>AFRICRED | Contrat</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}">
-    
-    <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+@section('title', 'Contat de prêt')
 
-    <!-- DataTables -->
-    <link href="{{asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+@extends('master')
 
-    <!-- Responsive datatable examples -->
-    <link href="{{asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />  
+@section('content')
 
-    <!-- Bootstrap Css -->
-    <link href="{{asset('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
-
-    <style>
-
-        @media only screen
-
-        and (min-device-width : 280px)
-
-        and (max-device-width : 653px){  #web{display: none;}}
-        
-        @media only screen
-
-        and (min-device-width : 320px)
-
-        and (max-device-width : 500px){  #web{display: none;}}
-
-        @media only screen
-
-        and (min-device-width : 540px)
-
-        and (max-device-width : 720px){  #web{display: none;}}
-
-
-        </style>
-        
-         <style>
-        .myDiv{
-        	display:none;
-           
-        }  
-        
-        </style>
-
-    
-
-</head>
-	<body data-sidebar="dark">
-	    <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <i class="ri-loader-line spin-icon"></i>
-                </div>
-            </div>
-        </div>
-
-        @include('layouts.header')
-
-		@include('layouts.left_sidebar')
-
-	    <div class="main-content">
+<div class="main-content">
 
     <div class="page-content">
         <div class="container-fluid">
@@ -102,33 +33,40 @@
             </div>
             <div class="text-center mt-4 ">
                 <H4><b>CEC-BS-PRODUIT-ABEYAN-FINANCE </b> </H4>
-                <p>Agr&eacute;&eacute;e suivant D&eacute;cision No0100075 MEF-SG du 20 Juillet 2001 <br>
+                <p>Agr&eacute;&eacute;e suivant D&eacute;cision N°0100075 MEF-SG du 20 Juillet 2001 <br>
                 Bamako - Mali <br>
                 Adresse : Kanadjiguila <br>
                 T&eacute;l : 20 20 05 66 / 83 88 88 04 / 61 53 53 56</p>
             </div>
             <div class="text-center mt-2 mb-2">
-                <H4><u><b>CONTRAT DE PR&Ecirc;T ET DE RECONNAISSANCE DE DETTE </b></u> </H4>
+                <H4><u><b>CONTRAT DE PR&Ecirc;T ET DE RECONNAISSANCE DE DETTE ABEYAN FOU </b></u> </H4>
             </div>
 
             <div class="row mt-4">
-                <div class="col-1"></div>
-                <div class="col-md-6">
+                <div class="col-1">
+                   
+                    
+                </div>
+                <div class="col-1">
+                   <img src="/assets/images/users/{{$credit->Client['image']}}" alt="" class="rounded avatar-lg">
+                    
+                </div>
+                <div class="col-md-5">
                     <ul style="text-align: justify; font-size: 20px">
                         <li style="list-style-type: none;">
                             <h6>Pr&eacute;nom & Nom : <b style = "text-transform:uppercase;"> {{$credit->Client['nom_prenom']}}</b></h6>
                         </li>
                         <li style="list-style-type: none;">
-                            <h6>Membre de la caisse depuis :___________________ </h6>
+                            <h6>Membre de la caisse depuis : <b style = "text-transform:uppercase;"> {{(new DateTime($credit->Client['created_at']))->format('M-Y')}}</b> </h6>
                         </li>
                         <li style="list-style-type: none;">
-                            <h6>Lieu de r&eacute;sidence :_____________________________ </h6>
+                            <h6>Lieu de r&eacute;sidence : <b style = "text-transform:uppercase;">{{$credit->Client['adresse']}}</b> </h6>
                         </li>
                         <li style="list-style-type: none;" >
                             <h6>Profession : <b style = "text-transform:uppercase;">{{$credit->Client['activite']}}</b></h6>
                         </li>
                         <li style="list-style-type: none;" >
-                            <h6>Objet de pr&ecirc;t :_________________________________ </h6>
+                            <h6>Objet de pr&ecirc;t : <b style = "text-transform:uppercase;">{{$credit->motif}}</b> </h6>
                         </li>
                         <li style="list-style-type: none;" >
                             <h6>March&eacute; : <b style = "text-transform:uppercase;"> {{$credit->Marche['libelle']}}</b> </h6>
@@ -139,17 +77,21 @@
                 <div class="col-md-4">
                     <table  class="table border dt-responsive nowrap " style = "color: black;" >
                         <tr>
-                            <td >Date de demande </td>
-                            <td></td>
+                            <td>Date de demande </td>
+                            <td>{{(new DateTime($credit->created_at))->format('d-m-Y')}}</td>
                         </tr>
                         <tr>
-                            <td>No de compte </td>
+                            <td>N° de compte </td>
                             <td>ABF-{{$credit->Client['id']}}  </td>
                         </tr>
-                        
+                       
                         <tr>
-                            <td>No de pr&ecirc;t </td>
+                            <td>N° de pr&ecirc;t </td>
                             <td>{{$credit->id}} </td>
+                        </tr>
+                        <tr>
+                            <td>Renouvellement </td>
+                            <td>{{$credits}} fois </td>
                         </tr>
                         <tr>
                             <td>Date du pr&ecirc;t </td>
@@ -193,7 +135,7 @@
                             <tr>
                                 <td>{{number_format($credit->montant, 0, ',', ' ')}} CFA</td>
                                 @if(($credit->date_deblocage) < ($credit->date_fin))
-                                <td >{{\Carbon\Carbon::createMidnightDate($credit->date_deblocage)->diffInDays($credit->date_fin)}} jours</td>
+                                <td >{{$credit->nbre_jrs}} jours</td>
                                @else
                                 <td class="text-danger"><i class="ri-error-warning-line"></i> Erreur date de fin</td>
                                @endif
@@ -210,10 +152,10 @@
             <div class="col-1"></div>
             <div class="col-md-10">
                 <p style="text-align: justify; font-size: 17px">
-                    Je soussign&eacute; Mr ou Madame <b style = "text-transform:uppercase;"> {{$credit->Client['nom_prenom']}}</b>  atteste avoir re&ccedil;u la somme de <b style = "text-transform:uppercase;">{{number_format($credit->montant, 0, ',', ' ')}} CFA </b> de la part de l'institution AB-FINANCE
-                    Agr&eacute;&eacute;e suivant D&eacute;cision No0100075 MEF-SG du 20 Juillet 2001 Bamako-Mali.
+                    Je soussign&eacute; @if($credit->Client['sexe'] == 'Masculin') M. @else Mme @endif <b style = "text-transform:uppercase;"> {{$credit->Client['nom_prenom']}}</b>  atteste avoir re&ccedil;u la somme de <b style = "text-transform:uppercase;">{{number_format($credit->montant, 0, ',', ' ')}} CFA </b> de la part de l'institution AB-FINANCE
+                    Agr&eacute;&eacute;e suivant D&eacute;cision N°0100075 MEF-SG du 20 Juillet 2001 Bamako-Mali.
                     Et je m'engage &agrave; rembourser avec int&eacute;r&ecirc;t dans un d&eacute;lai de <b style = "text-transform:uppercase;"> @if(($credit->date_deblocage) < ($credit->date_fin))
-                        {{\Carbon\Carbon::createMidnightDate($credit->date_deblocage)->diffInDays($credit->date_fin)}} jours
+                        {{$credit->nbre_jrs}}  jours
                     @endif </b>  avec assurance. <br><br>
                     En foi de quoi je signe ce pr&eacute;sent pour servir et valoir ce que de droit. <br>
                     Fait &agrave; Bamako le <b>{{(new DateTime($credit->date_deblocage))->format('d-m-Y')}}</b>
@@ -221,11 +163,15 @@
             </div>
         </div>
         
-        <div class="row ml-2 mt-4 mb-5">
+        <div class="row ml-2 mt-4 mb-3">
             <div class="col-1"></div>
-            <div class="col-md-8 mb-5">
-            <h5><b><u>AB FINANCE</u></b></h5>
-            <img src="{{asset('assets/images/siganture.png')}}" width="125" height="125">
+            <div class="col-md-2 mb-5">
+            <h5><b><u>GESTIONNAIRE</u></b></h5>
+            <img src="{{asset('assets/images/siganture.png')}}" width="135" height="135">
+            </div>
+            <div class="col-md-6 mb-5">
+            <h5><b><u>CONTRÔLEUR</u></b></h5>
+            <img src="{{asset('assets/images/controleur.png')}}" width="150" height="150">
             </div>
             <div class=" col-md-2 mb-5">
                 <h5> <b><u>Client(e)</u></b></h5> 
@@ -234,7 +180,7 @@
        
        
         
-        <div class="row ml-2 mb-5">
+        <div class="row ml-2 ">
             <div class="col-1"></div>
             <div class="col-md-8 mb-5">
             <h5><b><u></u></b></h5> 
@@ -244,7 +190,7 @@
             </div>
         </div>
         
-        <div class="mt-5"></div>
+        <div class="mt-2"></div>
         <div class="text-center mt-4 ">
            
             <p style="font-size: 12px; color: black">CECB NoA2/01.0459 <br>
@@ -258,12 +204,5 @@
 </div>
 </div>
 
-		@include('layouts.footer')
-		
-	   
 
-		@include('layouts.script')
-
-
-	</body>
-</html>
+@endsection

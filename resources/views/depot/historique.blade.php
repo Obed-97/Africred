@@ -29,6 +29,14 @@
                         </div>
                     </div>
                     <!-- end page title -->
+                    <div class="row mb-4">
+                        <div class="col-xl-3"></div>
+                       <div class="col-xl-7" id="web">
+                           
+                        </div>
+                        <div class="col-xl-2"><a href="{{route('depot.index')}}" class="btn btn-primary btn-block  waves-effect waves-light mb-2"><i class="  ri-file-list-3-line align-middle mr-2"></i> LISTE DES DÉPÔTS</a></div>
+                    </div>
+    
     
                     <div class="row">
                         <div class="col-12">
@@ -38,12 +46,12 @@
                                         <thead>
                                         <tr>
                                             <th>Date</th>
-                                            
+                                            <th></th>
                                             <th>Nom complet</th>
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
                                             
-                                            <th>Statut</th>
+                                            
                                             @if (auth()->user()->role_id == 1)
                                                 <th>Opérateur</th>
                                             @endif
@@ -56,31 +64,20 @@
                                        @foreach ($depots as $item)
                                         <tr>
                                             <td>{{(new DateTime($item->date))->format('d-m-Y')}} </td>
-                                            
+                                            <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                             <td>{{$item->Client['nom_prenom']}}</td>
                                             <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
                                             
-                                            @if ((intval($item->depot) - intval($item->retrait)) > 0)
-                                                <td>
-                                                    <div class="badge badge-soft-success font-size-12">Solde positif</div>
-                                                </td>  
-                                            @else
-                                                <td>
-                                                    <div class="badge badge-soft-danger font-size-12">Solde nul</div>
-                                                </td>
-                                            @endif
+                                           
                                             @if (auth()->user()->role_id == 1)
                                                 <td>{{$item->User['nom']}}</td>  
                                             @endif
                                             <td class="d-flex">
+                                                @if (auth()->user()->role_id == 2)
                                                 <a href="{{route('historique_depot.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-
-                                                <form method="POST" action="{{route('historique_depot.destroy', $item->id)}}">
-                                                    @csrf
-                                                    {{method_field('DELETE')}}
-                                                <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                                </form>
+                                                @endif
+                                                <button  class="text-white btn-danger btn-rounded deleteBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#delete"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                            </td>
                                         </tr>
                                        @endforeach
@@ -93,10 +90,54 @@
                         </div> <!-- end col -->
                     </div> <!-- end row -->
 
+                    <!-- Modal -->
+                    <div class="modal fade" id="delete"  tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <form id="delete_modal" action="{{route('supprimer.depot')}}" method="POST"  enctype="multipart/form-data" class="mr-2">
+                                @csrf
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Êtes-vous sûr(e) ?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input type="hidden" name="depot" class="form-control" id="depot_id" >
+                                        </div>
+                                        <h6>Rassurez-vous avant d'effectuer la suppression de cette donnée!</h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Non</button>
+                                        <button type="submit" class="btn btn-danger waves-effect waves-light">
+                                            <i class="ri-close-line align-middle mr-2"></i> Oui, Supprimer
+                                        </button>
+                                        
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                     
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
 
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#datatable-buttons').on('click', '.deleteBtn', function () {
+                var data = $(this).val();
+                console.log(data);
+                $('#depot_id').val(data);
+                $('#delete').modal('show');
+
+            });
+        });
+    </script>
 @endsection

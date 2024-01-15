@@ -36,10 +36,10 @@
                                 @csrf
                                 <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
                                 <div class="col-xl-4"><input type="date" name="sdate"  class="form-control"></div>
-                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> Filtrer</div>
+                                <div class="col-xl-4"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> </div>
                             </form>
                         </div> 
-                        <div class="col-xl-2"><a href="{{route('etat_client.index')}}" class="btn btn-success btn-block  waves-effect waves-light">NOUVEAUX COMPTES</a></div>
+                        <div class="col-xl-2"><a href="{{route('etat_client.index')}}" class="btn btn-success btn-block  waves-effect waves-light"><i class="ri-bank-card-fill align-middle mr-2"></i> NOUVEAUX COMPTES</a></div>
                     </div>
     
                     <div class="row">
@@ -48,66 +48,138 @@
                                 <div class="card-body">
                                     <h4 class="card-title text-right mb-4">
                                         @if (auth()->user()->role_id == 2)
-                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop">Nouveau compte</button>
+                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop"><i class="ri-bank-card-fill align-middle mr-2"></i> Nouveau compte</button>
                                         @endif
                                     </h4>
-                                        <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog" >
-                                                <form action="{{route('client.store')}}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Nouveau compte</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog" >
+                                            <form action="{{route('client.store')}}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel"><i class="ri-bank-card-fill align-middle mr-2"></i> Nouveau compte</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                               
+                                                <div class="modal-body">
+                                                    <div class="avatar-upload mb-3">
+                                                        <div class="avatar-edit">
+                                                            <input type='file' id="imageUpload" name="image" accept=".png, .jpg, .jpeg" />
+                                                            <label for="imageUpload"></label>
+                                                        </div>
+                                                        <div class="avatar-preview">
+                                                            <div id="imagePreview" style="background-image: url(/assets/images/users/avatar.png);">
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    
-                                                    <div class="modal-body">
-                                                      
-                                                        <div class="form-group ">
-                                                            <label>Nom & Prénom</label>
-                                                            <div>
-                                                                <input class="form-control" type="text" name="nom_prenom"  id="nom_prenom" required>
+                                                   <div class="row">
+                                                        <div class="col-xl-8">
+                                                            <div class="form-group ">
+                                                                <label>Nom & Prénom <b class="text-danger">*</b></label>
+                                                                <div>
+                                                                    <input class="form-control" type="text" name="nom_prenom"  id="nom_prenom"  required>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group ">
-                                                            <label>Activité</label>
-                                                            <div>
-                                                                <input class="form-control" type="text" name="activite"  id="activite" required>
+                                                        <div class="col-xl-4">
+                                                            <div class="form-group ">
+                                                                <label>Sexe <b class="text-danger">*</b></label>
+                                                                <select class="form-control " name="sexe" required>
+                                                                    <option value="" selected> </option>
+                                                                    <option value="Masculin">Masculin </option>
+                                                                    <option value="Féminin">Féminin </option>
+                                                                    
+                                                                </select>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group ">
-                                                            <label for="input-ip">Téléphone</label>
-                                                            <input id="telephone" class="form-control input-mask" name="telephone"  data-inputmask="'alias': 'ip'">
-                                                            <span class="text-muted">ex: "00.00.00.00"</span>
-    
-                                                        </div>
-                                                         <div class="form-group ">
-                                                            <label>Adresse</label>
-                                                            <div>
-                                                                <input class="form-control" type="text" name="adresse"  id="adresse" >
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xl-6">
+                                                            <div class="form-group ">
+                                                                <label>Activité <b class="text-danger">*</b></label>
+                                                                <div>
+                                                                    <input class="form-control" type="text" name="activite"  id="activite"  required>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="form-group ">
+                                                                <label for="input-ip">Téléphone </label>
+                                                                <input id="telephone" class="form-control input-mask" name="telephone"  data-inputmask="'alias': 'ip'">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label class="control-label">Marché</label>
                                                             <select class="form-control select2" name="marche_id">
+                                                                <option value="" selected>Selectionner un marché </option>
                                                                 @foreach ($marches as $item)
                                                                 <option value="{{$item->id}}">{{$item->libelle}} </option>
                                                                @endforeach
                                                             </select>
                                                             
                                                         </div>
-                                                      
+                                                        </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="form-group ">
+                                                                <label>Ville <b class="text-danger">*</b></label>
+                                                                <select class="form-control select2" name="ville" required>
+                                                                    <option value="Bamako" selected>Bamako </option>
+                                                                    <option value="Sikasso">Sikasso </option>
+                                                                    <option value="Mopti">Mopti </option>
+                                                                    <option value="Koutiala">Koutiala </option>
+                                                                    <option value="Kayes">Kayes </option>
+                                                                    <option value="Ségou">Ségou </option>
+                                                                    <option value="Kati">Kati </option>
+                                                                    <option value="Gao">Gao </option>
+                                                                    <option value="Kolokani">Kolokani </option>
+                                                                    <option value="Bougouni">Bougouni </option>
+                                                                    <option value="San">San </option>
+                                                                   
+                                                                   
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-primary waves-effect waves-light" type="submit">Enregistrer</button>
+                                                    <div class="row">
+                                                        <div class="col-xl-6">
+                                                            <div class="form-group ">
+                                                                <label>Date de naissance <b class="text-danger">*</b></label>
+                                                                <div>
+                                                                    <input class="form-control" type="date" name="date_n"  id="date_n" required >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="form-group ">
+                                                                <label>Lieu de naissance <b class="text-danger">*</b></label>
+                                                                <div>
+                                                                    <input class="form-control" type="text" name="lieu_n"  id="lieu_n" required >
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <div class="form-group ">
+                                                        <label>Adresse <b class="text-danger">*</b></label>
+                                                        <div>
+                                                            <input class="form-control" type="text" name="adresse"  id="adresse" required>
+                                                        </div>
+                                                    </div>
+                                                  
                                                 </div>
-                                            </form>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
+                                                    <button class="btn btn-primary waves-effect waves-light" type="submit"><i class="ri-bank-card-fill align-middle mr-2"></i> Créer le compte</button>
+                                                </div>
                                             </div>
-                                        </div> 
+                                        </form>
+                                        </div>
+                                    </div> 
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
@@ -129,8 +201,8 @@
                                         @foreach ($clients as $item)
                                             <tr>
                                                 <td>ABF-{{$item->id}}</td>
-                                                <td>{{$item->nom_prenom}}</td>
-                                                <td>{{$item->activite}}</td>
+                                                <td style = "text-transform:uppercase;">{{$item->nom_prenom}}</td>
+                                                <td style = "text-transform:uppercase;">{{$item->activite}}</td>
                                                 <td>{{$item->telephone}}</td>
                                                 <td>{{$item->Marche['libelle']}}</td>
                                                 @if (auth()->user()->role_id == 1)

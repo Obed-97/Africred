@@ -19,10 +19,16 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'role_id',
+        'pays_id',
         'nom',
         'email',
         'telephone',
+        'sexe',
+        'date_n',
+        'lieu_n',
+        'ville',
         'adresse',
+        'image',
         'password',
     ];
 
@@ -44,10 +50,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function transferts()
+    { 
+        return $this->hasMany(Transfert::class);
+    }
 
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+    
+    public function pays()
+    {
+        return $this->belongsTo(Pays::class);
     }
 
     public function Client()

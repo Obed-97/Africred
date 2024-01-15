@@ -59,7 +59,7 @@
     
 
 </head>
-	<body data-sidebar="dark">
+	<body >
 	    <!-- Loader -->
         <div id="preloader">
             <div id="status">

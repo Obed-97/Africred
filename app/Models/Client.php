@@ -10,6 +10,7 @@ class Client extends Model
     use HasFactory;
 
     protected $fillable = [
+        'type_compte_id',
         'user_id',
         'marche_id',
         'carte_id',
@@ -17,7 +18,19 @@ class Client extends Model
         'activite',
         'telephone',
         'adresse',
+        'ville',
+        'date_n',
+        'lieu_n',
+        'sexe',
+        'image',
+        'forme_juridique',
+        'nif',
     ];
+    
+    public function Type_compte()
+    {
+        return $this->belongsTo(Type_compte::class);
+    }
 
     
     public function User()

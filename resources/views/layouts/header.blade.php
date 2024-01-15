@@ -1,14 +1,14 @@
 <!-- Begin page -->
-<div id="layout-wrapper">
+<div id="layout-wrapper" >
 
-    <header id="page-topbar">
+    <header id="page-topbar" >
         <div class="navbar-header">
             <div class="d-flex">
                 <!-- LOGO -->
                 <div class="navbar-brand-box">
                     <a href="/" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{asset('assets/images/favicon.png')}}" alt="" height="30">
+                            <img src="{{asset('assets/images/favicon.png')}}" alt="" height="32">
                         </span>
                         <span class="logo-lg">
                             <img src="{{asset('assets/images/Logo AfriCRED.png')}}" alt="" height="50">
@@ -17,7 +17,7 @@
     
                     <a href="/" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{asset('assets/images/favicon.png')}}" alt="" height="30">
+                            <img src="{{asset('assets/images/favicon.png')}}" alt="" height="32">
                         </span>
                         <span class="logo-lg">
                             <img src="{{asset('assets/images/Logo AfriCRED1.png')}}" alt="" height="50">
@@ -40,13 +40,8 @@
                 
             </div>
             
-            <div class="d-flex">
+            <div class="d-flex" >
     
-                <div class="dropdown d-inline-block d-lg-none ml-2">
-                   
-                </div>
-    
-               
     
                 <div class="dropdown d-none d-lg-inline-block ml-1">
                     <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
@@ -65,6 +60,7 @@
                        @endif
                        
                     </button>
+                    @if(auth()->user()->role_id != 7 )
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
                         aria-labelledby="page-header-notifications-dropdown">
                         <div class="p-3">
@@ -81,7 +77,7 @@
                            @forelse ($attentes as $item)
                             <a href="" class="text-reset notification-item">
                                 <div class="media">
-                                    <img src="{{asset('assets/images/users/avatar.jpeg')}}"
+                                    <img src="/assets/images/users/{{$item->Client['image']}}"
                                         class="mr-3 rounded-circle avatar-xs" alt="user-pic">
                                     <div class="media-body">
                                         <h6 class="mt-0 mb-1">{{$item->Client['nom_prenom']}}</h6>
@@ -114,19 +110,20 @@
                             </a>
                         </div>
                     </div>
+                    @endif
                 </div> 
     
                 <div class="dropdown d-inline-block user-dropdown">
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle header-profile-user" src="{{asset('assets/images/users/avatar.jpeg')}}"
+                        <img class="rounded-circle header-profile-user" src="/assets/images/users/{{auth()->user()->image}}"
                            >
                         <span class="d-none d-xl-inline-block ml-1">{{ auth()->user()->nom }}</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <!-- item-->
-                        <a class="dropdown-item" href="#"><i class="ri-user-line align-middle mr-1"></i> Mon profile</a>
+                        <a class="dropdown-item" href="{{route('profile.index')}}"><i class="ri-user-line align-middle mr-1"></i> Mon profile</a>
                         
                         <div class="dropdown-divider"></div>
                                 <!-- item-->
@@ -135,15 +132,10 @@
                             <button type="submit" class="dropdown-item text-danger">
                                 <i class="ri-shut-down-line align-middle mr-1 text-danger"></i> Déconnexion
                             </button>
-                            </form>
+                        </form>
                     </div>
                 </div>
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
-                        <i class="ri-settings-2-line"></i>
-                    </button>
-                </div>
-    
+               
     
             </div>
         </div>

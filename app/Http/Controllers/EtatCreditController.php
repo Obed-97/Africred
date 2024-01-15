@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Credit;
 use App\Models\Marche;
 use Carbon\Carbon;
+use App\Services\Tool;
 
 class EtatCreditController extends Controller
 {
@@ -106,17 +107,84 @@ class EtatCreditController extends Controller
     {
         $date1 = $request->fdate;
         $date2 = $request->sdate;
+        
+        $tool = new Tool();
+        $credits = [];
+        
 
         if (auth()->user()->role_id == 1) {
-            $credits = Credit::where('statut', 'Accordé')->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
+            $listes = Credit::where('statut', 'Accordé')->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
+            
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+
+                
           }else {
-            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
-          }
+            $listes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
+            
+            foreach ($listes as $liste) {
 
-        $clients = Client::where('user_id', auth()->user()->id)->get();
-        $marches = Marche::get();
+                $encours =  $tool->encours_actualiser($liste->id); 
 
-        return view('credit.filtre', compact('clients', 'credits', 'date1', 'date2','marches'));
+                if ($encours > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+
+         }
+
+       
+        return view('credit.filtre', compact('credits', 'date1', 'date2'));
+    }
+    
+    public function filtre_solde(Request $request)
+    {
+        $date1 = $request->fdate;
+        $date2 = $request->sdate;
+        
+        $tool = new Tool();
+        $credits = [];
+        
+
+        if (auth()->user()->role_id == 1) {
+            $listes = Credit::where('statut', 'Accordé')->whereBetween('date_fin', [$request->fdate, $request->sdate])->get();
+            
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours == 0 || $encours < 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+
+                
+          }else {
+            $listes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereBetween('date_fin', [$request->fdate, $request->sdate])->get();
+            
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours == 0 || $encours < 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+
+         }
+
+       
+        return view('credit.filtre_solde', compact('credits', 'date1', 'date2'));
     }
 
     /**

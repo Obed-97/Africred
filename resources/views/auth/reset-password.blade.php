@@ -21,13 +21,13 @@
 
     <body class="auth-body-bg">
        
-        <div style="background-image: url('assets/images/sea-3052592_1920.jpg')">
+        <div style="background-image: url('assets/images/elephants-gf31d2c8c4_1920.jpg')">
             <div class="container-fluid p-0">
                 <div class="row no-gutters">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3 mr-5">
                      
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
                             <div class="w-100">
                                 <div class="row justify-content-center">

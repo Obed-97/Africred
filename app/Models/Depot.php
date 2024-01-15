@@ -13,6 +13,8 @@ class Depot extends Model
         'user_id',
         'client_id',
         'type_depot_id',
+        'nature',
+        'sexe',
         'date',
         'depot',
         'retrait',

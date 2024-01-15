@@ -12,4 +12,14 @@ class Pays extends Model
     protected $fillable = [
         'libelle',
     ];
+    
+    public function users()
+    { 
+        return $this->hasMany(User::class);
+    }
+    
+    public function transferts()
+    { 
+        return $this->belongsToMany(Transfert::class);
+    }
 }

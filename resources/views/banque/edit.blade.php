@@ -64,9 +64,10 @@
                                                     <label class="control-label">Banque</label>
                                                     <select class="form-control " name="nom_banque" required>
                                                         <option value="{{$banque->nom_banque}}">{{$banque->nom_banque}}</option>
+                                                        <option value="BICIM">BICIM</option>
+                                                        <option value="ECOBANK">ECOBANK</option>
                                                         <option value="BDM">BDM</option>
                                                         <option value="UBA">UBA</option>
-                                                        <option value="BCIM">BCIM</option>
                                                         <option value="BNDA">BNDA</option>
                                                     </select>
                                                 </div>
@@ -83,11 +84,17 @@
                                                         <input class="form-control" type="number" name="montant" value="{{$banque->montant}}"  id="montant" required >
                                                     </div>
                                                 </div>
+                                                <div class="form-group ">
+                                                    <label>Motif</label>
+                                                    <div>
+                                                        <textarea class="form-control" name="motif" id="" cols="5" rows="4" required>{{$banque->motif}}</textarea>
+                                                    </div>
+                                                </div>
                                               
                                             </div>
                                             <div class="modal-footer">
                                                 <a href="{{URL::previous()}}" type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</a>
-                                                <button class="btn btn-success waves-effect waves-light" type="submit"> Enregistrer</button>
+                                                <button class="btn btn-primary waves-effect waves-light" type="submit"> Mettre à jour</button>
                                             </div>
                                         </form>
         

@@ -44,7 +44,7 @@
                                             <div class="form-group">
                                                 <label>Poste</label>
                                                 <div>
-                                                    <select class="form-control" name="role">
+                                                    <select class="form-control" name="role" >
                                                         <option value="{{$personnel->role['id']}}">{{$personnel->role['libelle']}}</option>
                                                         @foreach ($roles as $item)
                                                             <option value="{{$item->id}}">{{$item->libelle}}</option>
@@ -74,12 +74,13 @@
                                             </div>
                                             
                                             <div class="form-group mb-0">
-                                                <div>
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
-                                                        Enregistrer
-                                                    </button>
+                                                <div class="modal-footer">
+                                                   
                                                     <button type="reset" class="btn btn-secondary waves-effect">
                                                         Annuler
+                                                    </button>
+                                                     <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                        Enregistrer
                                                     </button>
                                                 </div>
                                             </div>

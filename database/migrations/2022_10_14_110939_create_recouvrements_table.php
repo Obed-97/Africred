@@ -36,6 +36,7 @@ return new class extends Migration
             $table->unsignedBigInteger('recouvrement_jrs')->default(0);
             $table->unsignedBigInteger('epargne_jrs')->default(0);
             $table->unsignedBigInteger('assurance')->default(0);
+            $table->unsignedBigInteger('retrait')->default(0);
             $table->timestamps();
         });
     }

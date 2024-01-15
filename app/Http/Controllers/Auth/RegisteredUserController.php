@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use App\Models\Role;
+use App\Models\Pays;
 use Alert;
 
 class RegisteredUserController extends Controller
@@ -23,7 +24,9 @@ class RegisteredUserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('auth.register', compact('roles'));
+        $pays = Pays::all();
+        
+        return view('auth.register', compact('roles','pays'));
     }
 
     /**
@@ -45,6 +48,7 @@ class RegisteredUserController extends Controller
 
         $user = User::create([
             'role_id' => $request->role_id,
+            'pays_id' => $request->pays_id,
             'nom' => $request->nom,
             'email' => $request->email,
             'telephone' => $request->telephone,

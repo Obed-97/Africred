@@ -3,10 +3,6 @@
 @extends('master')
 
 @section('content')
-
-  <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            <!-- ============================================================== -->
             <div class="main-content">
 
                 <div class="page-content">
@@ -56,9 +52,9 @@
                                                 
                                                 <label class="control-label" name>Client</label>
                                                 <select class="form-control select2" name="client_id" required>
-                                                   <option value="{{$depot->client_id}}">{{$depot->Client['nom_prenom']}} ---> de {{$depot->Client->Marche['libelle']}}</option>
+                                                   <option value="{{$depot->id}}|{{$depot->type_compte_id}}|{{$depot->sexe}}">{{$depot->Client['nom_prenom']}}</option>
                                                    @foreach ($clients as $item)
-                                                    <option value="{{$item->id}}">{{$item->nom_prenom}} ---> de {{$item->Marche['libelle']}}</option>
+                                                    <option value="{{$item->id}}|{{$item->type_compte_id}}|{{$item->sexe}}">{{$item->nom_prenom}}</option>
                                                    @endforeach
                                                 </select>
                                             </div>
@@ -72,14 +68,14 @@
                                            
 
                                             
-                                            <div class="form-group mb-0">
-                                                <div>
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
-                                                        Enregistrer
-                                                    </button>
+                                             <div class="modal-footer">
+                                                   
                                                     <a href="{{URL::previous()}}" type="reset" class="btn btn-secondary waves-effect">
                                                         Annuler
                                                     </a>
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
+                                                        Mettre à jour
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>
@@ -97,5 +93,8 @@
 
                
             <!-- end main content-->
+         
+            <!-- end main content-->
 
-@endsection
+  @endsection
+    

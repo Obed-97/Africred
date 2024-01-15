@@ -21,18 +21,18 @@
 
     <body class="auth-body-bg">
         
-        <div style="background-image: url('assets/images/sea-3052592_1920.jpg')">
+        <div style="background-image: url('assets/images/stones-1372677_1920.jpg')">
             <div class="container-fluid p-0">
                 <div class="row no-gutters">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3 mr-5">
                        
                     </div>
-                    <div class="col-lg-4 ">
+                    <div class="col-lg-5">
                         <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
                             <div class="w-100">
                                 <div class="row justify-content-center ">
                                    
-                                    <div class="col-lg-9 card border-secondary">
+                                    <div class="col-lg-9 card  Larger shadow">
                                         <div>
                                             <div class="text-center mt-4">
                                                 <div>
@@ -40,27 +40,49 @@
                                                 </div>
     
                                                 <h4 class="font-size-18 mt-4">Créez votre compte</h4>
-                                                <p class="text-muted">Pour accéder au tableau de bord AFRICRED.</p>
+                                                <p class="text-muted">Pour accéder au tableau de bord AFRICRED</p>
                                             </div>
 
                                             <div class="p-2 mt-5">
                                                 <form class="form-horizontal " method="POST" action="{{ route('register') }}" >
                                                     @csrf
-
-                                                    <div class="form-group auth-form-group-custom mb-4">
-                                                        <i class="ri-computer-line auti-custom-input-icon"></i>
-                                                        <label for="poste">Poste</label>
-                                                        <div>
-                                                            <select class="form-control" name="role_id" >
-                                                                <option>Attribuer un poste</option>
-                                                                @foreach ($roles as $item)
-                                                                <i class="ri-user-3-line auti-custom-input-icon"></i>
-                                                                    <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                                                @endforeach
-                                                            </select>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                           <div class="form-group auth-form-group-custom mb-4">
+                                                                <i class="ri-computer-line auti-custom-input-icon"></i>
+                                                                <label for="poste">Poste</label>
+                                                                <div>
+                                                                    <select class="form-control" name="role_id" >
+                                                                        <option>Attribuer un poste</option>
+                                                                        @foreach ($roles as $item)
+                                                                        <i class="ri-user-3-line auti-custom-input-icon"></i>
+                                                                            <option value="{{$item->id}}">{{$item->libelle}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div> 
                                                         </div>
-                                                    </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group auth-form-group-custom mb-4">
+                                                                <i class="ri-bookmark-line auti-custom-input-icon"></i>
+                                                                <label for="pays">Pays</label>
+                                                                <div>
+                                                                    <select class="form-control" name="pays_id" >
+                                                                        <option>Attribuer un pays</option>
+                                                                        @foreach ($pays as $item)
+                                                                        <i class="ri-user-3-line auti-custom-input-icon"></i>
+                                                                            <option value="{{$item->id}}">{{$item->libelle}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                     
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                    
+                                                    
                                                     <div class="form-group auth-form-group-custom mb-4">
                                                         <i class="ri-user-3-line auti-custom-input-icon"></i>
                                                         <label for="nom">Nom complet</label>
@@ -96,14 +118,19 @@
                                                     <div class="text-center">
                                                         <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Créer mon compte</button>
                                                     </div>
-
+                                                    
+                                                    <div class="mt-4 text-center">
+                                                        
+                                                        <a href="{{ route('login') }}" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Se connecter</a>
+                                                       
+                                                    </div>
                                                     
                                                 </form>
                                             </div>
 
                                             <div class="mt-5 text-center">
                                                
-                                                <p><b> ©  <script>document.write(new Date().getFullYear())</script> AFRICRED. </b></p>
+                                                <p><b>   <script>document.write(new Date().getFullYear())</script> © AFRICRED </b></p>
                                             </div>
                                         </div>
 

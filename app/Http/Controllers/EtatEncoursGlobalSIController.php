@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Credit;
 use App\Models\Recouvrement;
 use App\Models\Client;
-
+use App\Services\Tool;
 use Carbon\Carbon;
 
 
@@ -21,13 +21,42 @@ class EtatEncoursGlobalSIController extends Controller
     {
        
 
-        if (auth()->user()->role_id == 1) {
-            $credits = Credit::where('statut', 'Accordé')->get();
-          }else {
-            $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
-          }
-    
-        if (auth()->user()->role_id == 1) {
+        $tool = new Tool();
+        $credits = [];
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $listes = Credit::where('statut', 'Accordé')->get();
+              
+            foreach ($listes as $liste) {
+
+                $solde =  $tool->solde($liste->id); 
+
+                if ($solde > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+        } else {
+            $listes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
+
+            foreach ($listes as $liste) {
+
+                $solde =  $tool->solde($liste->id); 
+
+                if ($solde > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+        }
+        
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $encours = Credit::where('statut', 'Accordé')->get();
+        } else {
+            $encours = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
+        }
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $total = Recouvrement::get();
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
@@ -35,7 +64,7 @@ class EtatEncoursGlobalSIController extends Controller
         
         $clients = Client::where('user_id', auth()->user()->id)->get();
 
-        return view('etat_encours_si.index', compact('clients','credits','total'));
+        return view('etat_encours_si.index', compact('clients','encours','credits','total'));
     }
 
     /**

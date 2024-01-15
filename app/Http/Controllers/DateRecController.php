@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Recouvrement;
 use App\Models\Credit;
 use App\Models\Marche;
+use App\Models\User;
 use Carbon\Carbon;
+use App\Services\Tool;
 
 class DateRecController extends Controller
 {
@@ -44,7 +46,7 @@ class DateRecController extends Controller
       $recouvrements = null;
 
 
-      if (auth()->user()->role_id == 1) {
+      if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
           $recouvrements = Recouvrement::selectRaw(
              'user_id,
               SUM(encours_actualise) as encours_actualise,
@@ -66,7 +68,7 @@ class DateRecController extends Controller
           ->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
           $hier = Recouvrement::selectRaw(
              'user_id,
               SUM(encours_actualise) as encours_actualise,
@@ -88,7 +90,7 @@ class DateRecController extends Controller
           ->where('user_id', auth()->user()->id)->get();
         }
         
-         if (auth()->user()->role_id == 1) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
           $avant_hier = Recouvrement::selectRaw(
              'user_id,
               SUM(encours_actualise) as encours_actualise,
@@ -110,7 +112,7 @@ class DateRecController extends Controller
           ->where('user_id', auth()->user()->id)->get();
         }
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
           $par_marche = Recouvrement::selectRaw(
              'marche_id,
               SUM(encours_actualise) as encours_actualise,
@@ -131,29 +133,61 @@ class DateRecController extends Controller
           ->groupBy('marche_id')->whereDate('date', $request->date)
           ->where('user_id', auth()->user()->id)->get();
         }
+        
 
-      $credits = Credit::where('user_id', auth()->user()->id)->get();
+      $tool = new Tool();
+        $credits = [];
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $listes = Credit::where('statut', 'Accordé')->get();
+              
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+        } else {
+            $listes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
+
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+        }
+
+      
+      
       $marches = Marche::get();
+      $agents = User::where('role_id', '2')->get();
 
-      if (auth()->user()->role_id == 1) {
+      if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
           $total = Recouvrement::whereDate('date', $request->date)->get();
       } else {
           $total = Recouvrement::whereDate('date', $request->date)->where('user_id', auth()->user()->id)->get();
       }
       
-      if (auth()->user()->role_id == 1) {
+      if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
           $total_hier = Recouvrement::whereDate('date', Carbon::createMidnightDate($request->date)->subDays(1))->get();
       } else {
           $total_hier = Recouvrement::whereDate('date', Carbon::createMidnightDate($request->date)->subDays(1))->where('user_id', auth()->user()->id)->get();
       }
       
-      if (auth()->user()->role_id == 1) {
+      if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
           $total_j_2 = Recouvrement::whereDate('date', Carbon::createMidnightDate($request->date)->subDays(2))->get();
       } else {
           $total_j_2 = Recouvrement::whereDate('date', Carbon::createMidnightDate($request->date)->subDays(2))->where('user_id', auth()->user()->id)->get();
       }
 
-      return view('recouvrement.date', compact('credits','recouvrements','hier','avant_hier', 'total_hier','total_j_2', 'date', 'total','marches','par_marche'));
+      return view('recouvrement.date', compact('agents','credits','recouvrements','hier','avant_hier', 'total_hier','total_j_2', 'date', 'total','marches','par_marche'));
     }
 
     /**

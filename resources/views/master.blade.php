@@ -3,16 +3,17 @@
 	<head>
 		@include('layouts.head')
 	</head>
-	<body data-sidebar="dark">
+	<body  data-keep-enlarged="true" class="vertical-collpsed">
         <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <i class="ri-loader-line spin-icon"></i>
+        <div id="web">
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner">
+                        <i class="ri-loader-line spin-icon"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        
         @include('layouts.header')
 
 		@include('layouts.left_sidebar')
@@ -22,13 +23,16 @@
 		@yield('extra-js')
 
 		@include('layouts.footer')
-		
-	    @include('layouts.right_sidebar')
 
 		@include('layouts.script')
 
 		@include('sweetalert::alert')
 
+		@yield('scripts')
+		
+		@yield('historique_scripts')
+		
+		@yield('credit_scripts')
 
 	</body>
 </html>

@@ -4,6 +4,7 @@
 
 @section('content')
 
+
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -11,6 +12,22 @@
 
             <div class="page-content">
                 <div class="container-fluid">
+                    @php
+                        $sum_montant = 0;
+                        $sum_interet = 0;
+                        $sum_frais_deblocage = 0;
+                        $sum_frais_carte = 0;
+                        $sum_montant_interet = 0;
+                        $encours = 0;
+                        foreach($credits as $credit){
+                            $sum_montant = $credit->montant + $sum_montant ;
+                            $sum_interet = $credit->interet + $sum_interet ;
+                            $sum_frais_deblocage = $credit->frais_deblocage + $sum_frais_deblocage ;
+                            $sum_frais_carte = $credit->frais_carte + $sum_frais_carte;
+                            $sum_montant_interet = $credit->montant_interet + $sum_montant_interet;
+                            $encours = $credit->encours($credit->montant_interet) + $encours;
+                        }
+                    @endphp
 
                     <!-- start page title -->
                     <div class="row">
@@ -46,96 +63,22 @@
                             <div class="card">
                                 <div class="card-body">
                                    
-                                        <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog" >
-                                                <form action="{{route('credit.store')}}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Nouveau déblocage</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            <label class="control-label">Bénéficiaire</label>
-                                                            <select class="form-control select2" name="client_id">
-                                                                @foreach ($clients as $item)
-                                                                <option value="{{$item->id}}">{{$item->nom_prenom}}</option>
-                                                               @endforeach
-                                                            </select>
-                                                            
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="control-label">Marché</label>
-                                                            <select class="form-control select2" name="marche_id">
-                                                                @foreach ($marches as $item)
-                                                                <option value="{{$item->id}}">{{$item->libelle}} </option>
-                                                               @endforeach
-                                                            </select>
-                                                            
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Montant</label>
-                                                            <div>
-                                                                <input class="form-control" type="number" name="montant"  id="montant" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="control-label">Taux d'intérêt</label>
-                                                            <select class="form-control " name="taux">
-                                                                <option value="0.2">20%</option>
-                                                                <option value="0.15">15%</option>
-                                                                <option value="0.1">10%</option>
-                                                                <option value="0.05">5%</option>
-                                                                
-                                                            </select>
-                                                            
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Date de déblocage</label>
-                                                            <div>
-                                                                <input class="form-control" type="date" name="date_deblocage"  id="date_deblocage" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Date de fin</label>
-                                                            <div>
-                                                                <input class="form-control" type="date" name="date_fin"  id="date_fin" required>
-                                                            </div>
-                                                        </div>
-                                                     
-                                                        <div class="form-group ">
-                                                            <label>Frais de carte</label>
-                                                            <div>
-                                                                <input class="form-control" type="number" name="frais_carte"  id="frais_carte" required>
-                                                            </div>
-                                                        </div>
-                                                    
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-primary waves-effect waves-light" type="submit">Enregistrer</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            </div>
-                                        </div>
+                                        
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Bénéficiaire</th>
-                                                <th>Montant</th>
+                                                <th>Marché</th>
                                                 <th>Date de déblocage</th>
                                                 <th>Date de fin</th>
+                                                <th>Capital + Intérêt</th>
+                                                <th>Capital</th>
                                                 <th>Intérêt</th>
                                                 <th>Frais de déblocage</th>
                                                 <th>Frais de carte</th>
-                                                <th>Montant & Intérêt</th>
-                                                <th>Statut</th>
+                                                
+                                                <th>Encours Global</th>
                                                     @if (auth()->user()->role_id == 1)
                                                         <th>Agent </th>
                                                     @endif
@@ -148,35 +91,29 @@
 
                                             @foreach ($credits as $item)
                                                 <tr>
+                                                    <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                                     <td>{{$item->Client['nom_prenom']}}</td>
-                                                    <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{$item->Marche['libelle']}}</td>
                                                     <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     <td>{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
+                                                    <td>{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}}CFA</td>
                                                     <td>{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
-                                                    @if (($item->encours($item->montant_interet)) == 0 || ($item->encours($item->montant_interet)) < 0)
+                                                   
                                                     <td>
-                                                        <div class="badge badge-soft-success font-size-12">Payé</div>
-                                                        </td>  
-                                                    @else
-                                                        <td>
-                                                            <div class="badge badge-soft-warning font-size-12">Encours</div>
-                                                        </td>
-                                                    @endif
-                                                    @if (auth()->user()->role_id == 1)
+                                                        {{number_format($item->encours($item->montant_interet), 0, ',', ' ')}} CFA
+                                                    </td>  
+                                                   
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
                                                         <td>{{$item->User['nom']}}</td>
                                                     @endif
 
                                                     <td class="d-flex">
                                                         @if (auth()->user()->role_id == 2)
                                                         <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                        <form method="POST" action="{{route('credit.destroy', $item->id)}}">
-                                                            @csrf
-                                                            {{method_field('DELETE')}}
-                                                        <button  class="text-white btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supprimer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                                        </form>
+                                                        
                                                         @endif
                                                         @if (auth()->user()->role_id == 1)
                                                         <a href="{{route('credit.show', $item->id)}}" class="mr-3 text-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Contrat"><i class="mdi mdi-eye font-size-18"></i></a>
@@ -187,50 +124,32 @@
 
                                                 </tr>
                                              @endforeach
+                                                <tr style="background-color: #1cbb8c; color: white ">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                   
+                                                    <td >{{number_format($sum_montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($sum_montant, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($sum_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($sum_frais_deblocage, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($sum_frais_carte, 0, ',', ' ')}} CFA</td>
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                    <td></td>
+                                                    @endif
+                                                    <td></td>
+                                                     <td></td>
+                                                                                               
+                                                </tr>
 
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div> <!-- end col -->
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-body">
-                                      
-                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr style="font-size: 16px">
-                                                <th><b>Désignations</b> </th>
-                                                <th><b>Total</b> </th>
-                                                
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            <tr>
-                                                <td>Montant</td>
-                                                <td class="text-success">{{number_format($credits->sum('montant'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Frais de déblocage</td>
-                                                <td class="text-success">{{number_format($credits->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Frais de carte</td>
-                                                <td class="text-success">{{number_format($credits->sum('frais_carte'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Montant & intérêt</td>
-                                                <td class="text-success">{{number_format($credits->sum('montant_interet'), 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                                
-                                        </tbody>
-                                    </table>
-                                   
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
+                       
                     </div> <!-- end row -->
 
 

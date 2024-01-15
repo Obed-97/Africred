@@ -90,6 +90,10 @@ class HistDepotController extends Controller
     public function update(Request $request, $id)
     {
         $depot = Depot::where('id', $id)->firstOrFail();
+        
+        $results = $request['client_id'];
+
+        $data_client = explode('|', $results);
 
         $depots = Depot::where('client_id', $request->client_id)->sum('depot');
         $retraits = Depot::where('client_id', $request->client_id)->sum('retrait');
@@ -98,7 +102,9 @@ class HistDepotController extends Controller
 
         $depot->update([
             'user_id'=>auth()->user()->id,
-            'client_id'=>$request->client_id,
+            'client_id'=>$data_client[0],
+            'nature'=>$data_client[1],
+            'sexe'=>$data_client[2],
             'type_depot_id'=>$request->type_depot_id,
             'date'=>$request->date,
             
@@ -113,11 +119,12 @@ class HistDepotController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $depot = Depot::findOrFail($id);
+        $depot = Depot::findOrFail($request->depot);
         $depot->delete();
-        
+
+        alert()->image('Supprimé!!!','','assets/images/recycle.png','150','150');
         return redirect()->route('historique_depot.index');
     }
 }

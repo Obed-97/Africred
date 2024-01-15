@@ -30,6 +30,11 @@ return new class extends Migration
             $table->string('activite')->nullable();
             $table->string('telephone')->unique()->nullable();
             $table->string('adresse')->nullable();
+            $table->string('ville')->nullable();
+            $table->date('date_n')->nullable();
+            $table->string('lieu_n')->nullable();
+            $table->string('sexe')->nullable();
+            $table->string('image')->default('avatar.png');
             $table->rememberToken();
             $table->timestamps();
         });

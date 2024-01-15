@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Marche;
 use App\Models\User;
+use Image;
 
 class ClientController extends Controller
 {
@@ -19,10 +20,10 @@ class ClientController extends Controller
         $marches = Marche::all();
         $clients = null;
 
-        if (auth()->user()->role_id == 1) {
-          $clients = Client::get();
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          $clients = Client::where('type_compte_id', 1)->get();
         }else {
-          $clients = Client::where('user_id', auth()->user()->id)->get();
+          $clients = Client::where('type_compte_id', 1)->where('user_id', auth()->user()->id)->get();
         }
       
 
@@ -38,7 +39,7 @@ class ClientController extends Controller
     {
         $marches = Marche::all();
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $clients = Client::selectRaw(
                 'user_id,
                  COUNT(id) as id')
@@ -56,7 +57,7 @@ class ClientController extends Controller
     {
         $marches = Marche::all();
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $clients = Client::selectRaw(
                 'marche_id,
                  COUNT(id) as id')
@@ -82,18 +83,33 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $client = new Client;
+        $filename = 'avatar.png';
 
+        if($request->hasFile('image')){
+
+            $image = $request->file('image');
+            $filename = $image->getClientOriginalName();    
+            $location = '/htdocs/app.africa-africred.com/assets/images/users/'.$filename;
+            Image::make($image)->save($location);   
+        }
+        
+        
+        $client = new Client;
+        
         $client->create([
             'nom_prenom'=>$request->nom_prenom,
             'activite'=>$request->activite,
             'telephone'=>$request->telephone,
             'adresse'=>$request->adresse,
             'marche_id'=>$request->marche_id,
-            
+            'ville'=>$request->ville,
+            'date_n'=>$request->date_n,
+            'lieu_n'=>$request->lieu_n,
+            'sexe'=>$request->sexe,
             'user_id'=> auth()->user()->id,
+            'image'=> $filename,
         ]);
- 
+        alert()->image('Compte ouvert!','Le compte a été ouvert avec succès!','assets/images/approved.png','200','200');
         return redirect()->route('etat_client.index');
     }
 
@@ -103,14 +119,11 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-       
+        $client = Client::where('id', $id)->firstOrFail();
 
-        $clients = Client::get();
-
-
-        return view('client.agent', compact('agent','clients'));
+        return view('client.carte', compact('client'));
     }
 
     /**
@@ -138,19 +151,33 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $client = Client::where('id', $id)->firstOrFail();
+        $filename = 'avatar.png';
 
+        if($request->hasFile('image')){
+
+            $image = $request->file('image');
+            $filename = $image->getClientOriginalName();    
+            $location = '/htdocs/app.africa-africred.com/assets/images/users/'.$filename;
+            Image::make($image)->save($location);   
+        }
+        
+        $client = Client::where('id', $id)->firstOrFail();
+        
         $client->update([
             'nom_prenom'=>$request->nom_prenom,
             'activite'=>$request->activite,
             'telephone'=>$request->telephone,
             'adresse'=>$request->adresse,
             'marche_id'=>$request->marche_id,
-            
-            'user_id'=>$request->user_id,
-
+            'ville'=>$request->ville,
+            'date_n'=>$request->date_n,
+            'lieu_n'=>$request->lieu_n,
+            'sexe'=>$request->sexe,
+            'image'=> $filename,
+         
         ]);
-
+        
+        alert()->image('Mise à jour','Le compte a été mis à jour!','assets/images/approved.png','200','200');
         return redirect()->route('client.index');
     }
 
@@ -160,11 +187,34 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $client = Client::findOrFail($id);
+        $client = Client::findOrFail($request->client);
         $client->delete();
-
+        alert()->image('Supprimée!','Le compte a été supprimé avec succès!','assets/images/recycle.png','150','150');
         return redirect()->route('client.index');
     }
+    
+    public function demande(Request $request)
+    {
+        $client_id = $request->client_id;
+        
+        $info = Client::where('id', $request->client_id)->first();
+        
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $client = Client::get();
+        }else {
+            $client = Client::where('user_id', auth()->user()->id)->get();
+        }
+   
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+            $demande = Client::where('id', $request->client_id)->get();
+        }else {
+            $demande = Client::where('id', $request->client_id)->where('user_id', auth()->user()->id)->get();
+        }
+
+        return view('client.demande', compact('demande','client_id','info','client'));
+    }
+
 }

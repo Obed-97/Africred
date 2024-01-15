@@ -2,6 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\CreditController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\RecouvrementController;
+use App\Http\Controllers\Api\MarcheController;
+use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\EncoursController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +22,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::apiResources([
+    '/' => HomeController::class,
+    'client' => ClientController::class,
+    'credit' => CreditController::class,
+    'user' => UserController::class,
+    'recouvrement' => RecouvrementController::class,
+    'marche' => MarcheController::class,
+    'role' => RoleController::class,
+    'encours' => EncoursController::class,
+]);

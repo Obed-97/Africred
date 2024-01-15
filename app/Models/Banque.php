@@ -16,6 +16,7 @@ class Banque extends Model
         'date',
         'nom_banque',
         'montant',
+        'motif',
     ];
 
     public function Micro_finance()

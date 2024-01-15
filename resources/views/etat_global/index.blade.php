@@ -47,7 +47,14 @@
                </div> 
                <div class="col-xl-2"><a href="/" class="btn btn-success btn-block  waves-effect waves-light">ÉTAT DU JOUR</a></div>
            </div>
-   
+            <div class="row" id="web">
+                <div class="col-xl-8">
+                    <div id="container" class="mb-4"></div>
+                </div>
+                <div class="col-xl-4">
+                    <div id="chart_container" class="mb-4"></div>
+                </div>
+            </div>
                @if (auth()->user()->role_id == 5)
                <div class="row">
                    <div class="col-xl-12">
@@ -290,8 +297,8 @@
                                    <div class="card-body">
                                        <div class="media">
                                            <div class="media-body overflow-hidden">
-                                               <p class="text-truncate font-size-14 mb-2">Total épargne recouvrée</p>
-                                               <h4 class="mb-0">{{number_format($recouvrements->sum('epargne_jrs'), 0, ',', ' ')}} CFA</h4>
+                                               <p class="text-truncate font-size-14 mb-2">Solde épargne quotidienne</p>
+                                               <h4 class="mb-0">{{number_format(($recouvrements->sum('epargne_jrs')-$recouvrements->sum('retrait')), 0, ',', ' ')}} CFA</h4>
                                            </div>
                                            <div class="text-primary">
                                                <i class=" ri-funds-line font-size-24"></i>
@@ -300,8 +307,8 @@
                                    </div>
                                    <div class="card-body border-top py-3">
                                        <div class="text-truncate">
-                                           <span class="text-muted ml-2">Agents en charge :</span>
-                                           <span class="badge badge-soft-success font-size-20">{{count($agents)}} </span>
+                                           <span class="text-muted ml-2">Retraits effectués :</span>
+                                           <span class="badge badge-soft-success font-size-14">{{number_format($recouvrements->sum('retrait'), 0, ',', ' ')}} CFA </span>
                                        </div>
                                    </div>
                                </div>
@@ -585,5 +592,189 @@
 </div>
 <!-- End Page-content -->
 
+@endsection
+@section('extra-js')
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script type="text/javascript">
+
+    var datas =<?php echo json_encode($datas)?>;
+    var donnes_deblocage =<?php echo json_encode($donnes_deblocage)?>;
+    var donnees_client =<?php echo json_encode($donnees_client)?>;
+    var donnes_deblocages =<?php echo json_encode($donnes_deblocages)?>;
+
+    Highcharts.chart('container', {
+
+       title:{
+           text: 'Statistiques Globales',
+           style: {
+                  fontSize: '18px',
+                  fontFamily: 'Inter'
+               }
+       }, 
+       subtitle:{
+           text: 'Source : AFRICRED',
+            style: {
+                   
+                    fontFamily: 'Inter'
+                }
+       },
+        credits: {
+            enabled: false
+        },
+
+       xAxis:{
+        categories: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aoû', 'Sep',
+
+                'Oct', 'Nov', 'Déc']
+       },
+
+       yAxis: [{
+                    title: {
+                        text: 'Échelles'
+                    },
+
+                }
+                ],
+
+      
+
+       plotOptions:{
+            series:{
+                allowPointSelect:true
+            }
+       },
+       series: [{
+            name: 'Comptes 2022',
+            type: 'spline',
+            color:'#5664d2',
+            data: datas
+        },{
+            name: 'Déblocages 2022',
+            type: 'areaspline',
+            color: '#1cbb8c',
+            data: donnes_deblocage
+        },
+        {
+            name: 'Comptes 2023',
+            type: 'scatter',
+            color:'#5664d2',
+            data: donnees_client
+        },
+        {
+            name: 'Déblocages 2023',
+            type: 'scatter',
+            color: '#1cbb8c',
+            data: donnes_deblocages
+        },
+    ],
+
+       responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+    });
+    
+
+  
+</script>
+
+<script>
+        Highcharts.chart('chart_container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+            
+        },
+        title: {
+            text: 'Chiffres d\'affaire Globaux',
+            align: 'left',
+            style: {
+                  fontSize: '18px',
+                  fontFamily: 'Inter'
+               }
+    
+        },
+         credits: {
+            enabled: false
+        },
+        
+        tooltip: {
+            outside: true,
+            pointFormat: '{series.name}: <b>{point.y} CFA</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                
+            }
+        },
+        series: [{
+            name: 'Total',
+            colorByPoint: true,
+            data: [ {
+                name: 'Déblocage ',
+                y: <?= $deblocage_annee ?>,
+                color: '#4aa3ff',
+                dataLabels: {
+                    enabled: true,
+                    useHTML: true,
+                    allowOverlap: true,
+                    distance: -130,
+                    format:'<img src="/assets/images/Logo AfriCRED.png" alt="" height="50" width="150"></img>'  
+
+              }
+            },
+            {
+                name: 'Encours Global',
+                y: <?= $encours_global  ?>,
+                color: '#fcb92c',
+            },
+            {
+                name: 'Intérêt',
+                y: <?= $interet_recouvre ?>,
+                color: '#1cbb8c' 
+            },
+            {
+                name: 'Capital',
+                y: <?= $capital_recouvre ?>,
+                color: '#5664d2', 
+                
+            }
+           ],
+           
+            size: 250,
+            innerSize: '80%',
+            showInLegend: true,
+            dataLabels: {
+                enabled: false
+            }
+        }]
+            
+    });
+
+</script>
+
 
 @endsection
+
+
