@@ -250,7 +250,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
-                            <div class="col-md-3" >
+                            <div class="col-md-4" >
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media">
@@ -267,7 +267,7 @@
                                    
                                 </div>
                             </div>
-                            <div class="col-md-3" >
+                            <div class="col-md-4" >
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media">
@@ -285,21 +285,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3" >
-                                <div class="card bg-success">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-white font-size-14 mb-2">Trésorerie</p>
-                                                <h4 class="mb-0 text-white">{{number_format(($encaissements->sum('montant') - ($decaissements->sum('montant'))) + ($depots->sum('montant') - ($retraits->sum('montant'))), 0, ',', ' ') }} CFA</h4>
-                                            </div>
-                                            <div class="text-white">
-                                                <i class=" ri-line-chart-fill font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -329,6 +315,87 @@
                 <div class="col-xl-4"></div>
                 @endif
                 <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light" id="web">ÉTAT GLOBAL</a></div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="row">
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Nouveaux comptes</p>
+                                                <h4 class="mb-0">{{count($clients)}} </h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class="ri-bank-card-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}}</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}}</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}}</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+               
+                
             </div>
             <div class="row" id="web">
                 <div class="col-xl-8" >
@@ -867,86 +934,7 @@
             </div>
             <!-- end page title -->
 
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="row">
-                            <div class="col-md-3" >
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Nouveaux comptes</p>
-                                                <h4 class="mb-0">{{count($clients)}} </h4>
-                                            </div>
-                                            <div class="text-primary">
-                                                <i class="ri-bank-card-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
-                            <div class="col-md-3" >
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}}</h4>
-                                            </div>
-                                            <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
-                            <div class="col-md-3" >
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Marchés</p>
-                                                <h4 class="mb-0">{{count($marches)}} </h4>
-                                            </div>
-                                            <div class="text-primary">
-                                                <i class="ri-store-2-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
-
-                            <div class="col-md-3" >
-                                <div class="card bg-success">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-white font-size-14 mb-2">Solde Banque</p>
-                                                <h4 class="mb-0 text-white">{{ number_format(($depots->sum('montant') - ($retraits->sum('montant'))), 0, ',', ' ')}} CFA</h4>
-                                            </div>
-                                            <div class="text-white">
-                                                <i class=" ri-bank-fill font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-
-               
-                
-            </div>
+            
         </div>  
  @elseif(auth()->user()->role_id == 7 )
    <div class="row">
