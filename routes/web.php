@@ -35,7 +35,8 @@ use App\Http\Controllers\IndicateurController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\TransfertController;
 use App\Http\Controllers\TauxController;
-
+use App\Http\Controllers\PushController;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,6 +47,54 @@ use App\Http\Controllers\TauxController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//make a push notification.
+Route::get('/push',[PushController::class, 'push'])->name('push');
+
+//store a push subscriber.
+Route::post('/push',[PushController::class, 'store'])->name('push');
+
+Route::get('/notif', function(){
+
+    // $user = User::create([
+    //     'nom' => 'app',
+    //     'email' => 'app@gmail.com',
+    //     'password' => bcrypt('password')
+    // ]);
+
+    // auth()->login($user);
+
+    return view('welcome');
+
+    // $webPush = new WebPush([
+    //     'VAPID' => [
+    //         'subject' => 'mailto:contact@grafikart.fr',
+    //         'publicKey' => env('VAPID_PUBLIC_KEY'),
+    //         'privateKey' => env('VAPID_PRIVATE_KEY'),
+    //     ],
+    // ]);
+    // foreach($user->subscriptions as $subscription) {
+    //     $webPush->queueNotification(
+    //         Subscription::create([
+    //             'endpoint' => $subscription->endpoint,
+    //             'publicKey' => $subscription->public_key,
+    //             'authToken' => $subscription->auth_token,
+    //         ]),
+    //         json_encode([
+    //             'message' => 'Bonjour les gens',
+    //             'title' => 'Mon titre'
+    //         ]);
+    //     );
+    // }
+    // foreach ($webPush->flush() as $report) {
+    //     $endpoint = $report->getRequest()->getUri()->__toString();
+    //     if ($report->isSuccess()) {
+    //         dump("[v] Le message bien été envoyé {$endpoint}.");
+    //     } else {
+    //         dump("[x] Impossible d'envoyer le message {$endpoint}: {$report->getReason()}");
+    //     }
+    // }
+});
 Route::group(['middleware'=>['auth']], function(){
 
 Route::resources([
