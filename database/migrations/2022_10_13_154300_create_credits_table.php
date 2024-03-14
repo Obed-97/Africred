@@ -54,9 +54,9 @@ return new class extends Migration
             $table->date('date_r');
             $table->integer('n_delai');
             $table->date('date_fin_r');
-            
+
             $table->string('motif_r')->nullable();
-         
+
             $table->timestamps();
         });
     }

@@ -9,6 +9,7 @@
         "arielmejiadev/larapex-charts": "^5.2",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
+        "laravel-notification-channels/webpush": "^7.1",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
