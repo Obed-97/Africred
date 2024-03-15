@@ -1,121 +1,50 @@
-'use strict';
-
-const swReady = navigator.serviceWorker.ready;
-
-document.addEventListener('DOMContentLoaded', function () {
-    initSW();
-});
-
-function initSW() {
-    if (!"serviceWorker" in navigator) {
-        //service worker isn't supported
-        return;
+function main(){
+    const permission = document.getElementById('push-permission')
+    if(
+            !permission ||
+            !('Notification' in window) ||
+            !('serviceWorker' in navigator)  ||
+            Notification.permission !== 'default'
+        ){
+        return ;
     }
-
-    //don't use it here if you use service worker
-    //for other stuff.
-    if (!"PushManager" in window) {
-        //push isn't supported
-        return;
-    }
-
-    //register the service worker
-    navigator.serviceWorker.register('../sw.js')
-        .then(() => {
-            console.log('serviceWorker installed!')
-            initPush();
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    const button = document.createElement('button');
+    button.innerText = 'Recevoir les notifications';
+    permission.appendChild(button);
+    button.addEventListener('click', askPermission);
 }
 
-function initPush() {
-    if (!swReady) {
-        return;
+async function askPermission () {
+    const permission = await Notification.requestPermission()
+    if(permission == 'granted'){
+        console.log(permission)
+        registerServiceWorker()
     }
-
-    new Promise(function (resolve, reject) {
-        const permissionResult = Notification.requestPermission(function (result) {
-            resolve(result);
-        });
-
-        if (permissionResult) {
-            permissionResult.then(resolve, reject);
-        }
-    })
-        .then((permissionResult) => {
-            if (permissionResult !== 'granted') {
-                throw new Error('We weren\'t granted permission.');
-            }
-            subscribeUser();
-        });
 }
 
-/**
- * Subscribe the user to push
- */
-function subscribeUser() {
-    swReady
-        .then((registration) => {
-            const subscribeOptions = {
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(
-                    'BPkj5l5UNJ6MmokzBN2T1TyaeshqRMVeIXl6eQ5-nURRFBeiazcQpsFzr9WgU5tpZaq_lQe9yPQTohIymG5roVk'
-                )
-            };
-
-            return registration.pushManager.subscribe(subscribeOptions);
-        })
-        .then((pushSubscription) => {
-            console.log('Received PushSubscription: ', JSON.stringify(pushSubscription));
-            storePushSubscription(pushSubscription);
-        });
+async function registerServiceWorker() {
+    const registration = await navigator.serviceWorker.register("/sw.js");
+    let subscription = await registration.pushManager.getSubscription();
+    if (!subscription) {
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: 'BPkj5l5UNJ6MmokzBN2T1TyaeshqRMVeIXl6eQ5-nURRFBeiazcQpsFzr9WgU5tpZaq_lQe9yPQTohIymG5roVk',
+      });
+    }
+    await saveSubscription(subscription);
 }
-
-/**
- * send PushSubscription to server with AJAX.
- * @param {object} pushSubscription
- */
-function storePushSubscription(pushSubscription) {
+  
+  async function saveSubscription (subscription) {
     const token = document.querySelector('meta[name=csrf-token]').getAttribute('content');
-
-    fetch('/push', {
-        method: 'POST',
-        body: JSON.stringify(pushSubscription),
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': token
-        }
+   fetch("/push/subscribe", {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+          Accept: "application/json",
+        'X-CSRF-Token': token
+      },
+      body: JSON.stringify(subscription)
     })
-        .then((res) => {
-            return res.json();
-        })
-        .then((res) => {
-            console.log(res)
-        })
-        .catch((err) => {
-            console.log(err)
-        });
-}
+  }
 
-/**
- * urlBase64ToUint8Array
- * 
- * @param {string} base64String a public vapid key
- */
-function urlBase64ToUint8Array(base64String) {
-    var padding = '='.repeat((4 - base64String.length % 4) % 4);
-    var base64 = (base64String + padding)
-        .replace(/\-/g, '+')
-        .replace(/_/g, '/');
-
-    var rawData = window.atob(base64);
-    var outputArray = new Uint8Array(rawData.length);
-
-    for (var i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
-}
+main()

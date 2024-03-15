@@ -52,7 +52,7 @@ use App\Models\User;
 Route::get('/push',[PushController::class, 'push'])->name('push');
 
 //store a push subscriber.
-Route::post('/push',[PushController::class, 'store'])->name('push');
+Route::post('/push/subscribe',[PushController::class, 'store'])->name('push');
 
 Route::get('/notif', function(){
 

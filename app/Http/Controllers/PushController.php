@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Notifications\PushDemo;
 use App\Models\User;
+use App\Models\PushSubscription;
 use Auth;
 use Notification;
 
@@ -17,19 +18,19 @@ class PushController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request){
-        $this->validate($request,[
-            'endpoint'    => 'required',
-            'keys.auth'   => 'required',
-            'keys.p256dh' => 'required'
-        ]);
+        /** @var User $user */
 
-        $endpoint = $request->endpoint;
-        $token = $request->keys['auth'];
-        $key = $request->keys['p256dh'];
-        $user = Auth::user();
-        $user->updatePushSubscription($endpoint, $key, $token);
-        
-        return response()->json(['success' => true],200);
+        $user = auth()->user();
+
+        // PushSubscription::create([
+
+        // ]);
+
+        return $user->updatePushSubscription(
+            $request->get('endpoint'),
+            $request->keys['p256dh'],
+            $request->keys['auth']
+        );
     }
 
     /**
