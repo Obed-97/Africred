@@ -1,5 +1,3 @@
-<head>
-        
     <meta charset="utf-8" />
     <title>AFRICRED | @yield('title')</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,10 +24,10 @@
     <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
     
     <!-- twitter-bootstrap-wizard css -->
-    <link rel="stylesheet" href="{{asset('assets/libs/twitter-bootstrap-wizard/prettify.css')}}">
-    
-   
+    <link rel="stylesheet" href="{{asset('assets/libs/twitter-bootstrap-wizard/prettify.css')}}">  
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <script src="{{ asset('assets/js/enable-push.js') }}" defer></script>
 
     <style>
 
@@ -279,11 +277,4 @@
         }
                
     </style>
-    
-    
-        
-       
-
-    
-
-</head>
+  

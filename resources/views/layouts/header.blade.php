@@ -1,6 +1,3 @@
-<!-- Begin page -->
-<div id="layout-wrapper" >
-
     <header id="page-topbar" >
         <div class="navbar-header">
             <div class="d-flex">
@@ -41,8 +38,7 @@
             </div>
             
             <div class="d-flex" >
-    
-    
+                <div id="push-permission"></div>
                 <div class="dropdown d-none d-lg-inline-block ml-1">
                     <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                         <i class="ri-fullscreen-line"></i>
@@ -124,7 +120,6 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <!-- item-->
                         <a class="dropdown-item" href="{{route('profile.index')}}"><i class="ri-user-line align-middle mr-1"></i> Mon profile</a>
-                        
                         <div class="dropdown-divider"></div>
                                 <!-- item-->
                         <form method="POST" action="{{route('logout')}}">

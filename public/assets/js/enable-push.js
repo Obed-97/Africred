@@ -9,8 +9,10 @@ function main(){
         return ;
     }
     const button = document.createElement('button');
-    button.innerText = 'Recevoir les notifications';
+    button.classList.add('btn', 'header-item', 'noti-icon', 'waves-effect');
+    button.innerText = 'Cliquer ici pour recevoir les notifications !';
     permission.appendChild(button);
+    
     button.addEventListener('click', askPermission);
 }
 
