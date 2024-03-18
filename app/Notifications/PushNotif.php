@@ -6,21 +6,23 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushMessage;
 use NotificationChannels\WebPush\WebPushChannel;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
-class PushDemo extends Notification
+class PushNotif extends Notification
 {
     use Queueable;
+
+    public $title, $name, $nameCustomer;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($title =  NULL, $name = NULL, $nameCustomer = NULL)
     {
-        //
+        $this->title = $title;
+        $this->name = $name;
+        $this->nameCustomer = $nameCustomer;
     }
 
     /**
@@ -37,9 +39,9 @@ class PushDemo extends Notification
     public function toWebPush($notifiable, $notification)
     {
         return (new WebPushMessage)
-            ->title('I\'m Notification Title')
-            ->icon('/notification-icon.png')
-            ->body('Great, Push Notifications work!')
-            ->action('View App', 'notification_action');
+            ->title($this->title)
+            ->icon("/favicon.png")
+            ->body('Le client '. $this->nameCustomer .' a été pris en charge par '. $this->name .'!')
+            ->action('Voir', 'https://app.africa-africred.com');
     }
 }

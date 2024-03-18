@@ -11,6 +11,7 @@ use App\Models\Marche;
 use App\Services\Tool;
 use App\Models\User;
 use Alert;
+use App\Notifications\PushNotif;
 
 class RecouvrementController extends Controller
 {
@@ -53,10 +54,10 @@ class RecouvrementController extends Controller
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $listes = Credit::where('statut', 'Accordé')->get();
-              
+
             foreach ($listes as $liste) {
 
-                $encours =  $tool->encours_actualiser($liste->id); 
+                $encours =  $tool->encours_actualiser($liste->id);
 
                 if ($encours > 0){
                     array_push($credits, $liste);
@@ -68,7 +69,7 @@ class RecouvrementController extends Controller
 
             foreach ($listes as $liste) {
 
-                $encours =  $tool->encours_actualiser($liste->id); 
+                $encours =  $tool->encours_actualiser($liste->id);
 
                 if ($encours > 0){
                     array_push($credits, $liste);
@@ -77,15 +78,15 @@ class RecouvrementController extends Controller
             }
         }
 
-        
+
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $epargnes = Credit::where('statut', 'Accordé')->get();
         } else {
             $epargnes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
 
         }
-        
-        
+
+
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
@@ -94,7 +95,7 @@ class RecouvrementController extends Controller
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
 
         }
-        
+
        $agents = User::where('role_id', '2')->get();
 
        return view('recouvrement.index', compact('epargnes','credits','recouvrements','marches','total','agents'));
@@ -133,15 +134,15 @@ class RecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
 
-        
+
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $credits = Credit::where('statut', 'Accordé')->get();
         } else {
             $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         }
-        
-        
-        
+
+
+
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
@@ -149,8 +150,8 @@ class RecouvrementController extends Controller
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
         }
-        
-       
+
+
 
         return view('recouvrement.marche', compact('credits','marches','total','par_marche'));
     }
@@ -163,9 +164,9 @@ class RecouvrementController extends Controller
      */
     public function store(Request $request)
     {
-
+        $tool = new Tool();
         $recouvrement = new Recouvrement;
-        
+
         $results = $request['credit_id'];
 
         $data_credit = explode('|', $results);
@@ -198,6 +199,14 @@ class RecouvrementController extends Controller
         ]);
 
         alert()->image('Recouvrement réussi','Le recouvrement a été effectué!','assets/images/money.png','175','175');
+
+        $pr = new PushNotif(
+            'Recouvrement',
+            auth()->user()->nom,
+            $credit->Client['nom_prenom']
+        );
+
+        $tool->pushNotif($tool->managerUsers(), $pr);
 
         return redirect()->route('etat_recouvrement.index');
     }
@@ -250,7 +259,7 @@ class RecouvrementController extends Controller
     public function retrait(Request $request)
     {
         $retrait = new Recouvrement;
-        
+
         $results = $request['credit_id'];
 
         $data_credit = explode('|', $results);
@@ -261,7 +270,7 @@ class RecouvrementController extends Controller
             'marche_id'=>$data_credit[1],
             'type_id'=>$data_credit[3],
             'date'=>$request->date,
-            
+
             'retrait'=>$request->retrait,
         ]);
         alert()->image('Retrait effectué!','Le retrait a été effectué avec succès!','assets/images/salary.png','125','125');

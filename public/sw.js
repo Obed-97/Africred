@@ -4,16 +4,15 @@ self.addEventListener('install', () => {
 
 
 self.addEventListener('push', function (e) {
-   const data = e.data ?    e.data.json() : {};
-        e.waitUntil(
-            self.registration.showNotification(
+    const data = e.data ? e.data.json() : {};
+    e.waitUntil(
+        self.registration.showNotification(
             data.title, {
             body: data.body,
             icon: data.icon,
             actions: data.actions
         }));
-    });
-
+});
 
 // self.addEventListener('push', function (e) {
 //     if (!(self.Notification && self.Notification.permission === 'granted')) {

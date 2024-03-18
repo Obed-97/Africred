@@ -12,7 +12,7 @@ function main(){
     button.classList.add('btn', 'header-item', 'noti-icon', 'waves-effect');
     button.innerText = 'Cliquer ici pour recevoir les notifications !';
     permission.appendChild(button);
-    
+
     button.addEventListener('click', askPermission);
 }
 
@@ -30,12 +30,12 @@ async function registerServiceWorker() {
     if (!subscription) {
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: 'BPkj5l5UNJ6MmokzBN2T1TyaeshqRMVeIXl6eQ5-nURRFBeiazcQpsFzr9WgU5tpZaq_lQe9yPQTohIymG5roVk',
+        applicationServerKey: 'BPF7NAeh1BrViRY_zi5UGmHd82jE2A-Y0_a6faelUlCFrve_Gy1shxVdjHKmImG8JCV4Oi0ftvqM0GlBWA5-kpA',
       });
     }
     await saveSubscription(subscription);
 }
-  
+
   async function saveSubscription (subscription) {
     const token = document.querySelector('meta[name=csrf-token]').getAttribute('content');
    fetch("/push/subscribe", {

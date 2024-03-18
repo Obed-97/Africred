@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Models\Recouvrement;
 use App\Models\Credit;
 use App\Models\User;
+use App\Notifications\PushRecovery;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 
 class Tool {
 
@@ -90,7 +93,7 @@ class Tool {
 
         return $total;
     }
-    
+
     public function montant($id)
     {
         $total = 0;
@@ -115,7 +118,7 @@ class Tool {
 
         return $total;
     }
-    
+
     public function montant_interet($id)
     {
         $total = 0;
@@ -128,7 +131,7 @@ class Tool {
 
         return $total;
     }
-    
+
     public function frais_deblocage($id)
     {
         $total = 0;
@@ -141,7 +144,7 @@ class Tool {
 
         return $total;
     }
-    
+
     public function frais_carte($id)
     {
         $total = 0;
@@ -160,5 +163,26 @@ class Tool {
         $user = User::find($user_id);
 
         return $user;
+    }
+
+    public function managerUsers()
+    {
+        $users = User::where('role_id', 1)->get();
+
+        return $users;
+    }
+
+    public function agentUsers()
+    {
+        $users = User::where('role_id', 2)->get();
+
+        return $users;
+    }
+
+    public function pushNotif($users, $event)
+    {
+        Notification::send($users, $event);
+
+        return 1;
     }
 }
