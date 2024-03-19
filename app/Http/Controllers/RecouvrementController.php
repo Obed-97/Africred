@@ -257,6 +257,7 @@ class RecouvrementController extends Controller
 
     public function retrait(Request $request)
     {
+
         $retrait = new Recouvrement;
 
         $results = $request['credit_id'];
@@ -272,7 +273,20 @@ class RecouvrementController extends Controller
 
             'retrait'=>$request->retrait,
         ]);
+
+        $cl = Credit::find($data_credit[0]);
+
         alert()->image('Retrait effectué!','Le retrait a été effectué avec succès!','assets/images/salary.png','125','125');
+
+        $pr = new PushNotif(
+            'Epargne',
+            auth()->user()->nom.' a effectué le retrait de '.$request->retrait .' F au profit du client '.$cl->Client['nom_prenom']. ' !',
+        );
+
+        $tool = new Tool();
+
+        $tool->pushNotif($tool->managerUsers(), $pr);
+
         return redirect()->back();
     }
 }

@@ -157,7 +157,7 @@ class AttenteController extends Controller
             auth()->user()->nom.' a confirmé le prêt du client '.$credit->Client['nom_prenom']. ', pour le '.$credit->date_deblocage. ' !',
         );
 
-        $tool->pushNotif($tool->managerUsers(), $pr);
+        $tool->pushNotif($tool->agentUsers(), $pr);
 
         return redirect()->route('attente.index');
     }
