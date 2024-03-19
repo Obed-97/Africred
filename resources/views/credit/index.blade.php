@@ -24,7 +24,7 @@
             @endphp
 
             <div class="page-content">
-                
+
                 <div class="container-fluid">
                     <div class="modal fade" id="credit"  tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -48,7 +48,7 @@
                                         <button type="submit" class="btn btn-danger waves-effect waves-light">
                                             <i class="ri-close-line align-middle mr-2"></i> Oui, Supprimer
                                         </button>
-                                        
+
                                     </div>
                                 </div>
                             </form>
@@ -80,7 +80,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
                                     <a class="dropdown-item" href="{{route('nano.index')}}">ABEYAN SUGU</a>
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -98,14 +98,14 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    
-                                        
+
+
                                         <div class="row">
                                             <div class="mb-4 col-xl-4">
                                                 <label for="">Afficher par :</label>
                                                 @if (auth()->user()->role_id == 2)
                                                 <a href="{{route('credit.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                                <a href="{{route('credit.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
+                                                <a href="{{route('credit.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
                                                 @else
                                                 <a href="{{route('credit.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
                                                 <a href="{{route('credit.create')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
@@ -130,12 +130,12 @@
                                                 <th>Intérêt</th>
                                                 <th>Frais déblocage</th>
                                                 <th>Frais carte</th>
-                                        
-                                               
+
+
                                                 @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
                                                     <th>Agent </th>
                                                 @endif
-                                                    
+
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -161,8 +161,8 @@
                                                     <td >{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->frais_deblocage, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
-                                                    
-                                                    
+
+
                                                     @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
                                                          <td><img src="/assets/images/users/{{$item->User['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                                     @endif
@@ -170,14 +170,14 @@
                                                     <td class="d-flex">
                                                         @if (auth()->user()->role_id == 2)
                                                         <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                         
+
                                                         @endif
                                                         @if (auth()->user()->role_id == 1)
                                                         <a href="{{route('credit.show', $item->id)}}" class="mr-3 text-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Contrat de prêt"><i class="mdi mdi-eye font-size-18"></i></a>
-                                                        <button  class="text-white btn-danger btn-rounded creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button> 
+                                                        <button  class="text-white btn-danger btn-rounded creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                         @endif
-                                                        
-                                                       
+
+
                                                     </td>
 
                                                 </tr>
@@ -199,17 +199,17 @@
                                                     <td></td>
                                                     @endif
                                                     <td></td>
-                                                                                               
+
                                                 </tr>
                                         </tbody>
                                     </table>
-    
+
                                 </div>
                             </div>
                         </div> <!-- end col -->
                     <div>
                     </div> <!-- end row -->
-                    
+
                     </div>
             <!-- End Page-content -->
 
@@ -225,9 +225,9 @@
                 $('#credit').modal('show');
 
             });
-            
+
         });
     </script>
 
- 
+
 @endsection

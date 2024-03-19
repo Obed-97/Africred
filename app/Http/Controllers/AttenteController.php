@@ -10,6 +10,8 @@ use App\Models\Type;
 use App\Models\Recouvrement;
 use Carbon\Carbon;
 use Alert;
+use App\Notifications\PushNotif;
+use App\Services\Tool;
 
 class AttenteController extends Controller
 {
@@ -25,17 +27,17 @@ class AttenteController extends Controller
         }else {
             $credits = Credit::where('statut', 'En attente')->where('user_id', auth()->user()->id)->get();
         }
-        
+
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $clients = Client::get();
         }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();
         }
-        
+
 
         $marches = Marche::get();
         $types = Type::get();
-        
+
         return view('credit.attente', compact('clients', 'credits','marches','types'));
     }
 
@@ -55,7 +57,7 @@ class AttenteController extends Controller
                 SUM(frais_carte) as frais_carte')
             ->groupBy('client_id')->where('statut', 'Accordé')->whereYear('date_deblocage', date('Y'))
             ->get();
-            
+
         }else {
             $credits = Credit::selectRaw(
                'client_id,
@@ -65,19 +67,19 @@ class AttenteController extends Controller
                 SUM(frais_carte) as frais_carte')
             ->groupBy('client_id')->where('statut', 'Accordé')->whereYear('date_deblocage', date('Y'))->where('user_id', auth()->user()->id)
             ->get();
-           
+
         }
-        
+
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $clients = Client::get();
         }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();
         }
-        
+
 
         $marches = Marche::get();
         $types = Type::get();
-        
+
         return view('credit.rotation', compact('clients', 'credits','marches','types'));
     }
 
@@ -90,16 +92,16 @@ class AttenteController extends Controller
     public function store(Request $request)
     {
         $client_id = $request->client_id;
-        
+
         $client = Client::where('id', $client_id)->first();
-        
+
         $credits = Credit::where('client_id', $client_id)->where('statut', 'Accordé')->get();
-        
+
         $credits_attente = Credit::where('client_id', $client_id)->where('statut', 'En attente')->get();
-        
+
         $renouvellement = Credit::where('client_id', $client_id)->get();
-      
-        
+
+
         return view('credit.dossier_credit', compact('client','credits','credits_attente','renouvellement'));
     }
 
@@ -134,11 +136,12 @@ class AttenteController extends Controller
      */
     public function update(Request $request)
     {
+        $tool = new Tool();
         $credit = Credit::where('id', $request->deblocage)->firstOrFail();
 
         $date_deblocage = $request->date_deblocage;
         $date_fin = Carbon::create($date_deblocage)->addDays($credit->nbre_jrs);
-       
+
         $statut = "Accordé";
 
         $credit->update([
@@ -148,6 +151,13 @@ class AttenteController extends Controller
         ]);
 
         alert()->image('Crédit accordé!','La demande de crédit a été accordée!','assets/images/accept.png','100','100');
+
+        $pr = new PushNotif(
+            'Validation de prêt',
+            auth()->user()->nom.' a confirmé le prêt du client '.$credit->Client['nom_prenom']. ', pour le '.$credit->date_deblocage. ' !',
+        );
+
+        $tool->pushNotif($tool->managerUsers(), $pr);
 
         return redirect()->route('attente.index');
     }

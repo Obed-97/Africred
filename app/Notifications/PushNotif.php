@@ -11,18 +11,18 @@ class PushNotif extends Notification
 {
     use Queueable;
 
-    public $title, $name, $nameCustomer;
+    public $title, $body;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($title =  NULL, $name = NULL, $nameCustomer = NULL)
+    public function __construct($title =  NULL, $body = NULL)
     {
         $this->title = $title;
-        $this->name = $name;
-        $this->nameCustomer = $nameCustomer;
+        $this->body = $body;
+
     }
 
     /**
@@ -41,7 +41,7 @@ class PushNotif extends Notification
         return (new WebPushMessage)
             ->title($this->title)
             ->icon("/favicon.png")
-            ->body('Le client '. $this->nameCustomer .' a été pris en charge par '. $this->name .'!')
+            ->body($this->body)
             ->action('Voir', 'https://app.africa-africred.com');
     }
 }
