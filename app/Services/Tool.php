@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\PushJob;
 use App\Models\Recouvrement;
 use App\Models\Credit;
 use App\Models\User;
@@ -181,8 +182,7 @@ class Tool {
 
     public function pushNotif($users, $event)
     {
-        Notification::send($users, $event);
-
+        PushJob::dispatch(Notification::send($users, $event));
         return 1;
     }
 }
