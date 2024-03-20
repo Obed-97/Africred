@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Credit;
+use App\Models\Recouvrement;
 use App\Notifications\PushNotif;
 use App\Services\Tool;
 use Carbon\Carbon;
@@ -37,6 +38,7 @@ class PushCommand extends Command
 
         $pr = 0;
         $ps = 0;
+        $pi = 0;
 
         $credits = Credit::where('statut', 'Accordé')->get();
 
@@ -55,17 +57,32 @@ class PushCommand extends Command
                 $ps += 1;
             }
 
+            $recouv = Recouvrement::where('date', Carbon::today())->where('credit_id', $credit->id)->first();
+
+            if(isset($recouv)){
+                if($recouv->recouvrement_jrs > 0 || $recouv->interet_jrs > 0 || $recouv->epargne_jrs > 0){
+                    $pi += 1;
+                }
+            }
+
+
         }
 
         $pr = new PushNotif(
             'Prêts en retard',
-            'Il y a '. $pr. ' prêts en retard !'
+            'Il y a '. $pr. ' prêts en retards !'
         );
         $tool->pushNotif($tool->managerUsers(), $pr);
 
         $pr = new PushNotif(
             'Prêts en solder',
-            'Il y a '. $ps. ' prêts en solder !'
+            'Il y a '. $ps. ' prêts soldés !'
+        );
+        $tool->pushNotif($tool->managerUsers(), $pr);
+
+        $pr = new PushNotif(
+            'Prêts impayées',
+            'Il y a '. $pi. ' prêts impayées !'
         );
         $tool->pushNotif($tool->managerUsers(), $pr);
 
