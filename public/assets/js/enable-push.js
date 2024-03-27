@@ -30,7 +30,7 @@ async function registerServiceWorker() {
     if (!subscription) {
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: 'BPF7NAeh1BrViRY_zi5UGmHd82jE2A-Y0_a6faelUlCFrve_Gy1shxVdjHKmImG8JCV4Oi0ftvqM0GlBWA5-kpA',
+        applicationServerKey: 'BJpH0IROxs-FrdDE73fi6yeFn2woNRd8y-3ENDVbJ7DpRBHUK48I8wsFXEwIqlRTDgIkuuAsXjYrtKITzlRHyEk',
       });
     }
     await saveSubscription(subscription);
