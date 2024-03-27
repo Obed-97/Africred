@@ -182,7 +182,8 @@ class Tool {
 
     public function pushNotif($users, $event)
     {
-        PushJob::dispatch(Notification::send($users, $event));
+        // PushJob::dispatch(Notification::send($users, $event));
+        Notification::send($users, $event);
         return 1;
     }
 }
