@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Notifications\PushDemo;
 use App\Models\User;
 use App\Models\PushSubscription;
 use Auth;
@@ -13,7 +12,7 @@ class PushController extends Controller
 {
     /**
      * Store the PushSubscription.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -33,13 +32,12 @@ class PushController extends Controller
         );
     }
 
-    /**
-     * Send Push Notifications to all users.
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function push(){
-        Notification::send(User::all(),new PushDemo);
-        return redirect()->back();
+    public function key(){
+      return [
+        'key' => getenv('VAPID_PUBLIC_KEY')
+      ];
     }
+
+
+
 }

@@ -49,7 +49,7 @@ use App\Models\User;
 */
 
 //make a push notification.
-Route::get('/push',[PushController::class, 'push'])->name('push');
+Route::get('/push/key',[PushController::class, 'key'])->name('push');
 //store a push subscriber.
 Route::post('/push/subscribe',[PushController::class, 'store'])->name('push');
 
