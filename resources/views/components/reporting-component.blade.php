@@ -118,6 +118,10 @@
           background: #DDDDDD;
         }
 
+        table .n5 {
+          background: #f2ae6d;
+        }
+
         table .n3 {
         }
 
@@ -207,10 +211,9 @@
                                 <thead>
                                     <tr>
                                         <th class="no"></th>
-                                        <th class="n1">Désignation</th>
-                                        <th class="n2">Prix</th>
-                                        <th class="n3">QTE</th>
-                                        <th class="n4">n4</th>
+                                        <th class="n1">Semaine 1</th>
+                                        <th class="n2">Semaine 2</th>
+                                        <th class="n4">ECART</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -219,8 +222,25 @@
                                             <td class="no">1</td>
                                             <td class="n1">sed</td>
                                             <td class="n2">dde</td>
-                                            <td class="n3">n3</td>
                                             <td class="n4">343 FCFA</td>
+                                        </tr>
+                                        <tr>
+                                          <td class="no">TOTAL NANO</td>
+                                          <td class="n1">sed</td>
+                                          <td class="n2">dde</td>
+                                          <td class="n4">343 FCFA</td>
+                                        </tr>
+                                        <tr>
+                                          <td class="no">TOTAL AB-SUGU</td>
+                                          <td class="n1">sed</td>
+                                          <td class="n2">dde</td>
+                                          <td class="n4">343 FCFA</td>
+                                        </tr>
+                                        <tr>
+                                          <td class="n5">TOTAL GENERALE</td>
+                                          <td class="n5">sed</td>
+                                          <td class="n5">dde</td>
+                                          <td class="n5">343 FCFA</td>
                                         </tr>
                                 </tbody>
                             </table>
