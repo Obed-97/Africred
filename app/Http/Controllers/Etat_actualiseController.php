@@ -21,16 +21,16 @@ class Etat_actualiseController extends Controller
      */
     public function index()
     {
-       
+
         $tool = new Tool();
         $credits = [];
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $listes = Credit::where('statut', 'Accordé')->whereDate('date_fin','>', Carbon::today()->subDays(70))->orWhere('type_id', '2')->get();
-              
+
             foreach ($listes as $liste) {
 
-                $encours =  $tool->encours_actualiser($liste->id); 
+                $encours =  $tool->encours_actualiser($liste->id);
 
                 if ($encours > 0){
                     array_push($credits, $liste);
@@ -42,7 +42,7 @@ class Etat_actualiseController extends Controller
 
             foreach ($listes as $liste) {
 
-                $encours =  $tool->encours_actualiser($liste->id); 
+                $encours =  $tool->encours_actualiser($liste->id);
 
                 if ($encours > 0){
                     array_push($credits, $liste);
@@ -65,6 +65,10 @@ class Etat_actualiseController extends Controller
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
         }
 
+        // dd(
+        //   $credits, $encours, $marches, $total
+        // );
+
         return view('recouvrement.actualise', compact('credits','encours','marches','total'));
     }
 
@@ -80,10 +84,10 @@ class Etat_actualiseController extends Controller
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
             $listes = Credit::where('statut', 'Accordé')->where('marche_id', '!=' , 14)->whereDate('date_fin','<', Carbon::today()->subDays(30))->where('type_id', '1')->get();
-              
+
             foreach ($listes as $liste) {
 
-                $encours =  $tool->encours_actualiser($liste->id); 
+                $encours =  $tool->encours_actualiser($liste->id);
 
                 if ($encours > 0){
                     array_push($credits, $liste);
@@ -95,7 +99,7 @@ class Etat_actualiseController extends Controller
 
             foreach ($listes as $liste) {
 
-                $encours =  $tool->encours_actualiser($liste->id); 
+                $encours =  $tool->encours_actualiser($liste->id);
 
                 if ($encours > 0){
                     array_push($credits, $liste);
@@ -132,20 +136,20 @@ class Etat_actualiseController extends Controller
         $results = $request['credit_id'];
 
         $data_credit = explode('|', $results);
-        
+
         $date_r = $request->date_r;
         $date_fin_r = Carbon::create($date_r)->addDays($request->n_delai);
-        
+
         $n_montant = $data_credit[3];
-        
+
         $montant_par_jour = $n_montant / $request->n_delai;
-        
+
         $credit = Credit::where('id', $data_credit[0])->firstOrFail();
-        
+
         $reecheloner ='oui';
-        
+
         $credit->update([
-            'date_r'=>$date_r, 
+            'date_r'=>$date_r,
             'n_montant'=>$n_montant,
             'n_delai'=>$request->n_delai,
             'date_fin_r'=>$date_fin_r,
@@ -153,7 +157,7 @@ class Etat_actualiseController extends Controller
             'motif_r'=>$request->motif_r,
             'reecheloner'=>$reecheloner,
         ]);
-        
+
         alert()->image('Crédit réécheloné!','Le crédit a été réécheloner!','assets/images/accept.png','100','100');
 
         return redirect()->route('etat_actualise.index');

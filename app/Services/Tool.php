@@ -5,8 +5,11 @@ namespace App\Services;
 use App\Jobs\PushJob;
 use App\Models\Recouvrement;
 use App\Models\Credit;
+use App\Models\Marche;
+use App\Models\Type;
 use App\Models\User;
 use App\Notifications\PushRecovery;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 
@@ -184,5 +187,47 @@ class Tool {
     {
         PushJob::dispatch(Notification::send($users, $event));
         return 1;
+    }
+
+    public function week()
+    {
+        return[
+            'currentWeekStartDate' => Carbon::now()->startOfWeek(),
+            'currentWeekEndDate' => Carbon::now()->endOfWeek(),
+            'lastWeekStartDate' => Carbon::now()->startOfWeek()->subWeek(),
+            'lastWeekEndDate' => Carbon::now()->endOfWeek()->subWeek(),
+        ];
+    }
+
+    public function encours_sans_interet_par_marche($marche_id, $startDate, $endDate)
+    {
+        $esipm = Recouvrement::where('marche_id', $marche_id)
+            ->whereBetween('created_at', [$startDate, $endDate])->sum('recouvrement_jrs');
+
+        return $esipm;
+    }
+
+    public function encours_global_par_marche($marche_id, $startDate, $endDate)
+    {
+        $mc = Credit::where('marche_id', $marche_id)->get();
+
+        $esipm = Recouvrement::where('marche_id', $marche_id)->whereBetween('created_at', [$startDate, $endDate])->get();
+
+        return ($mc->sum('montant') + $mc->sum('interet'))  - ($esipm->sum('recouvrement_jrs') + $esipm->sum('interet_jrs'));
+    }
+
+    public function getMarcheName($marche_id)
+    {
+        return Marche::find($marche_id)->libelle;
+    }
+
+    public function getTypeCreditName($type_id)
+    {
+        return Type::find($type_id)->libelle;
+    }
+
+    public function numberFormat($value = 0)
+    {
+        return number_format($value, 0, ' ', ' ').' FCFA';
     }
 }

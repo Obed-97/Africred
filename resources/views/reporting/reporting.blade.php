@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-4">
+            {{-- <div class="row mb-4">
                 <div class="col-xl-12" id="web">
                     <form method="get" action="{{route('etat_encaissement.date')}}" class="d-flex mb-4">
                         <div class="col-xl-2"><input type="date" name="date" class="form-control"></div>
@@ -36,7 +36,7 @@
                             class="btn btn-success btn-block  waves-effect waves-light">VOIR LE RAPPORT A CETTE DATE</a></div>
                 </div>
                     </form>
-                </div>
+                </div> --}}
             <!-- end page title -->
             <x-reporting-component />
         </div> <!-- container-fluid -->
