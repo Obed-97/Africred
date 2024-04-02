@@ -203,18 +203,17 @@ class Tool {
     public function encours_sans_interet_par_marche($marche_id, $startDate, $endDate)
     {
         $esipm = Recouvrement::where('marche_id', $marche_id)
-            ->whereBetween('created_at', [$startDate, $endDate])->sum('recouvrement_jrs');
+            ->whereBetween('date', [$startDate, $endDate])->sum('recouvrement_jrs');
 
         return $esipm;
     }
 
     public function encours_global_par_marche($marche_id, $startDate, $endDate)
     {
-        $mc = Credit::where('marche_id', $marche_id)->get();
+        $mc = Credit::where('marche_id', $marche_id)->first();
+        $esipm = Recouvrement::where('marche_id', $marche_id)->whereBetween('date', [$startDate, $endDate])->get();
 
-        $esipm = Recouvrement::where('marche_id', $marche_id)->whereBetween('created_at', [$startDate, $endDate])->get();
-
-        return ($mc->sum('montant') + $mc->sum('interet'))  - ($esipm->sum('recouvrement_jrs') + $esipm->sum('interet_jrs'));
+        return (($mc->montant ?? 0) + ($mc->interet ?? 0)) - (($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0));
     }
 
     public function getMarcheName($marche_id)

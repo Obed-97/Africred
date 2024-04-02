@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Credit;
+use App\Models\Marche;
 use App\Services\Tool;
 use Illuminate\View\Component;
 
@@ -101,19 +102,14 @@ class ReportingComponent extends Component
         return $currentDataCreditByMarkets;
     }
 
-    //eg
+    //eglobal
 
-    public function currentTotalMarket()
+    public function market()
     {
+        $markets = Marche::get();
 
+        return $markets;
     }
-
-
-
-
-
-
-
     /**
      * Get the view / contents that represent the component.
      *
@@ -126,7 +122,8 @@ class ReportingComponent extends Component
             'currentWeekCredits' => $this->currentWeekCreditByMarket(),
             'lastWeekCredits' => $this->lastWeekCreditByMarket(),
             'currentTotalWeekTypeCredits' => $this->currentTotalWeekTypeCredit(),
-            'lastTotalWeekTypeCredits' => $this->lastTotalWeekTypeCredit()
+            'lastTotalWeekTypeCredits' => $this->lastTotalWeekTypeCredit(),
+            'markets' => $this->market()
         ]);
     }
 }
