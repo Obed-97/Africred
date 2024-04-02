@@ -389,7 +389,7 @@
                                             $tool->week()['lastWeekEndDate'],
                                             )) }}
                                         </td>
-                                        <td class="n4">{{ $tool->numberFormat($ecart) }}</td>
+                                        <td class="n4">{{ $tool->numberFormat(abs($ecart)) }}</td>
                                     </tr>
                                     @endforeach
                                     <tr>
