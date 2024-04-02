@@ -213,7 +213,7 @@ class Tool {
         $mc = Credit::where('marche_id', $marche_id)->first();
         $esipm = Recouvrement::where('marche_id', $marche_id)->whereBetween('date', [$startDate, $endDate])->get();
 
-        return (($mc->montant ?? 0) + ($mc->interet ?? 0)) - (($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0));
+        return abs((($mc->montant ?? 0) + ($mc->interet ?? 0)) - (($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0)));
     }
 
     public function getMarcheName($marche_id)
