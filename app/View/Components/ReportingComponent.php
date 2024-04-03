@@ -110,6 +110,15 @@ class ReportingComponent extends Component
 
         return $markets;
     }
+
+    public function month()
+    {
+        $tool = new Tool();
+
+        $day = $tool->month();
+
+        return $day;
+    }
     /**
      * Get the view / contents that represent the component.
      *
@@ -123,7 +132,8 @@ class ReportingComponent extends Component
             'lastWeekCredits' => $this->lastWeekCreditByMarket(),
             'currentTotalWeekTypeCredits' => $this->currentTotalWeekTypeCredit(),
             'lastTotalWeekTypeCredits' => $this->lastTotalWeekTypeCredit(),
-            'markets' => $this->market()
+            'markets' => $this->market(),
+            'day' => $this->month()
         ]);
     }
 }
