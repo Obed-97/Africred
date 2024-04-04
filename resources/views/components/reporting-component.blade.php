@@ -564,11 +564,11 @@
 
                                     <tr>
                                         <td class="n3">INTERETS NETS PERÇUS SUR NANO</td>
-                                        <td class="n1">{{ round($inn1p) }}</td>
-                                        <td class="n1">{{ round($inn1r) }}</td>
-                                        <td class="n2">{{ round($inn2p) }}</td>
-                                        <td class="n2">{{ round($inn2r) }}</td>
-                                        <td class="n4"></td>
+                                        <td class="n1">{{ $tool->numberFormat(round($inn1p)) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($inn1r)) }}</td>
+                                        <td class="n2">{{ $tool->numberFormat(round($inn2p)) }}</td>
+                                        <td class="n2">{{ $tool->numberFormat(round($inn2r)) }}</td>
+                                        <td class="n4">{{ $inn1p > 0 ? round(($inn1r/$inn1p) * 100) : 0 }}%</td>
                                     </tr>
                                     <tr>
                                         <td class="n3">COMMISSIONS PERÇUS SUR NANO(FRAIS DE DEBLOCAGES)</td>
@@ -576,25 +576,121 @@
                                         <td class="n1">{{ round($deblo1r) }}</td>
                                         <td class="n2">{{ round($deblo2p) }}</td>
                                         <td class="n2">{{ round($deblo2r) }}</td>
-                                        <td class="n4"></td>
+                                        <td class="n4">{{ $deblo1p > 0 ? round(($deblo1r/$deblo1p) * 100) : 0 }}%</td>
                                     </tr>
-                                    {{-- <tr>
-                                        <td class="n3">ENCOURS GLOBAL</td>
-                                        <td class="n1">{{ $tool->numberFormat($engls1) }}</td>
-                                        <td class="n2">{{ $tool->numberFormat($engls2) }}</td>
-                                        <td class="n4">{{ $tool->numberFormat(abs($engls1 - $engls2)) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="n3">ENCOURS SANS EPARGNE</td>
-                                        <td class="n1">{{ $tool->numberFormat($ense1) }}</td>
-                                        <td class="n2">{{ $tool->numberFormat($ense2) }}</td>
-                                        <td class="n4">{{ $tool->numberFormat(abs($ense1 - $ense2)) }}</td>
-                                    </tr> --}}
                                 </tbody>
                             </table>
 
                         </div>
                     </div>
+                    <h1 class="card-title text-left mb-4">
+                        Budget d’exploitation/Rentablité par marché
+                    </h1>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th class="no"></th>
+                                        <th class="n1">SEMAINE 1 (ACTUELLE)</th>
+                                        <th class="n2">SEMAINE 2 (PASSEE)</th>
+                                        <th class="n4">ECART</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                    $engls1 = 0;
+                                    $engls2 = 0;
+                                    @endphp
+                                    @foreach ($markets as $market)
+                                    @php
+
+                                    $tool = new App\Services\Tool();
+                                    $engls1 += $tool->rentabli_by_market(
+                                    $market->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    );
+
+                                    $engls2 += $tool->rentabli_by_market(
+                                    $market->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    );
+
+                                    $ecart = $tool->rentabli_by_market(
+                                    $market->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    ) -
+                                    $tool->rentabli_by_market(
+                                    $market->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    );
+                                    @endphp
+                                    <tr>
+                                        <td class="no">{{ $tool->getMarcheName($market->id) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat($tool->rentabli_by_market(
+                                            $market->id,
+                                            $tool->week()['currentWeekStartDate'],
+                                            $tool->week()['currentWeekEndDate'],
+                                            )) }}</td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->rentabli_by_market(
+                                            $market->id,
+                                            $tool->week()['lastWeekStartDate'],
+                                            $tool->week()['lastWeekEndDate'],
+                                            )) }}
+                                        </td>
+                                        <td class="n4">{{ $tool->numberFormat(abs($ecart)) }}</td>
+                                    </tr>
+                                    @endforeach
+                                    {{-- @foreach ($marketTypes as $marketType)
+
+                                    @php
+                                    $ecart = $tool->renta_by_type_marche(
+                                    $marketType->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    ) - $tool->renta_by_type_marche(
+                                    $marketType->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    )
+                                    @endphp
+                                    <tr>
+                                        <td class="n3">{{ $marketType->libelle }}</td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($tool->renta_by_type_marche(
+                                            $marketType->id,
+                                            $tool->week()['currentWeekStartDate'],
+                                            $tool->week()['currentWeekEndDate'],
+                                            )) }}
+                                        </td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->renta_by_type_marche(
+                                            $marketType->id,
+                                            $tool->week()['lastWeekStartDate'],
+                                            $tool->week()['lastWeekEndDate'],
+                                            )) }}
+                                        </td>
+                                        <td class="n4">{{ $ecart }}</td>
+                                    </tr>
+                                    @endforeach --}}
+
+                                    <tr>
+                                        <td class="n3">TOTAL GENERALE</td>
+                                        <td class="n1">{{ $tool->numberFormat($engls1) }}</td>
+                                        <td class="n2">{{ $tool->numberFormat($engls2) }}</td>
+                                        <td class="n4">{{ $tool->numberFormat(abs($engls1 - $engls2)) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div> <!-- end col -->

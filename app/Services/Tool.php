@@ -310,6 +310,13 @@ class Tool
         return $encoursGloba - $epargne;
     }
 
+    /**
+     * Get the net interest for a given date for a specific credit type and marche
+     *
+     * @param int $marche_id The ID of the marche
+     * @param string $date The date in Y-m-d format
+     * @return array An array containing the net interest, previsionnel, remboursement, and frais de deblocage
+     */
 
     public function interet_net_nano($marche_id, $date)
     {
@@ -324,14 +331,46 @@ class Tool
 
         $epargne = ($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0);
         $inn = $encoursGloba - $epargne;
-        $prev = (($encoursGloba * 0.2)/60) * 30;
-        $rea = ($encoursGloba * 0.2)/30;
+        $prev = (($encoursGloba * 0.2) / 60) * 30;
+        $rea = ($encoursGloba * 0.2) / 30;
         return [
             'inn' => $inn,
             'prev' => $prev,
             'rea' => $rea,
             'fdeblo' => $esipm->sum('frais_deblocage') ?? 0
         ];
+    }
+
+    public function renta_by_type_marche($type_id, $startDate, $endDate)
+    {
+        $esipm = Recouvrement::where('type_id', $type_id)->whereDate('date', [$startDate, $endDate])->get();
+        $fd = 0;
+        $fc = 0;
+        foreach($esipm as $esip){
+            $fd += Credit::find($esip->credit_id)->frais_deblocage;
+            $fc += Credit::find($esip->credit_id)->frais_carte;
+        }
+
+        $renta = ($esipm->sum('interet_jrs') ?? 0) + $fd + $fc;
+
+        return $renta;
+    }
+
+    /**
+     * Get the rentabilité by market for a specific date range.
+     *
+     * @param int $marche_id The ID of the marche.
+     * @param string $startDate The start date of the week in Y-m-d format.
+     * @param string $endDate The end date of the week in Y-m-d format.
+     * @return float The rentabilité by market for the specified date range.
+     */
+    public function rentabli_by_market($marche_id, $startDate, $endDate)
+    {
+        $mc = Credit::where('marche_id', $marche_id)->first();
+        $esipm = Recouvrement::where('marche_id', $marche_id)->whereBetween('date', [$startDate, $endDate])->get();
+        $renta = ($esipm->sum('interet_jrs') ?? 0) + ($mc->frais_deblocage ?? 0) + ($mc->frais_carte ?? 0);
+
+        return $renta;
     }
 
 

@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use App\Models\Credit;
 use App\Models\Marche;
+use App\Models\Type;
 use App\Services\Tool;
 use Illuminate\View\Component;
 
@@ -133,7 +134,8 @@ class ReportingComponent extends Component
             'currentTotalWeekTypeCredits' => $this->currentTotalWeekTypeCredit(),
             'lastTotalWeekTypeCredits' => $this->lastTotalWeekTypeCredit(),
             'markets' => $this->market(),
-            'day' => $this->month()
+            'day' => $this->month(),
+            'marketTypes' => Type::get()
         ]);
     }
 }
