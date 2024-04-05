@@ -341,7 +341,7 @@ class Tool
         ];
     }
 
-    public function renta_by_type_marche($type_id, $startDate, $endDate)
+    public function renta($type_id, $startDate, $endDate)
     {
         $esipm = Recouvrement::where('type_id', $type_id)->whereDate('date', [$startDate, $endDate])->get();
         $fd = 0;
@@ -353,7 +353,11 @@ class Tool
 
         $renta = ($esipm->sum('interet_jrs') ?? 0) + $fd + $fc;
 
-        return $renta;
+        return [
+            'renta' => $renta,
+            'recouv' => $esipm->sum('recouv_jrs'),
+            'epargne' => $esipm->sum('epargne_jrs'),
+        ];
     }
 
     /**
@@ -367,10 +371,16 @@ class Tool
     public function rentabli_by_market($marche_id, $startDate, $endDate)
     {
         $mc = Credit::where('marche_id', $marche_id)->first();
+
         $esipm = Recouvrement::where('marche_id', $marche_id)->whereBetween('date', [$startDate, $endDate])->get();
+
         $renta = ($esipm->sum('interet_jrs') ?? 0) + ($mc->frais_deblocage ?? 0) + ($mc->frais_carte ?? 0);
 
-        return $renta;
+        return [
+            "renta" => $renta,
+            "recouv" => $esipm->sum('recouv_jrs'),
+            "epargne" => $esipm->sum('epargne_jrs'),
+        ];
     }
 
 
