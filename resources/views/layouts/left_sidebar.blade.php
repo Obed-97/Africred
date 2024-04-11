@@ -111,6 +111,9 @@
                         <span>Rapports <div class="badge badge-soft-success font-size-12"></div></span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('reporting.create')}}"><i class="ri-task-fill"></i>Element du rapport</a></li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('reporting.index')}}"><i class="ri-task-fill"></i>Rapport d'activité</a></li>
                     </ul>
 

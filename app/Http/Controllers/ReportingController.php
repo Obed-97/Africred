@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Depot;
 use App\Models\Credit;
+use App\Models\ReportingDataItem;
+use App\Models\ReportingItem;
 use Carbon\Carbon;
 use App\Services\Tool;
+use Illuminate\Http\Request;
 
 class ReportingController extends Controller
 {
@@ -30,7 +32,43 @@ class ReportingController extends Controller
      */
     public function create()
     {
-        //
+        return view('reporting.create');
+    }
+
+
+    public function add(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+        ]);
+
+        ReportingItem::create([
+            'name' => $request->name,
+            'type' => $request->type
+        ]);
+
+        return back();
+    }
+
+
+    public function add_data(Request $request)
+    {
+        // $request->validate([
+        //     'reporting_items_id' => 'required|exists:reporting_items,id',
+        //     'pre' => 'nullable|numeric|min:0',
+        //     'rea' => 'require|numeric|min:1',
+        //     'date' => 'required|date'
+        // ]);
+
+        ReportingDataItem::create([
+            'reporting_items_id' => $request->reporting_items_id,
+            'pre' => $request->pre,
+            'rea' => $request->rea,
+            'date' => Carbon::parse($request->date),
+        ]);
+
+        return back();
     }
 
     /**
