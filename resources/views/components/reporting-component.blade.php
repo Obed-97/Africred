@@ -526,6 +526,14 @@
                             $inn1r = 0;
                             $inn2p = 0;
                             $inn2r = 0;
+                            $inn1rp = 0;
+                            $inn2rp = 0;
+
+                            $foTotal = 0;
+                            $foPTotal = 0;
+                            $fTotal = 0;
+                            $sTotal = 0;
+                            $tTotal = 0;
 
                             $deblo1p = 0;
                             $deblo1r = 0;
@@ -537,9 +545,11 @@
                             @foreach ($markets as $market)
                             @php
 
-                            $inn1p += $tool->interet_net_nano($market->id, $day['fourthFriday'])['prev'];
+                            $inn1rp += $tool->interet_net_nano($market->id, $day['fourthFriday'])['prev'];
+                            $inn2rp += $tool->interet_net_nano($market->id, $day['fourthFriday'])['rea'];
+                            $inn1p += $tool->interet_net_nano($market->id, $day['fourthFriday'])['rea'];
                             $inn1r += $tool->interet_net_nano($market->id, $day['thirdFriday'])['rea'];
-                            $inn2p += $tool->interet_net_nano($market->id, $day['secondFriday'])['prev'];
+                            $inn2p += $tool->interet_net_nano($market->id, $day['secondFriday'])['rea'];
                             $inn2r += $tool->interet_net_nano($market->id, $day['firstFriday'])['rea'];
 
                             $deblo1p += $tool->interet_net_nano($market->id, $day['fourthFriday'])['fdeblo'];
@@ -553,10 +563,12 @@
                                 <thead>
                                     <tr>
                                         <th class="no"></th>
-                                        <th class="n1">{{ $day['fourthFriday']->format('d M') }} (P)</th>
-                                        <th class="n1">{{ $day['thirdFriday']->format('d M') }} (R)</th>
-                                        <th class="n2">{{ $day['secondFriday']->format('d M') }} (P)</th>
-                                        <th class="n2">{{ $day['firstFriday']->format('d M') }} (R)</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} P</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} R</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['thirdFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['secondFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['firstFriday']->format('d/m/y') }}</th>
                                         <th class="n4">ECART</th>
                                     </tr>
                                 </thead>
@@ -564,23 +576,76 @@
 
                                     <tr>
                                         <td class="n3">INTERETS NETS PERÇUS SUR NANO</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($inn1rp)) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($inn2rp)) }}</td>
                                         <td class="n1">{{ $tool->numberFormat(round($inn1p)) }}</td>
                                         <td class="n1">{{ $tool->numberFormat(round($inn1r)) }}</td>
-                                        <td class="n2">{{ $tool->numberFormat(round($inn2p)) }}</td>
-                                        <td class="n2">{{ $tool->numberFormat(round($inn2r)) }}</td>
-                                        <td class="n4">{{ $inn1p > 0 ? round(($inn1r/$inn1p) * 100) : 0 }}%</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($inn2p)) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($inn2r)) }}</td>
+                                        <td class="n4">{{ $inn1p > 0 ? round(($inn2rp/$inn1rp) * 100) : 0 }}%</td>
                                     </tr>
                                     <tr>
                                         <td class="n3">COMMISSIONS PERÇUS SUR NANO(FRAIS DE DEBLOCAGES)</td>
-                                        <td class="n1">{{ round($deblo1p) }}</td>
-                                        <td class="n1">{{ round($deblo1r) }}</td>
-                                        <td class="n2">{{ round($deblo2p) }}</td>
-                                        <td class="n2">{{ round($deblo2r) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($deblo1p)) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($deblo1p)) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($deblo1p)) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($deblo1r)) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($deblo2p)) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat(round($deblo2r)) }}</td>
                                         <td class="n4">{{ $deblo1p > 0 ? round(($deblo1r/$deblo1p) * 100) : 0 }}%</td>
+                                    </tr>
+                                    @foreach (\App\Models\ReportingItem::where('type', 'produit')->get() as $item)
+                                    @php
+                                    $fTotal += $item->getDataItem($item->id)['fData']->sum('rea');
+                                    $sTotal += $item->getDataItem($item->id)['sData']->sum('rea');
+                                    $tTotal += $item->getDataItem($item->id)['tData']->sum('rea');
+                                    $foTotal += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $foPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
+                                    @endphp
+                                    <tr>
+                                        <td class="n3">{{$item->name}}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('pre') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['tData']->sum('rea') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['sData']->sum('rea') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['fData']->sum('rea') }}</td>
+                                        <td class="n4">{{ $item->getDataItem($item->id)['foData']->sum('pre') > 0 ?
+                                            round(($item->getDataItem($item->id)['foData']->sum('rea')/$item->getDataItem($item->id)['foData']->sum('pre'))
+                                            * 100) : 0 }}%</td>
+                                    </tr>
+                                    @endforeach
+
+                                    <tr>
+                                        <td class="n3">TOTAL Produits</td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($foPTotal + $deblo1p + $inn1rp)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($foTotal + $deblo1p + $inn2rp)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($foTotal + $deblo1p + $inn2rp)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tTotal + $deblo1p + $inn1r)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($sTotal + $deblo1p + $inn2p)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($fTotal + $deblo1p + $inn2r)}}
+                                        </td>
+
+                                        <td class="n4">
+                                            {{ round(
+                                            ($foTotal + $deblo1p + $inn2rp) / ($foPTotal + $deblo1p + $inn1rp) * 100
+                                            ) }}%
+                                        </td>
+
                                     </tr>
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                     <h1 class="card-title text-left mb-4">
@@ -690,11 +755,229 @@
 
                         </div>
                     </div>
+
+                    <h1 class="card-title text-left mb-4">
+                        Charges
+                    </h1>
+                    <p>
+                        Les charges font références aux frais du personnel et aux autres charges du mois.
+                    </p>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            @php
+                            $cfoTotal = 0;
+                            $cfoPTotal = 0;
+                            $cfTotal = 0;
+                            $csTotal = 0;
+                            $ctTotal = 0;
+                            $tool = new App\Services\Tool();
+                            @endphp
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th class="no"></th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} P</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} R</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['thirdFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['secondFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['firstFriday']->format('d/m/y') }}</th>
+                                        <th class="n4">ECART</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (\App\Models\ReportingItem::where('type', 'charge')->get() as $item)
+                                    @php
+                                    $cfTotal += $item->getDataItem($item->id)['fData']->sum('rea');
+                                    $csTotal += $item->getDataItem($item->id)['sData']->sum('rea');
+                                    $ctTotal += $item->getDataItem($item->id)['tData']->sum('rea');
+                                    $cfoTotal += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $cfoPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
+                                    @endphp
+                                    <tr>
+                                        <td class="n3">{{$item->name}}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('pre') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['tData']->sum('rea') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['sData']->sum('rea') }}</td>
+                                        <td class="n1">{{ $item->getDataItem($item->id)['fData']->sum('rea') }}</td>
+                                        <td class="n4">{{ $item->getDataItem($item->id)['foData']->sum('pre') > 0 ?
+                                            round(($item->getDataItem($item->id)['foData']->sum('rea')/$item->getDataItem($item->id)['foData']->sum('pre'))
+                                            * 100) : 0 }}%</td>
+                                    </tr>
+                                    @endforeach
+
+                                    <tr>
+                                        <td class="n3">Total Frais Généraux</td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($cfoPTotal)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($cfoTotal)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($cfoTotal)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($ctTotal)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($csTotal)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($cfTotal)}}
+                                        </td>
+
+                                        <td class="n4">
+                                            {{ $cfoTotal > 0 ? round(
+                                            ($foTotal) / ($cfoPTotal) * 100
+                                            ) : 0 }}%
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <h1 class="card-title text-left mb-4">
+                        Résultat opérationnel (EBITDA)
+                    </h1>
+                    <p>
+                        Le résultat opérationnel, également appelé résultat brut d’exploitation ou excèdent brut
+                        d’exploitation, est un indicateur financier qui mesure la performance opérationnelle. Il est
+                        calculé en soustrayant les charges d’exploitation ou frais généraux (coûts liés à la production
+                        et à la gestion courante) des produits d’exploitation (revenus issus de l’activité principale de
+                        l’entreprise). </p>
+
+                        <div class="row">
+                            <div class="col-xl-12">
+                                @php
+                                $cfoTotal = 0;
+                                $cfoPTotal = 0;
+                                $cfTotal = 0;
+                                $csTotal = 0;
+                                $ctTotal = 0;
+                                $tool = new App\Services\Tool();
+                                @endphp
+                                <table border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="no"></th>
+                                            <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} P</th>
+                                            <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} R</th>
+                                            <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }}</th>
+                                            <th class="n1">{{ $day['thirdFriday']->format('d/m/y') }}</th>
+                                            <th class="n1">{{ $day['secondFriday']->format('d/m/y') }}</th>
+                                            <th class="n1">{{ $day['firstFriday']->format('d/m/y') }}</th>
+                                            <th class="n4">ECART</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (\App\Models\ReportingItem::where('type', 'charge')->get() as $item)
+                                        @php
+                                        $cfTotal += $item->getDataItem($item->id)['fData']->sum('rea');
+                                        $csTotal += $item->getDataItem($item->id)['sData']->sum('rea');
+                                        $ctTotal += $item->getDataItem($item->id)['tData']->sum('rea');
+                                        $cfoTotal += $item->getDataItem($item->id)['foData']->sum('rea');
+                                        $cfoPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
+                                        @endphp
+                                        @endforeach
+                                        <tr>
+                                            <td class="n3">Produits</td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($foPTotal + $deblo1p + $inn1rp)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($foTotal + $deblo1p + $inn2rp)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($foTotal + $deblo1p + $inn2rp)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($tTotal + $deblo1p + $inn1r)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($sTotal + $deblo1p + $inn2p)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($fTotal + $deblo1p + $inn2r)}}
+                                            </td>
+
+                                            <td class="n4">
+                                                {{ round(
+                                                ($foTotal + $deblo1p + $inn2rp) / ($foPTotal + $deblo1p + $inn1rp) * 100
+                                                ) }}%
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="n3">Charges</td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($cfoPTotal)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($cfoTotal)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($cfoTotal)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($ctTotal)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($csTotal)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($cfTotal)}}
+                                            </td>
+
+                                            <td class="n4">
+                                                {{ $cfoTotal > 0 ? round(
+                                                ($foTotal) / ($cfoPTotal) * 100
+                                                ) : 0 }}%
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="n3">Résultat Opérationnel</td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($foPTotal + $deblo1p + $inn1rp - $cfoPTotal)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($cfoTotal - $foTotal + $deblo1p + $inn2rp)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($cfoTotal -$foTotal + $deblo1p + $inn2rp)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($ctTotal - $tTotal + $deblo1p + $inn1r)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($csTotal - $sTotal + $deblo1p + $inn2p)}}
+                                            </td>
+                                            <td class="n1">
+                                                {{$tool->numberFormat($cfTotal - $fTotal + $deblo1p + $inn2r)}}
+                                            </td>
+
+                                            <td class="n4">
+                                                {{ ($cfoTotal - $foTotal + $deblo1p + $inn2rp) > 0 ? round(
+                                                ($cfoTotal - $foTotal + $deblo1p + $inn2rp) / ($foPTotal + $deblo1p + $inn1rp - $cfoPTotal) * 100
+                                                ) : 0 }}%
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     <h1 class="card-title text-left mb-4">
                         Recouvrements capitaux
                     </h1>
                     <p>
-                        Le tableau ci-dessous détaille les recouvrements des capitaux cette semaine comparés au recouvrement des capitaux la semaine précédente.
+                        Le tableau ci-dessous détaille les recouvrements des capitaux cette semaine comparés au
+                        recouvrement des capitaux la semaine précédente.
                     </p>
                     <div class="row">
                         <div class="col-xl-12">
@@ -758,35 +1041,35 @@
                                     @endforeach
                                     @foreach ($marketTypes as $marketType)
 
-                                        @php
-                                            $ecart = ($tool->renta(
+                                    @php
+                                    $ecart = ($tool->renta(
+                                    $marketType->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    )['recouv'] ?? 0) - ($tool->renta(
+                                    $marketType->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    )['recouv'] ?? 0)
+                                    @endphp
+                                    <tr>
+                                        <td class="n3">{{ $marketType->libelle }}</td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($tool->renta(
                                             $marketType->id,
                                             $tool->week()['currentWeekStartDate'],
                                             $tool->week()['currentWeekEndDate'],
-                                            )['recouv'] ?? 0) - ($tool->renta(
+                                            )['recouv'] ?? 0) }}
+                                        </td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->renta(
                                             $marketType->id,
                                             $tool->week()['lastWeekStartDate'],
                                             $tool->week()['lastWeekEndDate'],
-                                            )['recouv'] ?? 0)
-                                        @endphp
-                                        <tr>
-                                            <td class="n3">{{ $marketType->libelle }}</td>
-                                            <td class="n1">
-                                                {{ $tool->numberFormat($tool->renta(
-                                                $marketType->id,
-                                                $tool->week()['currentWeekStartDate'],
-                                                $tool->week()['currentWeekEndDate'],
-                                                )['recouv'] ?? 0) }}
-                                            </td>
-                                            <td class="n2">
-                                                {{ $tool->numberFormat($tool->renta(
-                                                $marketType->id,
-                                                $tool->week()['lastWeekStartDate'],
-                                                $tool->week()['lastWeekEndDate'],
-                                                )['recouv'] ?? 0) }}
-                                            </td>
-                                            <td class="n4">{{  $tool->numberFormat($ecart) }}</td>
-                                        </tr>
+                                            )['recouv'] ?? 0) }}
+                                        </td>
+                                        <td class="n4">{{ $tool->numberFormat($ecart) }}</td>
+                                    </tr>
                                     @endforeach
 
                                     <tr>
@@ -805,7 +1088,8 @@
                         Recouvrements produits
                     </h1>
                     <p>
-                        Les produits font références aux rentabilités perçues qui correspondent aux intérêts nets et aux frais de déblocages et de carnet.
+                        Les produits font références aux rentabilités perçues qui correspondent aux intérêts nets et aux
+                        frais de déblocages et de carnet.
                     </p>
                     <div class="row">
                         <div class="col-xl-12">
@@ -916,7 +1200,8 @@
                         Recouvrement épargnes
                     </h1>
                     <p>
-                        Les épargnes collectées quotidiennement garantissent 25% du capital des prêts octroyés aux clients. Le tableau ci-dessous donne les détails sur les épargnes collectées par marché.
+                        Les épargnes collectées quotidiennement garantissent 25% du capital des prêts octroyés aux
+                        clients. Le tableau ci-dessous donne les détails sur les épargnes collectées par marché.
                     </p>
                     <div class="row">
                         <div class="col-xl-12">
@@ -967,7 +1252,7 @@
                                             $market->id,
                                             $tool->week()['currentWeekStartDate'],
                                             $tool->week()['currentWeekEndDate'],
-                                            )['epargne'] ??  0) }}</td>
+                                            )['epargne'] ?? 0) }}</td>
                                         <td class="n2">
                                             {{ $tool->numberFormat($tool->rentabli_by_market(
                                             $market->id,
@@ -1022,6 +1307,19 @@
 
                         </div>
                     </div>
+                    <h1 class="card-title text-left mb-4">
+                        Recouvrement Global
+                    </h1>
+                    <p>
+                        Le recouvrement global fait référence au montant global recouvré cette semaine. Le tableau ci-dessous donne les détails sur les recouvrements par marché.
+                    </p>
+
+                    <h1 class="card-title text-left mb-4">
+                        Décaissements
+                    </h1>
+                    <p>
+                        Les décaissements sont les montant débloqués pour les crédits, les achats de matériels de travail, les travaux d’aménagement, et d’autres activités de l’institutions.
+                    </p>
 
                 </div>
             </div>

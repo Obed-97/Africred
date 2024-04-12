@@ -80,6 +80,43 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Elément</th>
+                                            <th>Prévision</th>
+                                            <th>Réalisation</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($reportingDataItems as $item)
+                                            <tr>
+                                                <td style = "text-transform:uppercase;">{{ $item->id }}</td>
+                                                <td style = "text-transform:uppercase;">{{$item->getElementName() .' / '. $item->getElementType()}}</td>
+                                                <td style = "text-transform:uppercase;">{{$item->pre()}}</td>
+                                                <td style = "text-transform:uppercase;">{{$item->rea()}}</td>
+                                                <td style = "text-transform:uppercase;">{{$item->getDate()}}</td>
+                                                <td class="d-flex">
+                                                    <form action="{{ route('del.item.data') }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input type="hidden" name="id" id="" value="{{ $item->id }}">
+                                                        <button class="btn bg-transparent mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="delete"><i class="mdi mdi-trash-can-outline font-size-18"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
                     </div>
                 </div>
             </div>

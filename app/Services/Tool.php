@@ -337,7 +337,7 @@ class Tool
             'inn' => $inn,
             'prev' => $prev,
             'rea' => $rea,
-            'fdeblo' => $esipm->sum('frais_deblocage') ?? 0
+            'fdeblo' => $mc->frais_deblocage ?? 0
         ];
     }
 

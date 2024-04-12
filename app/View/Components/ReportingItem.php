@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\ReportingDataItem;
 use App\Models\ReportingItem as ModelsReportingItem;
 use Illuminate\View\Component;
 
@@ -25,7 +26,8 @@ class ReportingItem extends Component
     public function render()
     {
         return view('components.reporting-item', [
-            'reportingItems' => ModelsReportingItem::get()
+            'reportingItems' => ModelsReportingItem::get(),
+            'reportingDataItems' => ReportingDataItem::get()
         ]);
     }
 }

@@ -71,6 +71,17 @@ class ReportingController extends Controller
         return back();
     }
 
+
+    public function del(Request $request)
+    {
+        $rep = ReportingDataItem::findOrFail($request->id);
+
+        $rep->delete();
+
+        return back();
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *

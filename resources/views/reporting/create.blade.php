@@ -1,4 +1,4 @@
-@section('title', 'Element du Rapport d\'activite')
+@section('title', 'élément du Rapport d\'activite')
 
 @extends('master')
 
@@ -16,12 +16,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0 text-success">Element du Rapport d'activite </h4>
+                        <h4 class="mb-0 text-success">élément du Rapport d'activite </h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0" id="web">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                <li class="breadcrumb-item active">Element du Rapport d'activite</li>
+                                <li class="breadcrumb-item active">élément du Rapport d'activite</li>
                             </ol>
                         </div>
 
