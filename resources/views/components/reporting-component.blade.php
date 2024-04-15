@@ -1314,13 +1314,369 @@
                         Le recouvrement global fait référence au montant global recouvré cette semaine. Le tableau ci-dessous donne les détails sur les recouvrements par marché.
                     </p>
 
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th class="no"></th>
+                                        <th class="n1">SEMAINE 1 (ACTUELLE)</th>
+                                        <th class="n2">SEMAINE 2 (PASSEE)</th>
+                                        <th class="n4">ECART</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                    $rcglo1 = 0;
+                                    $rcglo2 = 0;
+                                    @endphp
+                                    @foreach ($markets as $market)
+                                    @php
+
+                                    $tool = new App\Services\Tool();
+                                    $rcglo1 += $tool->rentabli_by_market(
+                                    $market->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    )['recouv'];
+
+                                    $rcglo2 += $tool->rentabli_by_market(
+                                    $market->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    )['recouv'];
+
+                                    $ecart = $tool->rentabli_by_market(
+                                    $market->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    )['recouv'] -
+                                    $tool->rentabli_by_market(
+                                    $market->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    )['recouv'];
+                                    @endphp
+                                    <tr>
+                                        <td class="no">{{ $tool->getMarcheName($market->id) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat($tool->rentabli_by_market(
+                                            $market->id,
+                                            $tool->week()['currentWeekStartDate'],
+                                            $tool->week()['currentWeekEndDate'],
+                                            )['recouv']) }}</td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->rentabli_by_market(
+                                            $market->id,
+                                            $tool->week()['lastWeekStartDate'],
+                                            $tool->week()['lastWeekEndDate'],
+                                            )['recouv']) }}
+                                        </td>
+                                        <td class="n4">{{ $tool->numberFormat(abs($ecart)) }}</td>
+                                    </tr>
+                                    @endforeach
+                                    @foreach ($marketTypes as $marketType)
+
+                                    @php
+                                    $ecart = ($tool->renta(
+                                    $marketType->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    )['recouv'] ?? 0) - ($tool->renta(
+                                    $marketType->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    )['recouv'] ?? 0)
+                                    @endphp
+                                    <tr>
+                                        <td class="n3">{{ $marketType->libelle }}</td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($tool->renta(
+                                            $marketType->id,
+                                            $tool->week()['currentWeekStartDate'],
+                                            $tool->week()['currentWeekEndDate'],
+                                            )['recouv'] ?? 0) }}
+                                        </td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->renta(
+                                            $marketType->id,
+                                            $tool->week()['lastWeekStartDate'],
+                                            $tool->week()['lastWeekEndDate'],
+                                            )['recouv'] ?? 0) }}
+                                        </td>
+                                        <td class="n4">{{ $tool->numberFormat($ecart) }}</td>
+                                    </tr>
+                                    @endforeach
+
+                                    <tr>
+                                        <td class="n3">TOTAL GENERALE</td>
+                                        <td class="n1">{{ $tool->numberFormat($rcglo1) }}</td>
+                                        <td class="n2">{{ $tool->numberFormat($rcglo2) }}</td>
+                                        <td class="n4">{{ $tool->numberFormat(abs($rcglo1 - $rcglo2)) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <h1 class="card-title text-left mb-4">
+                        Encaissement
+                    </h1>
+                    <p>
+                        Les encaissements sont la somme des capitaux recouvrés, des épargnes collectées, des assurances pour les différentes activités. En plus de ça s’ajoute le Cash-Flow qui est le la trésorerie générée après déduction faite des frais généraux et des investissements effectués durant la période.                    </p>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            @php
+                            $cfoTotal = 0;
+                            $cfoPTotal = 0;
+                            $cfTotal = 0;
+                            $csTotal = 0;
+                            $ctTotal = 0;
+                            $tool = new App\Services\Tool();
+                            @endphp
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th class="no"></th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} P</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} R</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['thirdFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['secondFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['firstFriday']->format('d/m/y') }}</th>
+                                        <th class="n4">ECART</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (\App\Models\ReportingItem::where('type', 'encaissement')->get() as $item)
+                                    @php
+                                    $cfTotal += $item->getDataItem($item->id)['fData']->sum('rea');
+                                    $csTotal += $item->getDataItem($item->id)['sData']->sum('rea');
+                                    $ctTotal += $item->getDataItem($item->id)['tData']->sum('rea');
+                                    $cfoTotal += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $cfoPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
+                                    @endphp
+                                    @endforeach
+                                    <tr>
+                                        <td class="n3">Recouvrement Capital</td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['recouv'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['recouv'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['recouv'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['thirdFriday'])['recouv'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['secondFriday'])['recouv'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['firstFriday'])['recouv'])}}
+                                        </td>
+
+                                        <td class="n4">
+
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="n3">Recouvrement Épargne</td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['thirdFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['secondFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['firstFriday'])['epargne'])}}
+                                        </td>
+
+                                        <td class="n4">
+
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="n3">Recouvrement Assurance</td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['thirdFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['secondFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['firstFriday'])['epargne'])}}
+                                        </td>
+
+                                        <td class="n4">
+
+                                        </td>
+
+                                    </tr>
+                                    @foreach (\App\Models\ReportingItem::where('type', 'encaissement')->get() as $item)
+                                    <tr>
+                                        <td class="n3">{{ $item->name }}</td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['thirdFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['secondFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['firstFriday'])['epargne'])}}
+                                        </td>
+
+                                        <td class="n4">
+
+                                        </td>
+
+                                    </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td class="n3">TOTAL Encaissement </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['thirdFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['secondFriday'])['epargne'])}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($tool->recouvrement($day['firstFriday'])['epargne'])}}
+                                        </td>
+
+                                        <td class="n4">
+
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <h1 class="card-title text-left mb-4">
                         Décaissements
                     </h1>
                     <p>
                         Les décaissements sont les montant débloqués pour les crédits, les achats de matériels de travail, les travaux d’aménagement, et d’autres activités de l’institutions.
                     </p>
+                    <h1 class="card-title text-left mb-4" >
+                        Déblocages
+                    </h1>
+                    <p>
+                        Les déblocages sont répartis entre les marchés ci-dessous:
+                    </p>
 
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th class="no"></th>
+                                        <th class="n1">SEMAINE 1 (ACTUELLE)</th>
+                                        <th class="n2">SEMAINE 2 (PASSEE)</th>
+                                        <th class="n4">ECART</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                    $rcglo1 = 0;
+                                    $rcglo2 = 0;
+                                    @endphp
+                                    @foreach ($markets as $market)
+                                    @php
+
+                                    $tool = new App\Services\Tool();
+                                    $rcglo1 += $tool->deblocage(
+                                    $market->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    )['deblo'];
+
+                                    $rcglo2 += $tool->deblocage(
+                                    $market->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    )['deblo'];
+
+                                    $ecart = $tool->deblocage(
+                                    $market->id,
+                                    $tool->week()['currentWeekStartDate'],
+                                    $tool->week()['currentWeekEndDate'],
+                                    )['deblo'] -
+                                    $tool->deblocage(
+                                    $market->id,
+                                    $tool->week()['lastWeekStartDate'],
+                                    $tool->week()['lastWeekEndDate'],
+                                    )['deblo'];
+                                    @endphp
+                                    <tr>
+                                        <td class="no">{{ $tool->getMarcheName($market->id) }}</td>
+                                        <td class="n1">{{ $tool->numberFormat($tool->deblocage(
+                                            $market->id,
+                                            $tool->week()['currentWeekStartDate'],
+                                            $tool->week()['currentWeekEndDate'],
+                                            )['deblo']) }}</td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->deblocage(
+                                            $market->id,
+                                            $tool->week()['lastWeekStartDate'],
+                                            $tool->week()['lastWeekEndDate'],
+                                            )['deblo']) }}
+                                        </td>
+                                        <td class="n4">{{ $tool->numberFormat(abs($ecart)) }}</td>
+                                    </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td class="n3">TOTAL GENERALE</td>
+                                        <td class="n1">{{ $tool->numberFormat($rcglo1) }}</td>
+                                        <td class="n2">{{ $tool->numberFormat($rcglo2) }}</td>
+                                        <td class="n4">{{ $tool->numberFormat(abs($rcglo1 - $rcglo2)) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div> <!-- end col -->

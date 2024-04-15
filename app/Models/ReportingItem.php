@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Tool;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -50,10 +51,10 @@ class ReportingItem extends Model
         $tool = new Tool();
 
         return [
-            'fData' => ReportingDataItem::where('id', $id)->whereDate('date', $tool->month()['firstFriday'])->get(),
-            'sData' => ReportingDataItem::where('id', $id)->whereDate('date', $tool->month()['secondFriday'])->get(),
-            'tData' => ReportingDataItem::where('id', $id)->whereDate('date', $tool->month()['thirdFriday'])->get(),
-            'foData' => ReportingDataItem::where('id', $id)->whereDate('date', $tool->month()['fourthFriday'])->get(),
+            'fData' => ReportingDataItem::where('reporting_items_id', $id)->whereDate('date', [$tool->month()['firstFriday'], Carbon::parse($tool->month()['firstFriday'])->subDays(6)])->get(),
+            'sData' => ReportingDataItem::where('reporting_items_id', $id)->whereDate('date', [$tool->month()['secondFriday'], Carbon::parse($tool->month()['secondFriday'])->subDays(6)])->get(),
+            'tData' => ReportingDataItem::where('reporting_items_id', $id)->whereDate('date', [$tool->month()['thirdFriday'], Carbon::parse($tool->month()['thirdFriday'])->subDays(6)])->get(),
+            'foData' => ReportingDataItem::where('reporting_items_id', $id)->whereDate('date', [$tool->month()['fourthFriday'], Carbon::parse($tool->month()['fourthFriday'])->subDays(6)])->get(),
         ];
 
     }

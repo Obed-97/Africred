@@ -324,15 +324,19 @@ class Tool
             ['type_id', 2],
             ['marche_id', $marche_id]
         ])->first();
+            // first day of the week samedi
 
-        $esipm = Recouvrement::where('marche_id', $marche_id)->whereDate('date', $date)->get();
+        $dDate = Carbon::parse($date);
+        $newDate = $dDate->subDays(6);
+
+        $esipm = Recouvrement::where('marche_id', $marche_id)->whereBetween('date', [$newDate, $date])->get();
 
         $encoursGloba = abs((($mc->montant ?? 0) + ($mc->interet ?? 0)) - (($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0)));
 
         $epargne = ($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0);
         $inn = $encoursGloba - $epargne;
-        $prev = (($encoursGloba * 0.2) / 60) * 30;
-        $rea = ($encoursGloba * 0.2) / 30;
+        $prev = (($encoursGloba * 0.18) / 60) * 30;
+        $rea = ($encoursGloba * 0.18) / 30;
         return [
             'inn' => $inn,
             'prev' => $prev,
@@ -357,6 +361,7 @@ class Tool
             'renta' => $renta,
             'recouv' => $esipm->sum('recouv_jrs'),
             'epargne' => $esipm->sum('epargne_jrs'),
+            'assur' => $esipm->sum('assurance'),
         ];
     }
 
@@ -380,6 +385,31 @@ class Tool
             "renta" => $renta,
             "recouv" => $esipm->sum('recouv_jrs'),
             "epargne" => $esipm->sum('epargne_jrs'),
+            "assur" => $esipm->sum('assurance'),
+        ];
+    }
+
+    public function deblocage($marche_id, $startDate, $endDate)
+    {
+        $mc = Credit::where('marche_id', $marche_id)->whereBetween('date_deblocage', [$startDate, $endDate])->get();
+
+        return [
+            "deblo" => $mc->sum('montant'),
+        ];
+    }
+
+
+    public function recouvrement($date)
+    {
+        $dDate = Carbon::parse($date);
+        $newDate = $dDate->subDays(6);
+
+        $esipm = Recouvrement::whereBetween('date', [$dDate, $newDate])->get();
+
+        return [
+            "recouv" => $esipm->sum('recouv_jrs'),
+            "epargne" => $esipm->sum('epargne_jrs'),
+            "assur" => $esipm->sum('assurance'),
         ];
     }
 
