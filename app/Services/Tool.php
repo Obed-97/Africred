@@ -6,6 +6,8 @@ use App\Jobs\PushJob;
 use App\Models\Recouvrement;
 use App\Models\Credit;
 use App\Models\Marche;
+use App\Models\ReportingDataItem;
+use App\Models\ReportingItem;
 use App\Models\Type;
 use App\Models\User;
 use App\Notifications\PushRecovery;
@@ -389,6 +391,14 @@ class Tool
         ];
     }
 
+    /**
+     * Get the deblocage for a given date for a specific marche
+     *
+     * @param int $marche_id The ID of the marche
+     * @param string $startDate The start date of the week in Y-m-d format
+     * @param string $endDate The end date of the week in Y-m-d format
+     * @return array An array containing the deblocage
+     */
     public function deblocage($marche_id, $startDate, $endDate)
     {
         $mc = Credit::where('marche_id', $marche_id)->whereBetween('date_deblocage', [$startDate, $endDate])->get();
@@ -404,13 +414,48 @@ class Tool
         $dDate = Carbon::parse($date);
         $newDate = $dDate->subDays(6);
 
+        $cms = Credit::whereBetween('date_deblocage', [$dDate, $newDate])->get();
         $esipm = Recouvrement::whereBetween('date', [$dDate, $newDate])->get();
+        $ep = 0;
+
+        foreach($cms as $cm){
+            $ep += $this->epargnePrevision($cm->montant);
+        }
 
         return [
-            "recouv" => $esipm->sum('recouv_jrs'),
+            "recouvPrevision" => $cms->sum('montant_par_jour'),
+            "recouv" => $esipm->sum('recouvrement_jrs'),
             "epargne" => $esipm->sum('epargne_jrs'),
+            "epargnePrevision" => $ep,
             "assur" => $esipm->sum('assurance'),
+            "assurPrevision" => round($esipm->sum('montant') * 0.005),
         ];
+    }
+
+    public function sumInvest($date)
+    {
+        $si = ReportingItem::getDataInvest($date);
+
+        return $si;
+    }
+
+    public function epargnePrevision($montant)
+    {
+        if($montant >= 0 && $montant <= 100000){
+            return 250;
+        }elseif ($montant >= 100000 && $montant <= 750000){
+            return 500;
+        }elseif ($montant >= 750000 && $montant <= 1500000){
+            return 2250;
+        }elseif ($montant >= 1500000 && $montant <= 2000000){
+            return 2500;
+        }elseif ($montant >= 3000000 && $montant <= 4000000){
+            return 3500;
+        }elseif ($montant >= 4000000 && $montant <= 5000000){
+            return 4500;
+        }else{
+            return 0;
+        }
     }
 
 
