@@ -333,12 +333,20 @@ class Tool
 
         $esipm = Recouvrement::where('marche_id', $marche_id)->whereBetween('date', [$newDate, $date])->get();
 
-        $encoursGloba = abs((($mc->montant ?? 0) + ($mc->interet ?? 0)) - (($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0)));
+        // $encoursGloba = abs((($mc->montant ?? 0) + ($mc->interet ?? 0)) - (($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0)));
+
+        $dDate = Carbon::parse($this->month()['fourthFriday']);
+        $month = $dDate->month;
+        $esipmPre = Recouvrement::where('marche_id', $marche_id)->whereMonth('date', $month)->get();
+        $encoursGlobaPrevision = abs((($mc->montant ?? 0) + ($mc->interet ?? 0)) - (($esipmPre->sum('recouvrement_jrs') ?? 0) + ($esipmPre->sum('interet_jrs') ?? 0)));
 
         $epargne = ($esipm->sum('recouvrement_jrs') ?? 0) + ($esipm->sum('interet_jrs') ?? 0);
-        $inn = $encoursGloba - $epargne;
-        $prev = (($encoursGloba * 0.18) / 60) * 30;
-        $rea = ($encoursGloba * 0.18) / 30;
+        $inn = $encoursGlobaPrevision - $epargne;
+
+        $prev = (($encoursGlobaPrevision * 0.18) / 60) * 30;
+        $rea = ($encoursGlobaPrevision * 0.18) / 30;
+
+
         return [
             'inn' => $inn,
             'prev' => $prev,
@@ -409,6 +417,28 @@ class Tool
     }
 
 
+    public function deblMarche($marche_id, $date)
+    {
+
+        $dDate = Carbon::parse($date);
+        $newDate = $dDate->subDays(6);
+
+        $mc = Credit::where('marche_id', $marche_id)->whereBetween('date_deblocage', [$dDate, $newDate])->get();
+
+        $d = Carbon::parse($this->month()['fourthFriday']);
+        $month = $d->month;
+
+        $mcPrevi = Credit::where('marche_id', $marche_id)->whereMonth('date_deblocage', $month)->get();
+
+
+        return [
+            "debloPrevion" => $mcPrevi->sum('montant'),
+            "debloReal" => $mcPrevi->sum('montant'),
+            "deblo" => $mc->sum('montant'),
+        ];
+    }
+
+
     public function recouvrement($date)
     {
         $dDate = Carbon::parse($date);
@@ -428,6 +458,7 @@ class Tool
             "epargne" => $esipm->sum('epargne_jrs'),
             "epargnePrevision" => $ep,
             "assur" => $esipm->sum('assurance'),
+            "retrait" => $esipm->sum('retrait'),
             "assurPrevision" => round($esipm->sum('montant') * 0.005),
         ];
     }

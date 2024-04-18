@@ -1746,6 +1746,167 @@
                         Les décaissements sont les montant débloqués pour les crédits, les achats de matériels de
                         travail, les travaux d’aménagement, et d’autres activités de l’institutions.
                     </p>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            @php
+                            $cfdTotal = 0;
+                            $csdTotal = 0;
+                            $ctdTotal = 0;
+                            $cfodTotal = 0;
+                            $cfodPTotal = 0;
+                            $tool = new App\Services\Tool();
+                            @endphp
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th class="no"></th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} P</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} R</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['thirdFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['secondFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['firstFriday']->format('d/m/y') }}</th>
+                                        <th class="n4">ECART</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($marketTypes as $marketType)
+                                    <tr>
+                                        <td class="n3">{{ $marketType->libelle }}</td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['debloPrevion'] ?? 0) }}
+                                        </td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['debloReal'] ?? 0) }}
+                                        </td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['deblo'] ?? 0) }}
+                                        </td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->deblMarche(
+                                            $marketType->id,
+                                            $day['thirdFriday']
+                                            )['deblo'] ?? 0) }}
+                                        </td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->deblMarche(
+                                            $marketType->id,
+                                            $day['secondFriday']
+                                            )['deblo'] ?? 0) }}
+                                        </td>
+                                        <td class="n2">
+                                            {{ $tool->numberFormat($tool->deblMarche(
+                                            $marketType->id,
+                                            $day['firstFriday']
+                                            )['deblo'] ?? 0) }}
+                                        </td>
+                                        <td class="n4">{{ $tool->numberFormat($ecart) }}</td>
+                                    </tr>
+                                    @endforeach
+                                    @foreach (\App\Models\ReportingItem::where('type', 'encaissement')->get() as $item)
+                                    @php
+                                    $cfdTotal += $item->getDataItem($item->id)['fData']->sum('rea');
+                                    $csdTotal += $item->getDataItem($item->id)['sData']->sum('rea');
+                                    $ctdTotal += $item->getDataItem($item->id)['tData']->sum('rea');
+                                    $cfodTotal += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $cfodPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
+                                    @endphp
+                                    @endforeach
+                                    @php
+                                    $v1 = 0;
+                                    $v2 = 0;
+                                    $v3 = 0;
+                                    $v4 = 0;
+                                    $v5 = 0;
+                                    $v6 = 0;
+
+                                    @endphp
+                                    @foreach (\App\Models\ReportingItem::where('type', 'decaissement')->get() as $item)
+                                    @php
+                                    $fdTotal += $item->getDataItem($item->id)['fData']->sum('rea');
+                                    $sdTotal += $item->getDataItem($item->id)['sData']->sum('rea');
+                                    $tdTotal += $item->getDataItem($item->id)['tData']->sum('rea');
+                                    $fodTotal += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $fodPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
+                                    @endphp
+                                    <tr>
+                                        <td class="n3">{{$item->name}}</td>
+                                        <td class="n1">
+                                            @php
+                                            $v1 += $item->getDataItem($item->id)['foData']->sum('pre');
+                                            @endphp
+                                            {{ $item->getDataItem($item->id)['foData']->sum('pre') }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $v2 += $item->getDataItem($item->id)['foData']->sum('rea');
+                                            @endphp
+                                            {{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $v3 += $item->getDataItem($item->id)['foData']->sum('rea');
+                                            @endphp
+                                            {{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $v4 += $item->getDataItem($item->id)['tData']->sum('rea');
+                                            @endphp
+                                            {{ $item->getDataItem($item->id)['tData']->sum('rea') }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $v5 += $item->getDataItem($item->id)['sData']->sum('rea');
+                                            @endphp
+                                            {{ $item->getDataItem($item->id)['sData']->sum('rea') }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $v6 += $item->getDataItem($item->id)['fData']->sum('rea');
+                                            @endphp
+                                            {{ $item->getDataItem($item->id)['fData']->sum('rea') }}</td>
+                                        <td class="n4">{{ $item->getDataItem($item->id)['foData']->sum('pre') > 0 ?
+                                            round(($item->getDataItem($item->id)['foData']->sum('rea')/$item->getDataItem($item->id)['foData']->sum('pre'))
+                                            * 100) : 0 }}%</td>
+                                    </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td class="n3">TOTAL Decaissement </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($v1) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($v2) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($v3)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($v4)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($v5)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($v6)}}
+                                        </td>
+
+                                        <td class="n4">
+                                            {{ $v1 > 0 ?
+                                            round(($v2/$v1)
+                                            * 100) : 0 }}%
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <h1 class="card-title text-left mb-4">
                         Déblocages
                     </h1>
