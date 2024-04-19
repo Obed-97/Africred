@@ -53,7 +53,7 @@
                         <li><a href="{{route('etat_encours_global.index')}}"><i class="ri-pushpin-fill"></i> Enc. Sans Intérêt</a></li>
 
                         <li><a href="{{route('etat_actualise.index')}}"><i class="ri-pushpin-fill"></i> Encours Global</a></li>
-                        <li><a href="{{route('encours')}}"><i class="ri-pushpin-fill"></i>Encours des Marchés</a></li>
+                        <li><a href="{{route('encours')}}"><i class="ri-pushpin-fill"></i>Encours des clients</a></li>
 
                     </ul>
 
