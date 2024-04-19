@@ -53,6 +53,7 @@
                         <li><a href="{{route('etat_encours_global.index')}}"><i class="ri-pushpin-fill"></i> Enc. Sans Intérêt</a></li>
 
                         <li><a href="{{route('etat_actualise.index')}}"><i class="ri-pushpin-fill"></i> Encours Global</a></li>
+                        <li><a href="{{route('encours')}}"><i class="ri-pushpin-fill"></i>Encours des Marchés</a></li>
 
                     </ul>
 
@@ -101,19 +102,6 @@
 
                         <li><a href="{{route('entreprise.index')}}"><i class="ri-building-fill"></i> Entreprises</a></li>
 
-                    </ul>
-
-                </li>
-
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="ri-file-fill"></i>
-                        <span>Rapports <div class="badge badge-soft-success font-size-12"></div></span>
-                    </a>
-
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('reporting.create')}}"><i class="ri-task-fill"></i>élément du rapport</a></li>
-                        <li><a href="{{route('reporting.index')}}"><i class="ri-task-fill"></i>Rapport d'activité</a></li>
                     </ul>
 
                 </li>

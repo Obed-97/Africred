@@ -370,7 +370,14 @@ class Recouvrement extends Model
         return $frais_carte;
     }
 
+    public function encours($marche_id, $trij)
+    {
+        $credits = Credit::where('statut', 'Accordé')->where('marche_id', $marche_id)->get();
 
+        $result = ($credits->sum('interet') + $credits->sum('montant')) - $trij;
+
+        return number_format(($result), 0, ',', ' '). ' FCFA';
+    }
 
     public function Marche()
     {
