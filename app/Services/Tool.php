@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Jobs\PushJob;
 use App\Models\Recouvrement;
 use App\Models\Credit;
 use App\Models\Marche;
@@ -11,9 +10,11 @@ use App\Models\ReportingItem;
 use App\Models\Type;
 use App\Models\User;
 use App\Notifications\PushRecovery;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use App\Models\Client;
+use App\Models\Transfert;
+use Carbon\Carbon;
 
 class Tool
 {
@@ -525,5 +526,15 @@ class Tool
     public function numberFormat($value = 0)
     {
         return number_format($value, 0, ' ', ' ') . ' FCFA';
+    }
+    public function getNum()
+    {
+        return [
+            'comptes' => Client::count(),
+            'attentes' => Credit::where('statut', 'En attente')->get(),
+            'deblocages' => Credit::where('statut', 'Accordé')->count(),
+            'transferts' => Transfert::where('statut', 'En cours..')->count(),
+            'time' => Carbon::now()
+        ];
     }
 }

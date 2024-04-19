@@ -28,7 +28,6 @@
                     <form method="POST" action="{{route('encours.filter')}}" class="d-flex mb-4">
                         @csrf
                         <div class="col-xl-4"><input type="date" name="dd" class="form-control"></div>
-                        <div class="col-xl-4"><input type="date" name="fd" class="form-control"></div>
                         <div class="col-xl-4"><button type="submit" class="btn btn-primary  waves-effect waves-light"><i
                                     class=" ri-search-2-line"></i> Filtrer</div>
                     </form>
@@ -40,9 +39,36 @@
             </div>
 
             <div class="row">
+
                 <div class="col-12">
                     @if (isset($dd) && $dd != null)
-                        <h1>Encours des marchés entre le << {{ $dd->format('d-m-y') }} et {{ $fd->format('d-m-y') }} >></h1>
+                        <h1>Encours des Clients au << {{ $dd->format('d-m-y') }} >></h1>
+                    @endif
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable-buttons" class="table  dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Clients</th>
+                                        <th>Encours global</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($encoursClients as $encour)
+                                      <tr>
+                                        <td>{{ $encour->Client($encour->credit_id) }}</td>
+                                        <td>{{ $encour->encoursClient($encour->credit_id, $dd) }}</td>
+                                      </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    @if (isset($dd) && $dd != null)
+                        <h1>Encours des marchés au << {{ $dd->format('d-m-y') }} >></h1>
                     @endif
                     <div class="card">
                         <div class="card-body">
@@ -59,7 +85,7 @@
                                     @foreach ($encours as $encour)
                                       <tr>
                                         <td>{{ $encour->Marche['libelle'] }}</td>
-                                        <td>{{ $encour->encours($encour->marche_id, ($encour->total_recouvrement_jrs + $encour->total_interet_jrs)) }}</td>
+                                        <td>{{ $encour->encours($encour->marche_id, $dd) }}</td>
                                         {{-- <td>{{ $encour-> }}</td> --}}
                                       </tr>
                                     @endforeach

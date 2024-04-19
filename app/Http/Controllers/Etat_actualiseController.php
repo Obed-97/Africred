@@ -68,20 +68,14 @@ class Etat_actualiseController extends Controller
 
 
 
-    public function encours(Request $request, $dd = NULL, $fd = NULL)
+    public function encours(Request $request, $dd = NULL)
     {
         $tool = new Tool();
 
         $dd = Carbon::parse($request->dd);
-        $fd = Carbon::parse($request->fd);
-
-        if ($fd->lt($dd)) {
-            $fd = Carbon::parse($request->dd);
-            $dd = Carbon::parse($request->fd);
-        }
 
         if($dd == NULL){
-           $encours = Recouvrement::whereDate('date', Date::now())->select('marche_id')
+           $encours = Recouvrement::whereDate('date','<=', Date::now())->select('marche_id')
                 ->selectRaw('SUM(encours_actualise) as total_encours_actualise')
                 ->selectRaw('SUM(interet_jrs) as total_interet_jrs')
                 ->selectRaw('SUM(recouvrement_jrs) as total_recouvrement_jrs')
@@ -91,10 +85,20 @@ class Etat_actualiseController extends Controller
                 ->groupBy('marche_id')
                 ->get();
 
-            return view('recouvrement.encours', compact('encours', 'dd', 'fd'));
+                $encoursClients = Recouvrement::whereDate('date','<=',Date::now())->select('credit_id')
+                ->selectRaw('SUM(encours_actualise) as total_encours_actualise')
+                ->selectRaw('SUM(interet_jrs) as total_interet_jrs')
+                ->selectRaw('SUM(recouvrement_jrs) as total_recouvrement_jrs')
+                ->selectRaw('SUM(epargne_jrs) as total_epargne_jrs')
+                ->selectRaw('SUM(assurance) as total_assurance')
+                ->selectRaw('SUM(retrait) as total_retrait')
+                ->groupBy('credit_id')
+                ->get();
+
+            return view('recouvrement.encours', compact('encours', 'dd', 'encoursClients'));
         }
 
-        $encours = Recouvrement::whereBetween('date', [$dd, $fd])->select('marche_id')
+        $encours = Recouvrement::whereDate('date', '<=', $dd)->select('marche_id')
                 ->selectRaw('SUM(encours_actualise) as total_encours_actualise')
                 ->selectRaw('SUM(interet_jrs) as total_interet_jrs')
                 ->selectRaw('SUM(recouvrement_jrs) as total_recouvrement_jrs')
@@ -104,7 +108,18 @@ class Etat_actualiseController extends Controller
                 ->groupBy('marche_id')
                 ->get();
 
-        return view('recouvrement.encours', compact('encours', 'dd', 'fd'));
+
+                $encoursClients = Recouvrement::whereDate('date','<=', $dd)->select('credit_id')
+                ->selectRaw('SUM(encours_actualise) as total_encours_actualise')
+                ->selectRaw('SUM(interet_jrs) as total_interet_jrs')
+                ->selectRaw('SUM(recouvrement_jrs) as total_recouvrement_jrs')
+                ->selectRaw('SUM(epargne_jrs) as total_epargne_jrs')
+                ->selectRaw('SUM(assurance) as total_assurance')
+                ->selectRaw('SUM(retrait) as total_retrait')
+                ->groupBy('credit_id')
+                ->get();
+
+        return view('recouvrement.encours', compact('encours', 'dd', 'encoursClients'));
     }
 
     /**
