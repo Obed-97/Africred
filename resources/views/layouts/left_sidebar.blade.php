@@ -1,4 +1,8 @@
 <!-- Left Sidebar End -->
+@php
+    use App\Services\Tool;
+    $tool = new Tool();
+@endphp
 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 6)
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
@@ -28,10 +32,10 @@
                 <li>
                     <a  href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-wallet-fill"></i>
-                        <span>Crédits <div class="badge badge-soft-success font-size-12">{{$deblocages->count()}}</div></span>
+                        <span>Crédits <div class="badge badge-soft-success font-size-12">{{$tool->getNum()['deblocages']}}</div></span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('attente.index')}}"><i class="ri-stack-fill"></i> Liste d'attente <div class="badge badge-soft-warning font-size-12">{{$attentes->count()}}</div></a></li>
+                        <li><a href="{{route('attente.index')}}"><i class="ri-stack-fill"></i> Liste d'attente <div class="badge badge-soft-warning font-size-12">{{$tool->getNum()['attentes']}}</div></a></li>
                         <li><a href="{{route('credit.index')}}"><i class="ri-hand-coin-fill"></i> Crédits encours </a></li>
                         <li><a href="{{route('credit_solde.index')}}"><i class="ri-medal-fill"></i> Crédits soldés </a></li>
                     </ul>
@@ -95,7 +99,7 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class=" ri-bank-card-fill"></i>
-                        <span>Comptes <div class="badge badge-soft-success font-size-12">{{$comptes->count()}}</div></span>
+                        <span>Comptes <div class="badge badge-soft-success font-size-12">{{$tool->getNum()['comptes']}}</div></span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('client.index')}}"><i class="ri-team-fill"></i> Clients</a></li>
@@ -123,7 +127,7 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-repeat-fill"></i>
-                        <span>Transferts <div class="badge badge-soft-success font-size-12">{{$transferts->count()}}</div></span>
+                        <span>Transferts <div class="badge badge-soft-success font-size-12">{{$tool->getNum()['transferts']}}</div></span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('transfert.index')}}"><i class="ri-stack-fill"></i> Les transactions</a></li>

@@ -18,23 +18,23 @@ use Auth;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
+
     public function __construct()
     {
-        
-        $this->comptes = Client::all();
-        $this->attentes = Credit::where('statut', 'En attente')->get();
-        $this->deblocages = Credit::where('statut', 'Accordé')->get();
-        $this->transferts = Transfert::where('statut', 'En cours..')->get();
-        
-        $this->time = Carbon::now();
-        
 
-        View::Share('comptes', $this->comptes);
-        View::Share('attentes', $this->attentes);
-        View::Share('deblocages', $this->deblocages);
-        View::Share('transferts', $this->transferts);
-        
-        View::Share('time', $this->time);
+        // $this->comptes = Client::all();
+        // $this->attentes = Credit::where('statut', 'En attente')->get();
+        // $this->deblocages = Credit::where('statut', 'Accordé')->get();
+        // $this->transferts = Transfert::where('statut', 'En cours..')->get();
+
+        // $this->time = Carbon::now();
+
+
+        // View::Share('comptes', $this->comptes);
+        // View::Share('attentes', $this->attentes);
+        // View::Share('deblocages', $this->deblocages);
+        // View::Share('transferts', $this->transferts);
+
+        // View::Share('time', $this->time);
     }
 }

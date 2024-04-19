@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Client;
 use App\Models\Recouvrement;
 use App\Models\Credit;
+use App\Models\Transfert;
 use App\Models\User;
+use Carbon\Carbon;
 
 class Tool {
 
@@ -90,7 +93,7 @@ class Tool {
 
         return $total;
     }
-    
+
     public function montant($id)
     {
         $total = 0;
@@ -115,7 +118,7 @@ class Tool {
 
         return $total;
     }
-    
+
     public function montant_interet($id)
     {
         $total = 0;
@@ -128,7 +131,7 @@ class Tool {
 
         return $total;
     }
-    
+
     public function frais_deblocage($id)
     {
         $total = 0;
@@ -141,7 +144,7 @@ class Tool {
 
         return $total;
     }
-    
+
     public function frais_carte($id)
     {
         $total = 0;
@@ -160,5 +163,16 @@ class Tool {
         $user = User::find($user_id);
 
         return $user;
+    }
+
+    public function getNum()
+    {
+        return [
+            'comptes' => Client::count(),
+            'attentes' => Credit::where('statut', 'En attente')->get(),
+            'deblocages' => Credit::where('statut', 'Accordé')->count(),
+            'transferts' => Transfert::where('statut', 'En cours..')->count(),
+            'time' => Carbon::now()
+        ];
     }
 }
