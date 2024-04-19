@@ -70,7 +70,7 @@ Route::resources([
     '/etat_encaissement' => EtatEncController::class,
     '/etat_decaissement' => EtatDecController::class,
     '/banque' => BanqueController::class,
-    '/etat_actualise' => Etat_actualiseController::class, 
+    '/etat_actualise' => Etat_actualiseController::class,
     '/controle' => ControleController::class,
     '/journalier' => JournalierController::class,
     '/attente' => AttenteController::class,
@@ -85,6 +85,8 @@ Route::resources([
     '/taux' => TauxController::class,
 ]);
 
+Route::get('/encours', [Etat_actualiseController::class, 'encours'])->name('encours');
+Route::post('/fliter/encours', [Etat_actualiseController::class, 'encours'])->name('encours.filter');
 Route::get('/afficher', [EtatRecouvrementController::class, 'affiche'])->name('etat_recouvrement.affiche');
 Route::get('/marche', [CreditController::class, 'marche'])->name('credit.marche');
 Route::get('/marche/jour', [EtatCreditController::class, 'marche'])->name('etat_credit.marche');

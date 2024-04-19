@@ -28,7 +28,7 @@ class Recouvrement extends Model
         'retrait',
     ];
 
-    
+
     public function User()
     {
         return $this->belongsTo(User::class);
@@ -38,9 +38,9 @@ class Recouvrement extends Model
     {
         return $this->belongsTo(Credit::class);
     }
-    
-    
-    
+
+
+
     public function getFraisDeblocageCredit($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('id', $item)->get();
@@ -55,7 +55,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function getFraisDeblocageMarche($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('marche_id', $item)->get();
@@ -70,8 +70,8 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
-  
+
+
     public function getFraisDeblocage($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->get();
@@ -86,7 +86,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function getFraisDeblocageDayMarche($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('marche_id', $item)->whereDate('date_deblocage', Carbon::today())->get();
@@ -101,8 +101,8 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
-    
+
+
     public function getFraisDeblocageDay($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::today())->get();
@@ -117,7 +117,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function DeblocageHier($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::yesterday())->get();
@@ -132,7 +132,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function DeblocageJ_2($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
@@ -147,7 +147,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function DeblocageJ_3($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(3))->get();
@@ -162,7 +162,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function DeblocageJ_4($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(4))->get();
@@ -177,7 +177,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function DeblocageJ_5($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(5))->get();
@@ -192,7 +192,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function DeblocageJ_6($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(6))->get();
@@ -207,7 +207,7 @@ class Recouvrement extends Model
 
         return $frais_deblocage;
     }
-    
+
     public function getFraisCarteCredit($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('id', $item)->get();
@@ -222,7 +222,7 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
+
     public function getFraisCarteMarche($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('marche_id', $item)->get();
@@ -252,7 +252,7 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
+
     public function getFraisCarteDayMarche($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('marche_id', $item)->whereDate('date_deblocage', Carbon::today())->get();
@@ -267,7 +267,7 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
+
     public function getFraisCarteDay($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::today())->get();
@@ -282,7 +282,7 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
+
     public function CarteHier($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::yesterday())->get();
@@ -297,7 +297,7 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
+
     public function CarteJ_2($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
@@ -326,7 +326,7 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
+
     public function CarteJ_4($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(4))->get();
@@ -341,7 +341,7 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
+
     public function CarteJ_5($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(5))->get();
@@ -356,7 +356,7 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
+
     public function CarteJ_6($item)
     {
         $credits = Credit::where('statut', 'Accordé')->where('user_id', $item)->whereDate('date_deblocage', Carbon::now()->subDays(6))->get();
@@ -371,9 +371,16 @@ class Recouvrement extends Model
 
         return $frais_carte;
     }
-    
- 
-    
+
+    public function encours($marche_id, $trij)
+    {
+        $credits = Credit::where('statut', 'Accordé')->where('marche_id', $marche_id)->get();
+
+        $result = ($credits->sum('interet') + $credits->sum('montant')) - $trij;
+
+        return number_format(($result), 0, ',', ' '). ' FCFA';
+    }
+
     public function Marche()
     {
         return $this->belongsTo(Marche::class);
