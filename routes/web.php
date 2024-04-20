@@ -92,6 +92,12 @@ Route::resources([
     '/taux' => TauxController::class,
 ]);
 
+
+Route::delete('/delete/reporting/item', [ReportingController::class, 'del'])->name('del.item.data');
+Route::post('/add/reporting', [ReportingController::class, 'add'])->name('add.item.reporting');
+Route::post('/reporting/item', [ReportingController::class, 'add_data'])->name('data.item.reporting');
+
+
 Route::get('/encours', [Etat_actualiseController::class, 'encours'])->name('encours');
 Route::post('/fliter/encours', [Etat_actualiseController::class, 'encours'])->name('encours.filter');
 Route::get('/afficher', [EtatRecouvrementController::class, 'affiche'])->name('etat_recouvrement.affiche');
