@@ -153,13 +153,6 @@
                             class="ri-pushpin-fill  align-middle mr-2"></i>CR&Eacute;DITS IMPAY&Eacute;S</a>
                 </div>
                 <div class="col-xl-6" id="web">
-                    <form method="POST" action="{{route('etat_credit.solde')}}" class="d-flex mb-4">
-                        @csrf
-                        <div class="col-xl-4"><input type="date" name="fdate" class="form-control"></div>
-                        <div class="col-xl-4"><input type="date" name="sdate" class="form-control"></div>
-                        <div class="col-xl-4"><button type="submit" class="btn btn-primary  waves-effect waves-light"><i
-                                    class=" ri-search-2-line"></i> Filtrer</div>
-                    </form>
                 </div>
 
                 <div class="col-xl-2"><a href="{{route('journalier.index')}}"
