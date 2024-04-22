@@ -444,9 +444,11 @@ class Tool
     {
         $dDate = Carbon::parse($date);
         $newDate = $dDate->subDays(6);
+        $newDa = $dDate->subDays(29);
 
         $cms = Credit::whereBetween('date_deblocage', [$dDate, $newDate])->get();
         $esipm = Recouvrement::whereBetween('date', [$dDate, $newDate])->get();
+        $re = Recouvrement::whereBetween('date', [$dDate, $newDa])->get();
         $ep = 0;
 
         foreach($cms as $cm){
@@ -461,6 +463,34 @@ class Tool
             "assur" => $esipm->sum('assurance'),
             "retrait" => $esipm->sum('retrait'),
             "assurPrevision" => round($esipm->sum('montant') * 0.005),
+            "reppr" => [
+                "prev" => 540000 * 4,
+                "rea" => $re->sum('retrait'),
+            ]
+        ];
+    }
+
+
+    public function client($date)
+    {
+        $dDate = Carbon::parse($date);
+        $newDate = $dDate->subDays(6);
+        $newDa = $dDate->subDays(29);
+        $mc = Credit::whereBetween('created_at', [$dDate, $newDate])->get();
+        $cdfs = Credit::whereBetween('date_fin', [$dDate, $newDa])->get();
+
+        $rew = Credit::whereBetween('date_deblocage', [$dDate, $newDa])->get();
+
+
+        return [
+            "prev" => $cdfs->sum('montant'),
+            "rea" => 20 * 750000,
+            "reaj" => $mc->sum('montant'),
+            "renew" => [
+                'prev' => $cdfs->sum('montant'),
+                "rea" => $rew->sum('montant'),
+                "reaj" => $rew->sum('montant')
+            ]
         ];
     }
 

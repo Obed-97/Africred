@@ -1746,14 +1746,16 @@
                         Les décaissements sont les montant débloqués pour les crédits, les achats de matériels de
                         travail, les travaux d’aménagement, et d’autres activités de l’institutions.
                     </p>
+
                     <div class="row">
                         <div class="col-xl-12">
                             @php
-                            $cfdTotal = 0;
-                            $csdTotal = 0;
-                            $ctdTotal = 0;
-                            $cfodTotal = 0;
-                            $cfodPTotal = 0;
+                            $cl1 = 0;
+                            $cl2 = 0;
+                            $cl3 = 0;
+                            $cl4 = 0;
+                            $cl5 = 0;
+                            $cl6 = 0;
                             $tool = new App\Services\Tool();
                             @endphp
                             <table border="0" cellspacing="0" cellpadding="0">
@@ -1778,96 +1780,125 @@
                                             $marketType->id,
                                             $day['fourthFriday']
                                             )['debloPrevion'] ?? 0) }}
+                                            @php
+                                            $cl1 += $tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['debloPrevion'] ?? 0;
+                                            @endphp
                                         </td>
-                                        <td class="n2">
+                                        <td class="n1">
                                             {{ $tool->numberFormat($tool->deblMarche(
                                             $marketType->id,
                                             $day['fourthFriday']
                                             )['debloReal'] ?? 0) }}
+                                            @php
+                                            $cl2 += $tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['debloReal'] ?? 0;
+                                            @endphp
                                         </td>
-                                        <td class="n2">
+                                        <td class="n1">
                                             {{ $tool->numberFormat($tool->deblMarche(
                                             $marketType->id,
                                             $day['fourthFriday']
                                             )['deblo'] ?? 0) }}
+                                            @php
+                                            $cl3 += $tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['deblo'] ?? 0;
+                                            @endphp
                                         </td>
-                                        <td class="n2">
+                                        <td class="n1">
                                             {{ $tool->numberFormat($tool->deblMarche(
                                             $marketType->id,
                                             $day['thirdFriday']
                                             )['deblo'] ?? 0) }}
+                                            @php
+                                            $cl4 += $tool->deblMarche(
+                                            $marketType->id,
+                                            $day['thirdFriday']
+                                            )['deblo'] ?? 0;
+                                            @endphp
                                         </td>
-                                        <td class="n2">
+                                        <td class="n1">
                                             {{ $tool->numberFormat($tool->deblMarche(
                                             $marketType->id,
                                             $day['secondFriday']
                                             )['deblo'] ?? 0) }}
+                                            @php
+                                            $cl5 += $tool->deblMarche(
+                                            $marketType->id,
+                                            $day['secondFriday']
+                                            )['deblo'] ?? 0;
+                                            @endphp
                                         </td>
-                                        <td class="n2">
+                                        <td class="n1">
                                             {{ $tool->numberFormat($tool->deblMarche(
                                             $marketType->id,
                                             $day['firstFriday']
                                             )['deblo'] ?? 0) }}
+                                            @php
+                                            $cl6 += $tool->deblMarche(
+                                            $marketType->id,
+                                            $day['firstFriday']
+                                            )['deblo'] ?? 0;
+                                            @endphp
                                         </td>
                                         <td class="n4">{{ $tool->numberFormat($ecart) }}</td>
                                     </tr>
                                     @endforeach
                                     @foreach (\App\Models\ReportingItem::where('type', 'encaissement')->get() as $item)
                                     @php
-                                    $cfdTotal += $item->getDataItem($item->id)['fData']->sum('rea');
-                                    $csdTotal += $item->getDataItem($item->id)['sData']->sum('rea');
-                                    $ctdTotal += $item->getDataItem($item->id)['tData']->sum('rea');
-                                    $cfodTotal += $item->getDataItem($item->id)['foData']->sum('rea');
-                                    $cfodPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
+                                    $cl6 += $item->getDataItem($item->id)['fData']->sum('rea');
+                                    $cl5 += $item->getDataItem($item->id)['sData']->sum('rea');
+                                    $cl4 += $item->getDataItem($item->id)['tData']->sum('rea');
+                                    $cl3 += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $cl2 += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $cl1 += $item->getDataItem($item->id)['foData']->sum('pre');
                                     @endphp
                                     @endforeach
-                                    @php
-                                    $v1 = 0;
-                                    $v2 = 0;
-                                    $v3 = 0;
-                                    $v4 = 0;
-                                    $v5 = 0;
-                                    $v6 = 0;
-
-                                    @endphp
                                     @foreach (\App\Models\ReportingItem::where('type', 'decaissement')->get() as $item)
                                     @php
-                                    $fdTotal += $item->getDataItem($item->id)['fData']->sum('rea');
-                                    $sdTotal += $item->getDataItem($item->id)['sData']->sum('rea');
-                                    $tdTotal += $item->getDataItem($item->id)['tData']->sum('rea');
-                                    $fodTotal += $item->getDataItem($item->id)['foData']->sum('rea');
-                                    $fodPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
+                                    $cl6 += $item->getDataItem($item->id)['fData']->sum('rea');
+                                    $cl5 += $item->getDataItem($item->id)['sData']->sum('rea');
+                                    $cl4 += $item->getDataItem($item->id)['tData']->sum('rea');
+                                    $cl3 += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $cl2 += $item->getDataItem($item->id)['foData']->sum('rea');
+                                    $cl1 += $item->getDataItem($item->id)['foData']->sum('pre');
                                     @endphp
                                     <tr>
                                         <td class="n3">{{$item->name}}</td>
                                         <td class="n1">
                                             @php
-                                            $v1 += $item->getDataItem($item->id)['foData']->sum('pre');
+                                            $cl1 += $item->getDataItem($item->id)['foData']->sum('pre');
                                             @endphp
                                             {{ $item->getDataItem($item->id)['foData']->sum('pre') }}</td>
                                         <td class="n1">
                                             @php
-                                            $v2 += $item->getDataItem($item->id)['foData']->sum('rea');
+                                            $cl2 += $item->getDataItem($item->id)['foData']->sum('rea');
                                             @endphp
                                             {{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
                                         <td class="n1">
                                             @php
-                                            $v3 += $item->getDataItem($item->id)['foData']->sum('rea');
+                                            $cl3 += $item->getDataItem($item->id)['foData']->sum('rea');
                                             @endphp
                                             {{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
                                         <td class="n1">
                                             @php
-                                            $v4 += $item->getDataItem($item->id)['tData']->sum('rea');
+                                            $cl4 += $item->getDataItem($item->id)['tData']->sum('rea');
                                             @endphp
                                             {{ $item->getDataItem($item->id)['tData']->sum('rea') }}</td>
                                         <td class="n1">
                                             @php
-                                            $v5 += $item->getDataItem($item->id)['sData']->sum('rea');
+                                            $cl5 += $item->getDataItem($item->id)['sData']->sum('rea');
                                             @endphp
                                             {{ $item->getDataItem($item->id)['sData']->sum('rea') }}</td>
                                         <td class="n1">
                                             @php
-                                            $v6 += $item->getDataItem($item->id)['fData']->sum('rea');
+                                            $cl6 += $item->getDataItem($item->id)['fData']->sum('rea');
                                             @endphp
                                             {{ $item->getDataItem($item->id)['fData']->sum('rea') }}</td>
                                         <td class="n4">{{ $item->getDataItem($item->id)['foData']->sum('pre') > 0 ?
@@ -1876,37 +1907,178 @@
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <td class="n3">TOTAL Decaissement </td>
+                                        <td class="n3">Rénouvellement</td>
                                         <td class="n1">
-                                            {{ $tool->numberFormat($v1) }}
+                                            @php
+                                            $cl1 += $tool->client($day['fourthFriday'])['renew']['prev'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['prev']) }}
                                         </td>
                                         <td class="n1">
-                                            {{ $tool->numberFormat($v2) }}
+                                            @php
+                                            $cl2 += $tool->client($day['fourthFriday'])['renew']['rea'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['rea']) }}
                                         </td>
                                         <td class="n1">
-                                            {{ $tool->numberFormat($v3)}}
+                                            @php
+                                            $cl3 += $tool->client($day['fourthFriday'])['renew']['rea'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['rea']) }}
                                         </td>
                                         <td class="n1">
-                                            {{ $tool->numberFormat($v4)}}
+                                            @php
+                                            $cl4 += $tool->client($day['thirdFriday'])['renew']['reaj'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['thirdFriday'])['renew']['reaj']) }}
                                         </td>
                                         <td class="n1">
-                                            {{$tool->numberFormat($v5)}}
+                                            @php
+                                            $cl5 += $tool->client($day['secondFriday'])['renew']['reaj'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['secondFriday'])['renew']['reaj']) }}
                                         </td>
                                         <td class="n1">
-                                            {{$tool->numberFormat($v6)}}
+                                            @php
+                                            $cl6 += $tool->client($day['firstFriday'])['renew']['reaj'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['firstFriday'])['renew']['reaj']) }}
                                         </td>
 
                                         <td class="n4">
-                                            {{ $v1 > 0 ?
-                                            round(($v2/$v1)
+                                            {{ $cl1 > 0 ?
+                                            round(($cl2/$cl1)
                                             * 100) : 0 }}%
                                         </td>
 
                                     </tr>
+                                    <tr>
+                                        <td class="n3">Nouveaux clients</td>
+                                        <td class="n1">
+                                            @php
+                                            $cl1 += $tool->client($day['fourthFriday'])['prev'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['prev']) }}
+                                        </td>
+                                        <td class="n1">
+                                            @php
+                                            $cl2 += $tool->client($day['fourthFriday'])['rea'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['rea']) }}
+                                        </td>
+                                        <td class="n1">
+                                            @php
+                                            $cl3 += $tool->client($day['fourthFriday'])['reaj'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['reaj']) }}
+                                        </td>
+                                        <td class="n1">
+                                            @php
+                                            $cl4 += $tool->client($day['thirdFriday'])['reaj'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['thirdFriday'])['reaj']) }}
+                                        </td>
+                                        <td class="n1">
+                                            @php
+                                            $cl5 += $tool->client($day['secondFriday'])['reaj'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['secondFriday'])['reaj']) }}
+                                        </td>
+                                        <td class="n1">
+                                            @php
+                                            $cl5 += $tool->client($day['firstFriday'])['reaj'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->client($day['firstFriday'])['reaj']) }}
+                                        </td>
+
+                                        <td class="n4">
+                                            {{ $cl1 > 0 ?
+                                            round(($cl2/$cl1)
+                                            * 100) : 0 }}%
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="n3">Retrait Épargnes</td>
+                                        <td class="n1">
+                                            @php
+                                            $cl1 += $tool->recouvrement($day['fourthFriday'])['reppr']['prev'];
+                                            @endphp
+                                            {{
+                                            $tool->numberFormat($tool->recouvrement($day['fourthFriday'])['reppr']['prev'])
+                                            }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $cl2 += $tool->recouvrement($day['fourthFriday'])['reppr']['rea'];
+                                            @endphp
+                                            {{
+                                            $tool->numberFormat($tool->recouvrement($day['fourthFriday'])['reppr']['rea'])
+                                            }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $cl3 += $tool->recouvrement($day['fourthFriday'])['retrait'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->recouvrement($day['fourthFriday'])['retrait'])
+                                            }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $cl4 += $tool->recouvrement($day['thirdFriday'])['retrait'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->recouvrement($day['thirdFriday'])['retrait'])
+                                            }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $cl5 += $tool->recouvrement($day['secondFriday'])['retrait'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->recouvrement($day['secondFriday'])['retrait'])
+                                            }}</td>
+                                        <td class="n1">
+                                            @php
+                                            $cl6 += $tool->recouvrement($day['firstFriday'])['retrait'];
+                                            @endphp
+                                            {{ $tool->numberFormat($tool->recouvrement($day['firstFriday'])['retrait'])
+                                            }}
+                                        </td>
+                                        <td class="n4">{{ $cl1 > 0 ?
+                                            round(($cl2/$cl1)
+                                            * 100) : 0 }}%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="n3">TOTAL Décaissement </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl1) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl2) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl3 )}}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl4 )}}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl5)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($cl6)}}
+                                        </td>
+
+                                        <td class="n4">
+                                            {{ $cl1 > 0 ?
+                                            round(($cl2 / $cl2)
+                                            * 100) : 0 }}%
+                                        </td>
+
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
+
                     <h1 class="card-title text-left mb-4">
                         Déblocages
                     </h1>
