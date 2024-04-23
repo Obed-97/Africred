@@ -11,7 +11,8 @@ use App\Models\ReportingDataItem;
 use App\Models\ReportingItem;
 use Carbon\Carbon;
 use App\Services\Tool;
-use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+    use Illuminate\Http\Request;
 
 class ReportingController extends Controller
 {
@@ -24,6 +25,14 @@ class ReportingController extends Controller
     {
         return view('reporting.reporting');
     }
+
+
+    public function print()
+    {
+        $pdf = Pdf::loadView('reporting.print', []);
+        return $pdf->download('dddd.pdf');
+    }
+
 
     /**
      * Show the form for creating a new resource.

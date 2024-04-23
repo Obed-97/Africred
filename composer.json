@@ -10,7 +10,6 @@
         "barryvdh/laravel-dompdf": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
-        "jimmyjs/laravel-report-generator": "^2.2",
         "laravel-notification-channels/webpush": "^7.1",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",

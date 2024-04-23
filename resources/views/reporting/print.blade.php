@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Facture #{{ $invoice->invoice_no }} - Ibraci Links</title>
+        <title>Facture #</title>
         <style media="screen">
             @font-face {
                 font-family:proxima-nova;
@@ -211,75 +211,14 @@
     <body>
         <header class="clearfix">
             <div id="logo">
-                <img src="https://ibracilinks.com/assets/images/logo.png">
+                <img src="https://africa-africred.com/media/Logo%20AfriCRED1.png">
             </div>
             <div id="company">
-                <h2 class="name">{{ config('app.name') }}</h2>
-                <div>+223 78 61 61 94</div>
-                <div><a href="mailto:{{ config('app.email') }}">{{ config('app.email') }}</a></div>
-                <div>
-                    Immeuble Elhadji Bah Sady Dabo,<br>
-                    Faladie, en face de SONEF Tranport,<br>
-                    Bamako - Mali
-                </div>
+                <div>Fait à Bamako le {{ \Date::now()->format('d.m.y') }}</div>
             </div>
         </header>
         <main>
-            <div id="details" class="clearfix">
-                <div id="client">
-                    <div class="to"></div>
-                    <h2 class="name">{{ $invoice->user->fullName() }}</h2>
-                    <div>
-                        +{{ $invoice->user->phone }}<br>
-                        {{ $invoice->user->email }}
-                    </div>
-                    <div class="address">
-                        {{ $invoice->user->address() }}<br>
-                        {{-- {{ $invoice->user->city }}, {{ $invoice->user->country }} --}}
-                    </div>
-                    <div class="email"><a href="mailto:{{ $invoice->user->email }}">{{ $invoice->user->email }}</a></div>
-                </div>
-                <div id="invoice">
-                    <h1>Facture no: #{{ $invoice->invoice_no }}<br></h1>
-                    <div class="date">Date : {{ Carbon\Carbon::parse($invoice->created_at)->format('F d, Y ') }}</div>
-                </div>
-            </div>
-            <table border="0" cellspacing="0" cellpadding="0">
-                <thead>
-                    <tr>
-                        <th class="no">#</th>
-                        <th class="desc">Désignation</th>
-                        <th class="unit">Prix</th>
-                        <th class="qty">QTE</th>
-                        <th class="total">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                    $i = 1;
-                    @endphp
-                    @foreach ($invoice->items as $item)
-                        <tr>
-                            <td class="no">{{ $i }}</td>
-                            <td class="desc">{{ $item->item }}</td>
-                            <td class="unit">{{ $item->price() }}</td>
-                            <td class="qty">{{ $item->quantity }}</td>
-                            <td class="total">{{ $item->total() }} FCFA</td>
-                        </tr>
-                        @php
-                            $i = $i+1;
-                        @endphp
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2"></td>
-                        <td colspan="2">GRAND TOTAL</td>
-                        <td>{{ $invoice->total() }} FCFA</td>
-                    </tr>
-                </tfoot>
-            </table>
-            <div id="thanks">Merci !</div>
+            <x-reporting-component />
         </main>
         <footer>
             {{-- Ceci est une facture digitale et est valable sans la signature et le cachet. --}}

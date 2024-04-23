@@ -1,4 +1,4 @@
-<div>
+<div class="col-12">
     <style media="screen">
         .clearfix:after {
             content: "";
@@ -38,7 +38,7 @@
         }
 
         #client {
-            padding-left: 6px;
+            padding-left: 2px;
             border-left: 6px solid #0087C3;
             float: left;
         }
@@ -48,7 +48,7 @@
         }
 
         h2.name {
-            font-size: 1.4em;
+            font-size: 1em;
             font-weight: normal;
             margin: 0;
         }
@@ -60,14 +60,14 @@
 
         #invoice h1 {
             color: #0087C3;
-            font-size: 2em;
+            font-size: 1;
             line-height: 1em;
             font-weight: normal;
             margin: 0 0 10px 0;
         }
 
         #invoice .date {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #777777;
         }
 
@@ -80,7 +80,7 @@
 
         table th,
         table td {
-            padding: 20px;
+            padding: 5px;
             background: #EEEEEE;
             text-align: center;
             border-bottom: 1px solid #FFFFFF;
@@ -97,14 +97,14 @@
 
         table td h3 {
             color: #1b2586;
-            font-size: 1.2em;
+            font-size: 1em;
             font-weight: normal;
             margin: 0 0 0.2em 0;
         }
 
         table .no {
             color: #FFFFFF;
-            font-size: 1.6em;
+            font-size: 1em;
             background: #1b2586;
         }
 
@@ -135,7 +135,7 @@
         table td.n2,
         table td.n3,
         table td.n4 {
-            font-size: 1.2em;
+            font-size: 1em;
         }
 
         table tbody tr:last-child td {
@@ -146,7 +146,7 @@
             padding: 10px 20px;
             background: #FFFFFF;
             border-bottom: none;
-            font-size: 1.2em;
+            font-size: 1em;
             white-space: nowrap;
             border-top: 1px solid #AAAAAA;
         }
@@ -157,7 +157,7 @@
 
         table tfoot tr:last-child td {
             color: #1b2586;
-            font-size: 1.4em;
+            font-size: 1em;
             border-top: 1px solid #1b2586;
 
         }
@@ -167,39 +167,36 @@
         }
 
         #thanks {
-            font-size: 2em;
+            font-size: 1;
             margin-bottom: 50px;
         }
 
         #notices {
-            padding-left: 6px;
+            padding-left: 2px;
             border-left: 6px solid #0087C3;
         }
 
         #notices .notice {
-            font-size: 1.2em;
+            font-size: 1em;
         }
     </style>
-    <div class="row">
+    <div class="row"
+    x-data="{
+        com1: '', com2: '', com3: '', com4: '', com5: '', com6: '',
+        com12: '',com11: '', com10: '', com9: '', com8: '', com7: '',
+        com13: '', com14: '', com15: ''
+    }"
+    >
 
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xl-12">
-                            <div class="clearfix">
-                                <div id="logo">
-                                    <img src="{{ asset('assets/images/Logo AfriCRED.png') }}">
-                                </div>
-                                <div id="company">
-                                    <br>
-                                    <br>
-                                    <div>Fait à Bamako le {{ \Date::now()->format('d.m.y') }}</div>
-                                </div>
-                            </div>
-                            <hr>
+                            <a class="btn btn-primary  waves-effect waves-light" href="{{ route('print') }}">IMPRIMER</a>
                         </div>
                     </div>
+                    <br>
                     <h1 class="card-title text-left mb-4">
                         Encours sans intérêt
                     </h1>
@@ -301,6 +298,8 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
+                    <p x-text="com1"></p>
+                    <textarea  class="form-control"  x-model="com1"></textarea>
                     <p>
                         @php
                         $se = $currentTotalWeekTypeCredits->sum('montant') - $lastTotalWeekTypeCredits->sum('montant');
@@ -315,8 +314,6 @@
                             crédits en difficultés de paiement et 54.135.825 CFA de capital en mouvement. --}}
                             @endif
                     </p>
-                    <br>
-                    <br>
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Encours Global
@@ -407,20 +404,9 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p>
-                        {{-- @php
-                        $se = $currentTotalWeekTypeCredits->sum('montant') - $lastTotalWeekTypeCredits->sum('montant');
-                        @endphp
-                        @if($se < 0) Cette semaine l’encours sans intérêt a baissé de  {{ $tool->
-                            numberFormat(abs($currentTotalWeekTypeCredits->sum('montant') -
-                            $lastTotalWeekTypeCredits->sum('montant'))) }}, ce qui signifie que nous avons
-                            pas fait assez de déblocage cette semaine par rapport à la semaine passée.
-                            {{-- Sur le capital de {{ $tool->numberFormat($lastTotalWeekTypeCredits->sum('montant')) }}
-                            --}}
-                            {{-- 1.611.275 CFA représente le capital à recouvrir sur les
-                            crédits en difficultés de paiement et 54.135.825 CFA de capital en mouvement.
-                            @endif --}}
-                    </p>
+                    <p x-text="com2"></p>
+                    <textarea  class="form-control"  x-model="com2"></textarea>
+                    <br>
                     <h1 class="card-title text-left mb-4">
                         Tableau Comparatif des encours de crédit
                     </h1>
@@ -510,7 +496,11 @@
 
                         </div>
                     </div>
-                    <br>
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com3"></p>
+                    <textarea  class="form-control"  x-model="com3"></textarea>
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Budget d’exploitation/Produit
@@ -575,7 +565,7 @@
                                 <tbody>
 
                                     <tr>
-                                        <td class="n3">INTERETS NETS PERÇUS SUR NANO</td>
+                                        <td class="no">INTERETS NETS PERÇUS SUR NANO</td>
                                         <td class="n1">{{ $tool->numberFormat(round($inn1rp)) }}</td>
                                         <td class="n1">{{ $tool->numberFormat(round($inn2rp)) }}</td>
                                         <td class="n1">{{ $tool->numberFormat(round($inn1p)) }}</td>
@@ -585,7 +575,7 @@
                                         <td class="n4">{{ $inn1p > 0 ? round(($inn2rp/$inn1rp) * 100) : 0 }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="n3">COMMISSIONS PERÇUS SUR NANO(FRAIS DE DEBLOCAGES)</td>
+                                        <td class="no">COMMISSIONS PERÇUS SUR NANO(FRAIS DE DEBLOCAGES)</td>
                                         <td class="n1">{{ $tool->numberFormat(round($deblo1p)) }}</td>
                                         <td class="n1">{{ $tool->numberFormat(round($deblo1p)) }}</td>
                                         <td class="n1">{{ $tool->numberFormat(round($deblo1p)) }}</td>
@@ -603,7 +593,7 @@
                                     $foPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
                                     @endphp
                                     <tr>
-                                        <td class="n3">{{$item->name}}</td>
+                                        <td class="no">{{$item->name}}</td>
                                         <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('pre') }}</td>
                                         <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
                                         <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
@@ -648,6 +638,12 @@
                             </table>
                         </div>
                     </div>
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com4"></p>
+                    <textarea  class="form-control"  x-model="com4"></textarea>
+                    <br>
                     <h1 class="card-title text-left mb-4">
                         Budget d’exploitation/Rentablité par marché
                     </h1>
@@ -725,7 +721,7 @@
                                     )['renta'] ?? 0)
                                     @endphp
                                     <tr>
-                                        <td class="n3">{{ $marketType->libelle }}</td>
+                                        <td class="no">{{ $marketType->libelle }}</td>
                                         <td class="n1">
                                             {{ $tool->numberFormat($tool->renta(
                                             $marketType->id,
@@ -755,7 +751,13 @@
 
                         </div>
                     </div>
-
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com5"></p>
+                    <textarea  class="form-control"  x-model="com5"></textarea>
+                    <br>
+                    <br>
                     <h1 class="card-title text-left mb-4">
                         Charges
                     </h1>
@@ -795,7 +797,7 @@
                                     $cfoPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
                                     @endphp
                                     <tr>
-                                        <td class="n3">{{$item->name}}</td>
+                                        <td class="no">{{$item->name}}</td>
                                         <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('pre') }}</td>
                                         <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
                                         <td class="n1">{{ $item->getDataItem($item->id)['foData']->sum('rea') }}</td>
@@ -841,6 +843,12 @@
                         </div>
                     </div>
                     <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com6"></p>
+                    <textarea  class="form-control"  x-model="com6"></textarea>
+                    <br>
+                    <h1 class="card-title text-left mb-4">
                         Résultat opérationnel (EBITDA)
                     </h1>
                     <p>
@@ -884,7 +892,7 @@
                                     @endphp
                                     @endforeach
                                     <tr>
-                                        <td class="n3">Produits</td>
+                                        <td class="no">Produits</td>
                                         <td class="n1">
                                             {{$tool->numberFormat($foPTotal + $deblo1p + $inn1rp)}}
                                         </td>
@@ -912,7 +920,7 @@
 
                                     </tr>
                                     <tr>
-                                        <td class="n3">Charges</td>
+                                        <td class="no">Charges</td>
                                         <td class="n1">
                                             {{$tool->numberFormat($cfoPTotal)}}
                                         </td>
@@ -999,7 +1007,13 @@
                             </table>
                         </div>
                     </div>
-
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com7"></p>
+                    <textarea  class="form-control"  x-model="com7"></textarea>
+                    <br>
+                    <br>
                     <h1 class="card-title text-left mb-4">
                         Recouvrements capitaux
                     </h1>
@@ -1111,7 +1125,12 @@
 
                         </div>
                     </div>
-
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com8"></p>
+                    <textarea  class="form-control"  x-model="com8"></textarea>
+                    <br>
                     <h1 class="card-title text-left mb-4">
                         Recouvrements produits
                     </h1>
@@ -1223,7 +1242,12 @@
 
                         </div>
                     </div>
-
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com9"></p>
+                    <textarea  class="form-control"  x-model="com9"></textarea>
+                    <br>
                     <h1 class="card-title text-left mb-4">
                         Recouvrement épargnes
                     </h1>
@@ -1336,6 +1360,12 @@
                         </div>
                     </div>
                     <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com10"></p>
+                    <textarea  class="form-control"  x-model="com10"></textarea>
+                    <br>
+                    <h1 class="card-title text-left mb-4">
                         Recouvrement Global
                     </h1>
                     <p>
@@ -1447,7 +1477,12 @@
 
                         </div>
                     </div>
-
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com11"></p>
+                    <textarea  class="form-control"  x-model="com11"></textarea>
+                    <br>
                     <h1 class="card-title text-left mb-4">
                         Encaissement
                     </h1>
@@ -1499,7 +1534,7 @@
 
                                     @endphp
                                     <tr>
-                                        <td class="n3">Cash Flow</td>
+                                        <td class="no">Cash Flow</td>
                                         <td class="n1">
                                             @php
                                             $v1 += ($ro1 -
@@ -1558,7 +1593,7 @@
 
                                     </tr>
                                     <tr>
-                                        <td class="n3">Recouvrement Capital</td>
+                                        <td class="no">Recouvrement Capital</td>
                                         <td class="n1">
                                             @php
                                             $v1 += $tool->recouvrement($day['fourthFriday'])['recouvPrevision'];
@@ -1605,7 +1640,7 @@
 
                                     </tr>
                                     <tr>
-                                        <td class="n3">Recouvrement Épargne</td>
+                                        <td class="no">Recouvrement Épargne</td>
                                         <td class="n1">
                                             {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['epargnePrevision'])}}
                                         </td>
@@ -1634,7 +1669,7 @@
 
                                     </tr>
                                     <tr>
-                                        <td class="n3">Recouvrement Assurance</td>
+                                        <td class="no">Recouvrement Assurance</td>
                                         <td class="n1">
                                             {{$tool->numberFormat($tool->recouvrement($day['fourthFriday'])['assurPrevision'])}}
                                         </td>
@@ -1671,7 +1706,7 @@
                                     $foPTotal += $item->getDataItem($item->id)['foData']->sum('pre');
                                     @endphp
                                     <tr>
-                                        <td class="n3">{{$item->name}}</td>
+                                        <td class="no">{{$item->name}}</td>
                                         <td class="n1">
                                             @php
                                             $v1 += $item->getDataItem($item->id)['foData']->sum('pre');
@@ -1740,6 +1775,12 @@
                         </div>
                     </div>
                     <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com12"></p>
+                    <textarea  class="form-control"  x-model="com12"></textarea>
+                    <br>
+                    <h1 class="card-title text-left mb-4">
                         Décaissements
                     </h1>
                     <p>
@@ -1774,7 +1815,7 @@
                                 <tbody>
                                     @foreach ($marketTypes as $marketType)
                                     <tr>
-                                        <td class="n3">{{ $marketType->libelle }}</td>
+                                        <td class="no">{{ $marketType->libelle }}</td>
                                         <td class="n1">
                                             {{ $tool->numberFormat($tool->deblMarche(
                                             $marketType->id,
@@ -1847,10 +1888,24 @@
                                             )['deblo'] ?? 0;
                                             @endphp
                                         </td>
-                                        <td class="n4">{{ $tool->numberFormat($ecart) }}</td>
+                                        <td class="n4">
+                                            {{ $tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['debloPrevion'] > 0 ?
+                                            ($tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['debloReal']
+                                            /$tool->deblMarche(
+                                            $marketType->id,
+                                            $day['fourthFriday']
+                                            )['debloPrevion']
+                                            * 100) : 0 }}%
+                                        </td>
                                     </tr>
                                     @endforeach
-                                    @foreach (\App\Models\ReportingItem::where('type', 'encaissement')->get() as $item)
+                                    @foreach (\App\Models\ReportingItem::where('type', 'decaissement')->get() as $item)
                                     @php
                                     $cl6 += $item->getDataItem($item->id)['fData']->sum('rea');
                                     $cl5 += $item->getDataItem($item->id)['sData']->sum('rea');
@@ -1870,7 +1925,7 @@
                                     $cl1 += $item->getDataItem($item->id)['foData']->sum('pre');
                                     @endphp
                                     <tr>
-                                        <td class="n3">{{$item->name}}</td>
+                                        <td class="no">{{$item->name}}</td>
                                         <td class="n1">
                                             @php
                                             $cl1 += $item->getDataItem($item->id)['foData']->sum('pre');
@@ -1907,42 +1962,48 @@
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <td class="n3">Rénouvellement</td>
+                                        <td class="no">Rénouvellement</td>
                                         <td class="n1">
                                             @php
                                             $cl1 += $tool->client($day['fourthFriday'])['renew']['prev'];
                                             @endphp
-                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['prev']) }}
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['prev'])
+                                            }}
                                         </td>
                                         <td class="n1">
                                             @php
                                             $cl2 += $tool->client($day['fourthFriday'])['renew']['rea'];
                                             @endphp
-                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['rea']) }}
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['rea'])
+                                            }}
                                         </td>
                                         <td class="n1">
                                             @php
                                             $cl3 += $tool->client($day['fourthFriday'])['renew']['rea'];
                                             @endphp
-                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['rea']) }}
+                                            {{ $tool->numberFormat($tool->client($day['fourthFriday'])['renew']['rea'])
+                                            }}
                                         </td>
                                         <td class="n1">
                                             @php
                                             $cl4 += $tool->client($day['thirdFriday'])['renew']['reaj'];
                                             @endphp
-                                            {{ $tool->numberFormat($tool->client($day['thirdFriday'])['renew']['reaj']) }}
+                                            {{ $tool->numberFormat($tool->client($day['thirdFriday'])['renew']['reaj'])
+                                            }}
                                         </td>
                                         <td class="n1">
                                             @php
                                             $cl5 += $tool->client($day['secondFriday'])['renew']['reaj'];
                                             @endphp
-                                            {{ $tool->numberFormat($tool->client($day['secondFriday'])['renew']['reaj']) }}
+                                            {{ $tool->numberFormat($tool->client($day['secondFriday'])['renew']['reaj'])
+                                            }}
                                         </td>
                                         <td class="n1">
                                             @php
                                             $cl6 += $tool->client($day['firstFriday'])['renew']['reaj'];
                                             @endphp
-                                            {{ $tool->numberFormat($tool->client($day['firstFriday'])['renew']['reaj']) }}
+                                            {{ $tool->numberFormat($tool->client($day['firstFriday'])['renew']['reaj'])
+                                            }}
                                         </td>
 
                                         <td class="n4">
@@ -1953,7 +2014,7 @@
 
                                     </tr>
                                     <tr>
-                                        <td class="n3">Nouveaux clients</td>
+                                        <td class="no">Nouveaux clients</td>
                                         <td class="n1">
                                             @php
                                             $cl1 += $tool->client($day['fourthFriday'])['prev'];
@@ -1999,7 +2060,7 @@
 
                                     </tr>
                                     <tr>
-                                        <td class="n3">Retrait Épargnes</td>
+                                        <td class="no">Retrait Épargnes</td>
                                         <td class="n1">
                                             @php
                                             $cl1 += $tool->recouvrement($day['fourthFriday'])['reppr']['prev'];
@@ -2067,7 +2128,7 @@
 
                                         <td class="n4">
                                             {{ $cl1 > 0 ?
-                                            round(($cl2 / $cl2)
+                                            round(($cl2 / $cl1)
                                             * 100) : 0 }}%
                                         </td>
 
@@ -2077,6 +2138,130 @@
                             </table>
                         </div>
                     </div>
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com13"></p>
+                    <textarea  class="form-control"  x-model="com13"></textarea>
+                    <br>
+                     <h1 class="card-title text-left mb-4">
+                        Trésorie
+                    </h1>
+                    <p>
+                        La trésorerie fait référence aux liquidités disponibles, c’est-à-dire à l’argent en caisse et dans les comptes bancaires. Elle représente la capacité de l’entreprise à répondre à ses obligations financières à court terme.
+                        Le tableau ci-dessous nous donne l’état de la trésorerie à la date de ce présent rapport.
+                    </p>
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <th class="no"></th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} P</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }} R</th>
+                                        <th class="n1">{{ $day['fourthFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['thirdFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['secondFriday']->format('d/m/y') }}</th>
+                                        <th class="n1">{{ $day['firstFriday']->format('d/m/y') }}</th>
+                                        <th class="n4">ECART</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="no">Encaissement </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($v1) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($v2) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($v3)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($v4)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($v5)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($v6)}}
+                                        </td>
+
+                                        <td class="n4">
+                                            {{ $v1 > 0 ?
+                                            round(($v2/$v1)
+                                            * 100) : 0 }}%
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="no">Décaissement </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl1) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl2) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl3 )}}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl4 )}}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat($cl5)}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat($cl6)}}
+                                        </td>
+
+                                        <td class="n4">
+                                            {{ $cl1 > 0 ?
+                                            round(($cl2 / $cl1)
+                                            * 100) : 0 }}%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="n3">Total</td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat(abs($cl1 - $v1)) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat(abs($cl2 - $v2)) }}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat(abs($cl3 - $v3))}}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat(abs($cl4 - $v4))}}
+                                        </td>
+                                        <td class="n1">
+                                            {{ $tool->numberFormat(abs($cl5 - $v5))}}
+                                        </td>
+                                        <td class="n1">
+                                            {{$tool->numberFormat(abs($cl6 - $v6))}}
+                                        </td>
+
+                                        <td class="n4">
+                                            {{ $cl1 - $v1 > 0 ?
+                                            round((($cl2 - $v2) / ($cl1 - $v1))
+                                            * 100) : 0 }}%
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com14"></p>
+                    <textarea  class="form-control"  x-model="com14"></textarea>
+                    <br>
 
 
                     <h1 class="card-title text-left mb-4">
@@ -2157,6 +2342,12 @@
 
                         </div>
                     </div>
+                    <h1 class="card-title text-left mb-4">
+                        Commentaires
+                    </h1>
+                    <p x-text="com15"></p>
+                    <textarea  class="form-control"  x-model="com15"></textarea>
+                    <br>
                 </div>
             </div>
         </div> <!-- end col -->

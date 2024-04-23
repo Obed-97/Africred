@@ -196,8 +196,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Jimmyjs\ReportGenerator\ServiceProvider::class,
-
     ],
 
     /*
@@ -215,9 +213,6 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'PdfReport' => Jimmyjs\ReportGenerator\Facades\PdfReportFacade::class,
-        'ExcelReport' => Jimmyjs\ReportGenerator\Facades\ExcelReportFacade::class,
-        'CSVReport' => Jimmyjs\ReportGenerator\Facades\CSVReportFacade::class,
     ])->toArray(),
 
 ];
