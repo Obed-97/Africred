@@ -219,7 +219,7 @@
                         </div>
                     </div>
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Encours sans intérêt
                     </h1>
                     <p>
@@ -317,7 +317,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom1 !== '')
@@ -326,7 +326,7 @@
                     <textarea class="form-control" x-model="com1"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Encours Global
                     </h1>
 
@@ -412,7 +412,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom2 !== '')
@@ -421,7 +421,7 @@
                     <textarea class="form-control" x-model="com2"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Tableau Comparatif des encours de crédit
                     </h1>
                     <div class="row">
@@ -510,7 +510,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom3 !== '')
@@ -519,7 +519,7 @@
                     <textarea class="form-control" x-model="com3"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Budget d’exploitation/Produit
                     </h1>
                     <p>
@@ -655,7 +655,7 @@
                             </table>
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom4 !== '')
@@ -664,7 +664,7 @@
                     <textarea class="form-control" x-model="com4"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Budget d’exploitation/Rentablité par marché
                     </h1>
                     <div class="row">
@@ -771,7 +771,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom5 !== '')
@@ -781,7 +781,7 @@
                     @endif
                     <br>
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Charges
                     </h1>
                     <p>
@@ -865,7 +865,7 @@
                             </table>
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom6 !== '')
@@ -874,7 +874,7 @@
                     <textarea class="form-control" x-model="com6"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Résultat opérationnel (EBITDA)
                     </h1>
                     <p>
@@ -1033,7 +1033,7 @@
                             </table>
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom7 !== '')
@@ -1043,7 +1043,7 @@
                     @endif
                     <br>
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Recouvrements capitaux
                     </h1>
                     <p>
@@ -1154,7 +1154,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom8 !== '')
@@ -1163,7 +1163,7 @@
                     <textarea class="form-control" x-model="com8"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Recouvrements produits
                     </h1>
                     <p>
@@ -1274,7 +1274,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom9 !== '')
@@ -1283,7 +1283,7 @@
                     <textarea class="form-control" x-model="com9"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Recouvrement épargnes
                     </h1>
                     <p>
@@ -1394,7 +1394,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom10 !== '')
@@ -1403,7 +1403,7 @@
                     <textarea class="form-control" x-model="com10"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Recouvrement Global
                     </h1>
                     <p>
@@ -1515,7 +1515,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom11 !== '')
@@ -1524,7 +1524,7 @@
                     <textarea class="form-control" x-model="com11"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Encaissement
                     </h1>
                     <p>
@@ -1815,7 +1815,7 @@
                             </table>
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom12 !== '')
@@ -1824,7 +1824,7 @@
                     <textarea class="form-control" x-model="com12"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Décaissements
                     </h1>
                     <p>
@@ -2182,7 +2182,7 @@
                             </table>
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom13 !== '')
@@ -2191,7 +2191,7 @@
                     <textarea class="form-control" x-model="com13"></textarea>
                     @endif
                     <br>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Trésorie
                     </h1>
                     <p>
@@ -2305,7 +2305,7 @@
                         </div>
                     </div>
 
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom14 !== '')
@@ -2316,7 +2316,7 @@
                     <br>
 
 
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Déblocages
                     </h1>
                     <p>
@@ -2394,7 +2394,7 @@
 
                         </div>
                     </div>
-                    <h1 class="card-title text-left mb-4">
+                    <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
                     @if( $coom15 !== '')
