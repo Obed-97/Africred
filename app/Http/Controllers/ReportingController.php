@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\User;
 use App\Models\Depot;
 use App\Models\Credit;
+use App\Models\Recouvrement;
 use App\Models\ReportingDataItem;
 use App\Models\ReportingItem;
 use Carbon\Carbon;
@@ -69,6 +70,41 @@ class ReportingController extends Controller
         return $pdf->download('dddd.pdf');
 
 
+    }
+
+    public function pr()
+    {
+        $tool = new Tool();
+        $carbon = new Carbon();
+
+        $credits = Credit::where('statut', 'Accordé')->whereYear('created_at', date('Y'))->get();
+        $prCreditIds= [];
+        foreach($credits as $credit){
+
+            $encours =  $tool->encours_actualiser($credit->id);
+
+            $today = Carbon::today();
+
+            if ($encours > 0){
+                $recouv = Recouvrement::where('date', Carbon::today())->where('credit_id', $credit->id)->latest()->first();
+                $recouvDate = $carbon->parse($recouv?->date);
+                $diffInDays = $today->diffInDays($recouvDate);
+                if($diffInDays >= 5){
+                    $prCreditIds[] = $credit->id;
+                }
+
+                if($diffInDays == 1){
+                    $prCreditIds[] = $credit->id;
+                }
+            }
+
+        }
+
+        $creditsPrs = Credit::whereIn('id', $prCreditIds)->get();
+
+        return view('reporting.pr',[
+            'creditsPrs' => $creditsPrs
+        ]);
     }
 
 

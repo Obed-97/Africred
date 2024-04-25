@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Rapport d'activité</title>
+        <title>Recouvrement en retard</title>
         <style media="screen">
             .clearfix:after {
                 content: "";
@@ -186,6 +186,10 @@
         </style>
     </head>
     <body>
+        @php
+            use App\Services\Tool;
+            $tool = new Tool();
+        @endphp
         <header class="clearfix">
             <div id="logo">
                 <img src="https://africa-africred.com/media/Logo%20AfriCRED1.png">
@@ -195,26 +199,51 @@
             </div>
         </header>
         <main>
-            <x-reporting-component
-                com1="{{ $coom1 }}"
-                com2="{{ $coom2 }}"
-                com3="{{ $coom3 }}"
-                com4="{{ $coom4 }}"
-                com5="{{ $coom5 }}"
-                com6="{{ $coom6 }}"
-                com7="{{ $coom7 }}"
-                com8="{{ $coom8 }}"
-                com9="{{ $coom9 }}"
-                com10="{{ $coom10 }}"
-                com11="{{ $coom11 }}"
-                com12="{{ $coom12 }}"
-                com13="{{ $coom13 }}"
-                com14="{{ $coom14 }}"
-                com15="{{ $coom15 }}"
-            />
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-left mb-4">
+                                Recouvrement en retard de 1 à 5 jours
+                            </h1>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <table border="0" cellspacing="0" cellpadding="0">
+                                        <thead>
+                                            <tr>
+                                                <th class="no">#</th>
+                                                <th class="no">Client</th>
+                                                <th class="no">Montant</th>
+                                                <th class="no">Montant par jour</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($creditsPrs as $creditsPr)
+                                            <tr>
+                                                <td class="n1">{{ $creditsPr->id }}</td>
+                                                <td class="n1">{{ $creditsPr->Client['nom_prenom'] }}</td>
+                                                <td class="n1">{{ $tool->numberFormat($creditsPr->montant) }}</td>
+                                                <td class="n1">{{ $tool->numberFormat($creditsPr->montant_par_jour) }}</td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td class="n1">Vide</td>
+                                                <td class="n1">Vide</td>
+                                                <td class="n1">Vide</td>
+                                                <td class="n1">Vide</td>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
-        <footer>
-            {{-- Ceci est une facture digitale et est valable sans la signature et le cachet. --}}
-        </footer>
+
     </body>
 </html>
+
+

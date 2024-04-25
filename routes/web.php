@@ -48,6 +48,8 @@ use App\Models\User;
 |
 */
 
+Route::get('/recouv/en/retards', [ReportingController::class, 'pr'])->name('pr');
+
 //make a push notification.
 Route::get('/push/key',[PushController::class, 'key'])->name('push');
 //store a push subscriber.

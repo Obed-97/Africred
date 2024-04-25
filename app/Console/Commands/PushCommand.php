@@ -38,54 +38,44 @@ class PushCommand extends Command
 
         $pr = 0;
         $ps = 0;
-        $pi = 0;
 
-        $credits = Credit::where('statut', 'Accordé')->get();
+        $credits = Credit::where('statut', 'Accordé')->whereYear('created_at', date('Y'))->get();
 
         foreach($credits as $credit){
 
-            $enDate = $carbon->parse($credit->date_fin);
+            // $enDate = $carbon->parse($credit->date_fin);
             $encours =  $tool->encours_actualiser($credit->id);
 
+            $today = Carbon::today();
+
             if ($encours > 0){
-                if($enDate->isPast()){
-                    $pr += 1;
+                $recouv = Recouvrement::where('date', Carbon::today())->where('credit_id', $credit->id)->latest()->first();
+                $recouvDate = $carbon->parse($recouv?->date);
+                $diffInDays = $today->diffInDays($recouvDate);
+                if($diffInDays >= 5){
+                    $pr = $pr + 1;
                 }
-            }
 
-            if ($encours == 0){
-                $ps += 1;
-            }
-
-            $recouv = Recouvrement::where('date', Carbon::today())->where('credit_id', $credit->id)->first();
-
-            if(isset($recouv)){
-                if($recouv->recouvrement_jrs > 0 || $recouv->interet_jrs > 0 || $recouv->epargne_jrs > 0){
-                    $pi += 1;
+                if($diffInDays == 1){
+                    $ps = $ps + 1;
                 }
+
             }
-
-
         }
 
         $pr = new PushNotif(
-            'Prêts en retard',
-            'Il y a '. $pr. ' prêts en retards !'
+            'Recouvrements en retards',
+            'Il y a '. $pr. ' prêts en retards de 5 jours !'
         );
+
         $tool->pushNotif($tool->managerUsers(), $pr);
 
         $pr = new PushNotif(
-            'Prêts en solder',
-            'Il y a '. $ps. ' prêts soldés !'
+            'Recouvrements en retards',
+            'Il y a '. $ps. ' prêts en retards de 1 jours !'
         );
-        $tool->pushNotif($tool->managerUsers(), $pr);
 
-        $pr = new PushNotif(
-            'Prêts impayées',
-            'Il y a '. $pi. ' prêts impayées !'
-        );
         $tool->pushNotif($tool->managerUsers(), $pr);
-
 
     }
 }
