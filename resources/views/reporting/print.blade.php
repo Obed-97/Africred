@@ -218,7 +218,23 @@
             </div>
         </header>
         <main>
-            <x-reporting-component />
+            <x-reporting-component
+                com1="{{ $coom1 }}"
+                com2="{{ $coom2 }}"
+                com3="{{ $coom3 }}"
+                com4="{{ $coom4 }}"
+                com5="{{ $coom5 }}"
+                com6="{{ $coom6 }}"
+                com7="{{ $coom7 }}"
+                com8="{{ $coom8 }}"
+                com9="{{ $coom9 }}"
+                com10="{{ $coom10 }}"
+                com11="{{ $coom11 }}"
+                com12="{{ $coom12 }}"
+                com13="{{ $coom13 }}"
+                com14="{{ $coom14 }}"
+                com15="{{ $coom15 }}"
+            />
         </main>
         <footer>
             {{-- Ceci est une facture digitale et est valable sans la signature et le cachet. --}}

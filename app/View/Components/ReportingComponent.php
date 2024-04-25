@@ -10,14 +10,33 @@ use Illuminate\View\Component;
 
 class ReportingComponent extends Component
 {
+
+    public $com1, $com2, $com3, $com4, $com5, $com6, $com7, $com8, $com9, $com10, $com11, $com12, $com13, $com14, $com15;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+     $com1, $com2, $com3, $com4, $com5, $com6, $com7, $com8, $com9, $com10, $com11, $com12, $com13, $com14, $com15
+    )
     {
-        //
+        $this->com1 = $com1;
+        $this->com2 = $com2;
+        $this->com3 = $com3;
+        $this->com4 = $com4;
+        $this->com5 = $com5;
+        $this->com6 = $com6;
+        $this->com7 = $com7;
+        $this->com8 = $com8;
+        $this->com9 = $com9;
+        $this->com10 = $com10;
+        $this->com11 = $com11;
+        $this->com12 = $com12;
+        $this->com13 = $com13;
+        $this->com14 = $com14;
+        $this->com15 = $com15;
+
     }
 
     //esi
@@ -135,7 +154,22 @@ class ReportingComponent extends Component
             'lastTotalWeekTypeCredits' => $this->lastTotalWeekTypeCredit(),
             'markets' => $this->market(),
             'day' => $this->month(),
-            'marketTypes' => Type::get()
+            'marketTypes' => Type::get(),
+            'coom1' => $this->com1,
+            'coom2' => $this->com2,
+            'coom3' => $this->com3,
+            'coom4' => $this->com4,
+            'coom5' => $this->com5,
+            'coom6' => $this->com6,
+            'coom7' => $this->com7,
+            'coom8' => $this->com8,
+            'coom9' => $this->com9,
+            'coom10' => $this->com10,
+            'coom11' => $this->com11,
+            'coom12' => $this->com12,
+            'coom13' => $this->com13,
+            'coom14' => $this->com14,
+            'coom15' => $this->com15,
         ]);
     }
 }

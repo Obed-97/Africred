@@ -23,14 +23,52 @@ class ReportingController extends Controller
      */
     public function index()
     {
-        return view('reporting.reporting');
+        return view('reporting.reporting', [
+            'coom1' => '' ,
+            'coom2' => '' ,
+            'coom3' => '' ,
+            'coom4' => '' ,
+            'coom5' => '' ,
+            'coom6' => '' ,
+            'coom7' => '' ,
+            'coom8' => '' ,
+            'coom9' => '' ,
+            'coom10' => '' ,
+            'coom11' => '' ,
+            'coom12' => '' ,
+            'coom13' => '' ,
+            'coom14' => '' ,
+            'coom15' => '' ,
+        ]);
     }
 
 
-    public function print()
+    public function print(Request $request)
     {
-        $pdf = Pdf::loadView('reporting.print', []);
+        // dd($request);
+        $pdf = Pdf::loadView('reporting.print', [
+
+        // return view('reporting.print', [
+
+            'coom1' => $request->com1,
+            'coom2' => $request->com2,
+            'coom3' => $request->com3,
+            'coom4' => $request->com4,
+            'coom5' => $request->com5,
+            'coom6' => $request->com6,
+            'coom7' => $request->com7,
+            'coom8' => $request->com8,
+            'coom9' => $request->com9,
+            'coom10' => $request->com10,
+            'coom11' => $request->com11,
+            'coom12' => $request->com12,
+            'coom13' => $request->com13,
+            'coom14' => $request->com14,
+            'coom15' => $request->com15,
+        ]);
         return $pdf->download('dddd.pdf');
+
+
     }
 
 

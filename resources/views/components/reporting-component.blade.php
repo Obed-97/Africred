@@ -180,20 +180,42 @@
             font-size: 1em;
         }
     </style>
-    <div class="row"
-    x-data="{
+    <div class="row" x-data="{
         com1: '', com2: '', com3: '', com4: '', com5: '', com6: '',
         com12: '',com11: '', com10: '', com9: '', com8: '', com7: '',
         com13: '', com14: '', com15: ''
-    }"
-    >
+    }">
 
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xl-12">
-                            <a class="btn btn-primary  waves-effect waves-light" href="{{ route('print') }}">IMPRIMER</a>
+                            <form action="{{ route('print') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="com1" x-model="com1">
+                                <input type="hidden" name="com2" x-model="com2">
+                                <input type="hidden" name="com3" x-model="com3">
+                                <input type="hidden" name="com4" x-model="com4">
+                                <input type="hidden" name="com5" x-model="com5">
+                                <input type="hidden" name="com6" x-model="com6">
+                                <input type="hidden" name="com7" x-model="com7">
+                                <input type="hidden" name="com8" x-model="com8">
+                                <input type="hidden" name="com9" x-model="com9">
+                                <input type="hidden" name="com10" x-model="com10">
+                                <input type="hidden" name="com11" x-model="com11">
+                                <input type="hidden" name="com12" x-model="com12">
+                                <input type="hidden" name="com13" x-model="com13">
+                                <input type="hidden" name="com14" x-model="com14">
+                                <input type="hidden" name="com15" x-model="com15">
+                                @if ($coom1 !== '')
+
+                                @else
+                                <button type="submit"
+                                class="btn btn-primary waves-effect waves-light">Africred</button>
+                                @endif
+
+                            </form>
                         </div>
                     </div>
                     <br>
@@ -298,22 +320,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com1"></p>
-                    <textarea  class="form-control"  x-model="com1"></textarea>
-                    <p>
-                        @php
-                        $se = $currentTotalWeekTypeCredits->sum('montant') - $lastTotalWeekTypeCredits->sum('montant');
-                        @endphp
-                        @if($se < 0) Cette semaine l’encours sans intérêt a baissé de  {{ $tool->
-                            numberFormat(abs($currentTotalWeekTypeCredits->sum('montant') -
-                            $lastTotalWeekTypeCredits->sum('montant'))) }}, ce qui signifie que nous avons
-                            pas fait assez de déblocage cette semaine par rapport à la semaine passée.
-                            {{-- Sur le capital de {{ $tool->numberFormat($lastTotalWeekTypeCredits->sum('montant')) }}
-                            --}}
-                            {{-- 1.611.275 CFA représente le capital à recouvrir sur les
-                            crédits en difficultés de paiement et 54.135.825 CFA de capital en mouvement. --}}
-                            @endif
-                    </p>
+                    @if( $coom1 !== '')
+                    <p>{{ $coom1 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com1"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Encours Global
@@ -404,8 +415,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com2"></p>
-                    <textarea  class="form-control"  x-model="com2"></textarea>
+                    @if( $coom2 !== '')
+                    <p>{{ $coom2 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com2"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Tableau Comparatif des encours de crédit
@@ -499,8 +513,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com3"></p>
-                    <textarea  class="form-control"  x-model="com3"></textarea>
+                    @if( $coom3 !== '')
+                    <p>{{ $coom3 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com3"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Budget d’exploitation/Produit
@@ -641,8 +658,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com4"></p>
-                    <textarea  class="form-control"  x-model="com4"></textarea>
+                    @if( $coom4 !== '')
+                    <p>{{ $coom4 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com4"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Budget d’exploitation/Rentablité par marché
@@ -754,8 +774,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com5"></p>
-                    <textarea  class="form-control"  x-model="com5"></textarea>
+                    @if( $coom5 !== '')
+                    <p>{{ $coom5 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com5"></textarea>
+                    @endif
                     <br>
                     <br>
                     <h1 class="card-title text-left mb-4">
@@ -845,8 +868,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com6"></p>
-                    <textarea  class="form-control"  x-model="com6"></textarea>
+                    @if( $coom6 !== '')
+                    <p>{{ $coom6 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com6"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Résultat opérationnel (EBITDA)
@@ -1010,8 +1036,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com7"></p>
-                    <textarea  class="form-control"  x-model="com7"></textarea>
+                    @if( $coom7 !== '')
+                    <p>{{ $coom7 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com7"></textarea>
+                    @endif
                     <br>
                     <br>
                     <h1 class="card-title text-left mb-4">
@@ -1128,8 +1157,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com8"></p>
-                    <textarea  class="form-control"  x-model="com8"></textarea>
+                    @if( $coom8 !== '')
+                    <p>{{ $coom8 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com8"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Recouvrements produits
@@ -1245,8 +1277,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com9"></p>
-                    <textarea  class="form-control"  x-model="com9"></textarea>
+                    @if( $coom9 !== '')
+                    <p>{{ $coom9 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com9"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Recouvrement épargnes
@@ -1362,8 +1397,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com10"></p>
-                    <textarea  class="form-control"  x-model="com10"></textarea>
+                    @if( $coom10 !== '')
+                    <p>{{ $coom10 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com10"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Recouvrement Global
@@ -1480,8 +1518,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com11"></p>
-                    <textarea  class="form-control"  x-model="com11"></textarea>
+                    @if( $coom11 !== '')
+                    <p>{{ $coom11 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com11"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Encaissement
@@ -1777,8 +1818,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com12"></p>
-                    <textarea  class="form-control"  x-model="com12"></textarea>
+                    @if( $coom12 !== '')
+                    <p>{{ $coom12 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com12"></textarea>
+                    @endif
                     <br>
                     <h1 class="card-title text-left mb-4">
                         Décaissements
@@ -2141,14 +2185,19 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com13"></p>
-                    <textarea  class="form-control"  x-model="com13"></textarea>
+                    @if( $coom13 !== '')
+                    <p>{{ $coom13 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com13"></textarea>
+                    @endif
                     <br>
-                     <h1 class="card-title text-left mb-4">
+                    <h1 class="card-title text-left mb-4">
                         Trésorie
                     </h1>
                     <p>
-                        La trésorerie fait référence aux liquidités disponibles, c’est-à-dire à l’argent en caisse et dans les comptes bancaires. Elle représente la capacité de l’entreprise à répondre à ses obligations financières à court terme.
+                        La trésorerie fait référence aux liquidités disponibles, c’est-à-dire à l’argent en caisse et
+                        dans les comptes bancaires. Elle représente la capacité de l’entreprise à répondre à ses
+                        obligations financières à court terme.
                         Le tableau ci-dessous nous donne l’état de la trésorerie à la date de ce présent rapport.
                     </p>
 
@@ -2259,8 +2308,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com14"></p>
-                    <textarea  class="form-control"  x-model="com14"></textarea>
+                    @if( $coom14 !== '')
+                    <p>{{ $coom14 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com14"></textarea>
+                    @endif
                     <br>
 
 
@@ -2345,8 +2397,11 @@
                     <h1 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    <p x-text="com15"></p>
-                    <textarea  class="form-control"  x-model="com15"></textarea>
+                    @if( $coom15 !== '')
+                    <p>{{ $coom15 }}</p>
+                    @else
+                    <textarea class="form-control" x-model="com15"></textarea>
+                    @endif
                     <br>
                 </div>
             </div>
