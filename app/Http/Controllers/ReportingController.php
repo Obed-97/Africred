@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Services\Tool;
 use Barryvdh\DomPDF\Facade\Pdf;
     use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 class ReportingController extends Controller
 {
@@ -67,9 +68,7 @@ class ReportingController extends Controller
             'coom14' => $request->com14,
             'coom15' => $request->com15,
         ]);
-        return $pdf->download('dddd.pdf');
-
-
+        return $pdf->download(Date::now()->format('d/m/y').'ra.pdf');
     }
 
     public function pr()

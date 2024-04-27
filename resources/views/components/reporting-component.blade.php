@@ -208,7 +208,7 @@
                                 <input type="hidden" name="com13" x-model="com13">
                                 <input type="hidden" name="com14" x-model="com14">
                                 <input type="hidden" name="com15" x-model="com15">
-                                @if ($coom1 !== '')
+                                @if( Route::currentRouteName() == 'print')
 
                                 @else
                                 <button type="submit"
@@ -320,7 +320,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom1 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom1 }}</p>
                     @else
                     <textarea class="form-control" x-model="com1"></textarea>
@@ -415,7 +415,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom2 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom2 }}</p>
                     @else
                     <textarea class="form-control" x-model="com2"></textarea>
@@ -513,7 +513,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom3 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom3 }}</p>
                     @else
                     <textarea class="form-control" x-model="com3"></textarea>
@@ -658,7 +658,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom4 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom4 }}</p>
                     @else
                     <textarea class="form-control" x-model="com4"></textarea>
@@ -667,6 +667,7 @@
                     <h4 class="card-title text-left mb-4">
                         Budget d’exploitation/Rentablité par marché
                     </h1>
+                    <br>
                     <div class="row">
                         <div class="col-xl-12">
                             <table border="0" cellspacing="0" cellpadding="0">
@@ -774,7 +775,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom5 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom5 }}</p>
                     @else
                     <textarea class="form-control" x-model="com5"></textarea>
@@ -868,7 +869,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom6 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom6 }}</p>
                     @else
                     <textarea class="form-control" x-model="com6"></textarea>
@@ -1036,7 +1037,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom7 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom7 }}</p>
                     @else
                     <textarea class="form-control" x-model="com7"></textarea>
@@ -1157,7 +1158,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom8 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom8 }}</p>
                     @else
                     <textarea class="form-control" x-model="com8"></textarea>
@@ -1277,7 +1278,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom9 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom9 }}</p>
                     @else
                     <textarea class="form-control" x-model="com9"></textarea>
@@ -1397,7 +1398,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom10 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom10 }}</p>
                     @else
                     <textarea class="form-control" x-model="com10"></textarea>
@@ -1518,7 +1519,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom11 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom11 }}</p>
                     @else
                     <textarea class="form-control" x-model="com11"></textarea>
@@ -1818,7 +1819,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom12 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom12 }}</p>
                     @else
                     <textarea class="form-control" x-model="com12"></textarea>
@@ -2185,7 +2186,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom13 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom13 }}</p>
                     @else
                     <textarea class="form-control" x-model="com13"></textarea>
@@ -2308,7 +2309,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom14 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom14 }}</p>
                     @else
                     <textarea class="form-control" x-model="com14"></textarea>
@@ -2397,7 +2398,7 @@
                     <h4 class="card-title text-left mb-4">
                         Commentaires
                     </h1>
-                    @if( $coom15 !== '')
+                    @if( Route::currentRouteName() == 'print')
                     <p>{{ $coom15 }}</p>
                     @else
                     <textarea class="form-control" x-model="com15"></textarea>
