@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `afric1878375_1mru5`
 --
-CREATE DATABASE IF NOT EXISTS `africred` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `africred`;
+CREATE DATABASE IF NOT EXISTS `gc` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `gc`;
 
 -- --------------------------------------------------------
 
