@@ -316,87 +316,7 @@
                 @endif
                 <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light" id="web">ÉTAT GLOBAL</a></div>
             </div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="row">
-                            <div class="col-md-3" >
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Nouveaux comptes</p>
-                                                <h4 class="mb-0">{{count($clients)}} </h4>
-                                            </div>
-                                            <div class="text-primary">
-                                                <i class="ri-bank-card-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
-                            <div class="col-md-3" >
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}}</h4>
-                                            </div>
-                                            <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
-                            <div class="col-md-3" >
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}}</h4>
-                                            </div>
-                                            <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
-
-                            <div class="col-md-3" >
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}}</h4>
-                                            </div>
-                                            <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                   
-                                </div>
-                            </div>
-                            
-                            
-                        </div>
-                    </div>
-                </div>
-
-               
-                
-            </div>
+            
             <div class="row" id="web">
                 <div class="col-xl-8" >
                     <div id="container" class="mb-4"></div>
@@ -922,7 +842,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0"> ADMINISTRATION</h4>
-    
+                        
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0"> 
                                 
@@ -931,6 +851,87 @@
     
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="row">
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Nouveaux comptes</p>
+                                                <h4 class="mb-0">{{count($clients)}} </h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class="ri-bank-card-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}}</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}}</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" >
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
+                                                <h4 class="mb-0">{{count($agents)}}</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class=" ri-team-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                   
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+               
+                
             </div>
             <!-- end page title -->
 
