@@ -186,6 +186,7 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
+        MarvinLabs\DiscordLogger\ServiceProvider::class,
 
         /*
          * Application Service Providers...
