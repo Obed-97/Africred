@@ -250,7 +250,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
-                            <div class="col-md-4" >
+                            <div class="col-md-3" >
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media">
@@ -267,7 +267,7 @@
                                    
                                 </div>
                             </div>
-                            <div class="col-md-4" >
+                            <div class="col-md-3" >
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media">
@@ -285,16 +285,30 @@
                                 </div>
                             </div>
 
-                            
+                            <div class="col-md-3" >
+                                <div class="card bg-success">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-white font-size-14 mb-2">Trésorerie</p>
+                                                <h4 class="mb-0 text-white">{{number_format(($encaissements->sum('montant') - ($decaissements->sum('montant'))) + ($depots->sum('montant') - ($retraits->sum('montant'))), 0, ',', ' ') }} CFA</h4>
+                                            </div>
+                                            <div class="text-white">
+                                                <i class=" ri-line-chart-fill font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>  
-@elseif(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 6)
+@elseif(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
              <!-- end page title -->
             <div class="row mb-4">
-             @if(auth()->user()->role_id == 1)
+             @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
              <div class="col-xl-2" id="web">
                  <a  class="btn btn-info btn-block text-white  waves-effect waves-light" data-toggle="modal" data-target="#Backdrop1">RAPPORT</a>
              </div>
@@ -309,14 +323,13 @@
                     <div class="col-xl-2"><button type="submit"  class="btn btn-primary  waves-effect waves-light"><i class=" ri-search-2-line"></i> </div>
                 </form>
              </div>
-                @if(auth()->user()->role_id == 1)
+                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                 <div class="col-xl-2"><a href="#" class="btn btn-info btn-block  waves-effect waves-light" data-toggle="modal" data-target="#performance" id="web">PERFORMANCE</a></div>
                 @else
                 <div class="col-xl-4"></div>
                 @endif
                 <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light" id="web">ÉTAT GLOBAL</a></div>
             </div>
-            
             <div class="row" id="web">
                 <div class="col-xl-8" >
                     <div id="container" class="mb-4"></div>
@@ -337,28 +350,28 @@
                                             <p class="text-black font-size-14 mb-4"><b>Total Recouvrement & Frais</b></p>
                                             <div class="row">
                                                 <div class="col-9">
-                                                    <p class="mb-2"> Aujourd'hui : <b>{{number_format(($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hier : <b>{{number_format(($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')), 0, ',', ' ')}} CFA</b></p>
-                                                    <p class="mb-2"> &nbsp; Avant-hier : <b>{{number_format(($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2"> Aujourd'hui : <b>{{number_format(($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte') + $epargne->sum('depot') ), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hier : <b>{{number_format(($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte') + $epargne_hier->sum('depot')), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2"> &nbsp; Avant-hier : <b>{{number_format(($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')+ $epargne_av_hier->sum('depot')), 0, ',', ' ')}} CFA</b></p>
                                                 </div>
                                                 <div class="col-0">
                                                 @if($totalCapitalParJour > 0)
-                                                    @if (((($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')) / ($totalMontantParJour)) * 100) < 50)
-                                                     <p class="mb-1 " > <i class="ri-arrow-down-line font-size-15 text-danger"></i> {{number_format(((($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')) / ($totalMontantParJour)) * 100), 0, ',', ' ')}} % </p>
-                                                    @elseif(((($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')) / ($totalMontantParJour)) * 100) >= 50)
-                                                     <p class="mb-1 " > <i class="ri-arrow-up-line font-size-15 text-success"></i> {{number_format(((($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')) / ($totalMontantParJour)) * 100), 0, ',', ' ')}} % </p>
+                                                    @if (((($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) < 50)
+                                                     <p class="mb-1 " > <i class="ri-arrow-down-line font-size-15 text-danger"></i> {{number_format(((($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
+                                                    @elseif(((($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) >= 50)
+                                                     <p class="mb-1 " > <i class="ri-arrow-up-line font-size-15 text-success"></i> {{number_format(((($recouvrements->sum('recouvrement_jrs') + $recouvrements->sum('interet_jrs') + $recouvrements->sum('epargne_jrs') + $recouvrements->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
                                                     @endif
 
-                                                    @if (((($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')) / ($totalMontantParJour)) * 100) < 50)
-                                                     <p class="mb-1" ><i class="ri-arrow-down-line font-size-15 text-danger"></i> {{number_format(((($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')) / ($totalMontantParJour)) * 100), 0, ',', ' ')}} % </p>
-                                                    @elseif(((($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')) / ($totalMontantParJour)) * 100) >= 50)
-                                                     <p class="mb-1" ><i class="ri-arrow-up-line font-size-15 text-success"></i> {{number_format(((($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')) / ($totalMontantParJour)) * 100), 0, ',', ' ')}} % </p>
+                                                    @if (((($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) < 50)
+                                                     <p class="mb-1" ><i class="ri-arrow-down-line font-size-15 text-danger"></i> {{number_format(((($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
+                                                    @elseif(((($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) >= 50)
+                                                     <p class="mb-1" ><i class="ri-arrow-up-line font-size-15 text-success"></i> {{number_format(((($hier->sum('recouvrement_jrs') + $hier->sum('interet_jrs') + $hier->sum('epargne_jrs') + $hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
                                                     @endif
 
-                                                    @if (((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalMontantParJour)) * 100) < 50)
-                                                     <p class="mb-1" ><i class="ri-arrow-down-line font-size-15 text-danger"></i>  {{number_format(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalMontantParJour)) * 100), 0, ',', ' ')}} % </p>
-                                                    @elseif(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalMontantParJour)) * 100) >= 50)    
-                                                     <p class="mb-1" ><i class="ri-arrow-up-line font-size-15 text-success"></i>  {{number_format(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalMontantParJour)) * 100), 0, ',', ' ')}} % </p>
+                                                    @if (((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) < 50)
+                                                     <p class="mb-1" ><i class="ri-arrow-down-line font-size-15 text-danger"></i>  {{number_format(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
+                                                    @elseif(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) >= 50)    
+                                                     <p class="mb-1" ><i class="ri-arrow-up-line font-size-15 text-success"></i>  {{number_format(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
                                                     @endif
                                                 @elseif($totalCapitalParJour == 0)    
                                                     <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
@@ -377,7 +390,7 @@
                                 <div class="card-body border-top py-3">
                                     <div class="text-white">
                                         <span class="ml-2 ">Prévision :</span>
-                                        <span class="badge badge-soft-success font-size-16 mr-2">{{number_format($totalMontantParJour , 0, ',', ' ')}} CFA </span> |
+                                        <span class="badge badge-soft-success font-size-16 mr-2">{{number_format($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour, 0, ',', ' ')}} CFA </span> |
                                         <span class="ml-2">AB-SUGU :</span>
                                         <span class="badge badge-soft-success font-size-16">{{number_format(($ab_sugu->sum('recouvrement_jrs') + $ab_sugu->sum('interet_jrs') + $ab_sugu->sum('epargne_jrs')), 0, ',', ' ')}} CFA </span>
                                     </div>
@@ -771,8 +784,14 @@
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body overflow-hidden">
-                                            <p class="text-white font-size-14 mb-2">Solde épargne</p>
-                                            <h4 class="mb-0 text-white">{{number_format(($epargne->sum('depot')) - ($epargne->sum('retrait')), 0, ',', ' ')}} CFA</h4>
+                                            <p class="text-white font-size-14 mb-4">Épargne plus</p>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="mb-2 text-white"> Aujourd'hui : <b>{{number_format(($epargne->sum('depot')) - ($epargne->sum('retrait')), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2 text-white"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hier : <b>{{number_format(($epargne_hier->sum('depot')) - ($epargne_hier->sum('retrait')), 0, ',', ' ')}} CFA</b></p>
+                                                    <p class="mb-2 text-white"> &nbsp; Avant-hier : <b>{{number_format(($epargne_av_hier->sum('depot')) - ($epargne_av_hier->sum('retrait')), 0, ',', ' ')}} CFA</b></p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="text-white">
                                             <i class="ri-funds-line font-size-24"></i>
@@ -842,7 +861,7 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0"> ADMINISTRATION</h4>
-                        
+    
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0"> 
                                 
@@ -852,6 +871,8 @@
                     </div>
                 </div>
             </div>
+            <!-- end page title -->
+
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -894,11 +915,11 @@
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}}</h4>
+                                                <p class="text-truncate font-size-14 mb-2">Marchés</p>
+                                                <h4 class="mb-0">{{count($marches)}} </h4>
                                             </div>
                                             <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
+                                                <i class="ri-store-2-line font-size-24"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -908,15 +929,15 @@
                             </div>
 
                             <div class="col-md-3" >
-                                <div class="card">
+                                <div class="card bg-success">
                                     <div class="card-body">
                                         <div class="media">
                                             <div class="media-body overflow-hidden">
-                                                <p class="text-truncate font-size-14 mb-2">Agents de terrain</p>
-                                                <h4 class="mb-0">{{count($agents)}}</h4>
+                                                <p class="text-white font-size-14 mb-2">Solde Banque</p>
+                                                <h4 class="mb-0 text-white">{{ number_format(($depots->sum('montant') - ($retraits->sum('montant'))), 0, ',', ' ')}} CFA</h4>
                                             </div>
-                                            <div class="text-primary">
-                                                <i class=" ri-team-line font-size-24"></i>
+                                            <div class="text-white">
+                                                <i class=" ri-bank-fill font-size-24"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -925,7 +946,6 @@
                                 </div>
                             </div>
                             
-                            
                         </div>
                     </div>
                 </div>
@@ -933,9 +953,6 @@
                
                 
             </div>
-            <!-- end page title -->
-
-            
         </div>  
  @elseif(auth()->user()->role_id == 7 )
    <div class="row">

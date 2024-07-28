@@ -1,4 +1,4 @@
-@section('title', $marche_libelle )
+@section('title', 'Perte')
 
 @extends('master')
 
@@ -10,6 +10,7 @@
         <div class="main-content">
             @php
                 $sum_capital_interet = 0;
+                $sum_recouvrement = 0;
                 $sum_capital = 0;
                 $sum_interet = 0;
                 $sum_epargne = 0;
@@ -22,16 +23,19 @@
                 foreach($credits as $credit){
                     $encours = $credit->encours($credit->montant_interet) + $encours;
                     $solde = $credit->solde($credit->montant) + $solde;
-                    $sum_capital = $credit->totalRecouv() + $sum_capital;
+                    $sum_recouvrement = $credit->totalRecouv() + $sum_recouvrement;
                     $sum_interet = $credit->totalIntreret() + $sum_interet;
                     $sum_epargne = $credit->totalEpargne() + $sum_epargne;
                     $sum_assurance = $credit->totalAssurance() + $sum_assurance;
                     $sum_retrait = $credit->totalRetrait() + $sum_retrait;
-                    $sum_capital_interet = $credit->montant_interet + $sum_capital_interet ;
+                    $sum_capital = $credit->montant + $sum_capital ;
                     $sum_frais_deblocage = $credit->frais_deblocage + $sum_frais_deblocage ;
                     $sum_frais_carte = $credit->frais_carte + $sum_frais_carte;
                     
                 }
+
+                $capital_encours = $sum_capital - $sum_recouvrement;
+
             @endphp
             <div class="page-content">
                 <div class="container-fluid">
@@ -45,7 +49,7 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                        <li class="breadcrumb-item active">Recouvrement Global</li>
+                                        <li class="breadcrumb-item active">Capital en perte</li>
                                     </ol>
                                 </div>
 
@@ -53,122 +57,9 @@
                         </div>
                     </div>
                     <!-- end page title -->
-                    <div class="row mb-4">
-                         <div class="col-4">
-                            <div class="card">
-                                <div class="card-body">
-                                     <div class="text-center  font-size-18 mb-4"><b> ARRÊTÉ &nbsp; DU &nbsp;<?php
-                                                                                        echo date('d-m-Y');
-                                                                                        ?> </b> </div> 
-                                    <table class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        
-    
-                                        <tbody style="text-transform: uppercase">
-                                            <tr>
-                                                <td>Marché</td>
-                                                <td class="text-right">{{$marche_libelle}}</td>
-                                            </tr>
-                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
-                                            <tr>
-                                                <td>Agent</td>
-                                                <td class="text-right">{{$agent_nom}}</td>
-                                            </tr>
-                                           @endif
-                                           <tr class="bg-secondary text-white">
-                                                <td>Encours S.I</td>
-                                                <td class="text-right ">{{number_format($solde, 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                            <tr class="bg-primary text-white">
-                                                <td>Intérêt</td>
-                                                <td class="text-right">{{number_format($encours - $solde, 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                           <tr class="bg-success text-white">
-                                                <td>Encours Global</td>
-                                                <td class="text-right">{{number_format($encours, 0, ',', ' ')}} CFA</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                   
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
-                        <div class="col-xl-6" id="web">
-                               
-                        </div>
-                        <div class="col-xl-2" id="web">
-                    
-                            <button type="button" class="btn btn-primary btn-block waves-effect waves-light" data-toggle="modal" data-target="#arrete">
-                                <i class="ri-survey-line  align-middle mr-2"></i> ÉTATS D'ARRÊTÉ
-                            </button>
-                            
-                        </div>
                         
                         
-                                 </div>
-                                    <div class="modal fade" id="arrete" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog" >
-                                                <form action="{{route('etat_recouvrement.store')}}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel"><i class="ri-survey-line  align-middle mr-2"></i> États d'arrêté</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="modal-body">
-                                                        
-                                                        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
-                                                            <div class="row">
-                                                                <div class="col-xl-6">
-                                                                     <div class="form-group">
-                                                                        <label>Marché</label>
-                                                                        <select class="form-control select2" name="marche_id" required>
-                                                                            @foreach ($marches as $item)
-                                                                            <option value="{{$item->id}}|{{$item->libelle}}">
-                                                                                {{$item->libelle}}
-                                                                            </option>
-                                                                           @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xl-6">
-                                                                     <div class="form-group ">
-                                                                        <label>Agent</label>
-                                                                        <select class="form-control select2" name="user_id" required>
-                                                                            @foreach ($agents as $item)
-                                                                            <option value="{{$item->id}}|{{$item->nom}}">
-                                                                                {{$item->nom}}
-                                                                            </option>
-                                                                           @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @else
-                                                            <div class="form-group">
-                                                                <label>Marché</label>
-                                                                <select class="form-control select2" name="marche_id" required>
-                                                                    @foreach ($marches as $item)
-                                                                    <option value="{{$item->id}}|{{$item->libelle}}">
-                                                                        {{$item->libelle}}
-                                                                    </option>
-                                                                   @endforeach
-                                                                </select>
-                                                            </div>
-                                                        @endif
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
-                                                        <button class="btn btn-primary waves-effect waves-light" type="submit"><i class="ri-survey-line  align-middle mr-2"></i> Arrêter</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            </div>
-                                        </div>
-                    <div class="row">
+                         <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
@@ -179,12 +70,12 @@
                                                 <th></th>
                                                 <th>N* Compte</th>
                                                 <th>Client</th>
+                                                <th>Marché</th>
                                                 <th>Sponsor</th>
                                                 <th>Date de début</th>
                                                 <th>Date de fin</th>
-                                                <th >Montant</th>
-                                                <th >Capital recouvré</th>
-                                                <th >Intérêt recouvré</th>
+                                                <th >Capital Initial</th>
+                                                <th >Capital encours</th>
                                                 <th >Épargne recouvrée</th>
                                                 
                                                 <th >Encours global</th>
@@ -206,6 +97,7 @@
                                                     <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                                     <td>ABF-{{$item->Client['id']}}</td>
                                                     <td>{{$item->Client['nom_prenom']}}</td>
+                                                    <td>{{$item->Marche['libelle']}}</td>
                                                     <td>{{$item->sponsor}}</td>
                                                     <td >{{(new DateTime($item->date_deblocage))->format('d-m-Y')}}</td>
                                                     @if($item->date_fin_r == NULL)
@@ -214,8 +106,7 @@
                                                     <td>{{(new DateTime($item->date_fin_r))->format('d-m-Y')}} </td>
                                                     @endif
                                                     <td >{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format($item->totalRecouv(), 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format($item->totalIntreret(), 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($item->montant - $item->totalRecouv(), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->totalEpargne() - $item->totalRetrait()), 0, ',', ' ')}} CFA</td>
                                                     
                                                    
@@ -290,9 +181,10 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td >{{number_format($sum_capital_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td></td>
                                                     <td >{{number_format($sum_capital, 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format($sum_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($capital_encours, 0, ',', ' ')}} CFA</td>
+                                                    
                                                     <td >{{number_format(($sum_epargne - $sum_retrait), 0, ',', ' ')}} CFA</td>
                                                     
                                                     <td >{{number_format($encours, 0, ',', ' ')}} CFA</td>

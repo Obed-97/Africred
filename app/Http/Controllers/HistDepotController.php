@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Depot;
 use App\Models\Client;
 use App\Models\Type_depot;
+use Carbon\Carbon;
 
 class HistDepotController extends Controller
 {
@@ -16,7 +17,7 @@ class HistDepotController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8) {
             $depots = Depot::get();
         }else {
             $depots = Depot::where('user_id', auth()->user()->id)->get();
@@ -67,7 +68,7 @@ class HistDepotController extends Controller
     {
         $clients = null;
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8) {
           $clients = Client::get();
         }else {
           $clients = Client::where('user_id', auth()->user()->id)->get();

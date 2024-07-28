@@ -59,7 +59,11 @@
                                     <div class="form-group ">
                                         <label>Activité <b class="text-danger">*</b></label>
                                         <div>
-                                            <input class="form-control" type="text" name="activite"  id="activite"  required>
+                                            <select class="form-control select2" name="activite" required>
+                                                <option value="Commerce" selected>Commerce </option>
+                                                <option value="Prestation de service">Prestation de service </option>
+                                                
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -119,6 +123,33 @@
                                         <label>Lieu de naissance <b class="text-danger">*</b></label>
                                         <div>
                                             <input class="form-control" type="text" name="lieu_n"  id="lieu_n" required >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group ">
+                                        <label>Filière d'activité <b class="text-danger">*</b></label>
+                                        <div>
+                                            <select class="form-control select2" name="filiere_id" required>
+                                                @foreach ($filieres as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->libelle }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group ">
+                                        <label>Secteur d'activité <b class="text-danger">*</b></label>
+                                        <div>
+                                            <select class="form-control select2" name="secteur_id" required>
+                                                @foreach ($secteurs as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->libelle }} </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

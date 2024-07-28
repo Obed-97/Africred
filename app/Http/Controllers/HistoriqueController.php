@@ -18,13 +18,13 @@ class HistoriqueController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $historiques = Recouvrement::whereDate('date', Carbon::today())->get();
           }else {
             $historiques = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
           }
          
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits = Credit::all();
           }else {
             $credits = Credit::where('user_id', auth()->user()->id)->get(); 
@@ -53,7 +53,7 @@ class HistoriqueController extends Controller
     {
         $date = $request->date;
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $historiques = Recouvrement::whereDate('date', $request->date)->get();
           }else {
             $historiques = Recouvrement::whereDate('date', $request->date)->where('user_id', auth()->user()->id)->get();
@@ -68,7 +68,7 @@ class HistoriqueController extends Controller
 
         $historiques = Recouvrement::where('credit_id', $credit_id)->get();
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits = Credit::all();
           }else {
             $credits = Credit::where('user_id', auth()->user()->id)->get(); 

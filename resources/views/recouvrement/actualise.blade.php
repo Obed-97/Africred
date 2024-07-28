@@ -160,21 +160,20 @@
                                         <thead>
                                             <tr>
                                                 <th></th>
+                                                <th>N* Compte</th>
                                                 <th>Client</th>
+                                                <th>Sponsor</th>
                                                 <td>Marché</td>
-                                                <td>Téléphone</td>
-                                                <th>Prêt + Intérêt</th>
-                                                <th>Capital recouvré</th>
-                                                <th>Intérêt recouvré</th>
-                                                <th>&Eacute;pargne recouvrée </th>
+                                                <th>Capital encours</th>
                                                 <th>Encours global</th>
+                                                <th>Épargne recouvrée</th>
                                                 <th>Date limite</th>
                                                 <th>Jours restant</th>
                                                 <th>Retard</th>
                                                 
                                                 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
                                                 <th>Agent</th>
-                                                <th>Agent</th>
+                                                
                                                 @endif
                                                 
                                             </tr>
@@ -186,6 +185,7 @@
                                             @foreach ($credits as $item)
                                                 <tr>
                                                     <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
+                                                    <td>ABF-{{$item->Client['id']}}</td>
                                                     <td style = "text-transform:uppercase;">
                                                         {{$item->Client['nom_prenom']}}
                                                         @if($item->reecheloner == 'oui')
@@ -194,25 +194,24 @@
                                                         
                                                         @endif
                                                     </td>
+                                                    <td>{{$item->sponsor}}</td>
                                                         @if($item->marche == '')
                                                          <td>  </td>
                                                         @else
                                                          <td>{{$item->Marche['libelle']}}</td>
                                                         @endif
-                                                    <td>{{$item->Client['telephone']}}</td>
+                                                   
                                                     <td>
                                                         
                                                         @if($item->n_montant == 0)
-                                                         {{number_format(($item->montant_interet), 0, ',', ' ')}} CFA 
+                                                         {{number_format(($item->montant), 0, ',', ' ')}} CFA 
                                                         @else
-                                                        <div class="badge badge-soft-danger font-size-14"> {{number_format(($item->montant_interet), 0, ',', ' ')}} CFA </div><br>
+                                                        <div class="badge badge-soft-danger font-size-14"> {{number_format(($item->montant), 0, ',', ' ')}} CFA </div><br>
                                                         <div class="badge badge-soft-success font-size-14"> {{number_format(($item->n_montant), 0, ',', ' ')}} CFA </div>
                                                         @endif
                                                     </td>
-                                                    <td >{{number_format($item->totalRecouv(), 0, ',', ' ')}} CFA</td>
-                                                  
-                                                    <td >{{number_format($item->totalIntreret(), 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format(($item->totalEpargne() - $item->totalRetrait()), 0, ',', ' ')}} CFA</td>
+                                                    
+                                                   
                                                     @if(($item->encours($item->montant_interet)) < 0 )
                                                     
                                                     <td  class="text-danger">{{number_format(($item->encours($item->montant_interet)), 0, ',', ' ')}} CFA  <div class="badge badge-soft-danger font-size-14">(Erreur)</div></td>
@@ -222,7 +221,9 @@
                                                     
                                                     <td >{{number_format($item->encours(($item->montant_interet)), 0, ',', ' ')}} CFA</td>
                                                     @endif
-                                                    
+
+                                                    <td >{{number_format(($item->totalEpargne() - $item->totalRetrait()), 0, ',', ' ')}} CFA</td>
+
                                                     @if($item->date_fin_r == NULL)
                                                     <td >{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
                                                     @else
@@ -231,17 +232,17 @@
                                                     
                                                     @if($item->date_fin_r == NULL)
                                                     
-                                                        @if ((\Carbon\Carbon::now() < $item->date_fin) && (\Carbon\Carbon::now()->diffInDays($item->date_fin) != 0))
-                                                            <td><div class="badge badge-soft-success font-size-14">{{\Carbon\Carbon::now()->diffInDays($item->date_fin)}} jours</div></td>
-                                                        @elseif(\Carbon\Carbon::now()->diffInDays($item->date_fin) == 0)
+                                                        @if ((\Carbon\Carbon::now()->subDays(8) < $item->date_fin) && (\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin) != 0))
+                                                            <td><div class="badge badge-soft-success font-size-14">{{\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin)}} jours</div></td>
+                                                        @elseif(\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin) == 0)
                                                             <td><div class="badge badge-soft-primary font-size-14">Aujourd'hui</div> </td>
                                                         @else
                                                             <td><div class="badge badge-soft-danger font-size-14">Délai expiré</div> </td>
                                                         @endif
                                                     @else
-                                                        @if ((\Carbon\Carbon::now() < $item->date_fin_r) && (\Carbon\Carbon::now()->diffInDays($item->date_fin_r) != 0))
-                                                            <td><div class="badge badge-soft-success font-size-14">{{\Carbon\Carbon::now()->diffInDays($item->date_fin_r)}} jours</div></td>
-                                                        @elseif(\Carbon\Carbon::now()->diffInDays($item->date_fin_r) == 0)
+                                                        @if ((\Carbon\Carbon::now()->subDays(8) < $item->date_fin_r) && (\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin_r) != 0))
+                                                            <td><div class="badge badge-soft-success font-size-14">{{\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin_r)}} jours</div></td>
+                                                        @elseif(\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin_r) == 0)
                                                             <td><div class="badge badge-soft-primary font-size-14">Aujourd'hui</div> </td>
                                                         @else
                                                             <td><div class="badge badge-soft-danger font-size-14">Délai expiré</div> </td>
@@ -250,15 +251,15 @@
                                                     
                                                     @if($item->date_fin_r == NULL)
 
-                                                        @if ((\Carbon\Carbon::now() > $item->date_fin) && (\Carbon\Carbon::now()->diffInDays($item->date_fin) != 0) && (intval(($item->encours(($item->montant_interet))))) != 0)
-                                                            <td><div class="badge badge-soft-danger font-size-14">{{\Carbon\Carbon::now()->diffInDays($item->date_fin)}} jours</div></td>
+                                                        @if ((\Carbon\Carbon::now()->subDays(8) > $item->date_fin) && (\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin) != 0) && (intval(($item->encours(($item->montant_interet))))) != 0)
+                                                            <td><div class="badge badge-soft-danger font-size-14">{{\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin)}} jours</div></td>
                                                         @else
                                                             <td><div class="badge badge-soft-success font-size-14">Pas de retard</div></td>
                                                         @endif
                                                     
                                                     @else
-                                                        @if ((\Carbon\Carbon::now() > $item->date_fin_r) && (\Carbon\Carbon::now()->diffInDays($item->date_fin_r) != 0) && (intval(($item->encours(($item->montant_interet))))) != 0)
-                                                            <td><div class="badge badge-soft-danger font-size-14">{{\Carbon\Carbon::now()->diffInDays($item->date_fin_r)}} jours</div></td>
+                                                        @if ((\Carbon\Carbon::now()->subDays(8) > $item->date_fin_r) && (\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin_r) != 0) && (intval(($item->encours(($item->montant_interet))))) != 0)
+                                                            <td><div class="badge badge-soft-danger font-size-14">{{\Carbon\Carbon::now()->subDays(8)->diffInDays($item->date_fin_r)}} jours</div></td>
                                                         @else
                                                             <td><div class="badge badge-soft-success font-size-14">Pas de retard</div></td>
                                                         @endif
@@ -266,7 +267,7 @@
                                                     
                                                     @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
                                                     <td><img src="/assets/images/users/{{$item->User['image']}}" alt="" class="rounded-circle avatar-sm"></td>
-                                                    <td>{{$item->User['nom']}}</td>
+                                                   
                                                     @endif
 
                                                 </tr>
@@ -276,17 +277,18 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td >{{number_format($sum_montant_interet, 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format($sum_montant , 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format($sum_interet, 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format($sum_epargne - $sum_retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td></td>
+                                                    <td >{{number_format($sum_montant, 0, ',', ' ')}} CFA</td>
+                                                   
                                                     <td >{{number_format($encours, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($sum_epargne - $sum_retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td ></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
                                                         <td></td>
-                                                        <td></td>
+                                                        
                                                     @endif                                                   
                                                 </tr>
                                         </tbody>

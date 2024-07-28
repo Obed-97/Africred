@@ -25,8 +25,8 @@ class Etat_actualiseController extends Controller
         $tool = new Tool();
         $credits = [];
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
-            $listes = Credit::where('statut', 'Accordé')->whereDate('date_fin','>', Carbon::today()->subDays(70))->orWhere('type_id', '2')->get();
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
+            $listes = Credit::where('statut', 'Accordé')->orWhere('type_id', '2')->get();
               
             foreach ($listes as $liste) {
 
@@ -51,7 +51,7 @@ class Etat_actualiseController extends Controller
             }
         }
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $encours = Credit::where('statut', 'Accordé')->get();
         } else {
             $encours = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
@@ -59,7 +59,7 @@ class Etat_actualiseController extends Controller
 
         $marches = Marche::get();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total = Recouvrement::get();
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
@@ -78,7 +78,7 @@ class Etat_actualiseController extends Controller
         $tool = new Tool();
         $credits = [];
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->where('marche_id', '!=' , 14)->whereDate('date_fin','<', Carbon::today()->subDays(30))->where('type_id', '1')->get();
               
             foreach ($listes as $liste) {
@@ -104,7 +104,7 @@ class Etat_actualiseController extends Controller
             }
         }
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $encours = Credit::where('statut', 'Accordé')->get();
         } else {
             $encours = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
@@ -112,7 +112,7 @@ class Etat_actualiseController extends Controller
 
         $marches = Marche::get();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total = Recouvrement::get();
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
@@ -205,3 +205,4 @@ class Etat_actualiseController extends Controller
         //
     }
 }
+

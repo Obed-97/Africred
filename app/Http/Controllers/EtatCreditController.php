@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Credit;
 use App\Models\Marche;
+use App\Models\User;
+use App\Models\Recouvrement;
 use Carbon\Carbon;
 use App\Services\Tool;
+
 
 class EtatCreditController extends Controller
 {
@@ -18,7 +21,7 @@ class EtatCreditController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
           }else {
             $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::today())->get();
@@ -31,6 +34,60 @@ class EtatCreditController extends Controller
         return view('credit.jour', compact('clients', 'credits','marches'));
     }
 
+    public function perte()
+    {
+        $tool = new Tool();
+        $credits = [];
+        
+    
+        if (auth()->user()->role_id == 1) {
+            $listes = Credit::where('statut', 'Accordé')->where('perte', 'oui')->where('type_id', '1')->get();
+              
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+        } else {
+            $listes = Credit::where('statut', 'Accordé')->where('perte', 'oui')->where('user_id', auth()->user()->id)->where('type_id', '1')->get();
+
+            foreach ($listes as $liste) {
+
+                $encours =  $tool->encours_actualiser($liste->id); 
+
+                if ($encours > 0){
+                    array_push($credits, $liste);
+                }
+
+            }
+        }
+        
+        
+
+        $marches = Marche::get();
+        $agents = User::where('role_id', '2')->get();
+        
+        
+        
+        if(auth()->user()->role_id == 1){
+            
+            $total = Recouvrement::get();
+            
+        }else{
+            
+            $total = Recouvrement::where('user_id', auth()->user()->id)->get(); 
+            
+        }
+
+       
+
+        return view('credit.perte', compact('credits', 'marches','agents','total'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -38,7 +95,7 @@ class EtatCreditController extends Controller
      */
     public function create()
     {
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits = Credit::selectRaw(
                 'user_id,
                  SUM(montant) as montant,
@@ -63,7 +120,7 @@ class EtatCreditController extends Controller
 
     public function marche()
     {
-         if (auth()->user()->role_id == 1) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits = Credit::selectRaw(
                 'marche_id,
                  SUM(montant) as montant,
@@ -112,7 +169,7 @@ class EtatCreditController extends Controller
         $credits = [];
         
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->whereBetween('date_deblocage', [$request->fdate, $request->sdate])->get();
             
             foreach ($listes as $liste) {
@@ -154,7 +211,7 @@ class EtatCreditController extends Controller
         $credits = [];
         
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->whereBetween('date_fin', [$request->fdate, $request->sdate])->get();
             
             foreach ($listes as $liste) {
@@ -218,7 +275,18 @@ class EtatCreditController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $credit = Credit::where('id', $id)->firstOrFail();
+
+        $statut = "oui";
+
+        $credit->update([
+            'perte'=>$statut,
+            
+        ]);
+
+        alert()->image('Crédit en perte!','Ce prêt a été mis en perte!','assets/images/payment.png','175','175');
+       
+        return redirect()->route('credit.index');
     }
 
     /**

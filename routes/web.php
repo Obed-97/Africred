@@ -33,6 +33,9 @@ use App\Http\Controllers\ArreteController;
 use App\Http\Controllers\ReportingController;
 use App\Http\Controllers\IndicateurController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\FiliereController;
+use App\Http\Controllers\MarcheController;
+use App\Http\Controllers\SecteurController;
 use App\Http\Controllers\TransfertController;
 use App\Http\Controllers\TauxController;
 
@@ -83,11 +86,16 @@ Route::resources([
     '/entreprise' => EntrepriseController::class,
     '/transfert' => TransfertController::class,
     '/taux' => TauxController::class,
+    '/les_marches' => MarcheController::class,
+    '/filieres' => FiliereController::class,
+    '/secteurs' => SecteurController::class,
 ]);
 
 Route::get('/afficher', [EtatRecouvrementController::class, 'affiche'])->name('etat_recouvrement.affiche');
 Route::get('/marche', [CreditController::class, 'marche'])->name('credit.marche');
 Route::get('/marche/jour', [EtatCreditController::class, 'marche'])->name('etat_credit.marche');
+
+Route::get('/credit_en_perte', [EtatCreditController::class, 'perte'])->name('etat_credit.perte');
 
 Route::get('/marche/client', [clientController::class, 'marche'])->name('client.marche');
 

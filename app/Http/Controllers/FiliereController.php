@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Client;
 use App\Models\Filiere;
 use App\Models\Marche;
-use App\Models\Secteur;
-use App\Models\User;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
 
-class EtatClientController extends Controller
+class FiliereController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,19 +15,11 @@ class EtatClientController extends Controller
      */
     public function index()
     {
-        $marches = Marche::all();
         $filieres = Filiere::all();
-        $secteurs = Secteur::all();
-        $clients = null;
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
-          $clients = Client::whereDate('created_at', Carbon::today())->get();
-        }else {
-          $clients = Client::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
-        }
-      
+        $marches = Marche::all();
 
-        return view('client.jour', compact('clients', 'marches', 'filieres', 'secteurs'));
+        return view('filieres.index', compact('filieres', 'marches'));
     }
 
     /**
@@ -52,20 +40,15 @@ class EtatClientController extends Controller
      */
     public function store(Request $request)
     {
-        $date1 = $request->fdate;
-        $date2 = $request->sdate;
+        $filiere = new Filiere;
+          
+        $filiere->create([
+            'libelle'=>$request->libelle,
+            'marche_id'=>$request->marche_id,
+            'description'=>$request->description,
+        ]);
 
-        $marches = Marche::all();
-        $clients = null;
-
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
-          $clients = Client::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
-        }else {
-          $clients = Client::whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
-        }
-      
-
-        return view('client.filtre', compact('clients', 'marches','date1','date2'));
+        return redirect()->route('filieres.index');
     }
 
     /**

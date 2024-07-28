@@ -208,7 +208,7 @@
                                             </div>
 
                                             <div class="modal-body">
-                                                @if(auth()->user()->role_id == 1)
+                                                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                                                     <div class="row">
                                                         <div class="col-xl-6">
                                                                 <div class="form-group">

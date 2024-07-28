@@ -1,5 +1,5 @@
 <!-- Left Sidebar End --> 
-@if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 6)
+@if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
 
@@ -28,12 +28,13 @@
                 <li>
                     <a  href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-wallet-fill"></i>
-                        <span>Crédits <div class="badge badge-soft-success font-size-12">{{$deblocages->count()}}</div></span>
+                        <span>Crédits </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('attente.index')}}"><i class="ri-stack-fill"></i> Liste d'attente <div class="badge badge-soft-warning font-size-12">{{$attentes->count()}}</div></a></li> 
+                        <li><a href="{{route('attente.index')}}"><i class="ri-stack-fill"></i> Liste d'attente </a></li> 
                         <li><a href="{{route('credit.index')}}"><i class="ri-hand-coin-fill"></i> Crédits encours </a></li> 
                         <li><a href="{{route('credit_solde.index')}}"><i class="ri-medal-fill"></i> Crédits soldés </a></li> 
+                        <li><a href="{{route('etat_credit.perte')}}" style="color: red"><i class="ri-alert-line text-danger"></i> Crédits en perte </a></li> 
                     </ul>
                 </li>
                 @if (auth()->user()->role_id == 2)
@@ -58,7 +59,7 @@
                    
                 </li>
 
-                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                 <li>
                     <a  href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-line-chart-fill"></i>
@@ -76,13 +77,13 @@
                 
                 <li>
                     <a href="{{route('depot.index')}}" class=" waves-effect">
-                        <i class="ri-arrow-up-down-fill"></i>
-                        <span>Dépôt - Retrait</span>
+                        <i class="ri-wallet-3-line text-success"></i>
+                        <span>Épargne plus</span>
                     </a>
                 </li>
 
                 <li class="menu-title">Administration</li>
-                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                @if (auth()->user()->role_id == 8)
                     <li>
                         <a href="{{route('personnel.index')}}" class="waves-effect">
                             <i class="ri-team-fill"></i>
@@ -94,7 +95,7 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class=" ri-bank-card-fill"></i>
-                        <span>Comptes <div class="badge badge-soft-success font-size-12">{{$comptes->count()}}</div></span>
+                        <span>Comptes </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('client.index')}}"><i class="ri-team-fill"></i> Clients</a></li> 
@@ -105,7 +106,7 @@
                    
                 </li>
               
-                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                @if (auth()->user()->role_id == 8 )
                 <li>
                     <a href="{{route('role.index')}}" class="waves-effect">
                         <i class="ri-computer-fill"></i>
@@ -116,18 +117,34 @@
                 @endif
                 
                
-                @if (auth()->user()->role_id == 1)
+                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                 <li class="menu-title">Extra</li>
                 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-repeat-fill"></i>
-                        <span>Transferts <div class="badge badge-soft-success font-size-12">{{$transferts->count()}}</div></span>
+                        <span>Transferts</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('transfert.index')}}"><i class="ri-stack-fill"></i> Les transactions</a></li> 
                    
                         <li><a href="{{route('taux.index')}}"><i class="ri-fingerprint-fill"></i> Les taux </a></li> 
+                    
+                    </ul>
+                   
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-stack-fill"></i>
+                        <span>Autres</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('les_marches.index')}}"><i class="ri-stack-fill"></i> Marchés</a></li> 
+                   
+                        <li><a href="{{route('filieres.index')}}"><i class="ri-fingerprint-fill"></i>Filières</a></li> 
+
+                        <li><a href="{{route('secteurs.index')}}"><i class="ri-fingerprint-fill"></i>Secteurs</a></li> 
                     
                     </ul>
                    
@@ -214,13 +231,3 @@
 </div>
 
 @endif
-
-
-
-
-
-
-
-
-
-

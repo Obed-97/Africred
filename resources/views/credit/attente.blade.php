@@ -40,15 +40,25 @@
                                     </div>
                                     
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">B&eacute;n&eacute;ficiaire</label>
-                                    <select class="form-control select2" name="client_id" required>
-                                       @foreach ($clients as $item)
-                                        <option value="{{$item->id}}|{{$item->marche_id}}|{{$item->type_compte_id}}|{{$item->sexe}}">{{$item->nom_prenom}}</option>
-                                       @endforeach
-                                    </select>
-                                    
-                                </div>
+                                <div class="row">
+                                   <div class="col-xl-6">
+                                       <label class="control-label">B&eacute;n&eacute;ficiaire</label>
+                                        <select class="form-control select2" name="client_id" required>
+                                           @foreach ($clients as $item)
+                                            <option value="{{$item->id}}|{{$item->marche_id}}|{{$item->type_compte_id}}|{{$item->sexe}}|{{$item->filiere_id}}|{{$item->secteur_id}}">{{$item->nom_prenom}}</option>
+                                           @endforeach
+                                        </select>
+                                   </div>
+                                   <div class="col-xl-6">
+                                       <div class="form-group ">
+                                            <label>Sponsor</label>
+                                            <div>
+                                                <input class="form-control"  type="text" name="sponsor"  id="sponsor" >
+                                            </div>
+                                        </div>
+                                   </div>
+                               </div>
+                                
                                <div class="row">
                                    <div class="col-xl-8">
                                        <div class="form-group ">
@@ -275,6 +285,7 @@
                                                
                                                 
                                                 <th>B&eacute;n&eacute;ficiaire</th>
+                                                <th>Sponsor</th>
                                                 <th>March&eacute;</th>
                                                 <th>Montant</th>
                                                 <th>Frais déblocage</th>
@@ -283,9 +294,7 @@
                                                 <th>Nbre jours</th>
                                             
                                                 <th>Statut</th>
-                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
-                                                        
-                                                        
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                         <th>Agent </th>
                                                     @endif
                                                    
@@ -302,6 +311,7 @@
                                                     <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                                     
                                                     <td style = "text-transform:uppercase;">{{$item->Client['nom_prenom']}}</td>
+                                                    <td style = "text-transform:uppercase;">{{$item->sponsor}}</td>
                                                     <td style = "text-transform:uppercase;">{{$item->Marche['libelle']}}</td>
                                                     <td >{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     @if ($item->statut == "Accordé")
@@ -316,10 +326,10 @@
                                                     <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     @endif
 
-                                                    @if(($item->date_deblocage) < ($item->date_fin) && ($item->date_deblocage) != NULL && ($item->date_fin) != NULL)
-                                                     <td >{{\Carbon\Carbon::createMidnightDate($item->date_deblocage)->diffInDays($item->date_fin)}} jours</td>
+                                                    @if(($item->date_deblocage) < ($item->date_fin))
+                                                     <td >{{$item->nbre_jrs}} jours</td>
                                                     @else
-                                                     <td>{{$item->nbre_jrs}} jours</td>
+                                                     <td class="text-primary"> À DÉFINIR</td>
                                                     @endif
                                                    
                                                    
@@ -334,32 +344,45 @@
                                                         </td>
                                                     @endif
                                                     
-                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                         
                                                         <td><img src="/assets/images/users/{{$item->User['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                                         
                                                     @endif
 
                                                     <td class="d-flex">
-                                                        @if (auth()->user()->role_id == 1 )
-                                                        
+                                                        @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
+                                                           @if($item->statut == 'Accordé')
+                                                            <form action="{{route('credit.show', $item->id)}}" method="GET" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-secondary btn-sm waves-effect waves-light mr-2 " >
+                                                                <i class="mdi mdi-eye font-size-18"></i>
+                                                            </button>
+                                                            </form>
+                                                            @endif
                                                             @if($item->statut == 'Accordé')
-                                                                 <button type="button" class="btn btn-sm btn-warning waves-effect waves-light mr-3">
-                                                                    <i class="ri-error-warning-line align-middle mr-2"></i> Annuler
+                                                                 <button type="button" class="btn btn-sm btn-warning waves-effect waves-light mr-2">
+                                                                    <i class="mdi mdi-restart font-size-18"></i>
                                                                 </button>
                                                             @else
                                                                 <button type="button" class="btn btn-success btn-sm waves-effect waves-light mr-2 deblocageBtn" value="{{$item->id}}"  data-toggle="modal" data-target="#date_deblocage">
-                                                                    <i class="ri-check-line align-middle mr-2"></i> Débloquer
+                                                                    <i class="mdi mdi-check font-size-18"></i>
                                                                 </button>
                                                                 
                                                             @endif
-                                                                <button  class="text-white btn-danger btn-rounded creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button> 
+                                                            @if (auth()->user()->role_id == 8 )
+                                                                <button  class="text-white btn btn-danger btn-sm waves-effect waves-light  creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button> 
+                                                            @endif
                                                         @elseif (auth()->user()->role_id == 2 )
-                                                                <button  class="text-white btn-danger btn-rounded creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button>
+                                                                <form action="{{route('credit.edit', $item->id)}}" method="GET" enctype="multipart/form-data">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-secondary btn-sm waves-effect waves-light mr-2 " >
+                                                                    <i class="mdi mdi-pencil font-size-18"></i>
+                                                                </button>
+                                                                </form>
+                                                
                                                         @endif
-                                                        
-                                                        
-                                                       
+                                                    
                                                     </td>
 
                                                 </tr>
@@ -384,7 +407,7 @@
                                   {{method_field('PUT')}}
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Date de déblocage</h5>
+                                            <h5 class="modal-title" id="staticBackdropLabel">Décision de crédit</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -396,6 +419,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <input type="date" name="date_deblocage" class="form-control"  required>
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea class="form-control"  name="note" id="" cols="30" rows="5">Insérer une note ici...</textarea>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

@@ -24,7 +24,7 @@ class EtatEncoursGlobalSIController extends Controller
         $tool = new Tool();
         $credits = [];
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->get();
               
             foreach ($listes as $liste) {
@@ -50,13 +50,13 @@ class EtatEncoursGlobalSIController extends Controller
             }
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $encours = Credit::where('statut', 'Accordé')->get();
         } else {
             $encours = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         }
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total = Recouvrement::get();
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();

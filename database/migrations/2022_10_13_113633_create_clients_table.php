@@ -25,6 +25,16 @@ return new class extends Migration
                 ->references('id')
                 ->on('marches')
                 ->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('filiere_id');
+            $table->foreign('filiere_id')
+                    ->references('id')
+                    ->on('filieres')
+                    ->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('secteur_id');
+            $table->foreign('secteur_id')
+                    ->references('id')
+                    ->on('secteurs')
+                    ->onDelete('cascade')->nullable();
             $table->string('carte_id')->nullable();
             $table->string('nom_prenom');
             $table->string('activite')->nullable();
