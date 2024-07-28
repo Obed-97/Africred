@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\Filiere;
 use App\Models\Marche;
+use App\Models\Secteur;
 use App\Models\User;
 use Image;
 
@@ -18,16 +20,18 @@ class ClientController extends Controller
     public function index()
     {
         $marches = Marche::all();
+        $filieres = Filiere::all();
+        $secteurs = Secteur::all();
         $clients = null;
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
           $clients = Client::where('type_compte_id', 1)->get();
         }else {
           $clients = Client::where('type_compte_id', 1)->where('user_id', auth()->user()->id)->get();
         }
       
 
-        return view('client.index', compact('clients', 'marches'));
+        return view('client.index', compact('clients', 'marches', 'filieres', 'secteurs'));
     }
 
     /**
@@ -39,7 +43,7 @@ class ClientController extends Controller
     {
         $marches = Marche::all();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $clients = Client::selectRaw(
                 'user_id,
                  COUNT(id) as id')
@@ -57,7 +61,7 @@ class ClientController extends Controller
     {
         $marches = Marche::all();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $clients = Client::selectRaw(
                 'marche_id,
                  COUNT(id) as id')
@@ -102,6 +106,8 @@ class ClientController extends Controller
             'telephone'=>$request->telephone,
             'adresse'=>$request->adresse,
             'marche_id'=>$request->marche_id,
+            'filiere_id'=>$request->filiere_id,
+            'secteur_id'=>$request->secteur_id,
             'ville'=>$request->ville,
             'date_n'=>$request->date_n,
             'lieu_n'=>$request->lieu_n,
@@ -201,14 +207,14 @@ class ClientController extends Controller
         
         $info = Client::where('id', $request->client_id)->first();
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $client = Client::get();
         }else {
             $client = Client::where('user_id', auth()->user()->id)->get();
         }
    
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $demande = Client::where('id', $request->client_id)->get();
         }else {
             $demande = Client::where('id', $request->client_id)->where('user_id', auth()->user()->id)->get();

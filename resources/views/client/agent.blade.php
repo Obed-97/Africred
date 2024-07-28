@@ -127,8 +127,6 @@
                                                                 <option value="Kolokani">Kolokani </option>
                                                                 <option value="Bougouni">Bougouni </option>
                                                                 <option value="San">San </option>
-                                                               
-                                                               
                                                             </select>
                                                         </div>
                                                     </div>

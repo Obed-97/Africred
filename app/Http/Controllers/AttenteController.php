@@ -20,13 +20,13 @@ class AttenteController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
-            $credits = Credit::where('statut', 'En attente')->orWhereDate('date_deblocage', Carbon::now())->orWhereDate('date_deblocage', Carbon::now()->subDays(1))->get();
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
+            $credits = Credit::where('statut', 'En attente')->orWhereDate('date_deblocage', Carbon::now())->orWhereDate('date_deblocage', Carbon::now()->subDays(3))->get();
         }else {
             $credits = Credit::where('statut', 'En attente')->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $clients = Client::get();
         }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();
@@ -46,7 +46,7 @@ class AttenteController extends Controller
      */
     public function create()
     {
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits = Credit::selectRaw(
                'client_id,
                 SUM(montant) as montant,
@@ -68,7 +68,7 @@ class AttenteController extends Controller
            
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $clients = Client::get();
         }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();
@@ -144,6 +144,7 @@ class AttenteController extends Controller
         $credit->update([
             'date_deblocage'=>$date_deblocage,
             'date_fin'=>$date_fin,
+            'note'=>$request->note,
             'statut'=>$statut,
         ]);
 

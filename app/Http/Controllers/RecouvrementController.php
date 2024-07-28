@@ -10,6 +10,7 @@ use App\Models\Recouvrement;
 use App\Models\Marche;
 use App\Services\Tool;
 use App\Models\User;
+use Carbon\Carbon;
 use Alert;
 
 class RecouvrementController extends Controller
@@ -24,7 +25,7 @@ class RecouvrementController extends Controller
         $recouvrements = null;
 
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $recouvrements = Recouvrement::selectRaw(
             'credit_id,
                 SUM(recouvrement_jrs) as recouvrement_jrs,
@@ -51,7 +52,7 @@ class RecouvrementController extends Controller
         $tool = new Tool();
         $credits = [];
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $listes = Credit::where('statut', 'Accordé')->get();
               
             foreach ($listes as $liste) {
@@ -78,7 +79,7 @@ class RecouvrementController extends Controller
         }
 
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $epargnes = Credit::where('statut', 'Accordé')->get();
         } else {
             $epargnes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
@@ -88,7 +89,7 @@ class RecouvrementController extends Controller
         
         $marches = Marche::get();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $total = Recouvrement::get();
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
@@ -109,7 +110,7 @@ class RecouvrementController extends Controller
     {
         $recouvrements = null;
 
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $par_marche = Recouvrement::selectRaw(
                'marche_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -134,7 +135,7 @@ class RecouvrementController extends Controller
           }
 
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $credits = Credit::where('statut', 'Accordé')->get();
         } else {
             $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
@@ -144,7 +145,7 @@ class RecouvrementController extends Controller
         
         $marches = Marche::get();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $total = Recouvrement::get();
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
@@ -165,6 +166,8 @@ class RecouvrementController extends Controller
     {
 
         $recouvrement = new Recouvrement;
+        
+        $jour = Carbon::now();
         
         $results = $request['credit_id'];
 
@@ -189,12 +192,13 @@ class RecouvrementController extends Controller
             'credit_id'=>$data_credit[0],
             'marche_id'=>$data_credit[1],
             'type_id'=>$data_credit[3],
-            'date'=>$request->date,
+            'date'=>$jour,
             'encours_actualise'=>$encours_actualise,
             'interet_jrs'=>$request->interet_jrs,
             'recouvrement_jrs'=>$request->recouvrement_jrs,
             'epargne_jrs'=>$request->epargne_jrs,
             'assurance'=>$request->assurance,
+            'penalite'=>$request->penalite,
         ]);
 
         alert()->image('Recouvrement réussi','Le recouvrement a été effectué!','assets/images/money.png','175','175');

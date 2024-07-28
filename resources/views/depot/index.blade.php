@@ -15,7 +15,7 @@
                         @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Dépôt</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Dépôt épargne plus</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -23,19 +23,9 @@
                        
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="control-label">Type dépôt</label>
-                                <select class="form-control " name="type_depot_id" required>
-                                    @foreach ($types as $item)
-                                        <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                    @endforeach
-                                </select>
+                                <input type="hidden" class="form-control" name="type_depot_id" value="2">
                             </div>
-                            <div class="form-group ">
-                                <label>Date</label>
-                                <div>
-                                    <input class="form-control" type="date" name="date"  id="date" required >
-                                </div>
-                            </div>
+                            
                             <div class="form-group">
                                 <label class="control-label">Client</label>
                                 <select class="form-control select2" name="client_id" required>
@@ -63,14 +53,16 @@
                 </form>
                 </div>
             </div> 
+            @endif 
 
+            @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
             <div class="modal fade" id="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog" >
                     <form action="{{route('depot.retrait')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel"> Retrait</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel"> Retrait épargne plus</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -78,28 +70,19 @@
                        
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="control-label">Type retrait</label>
-                                <select class="form-control " name="type_depot_id" required>
-                                    @foreach ($types as $item)
-                                        <option value="{{$item->id}}">{{$item->libelle}}</option>
-                                    @endforeach
-                                </select>
+                                <input type="hidden" class="form-control" name="type_depot_id" value="2">
                             </div>
-                            <div class="form-group ">
-                                <label>Date</label>
-                                <div>
-                                    <input class="form-control" type="date" name="date"  id="date" required >
-                                </div>
-                            </div>
+                            
                             <div class="form-group">
                                 <label class="control-label">Client</label>
                                 <select class="form-control select2" name="client_id" required>
                                    @foreach ($clients as $item)
-                                    <option value="{{$item->id}}|{{$item->type_compte_id}}|{{$item->sexe}}">{{$item->nom_prenom}} </option>
+                                    <option value="{{$item->id}}|{{$item->type_compte_id}}|{{$item->sexe}}">{{$item->nom_prenom}}</option>
                                    @endforeach
                                 </select>
                                 
                             </div>
+                            
                             <div class="form-group ">
                                 <label>Montant</label>
                                 <div>
@@ -126,12 +109,12 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">Liste des dépôts </h4>
+                                <h4 class="mb-0 text-success">Épargne plus </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0" id="web">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
-                                        <li class="breadcrumb-item active">Liste des dépôts</li>
+                                        <li class="breadcrumb-item active">Épargne plus</li>
                                     </ol>
                                 </div>
 
@@ -165,6 +148,8 @@
                                     <h4 class="card-title text-right mb-4">
                                         @if (auth()->user()->role_id == 2)
                                             <button type="button" class="btn btn-success  waves-effect waves-light" data-toggle="modal" data-target="#staticBackdrop"><i class="  ri-arrow-down-line align-middle mr-2"></i> Dépôt</button>
+                                        @endif
+                                        @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                                             <button type="button" class="btn btn-danger  waves-effect waves-light" data-toggle="modal" data-target="#static"><i class="  ri-arrow-up-line align-middle mr-2"></i> Retrait</button>
                                         @endif
                                     </h4>
@@ -183,13 +168,14 @@
                                             <th></th>
                                             <th>N° Compte</th>
                                             <th>Nom complet</th>
+                                            <th>Marché</th>
                                             <th>Téléphone</th>
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
                                             <th>Solde</th>
                                             
                                             <th>Statut</th>
-                                            @if(auth()->user()->role_id == 1)
+                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                                             <th>Opérateur</th>
                                             @endif
                                         </tr>
@@ -200,8 +186,9 @@
                                        @foreach ($depots as $item)
                                         <tr>
                                             <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
-                                            <td>ABF-{{$item->Client['id']}}</td>
+                                            <td>ABE-{{$item->Client['id']}}</td>
                                             <td>{{$item->Client['nom_prenom']}}</td>
+                                            <td>{{$item->Client->Marche['libelle']}}</td>
                                             <td>
                                                 {{$item->Client['telephone']}} 
                                             </td>
@@ -217,7 +204,7 @@
                                                     <div class="badge badge-soft-danger font-size-14">Solde nul</div>
                                                 </td>
                                             @endif
-                                            @if(auth()->user()->role_id == 1)
+                                            @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                                             <td>{{$item->Client->User['nom']}}</td>
                                             @endif
                                         </tr>
@@ -236,7 +223,7 @@
                     <div class="row " id="web">
                         <div class="col-4">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0 text-success">ÉPARGNE  </h4>
+                                <h4 class="mb-0 text-success">AUJOURD'HUI </h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -245,6 +232,7 @@
                                 </div>
 
                             </div>
+                            
                             <div class="card">
                                 <div class="card-body">
                                       
@@ -261,15 +249,15 @@
                                         <tbody>
                                             <tr>
                                                 <td>Dépôt</td>
-                                                <td class="text-success">{{number_format($epargne->sum('depot'), 0, ',', ' ')}} CFA</td>
+                                                <td class="text-success">{{number_format($depot_jour->sum('depot'), 0, ',', ' ')}} CFA</td>
                                             </tr>
                                             <tr>
                                                 <td>Retrait</td>
-                                                <td class="text-success">{{number_format($epargne->sum('retrait'), 0, ',', ' ')}} CFA</td>
+                                                <td class="text-success">{{number_format($depot_jour->sum('retrait'), 0, ',', ' ')}} CFA</td>
                                             </tr>
                                             <tr>
                                                 <td>Solde</td>
-                                                <td class="text-success">{{number_format(($epargne->sum('depot')) - ($epargne->sum('retrait')), 0, ',', ' ')}} CFA</td>
+                                                <td class="text-success">{{number_format(($depot_jour->sum('depot')) - ($depot_jour->sum('retrait')), 0, ',', ' ')}} CFA</td>
                                             </tr>
                                            
                                         </tbody>
@@ -278,7 +266,52 @@
                                 </div>
                             </div>
                         </div> <!-- end col -->
-                        <div class="col-4">
+                        <div class="col-4 ">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="mb-0 text-success">SOLDE </h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        
+                                    </ol>
+                                </div>
+
+                            </div>
+                            
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                      
+                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            <tr class="text-white" style="font-size: 16px">
+                                                <th><b>Désignations</b> </th>
+                                                <th><b>Total</b> </th>
+                                                
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody class="text-white">
+                                            <tr>
+                                                <td>Dépôt</td>
+                                                <td >{{number_format($epargne->sum('depot'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Retrait</td>
+                                                <td >{{number_format($epargne->sum('retrait'), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Solde</td>
+                                                <td >{{number_format(($epargne->sum('depot')) - ($epargne->sum('retrait')), 0, ',', ' ')}} CFA</td>
+                                            </tr>
+                                           
+                                        </tbody>
+                                    </table>
+                                   
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                        {{-- <div class="col-4">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
                                 <h4 class="mb-0 text-success">TONTINE  </h4>
 
@@ -320,7 +353,7 @@
                                    
                                 </div>
                             </div>
-                        </div> <!-- end col -->
+                        </div> <!-- end col --> --}}
                         
                     </div>
                     

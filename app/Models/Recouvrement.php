@@ -26,6 +26,7 @@ class Recouvrement extends Model
         'epargne_jrs',
         'assurance',
         'retrait',
+        'penalite'
     ];
 
     

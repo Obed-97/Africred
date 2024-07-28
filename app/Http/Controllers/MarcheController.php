@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Client;
-use App\Models\Filiere;
 use App\Models\Marche;
-use App\Models\Secteur;
-use App\Models\User;
-use Carbon\Carbon;
 
-class EtatClientController extends Controller
+class MarcheController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,18 +15,8 @@ class EtatClientController extends Controller
     public function index()
     {
         $marches = Marche::all();
-        $filieres = Filiere::all();
-        $secteurs = Secteur::all();
-        $clients = null;
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
-          $clients = Client::whereDate('created_at', Carbon::today())->get();
-        }else {
-          $clients = Client::whereDate('created_at', Carbon::today())->where('user_id', auth()->user()->id)->get();
-        }
-      
-
-        return view('client.jour', compact('clients', 'marches', 'filieres', 'secteurs'));
+        return view('marche.index', compact('marches'));
     }
 
     /**
@@ -52,20 +37,13 @@ class EtatClientController extends Controller
      */
     public function store(Request $request)
     {
-        $date1 = $request->fdate;
-        $date2 = $request->sdate;
+        $marche = new Marche;
+          
+        $marche->create([
+            'libelle'=>$request->libelle,
+        ]);
 
-        $marches = Marche::all();
-        $clients = null;
-
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
-          $clients = Client::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
-        }else {
-          $clients = Client::whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
-        }
-      
-
-        return view('client.filtre', compact('clients', 'marches','date1','date2'));
+        return redirect()->route('les_marches.index');
     }
 
     /**

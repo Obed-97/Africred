@@ -24,7 +24,7 @@ class IndicateurController extends Controller
         $totalMontantParJour = 0;
        
        
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->get();
               
             foreach ($listes as $liste) {
@@ -54,7 +54,7 @@ class IndicateurController extends Controller
 
         $recouvrements = null;
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $recouvrements = Recouvrement::selectRaw(
                'credit_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -80,13 +80,13 @@ class IndicateurController extends Controller
 
         }
         
-         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $recouvrement = Recouvrement::whereDate('date', Carbon::today())->get();
           }else {
             $recouvrement = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
           }
             
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credit = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
           }else {
             $credit = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->where('user_id', auth()->user()->id)->get();
@@ -117,7 +117,7 @@ class IndicateurController extends Controller
         $totalMontantParJour = 0;
        
        
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->get();
               
             foreach ($listes as $liste) {
@@ -147,7 +147,7 @@ class IndicateurController extends Controller
 
         $recouvrements = null;
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $recouvrements = Recouvrement::selectRaw(
                'credit_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -173,13 +173,13 @@ class IndicateurController extends Controller
 
         }
         
-         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $recouvrement = Recouvrement::whereBetween('date', [$request->date1, $request->date2])->get();
           }else {
             $recouvrement = Recouvrement::whereBetween('date', [$request->date1, $request->date2])->where('user_id', auth()->user()->id)->get();
           }
             
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credit = Credit::where('statut', 'Accordé')->whereBetween('date_deblocage', [$request->date1, $request->date2])->get();
           }else {
             $credit = Credit::where('statut', 'Accordé')->whereBetween('date_deblocage', [$request->date1, $request->date2])->where('user_id', auth()->user()->id)->get();
@@ -206,7 +206,7 @@ class IndicateurController extends Controller
         $totalMontantParJour = 0;
        
        
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->get();
               
             foreach ($listes as $liste) {
@@ -236,7 +236,7 @@ class IndicateurController extends Controller
 
         $recouvrements = null;
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $recouvrements = Recouvrement::selectRaw(
                'credit_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -262,13 +262,13 @@ class IndicateurController extends Controller
 
         }
         
-         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $recouvrement = Recouvrement::whereDate('date', $date)->get();
           }else {
             $recouvrement = Recouvrement::whereDate('date', $date)->where('user_id', auth()->user()->id)->get();
           }
             
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credit = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', $date)->get();
           }else {
             $credit = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', $date)->where('user_id', auth()->user()->id)->get();
@@ -286,7 +286,13 @@ class IndicateurController extends Controller
      */
     public function show($id)
     {
-        //
+        $credit = Credit::where('id', $id)->firstOrFail();
+        
+        $credits = Credit::where('client_id', $credit->client_id)->where('type_id', 1)->count();
+
+        $recouvrements = Recouvrement::where('credit_id', $credit->id)->get();
+
+        return view('indicateur.show', compact('credit','credits', 'recouvrements'));
     }
 
     /**

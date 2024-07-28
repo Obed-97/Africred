@@ -30,12 +30,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <div class="form-group ">
-                            <label>Date</label>
-                            <div>
-                                <input class="form-control" type="date" name="date"  id="date" required>
-                            </div>
-                        </div>
+                        
                         <div class="form-group">
                             <label class="control-label">Client</label>
                             <select class="form-control select2" name="credit_id" required>
@@ -72,16 +67,22 @@
                         </div>
                         </div>
                         <div class="row">
-                            <div class="col-6 form-group ">
+                            <div class="col-4 form-group ">
                                 <label>Epargne</label>
                                 <div>
                                     <input class="form-control" type="number" name="epargne_jrs" min="0"  id="epargne_jrs" required>
                                 </div>
                             </div>
-                            <div class="col-6 form-group ">
+                            <div class="col-4 form-group ">
                                 <label>Assurance</label>
                                 <div>
                                     <input class="form-control" type="number" name="assurance" min="0" id="assurance" required>
+                                </div>
+                            </div>
+                            <div class="col-4 form-group ">
+                                <label>Pénalité </label>
+                                <div>
+                                    <input class="form-control" type="number" name="penalite" min="0" id="penalite" >
                                 </div>
                             </div>
                         </div>
@@ -317,15 +318,16 @@
                                         @if (auth()->user()->role_id == 2)
                                             <tr>
                                                 <th></th>
-                                                
+                                                <th>N* Compte</th>
                                                 <th>Client</th>
                                                 <th>Marché</th>
                                         
-                                                <th>Capital du jour</th>
-                                                <th>Intérêt du jour</th>
-                                                <th>Epargne du jour</th>
-                                                <th>Assurance du jour</th>
+                                                <th>Capital</th>
+                                                <th>Intérêt</th>
+                                                <th>Epargne</th>
+                                                <th>Assurance</th>
                                                 <th>Rétrait Ép.</th>
+                                                <th>Pénalité</th>
                                                 <th>Total</th>
                                                 <th>Jours restant</th>
                                                 
@@ -343,6 +345,7 @@
                                             <th>&Eacute;pargne</th>
                                             <th>Assurance</th>
                                             <th>Retrait &Eacute;pargne</th>
+                                            <th>P&eacute;nalit&eacute;</th>
                                             <th style="background-color: #569ad2; color:white">Frais déblocage</th>
                                             <th style="background-color: #569ad2; color:white">Frais carte</th>
                                             <th style="background-color: #1cbb8c;; color: white ">Total</th>
@@ -359,6 +362,7 @@
                                             @foreach ($recouvrements as $item)
                                                 <tr>
                                                     <td><img src="/assets/images/users/{{$item->Credit->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
+                                                    <td style = "text-transform:uppercase;">ABF-{{$item->Credit->Client['id']}}</td>
                                                     <td style = "text-transform:uppercase;">{{$item->Credit->Client['nom_prenom']}}</td>
                                                     <td>{{$item->Credit->Client->Marche['libelle']}}</td>
                                                     
@@ -368,7 +372,8 @@
                                                     <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                     
                                                     <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td> 
-                                                    <td>{{number_format($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance, 0, ',', ' ')}} CFA</td> 
+                                                    <td>{{number_format($item->penalite, 0, ',', ' ')}} CFA</td> 
+                                                    <td>{{number_format($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->penalite, 0, ',', ' ')}} CFA</td> 
                                                     @if ((\Carbon\Carbon::now() < $item->Credit['date_fin']) && (\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) != 0))
                                                         <td><div class="badge badge-soft-success font-size-14">{{\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin'])}} jours</div> </td>
                                                     @elseif(\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) == 0)
@@ -385,13 +390,14 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-
+                                                    <td></td>
                                                     <td>{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($total->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($total->sum('assurance'), 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($total->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                                    <td>{{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $credit_j->sum('frais_deblocage') + $credit_j->sum('frais_carte')), 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($total->sum('penalite'), 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $total->sum('penalite') + $credit_j->sum('frais_deblocage') + $credit_j->sum('frais_carte')), 0, ',', ' ')}} CFA</td>
                                                     <td></td>
                                                                                                         
                                                 </tr>
@@ -406,9 +412,10 @@
                                                     <td >{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($item->penalite, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->getFraisDeblocageDay($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->getFraisCarteDay($item->user_id), 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->getFraisDeblocageDay($item->user_id) + $item->getFraisCarteDay($item->user_id)) , 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->penalite + $item->getFraisDeblocageDay($item->user_id) + $item->getFraisCarteDay($item->user_id)) , 0, ',', ' ')}} CFA</td>
                                                     
 
                                                 </tr>
@@ -424,6 +431,7 @@
                                                     <td>0 CFA</td>
                                                     <td >0 CFA</td>
                                                     <td>0 CFA</td>
+                                                    <td >0 CFA</td>
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
                                                     
@@ -442,6 +450,7 @@
                                                     <td>0 CFA</td>
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
+                                                    <td >0 CFA</td>
                                                     
                                                     
 
@@ -456,6 +465,7 @@
                                                     <td>0 CFA</td>
                                                     <td >0 CFA</td>
                                                     <td>0 CFA</td>
+                                                    <td >0 CFA</td>
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
                                                     
@@ -473,6 +483,7 @@
                                                     <td >{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($item->penalite, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->DeblocageHier($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteHier($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageHier($item->user_id) + $item->CarteHier($item->user_id)) , 0, ',', ' ')}} CFA</td>
@@ -490,6 +501,7 @@
                                                     <td >{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($item->penalite, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->DeblocageJ_2($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteJ_2($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageJ_2($item->user_id) + $item->CarteJ_2($item->user_id) ) , 0, ',', ' ')}} CFA</td>
@@ -507,6 +519,7 @@
                                                     <td >{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($item->penalite, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->DeblocageJ_3($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteJ_3($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageJ_3($item->user_id) + $item->CarteJ_3($item->user_id) ) , 0, ',', ' ')}} CFA</td>
@@ -525,6 +538,7 @@
                                                     <td >{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($item->penalite, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->DeblocageJ_4($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteJ_4($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageJ_4($item->user_id) + $item->CarteJ_4($item->user_id) ) , 0, ',', ' ')}} CFA</td>
@@ -543,6 +557,7 @@
                                                     <td >{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format($item->penalite, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->DeblocageJ_5($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteJ_5($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageJ_5($item->user_id) + $item->CarteJ_5($item->user_id) ) , 0, ',', ' ')}} CFA</td>
@@ -563,7 +578,7 @@
                     
                         
                 </div> <!-- end row -->
-                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6 ||  auth()->user()->role_id == 8)
                     <!-- start page title -->
                     <div class="row" id="web">
                     <div class="col-12">
@@ -585,7 +600,7 @@
                         <div class="card">
                             <div class="card-body">
                                     
-                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $sum_frais_deblocage + $sum_frais_carte), 0, ',', ' ')}} CFA </button></div> 
+                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $total->sum('penalite') + $sum_frais_deblocage + $sum_frais_carte), 0, ',', ' ')}} CFA </button></div> 
                                 <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 16px">
@@ -614,7 +629,11 @@
                                             <td>Assurance</td>
                                             <td style="text-align:right;">{{number_format($total->sum('assurance'), 0, ',', ' ')}} CFA</td>
                                         </tr>
-                                            <tr>
+                                        <tr>
+                                            <td>Pénalité</td>
+                                            <td style="text-align:right;">{{number_format($total->sum('penalite'), 0, ',', ' ')}} CFA</td>
+                                        </tr>
+                                        <tr>
                                             <td>Frais déblocage</td>
                                             <td style="text-align:right;">{{number_format($sum_frais_deblocage, 0, ',', ' ')}} CFA</td>
                                         </tr>
@@ -636,7 +655,7 @@
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(1)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_hier->sum('recouvrement_jrs') + $total_hier->sum('interet_jrs') + $total_hier->sum('epargne_jrs') + $total_hier->sum('assurance') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte') ), 0, ',', ' ')}} CFA</button></div>
+                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(1)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_hier->sum('recouvrement_jrs') + $total_hier->sum('interet_jrs') + $total_hier->sum('epargne_jrs') + $total_hier->sum('assurance') + $total_hier->sum('penalite') + $credits_hier->sum('frais_deblocage') + $credits_hier->sum('frais_carte') ), 0, ',', ' ')}} CFA</button></div>
                                 <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 16px">
@@ -664,7 +683,11 @@
                                             <td>Assurance</td>
                                             <td style="text-align:right;">{{number_format($total_hier->sum('assurance'), 0, ',', ' ')}} CFA</td>
                                         </tr>
-                                            <tr>
+                                        <tr>
+                                            <td>Pénalité</td>
+                                            <td style="text-align:right;">{{number_format($total_hier->sum('penalite'), 0, ',', ' ')}} CFA</td>
+                                        </tr>
+                                        <tr>
                                             <td>Frais déblocage</td>
                                             <td style="text-align:right;">{{number_format($credits_hier->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
                                         </tr>
@@ -686,7 +709,7 @@
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(2)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_j_2->sum('recouvrement_jrs') + $total_j_2->sum('interet_jrs') + $total_j_2->sum('epargne_jrs') + $total_j_2->sum('assurance') + $credits_j_2->sum('frais_deblocage') + $credits_j_2->sum('frais_carte')), 0, ',', ' ')}} CFA</button></div>
+                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(2)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_j_2->sum('recouvrement_jrs') + $total_j_2->sum('interet_jrs')  + $total_j_2->sum('epargne_jrs') + $total_j_2->sum('assurance') + $total_j_2->sum('penalite') + $credits_j_2->sum('frais_deblocage') + $credits_j_2->sum('frais_carte')), 0, ',', ' ')}} CFA</button></div>
                                 <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 16px">
@@ -715,6 +738,10 @@
                                             <td style="text-align:right;">{{number_format($total_j_2->sum('assurance'), 0, ',', ' ')}} CFA</td>
                                         </tr>
                                         <tr>
+                                            <td>Pénalité</td>
+                                            <td style="text-align:right;">{{number_format($total_j_2->sum('penalite'), 0, ',', ' ')}} CFA</td>
+                                        </tr>
+                                        <tr>
                                             <td>Frais déblocage</td>
                                             <td style="text-align:right;">{{number_format($credits_j_2->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
                                         </tr>
@@ -735,7 +762,7 @@
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(3)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_j_3->sum('recouvrement_jrs') + $total_j_3->sum('interet_jrs') + $total_j_3->sum('epargne_jrs') + $total_j_3->sum('assurance') + $credits_j_3->sum('frais_deblocage') + $credits_j_3->sum('frais_carte')), 0, ',', ' ')}} CFA</button></div>
+                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(3)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_j_3->sum('recouvrement_jrs') + $total_j_3->sum('interet_jrs') + $total_j_3->sum('epargne_jrs') + $total_j_3->sum('assurance') + $total_j_3->sum('penalite') + $credits_j_3->sum('frais_deblocage') + $credits_j_3->sum('frais_carte')), 0, ',', ' ')}} CFA</button></div>
                                 <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 16px">
@@ -764,6 +791,10 @@
                                             <td style="text-align:right;">{{number_format($total_j_3->sum('assurance'), 0, ',', ' ')}} CFA</td>
                                         </tr>
                                         <tr>
+                                            <td>Pénalité</td>
+                                            <td style="text-align:right;">{{number_format($total_j_3->sum('penalite'), 0, ',', ' ')}} CFA</td>
+                                        </tr>
+                                        <tr>
                                             <td>Frais déblocage</td>
                                             <td style="text-align:right;">{{number_format($credits_j_3->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
                                         </tr>
@@ -784,7 +815,7 @@
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(4)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_j_4->sum('recouvrement_jrs') + $total_j_4->sum('interet_jrs') + $total_j_4->sum('epargne_jrs') + $total_j_4->sum('assurance') + $credits_j_4->sum('frais_deblocage') + $credits_j_4->sum('frais_carte')), 0, ',', ' ')}} CFA </button></div>
+                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(4)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_j_4->sum('recouvrement_jrs') + $total_j_4->sum('interet_jrs') + $total_j_4->sum('epargne_jrs') + $total_j_4->sum('assurance') + $total_j_4->sum('penalite') + $credits_j_4->sum('frais_deblocage') + $credits_j_4->sum('frais_carte')), 0, ',', ' ')}} CFA </button></div>
                                 <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 16px">
@@ -813,6 +844,10 @@
                                             <td style="text-align:right;">{{number_format($total_j_4->sum('assurance'), 0, ',', ' ')}} CFA</td>
                                         </tr>
                                         <tr>
+                                            <td>Pénalité</td>
+                                            <td style="text-align:right;">{{number_format($total_j_4->sum('penalite'), 0, ',', ' ')}} CFA</td>
+                                        </tr>
+                                        <tr>
                                             <td>Frais déblocage</td>
                                             <td style="text-align:right;">{{number_format($credits_j_4->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
                                         </tr>
@@ -833,7 +868,7 @@
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(5)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_j_5->sum('recouvrement_jrs') + $total_j_5->sum('interet_jrs') + $total_j_5->sum('epargne_jrs') + $total_j_5->sum('assurance') + $credits_j_5->sum('frais_deblocage') + $credits_j_5->sum('frais_carte')), 0, ',', ' ')}} CFA </button></div>
+                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->subDays(5)->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total_j_5->sum('recouvrement_jrs') + $total_j_5->sum('interet_jrs') + $total_j_5->sum('epargne_jrs') + $total_j_5->sum('assurance') + $total_j_5->sum('penalite') + $credits_j_5->sum('frais_deblocage') + $credits_j_5->sum('frais_carte')), 0, ',', ' ')}} CFA </button></div>
                                 <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 16px">
@@ -860,6 +895,10 @@
                                         <tr>
                                             <td>Assurance</td>
                                             <td style="text-align:right;">{{number_format($total_j_5->sum('assurance'), 0, ',', ' ')}} CFA</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pénalité</td>
+                                            <td style="text-align:right;">{{number_format($total_j_5->sum('penalite'), 0, ',', ' ')}} CFA</td>
                                         </tr>
                                         <tr>
                                             <td>Frais déblocage</td>

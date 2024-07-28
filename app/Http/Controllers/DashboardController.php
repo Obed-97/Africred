@@ -43,13 +43,13 @@ class DashboardController extends Controller
          ->get();
 
          
-         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
           }else {
             $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->where('user_id', auth()->user()->id)->get();
           }
           
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $prev_credits = Credit::where('statut', 'En attente')->get();
           }else {
             $prev_credits = Credit::where('statut', 'En attente')->where('user_id', auth()->user()->id)->get();
@@ -63,7 +63,7 @@ class DashboardController extends Controller
         $totalEpargneParJour = 0;
        
 
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6){
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8){
 
           $previsions = Credit::where('statut', 'Accordé')->where('type_id', '1')->whereDate('date_fin','>', Carbon::today()->subDays(30))->get();
           
@@ -99,50 +99,50 @@ class DashboardController extends Controller
 
           }
         }
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::yesterday())->get();
           }else {
             $credits_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::yesterday())->where('user_id', auth()->user()->id)->get();
           }
 
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits_av_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
           }else {
             $credits_av_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
           }
 
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $recouvrements = Recouvrement::whereDate('date', Carbon::today())->where('type_id', '1')->get();
           }else {
             $recouvrements = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->where('type_id', '1')->get();
           }
           
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $ab_sugu = Recouvrement::whereDate('date', Carbon::today())->where('type_id', '2')->get();
           }else {
             $ab_sugu = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->where('type_id', '2')->get();
           }
 
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $hier = Recouvrement::whereDate('date', Carbon::yesterday())->where('type_id', '1')->get();
           }else {
             $hier = Recouvrement::whereDate('date', Carbon::yesterday())->where('user_id', auth()->user()->id)->where('type_id', '1')->get();
           }
 
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $avant_hier = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->where('type_id', '1')->get();
           }else {
             $avant_hier = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->where('type_id', '1')->get();
           }
 
        
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
         $clients = Client::whereDate('created_at', Carbon::today())->get();
         }else {
         $clients = Client::where('user_id', auth()->user()->id)->whereDate('created_at', Carbon::today())->get();
         }
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
           $clientss = Client::get();
           }else {
           $clientss = Client::where('user_id', auth()->user()->id)->get();
@@ -152,13 +152,25 @@ class DashboardController extends Controller
         $agents = User::where('role_id', '2')->get();
 
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $epargne = Depot::where('type_depot_id', 2)->whereDate('date', Carbon::today())->get();
         }else {
             $epargne = Depot::where('type_depot_id', 2)->whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
         }
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
+          $epargne_hier = Depot::where('type_depot_id', 2)->whereDate('date', Carbon::yesterday())->get();
+        }else {
+          $epargne_hier = Depot::where('type_depot_id', 2)->whereDate('date', Carbon::yesterday())->where('user_id', auth()->user()->id)->get();
+        }
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
+          $epargne_av_hier = Depot::where('type_depot_id', 2)->whereDate('date', Carbon::now()->subDays(2))->get();
+        }else {
+          $epargne_av_hier = Depot::where('type_depot_id', 2)->whereDate('date', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
+        }
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $tontine = Depot::where('type_depot_id', 1)->whereDate('date', Carbon::today())->get();
         }else {
             $tontine = Depot::where('type_depot_id', 1)->whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
@@ -172,13 +184,13 @@ class DashboardController extends Controller
         
         $marches = Marche::all();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $depotss = Depot::whereDate('date', Carbon::today())->get();
         }else {
             $depotss = Depot::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
         }
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
 
         $client_01 = Client::whereYear('created_at', date('Y'))
                       ->whereMonth('created_at', '01')
@@ -491,7 +503,7 @@ class DashboardController extends Controller
         $types =Type_depot::get();
 
         
-        return view('dashboard.index', compact('ab_sugu','frais','taf','transferts','types','depotss','liste','prev_credits','totalMontantParJour','totalCapitalParJour','totalInteretParJour','totalEpargneParJour','encours_global','deblocage_annee','interet_recouvre','capital_recouvre','donnes_attente','donnes_deblocage','datas','marches','credits','hier','credits_hier','avant_hier','credits_av_hier', 'recouvrements','agents','clients','clientss','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
+        return view('dashboard.index', compact('ab_sugu','epargne_hier','epargne_av_hier','frais','taf','transferts','types','depotss','liste','prev_credits','totalMontantParJour','totalCapitalParJour','totalInteretParJour','totalEpargneParJour','encours_global','deblocage_annee','interet_recouvre','capital_recouvre','donnes_attente','donnes_deblocage','datas','marches','credits','hier','credits_hier','avant_hier','credits_av_hier', 'recouvrements','agents','clients','clientss','agents', 'epargne','tontine','encaissements','decaissements','depots','retraits'));
     }
 
     /**

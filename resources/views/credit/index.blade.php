@@ -100,19 +100,19 @@
                                 <div class="card-body">
                                     
                                         
-                                        <div class="row">
-                                            <div class="mb-4 col-xl-4">
-                                                <label for="">Afficher par :</label>
-                                                @if (auth()->user()->role_id == 2)
-                                                <a href="{{route('credit.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                                <a href="{{route('credit.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
-                                                @else
-                                                <a href="{{route('credit.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                                <a href="{{route('credit.create')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
-                                                <a href="{{route('credit.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
-                                                @endif
-                                            </div>
+                                    <div class="row">
+                                        <div class="mb-4 col-xl-4">
+                                            <label for="">Afficher par :</label>
+                                            @if (auth()->user()->role_id == 2)
+                                            <a href="{{route('credit.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
+                                            <a href="{{route('credit.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
+                                            @else
+                                            <a href="{{route('credit.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
+                                            <a href="{{route('credit.create')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
+                                            <a href="{{route('credit.marche')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
+                                            @endif
                                         </div>
+                                    </div>
 
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
@@ -123,16 +123,15 @@
                                                 <th>Marché</th>
                                                 <th>Date déblocage</th>
                                                 <th>Date échéance</th>
+                                                <th>Renouvellement</th>
                                                 <th>Nbre jours</th>
-                                                <th>Capital & Intérêt</th>
-
                                                 <th>Capital</th>
                                                 <th>Intérêt</th>
                                                 <th>Frais déblocage</th>
                                                 <th>Frais carte</th>
                                         
                                                
-                                                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                     <th>Agent </th>
                                                 @endif
                                                     
@@ -151,30 +150,55 @@
                                                     <td style = "text-transform:uppercase;">{{$item->Marche['libelle']}}</td>
                                                     <td >{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     <td >{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
+                                                    <td class="text-center">{{$item->renouvellement($item->client_id)}} fois</td>
                                                     @if(($item->date_deblocage) < ($item->date_fin))
                                                      <td >{{$item->nbre_jrs}} jours</td>
                                                     @else
                                                      <td class="text-danger"><i class="ri-error-warning-line"></i> Erreur date de fin</td>
                                                     @endif
-                                                    <td >{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
+                                                   
                                                     <td >{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->frais_deblocage, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
                                                     
                                                     
-                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                          <td><img src="/assets/images/users/{{$item->User['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                                     @endif
 
                                                     <td class="d-flex">
                                                         @if (auth()->user()->role_id == 2)
-                                                        <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                         
+                                                        <form action="{{route('credit.edit', $item->id)}}" method="GET" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-secondary btn-sm waves-effect waves-light mr-2 " >
+                                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                                        </button>
+                                                        </form>
                                                         @endif
-                                                        @if (auth()->user()->role_id == 1)
-                                                        <a href="{{route('credit.show', $item->id)}}" class="mr-3 text-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Contrat de prêt"><i class="mdi mdi-eye font-size-18"></i></a>
-                                                        <button  class="text-white btn-danger btn-rounded creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button> 
+                                                        @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
+                                                        <form action="{{route('credit.edit', $item->id)}}" method="GET" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-secondary btn-sm waves-effect waves-light mr-2 " >
+                                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                                        </button>
+                                                        </form>
+                                                        <form action="{{route('credit.show', $item->id)}}" method="GET" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light mr-2 " >
+                                                            <i class="mdi mdi-eye font-size-18"></i>
+                                                        </button>
+                                                        </form>
+                                                        <form action="{{route('etat_credit.update', $item->id)}}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                        {{method_field('PUT')}}
+                                                        <button type="submit" class="btn btn-warning btn-sm waves-effect waves-light mr-2 " >
+                                                            <i class="mdi mdi-arrow-down font-size-18"></i>
+                                                        </button>
+                                                        </form>
+                                                        @endif
+                                                        @if (auth()->user()->role_id == 8)
+                                                        <button  class="text-white btn btn-danger btn-sm waves-effect waves-light creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button> 
                                                         @endif
                                                         
                                                        
@@ -190,12 +214,12 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td >{{number_format($sum_montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td></td>
                                                     <td >{{number_format($sum_montant, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($sum_interet, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($sum_frais_deblocage, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($sum_frais_carte, 0, ',', ' ')}} CFA</td>
-                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                     <td></td>
                                                     @endif
                                                     <td></td>
@@ -208,9 +232,9 @@
                             </div>
                         </div> <!-- end col -->
                     <div>
-                    </div> <!-- end row -->
-                    
-                    </div>
+                </div> <!-- end row -->
+                
+            </div>
             <!-- End Page-content -->
 
 @endsection

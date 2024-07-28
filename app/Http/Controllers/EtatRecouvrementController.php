@@ -23,7 +23,7 @@ class EtatRecouvrementController extends Controller
         $tool = new Tool();
         $credits = [];
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
               
             foreach ($listes as $liste) {
@@ -52,7 +52,7 @@ class EtatRecouvrementController extends Controller
         
         $recouvrements = null;
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $recouvrements = Recouvrement::selectRaw(
                'user_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -78,7 +78,7 @@ class EtatRecouvrementController extends Controller
             
           }
           
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $hier = Recouvrement::selectRaw(
                'user_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -102,7 +102,7 @@ class EtatRecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
           
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $avant_hier = Recouvrement::selectRaw(
                'user_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -126,7 +126,7 @@ class EtatRecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
           
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $j_3 = Recouvrement::selectRaw(
                'user_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -150,7 +150,7 @@ class EtatRecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
           
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $j_4 = Recouvrement::selectRaw(
                'user_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -173,7 +173,7 @@ class EtatRecouvrementController extends Controller
             ->groupBy('credit_id')->whereDate('date', Carbon::now()->subDays(4))
             ->where('user_id', auth()->user()->id)->get();
           }
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $j_5 = Recouvrement::selectRaw(
                'user_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -197,7 +197,7 @@ class EtatRecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
           
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $j_6 = Recouvrement::selectRaw(
                'user_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -223,7 +223,7 @@ class EtatRecouvrementController extends Controller
 
 
 
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $par_marche = Recouvrement::selectRaw(
                'marche_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -254,36 +254,36 @@ class EtatRecouvrementController extends Controller
         
         $credit_j = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::today())->get();
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) { 
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) { 
             $credits_hier = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::yesterday())->get();
         } else {
             $credits_hier = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::yesterday())->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) { 
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) { 
             $credits_j_2 = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
         } else {
             $credits_j_2 = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::now()->subDays(2))->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) { 
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) { 
             $credits_j_3 = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(3))->get();
         } else {
             $credits_j_3 = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::now()->subDays(3))->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) { 
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) { 
             $credits_j_4 = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(4))->get();
         } else {
             $credits_j_4 = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::now()->subDays(4))->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) { 
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) { 
             $credits_j_5 = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(5))->get();
         } else {
             $credits_j_5 = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::now()->subDays(5))->get();
         }
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) { 
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) { 
             $credits_j_6 = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::now()->subDays(6))->get();
         } else {
             $credits_j_6 = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->whereDate('date_deblocage', Carbon::now()->subDays(6))->get();
@@ -292,49 +292,49 @@ class EtatRecouvrementController extends Controller
         $marches = Marche::get();
         $agents = User::where('role_id', '2')->get();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total = Recouvrement::whereDate('date', Carbon::today())->get();
         } else {
             $total = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total_hier = Recouvrement::whereDate('date', Carbon::yesterday())->get();
         } else {
             $total_hier = Recouvrement::whereDate('date', Carbon::yesterday())->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total_j_2 = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->get();
         } else {
             $total_j_2 = Recouvrement::whereDate('date', Carbon::now()->subDays(2))->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total_j_3 = Recouvrement::whereDate('date', Carbon::now()->subDays(3))->get();
         } else {
             $total_j_3 = Recouvrement::whereDate('date', Carbon::now()->subDays(3))->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total_j_4 = Recouvrement::whereDate('date', Carbon::now()->subDays(4))->get();
         } else {
             $total_j_4 = Recouvrement::whereDate('date', Carbon::now()->subDays(4))->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total_j_5 = Recouvrement::whereDate('date', Carbon::now()->subDays(5))->get();
         } else {
             $total_j_5 = Recouvrement::whereDate('date', Carbon::now()->subDays(5))->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total_j_6 = Recouvrement::whereDate('date', Carbon::now()->subDays(6))->get();
         } else {
             $total_j_6 = Recouvrement::whereDate('date', Carbon::now()->subDays(6))->where('user_id', auth()->user()->id)->get();
         }
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $epargnes = Credit::where('statut', 'Accordé')->get();
         } else {
             $epargnes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
@@ -355,7 +355,7 @@ class EtatRecouvrementController extends Controller
         $recouvrements = null;
 
 
-          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+          if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $par_marche = Recouvrement::selectRaw(
                'marche_id,
                 SUM(encours_actualise) as encours_actualise,
@@ -378,7 +378,7 @@ class EtatRecouvrementController extends Controller
           }
 
         
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
            $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->get();
         } else {
            $credits = Credit::where('statut', 'Accordé')->whereDate('date_deblocage', Carbon::today())->where('user_id', auth()->user()->id)->get();
@@ -387,7 +387,7 @@ class EtatRecouvrementController extends Controller
         
         $marches = Marche::get();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $total = Recouvrement::whereDate('date', Carbon::today())->get();
         } else {
             $total = Recouvrement::whereDate('date', Carbon::today())->where('user_id', auth()->user()->id)->get();

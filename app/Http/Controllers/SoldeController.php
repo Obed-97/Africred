@@ -24,7 +24,7 @@ class SoldeController extends Controller
         $tool = new Tool();
         $credits = [];
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $listes = Credit::where('statut', 'Accordé')->get();
               
             foreach ($listes as $liste) {
@@ -64,7 +64,7 @@ class SoldeController extends Controller
      */
     public function create()
     {
-         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits = Credit::selectRaw(
                 'user_id,
                  SUM(montant) as montant,
@@ -89,7 +89,7 @@ class SoldeController extends Controller
 
     public function marche()
     {
-         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $credits = Credit::selectRaw(
                 'marche_id,
                  SUM(montant) as montant,
@@ -220,7 +220,7 @@ class SoldeController extends Controller
     {
         $credit = Credit::where('id', $id)->firstOrFail();
 
-        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $clients = Client::get();
           }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();

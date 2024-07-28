@@ -13,12 +13,16 @@
                 $sum_interet = 0;
                 $sum_epargne_par_jour = 0;
                 $sum_montant_par_jour = 0;
+                $sum_capital_par_jour = 0;
+                $sum_interet_par_jour = 0;
                
                 $sum_montant_interet = 0;
                 foreach($liste as $credit){
                     $sum_montant = $credit->montant + $sum_montant ;
                     $sum_interet = $credit->interet + $sum_interet ;
                     $sum_epargne_par_jour = $credit->epargne_par_jour + $sum_epargne_par_jour ;
+                    $sum_capital_par_jour = $credit->capital_par_jour + $sum_capital_par_jour;
+                    $sum_interet_par_jour = $credit->interet_par_jour + $sum_interet_par_jour;
                     $sum_montant_par_jour = $credit->montant_par_jour + $sum_montant_par_jour;
                     $sum_montant_interet = $credit->montant_interet + $sum_montant_interet;
                 }
@@ -151,10 +155,12 @@
                                         <thead>
                                             <tr>
                                                 <th></th>
+                                                <th>N* Compte</th>
+                                                <th>N* Prêt</th>
                                                 <th>Client</th>
                                                 <th>Marché</th>
                                                 <th>Téléphone</th>
-                                                <th>Capital & Int&eacute;r&egrave;t</th>
+                                                <th>Capital </th>
                                                 <th>Nombre de jours</th>
                                                 <th>D&#251; Journalier</th>
                                                 <th>D&#251; Hebdomadaire</th>
@@ -169,13 +175,14 @@
                                             @foreach ($liste as $item)
                                                 <tr>
                                                     <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
-                                                   
+                                                    <td>ABF-{{$item->Client['id']}} </td>
+                                                    <td>P-{{$item->id }} </td>
                                                     <td style = "text-transform:uppercase;">
                                                         {{$item->Client['nom_prenom']}} 
                                                         
                                                         @if($item->reecheloner == 'oui')
                                                         
-                                                        <div class="badge badge-soft-primary font-size-12">Rééchelonner</div>
+                                                        <div class="badge badge-soft-primary font-size-12">R</div>
                                                         
                                                         @endif
                                                     </td>
@@ -191,9 +198,9 @@
                                                   
                                                     <td>
                                                         @if($item->n_montant == 0)
-                                                         {{number_format(($item->montant_interet), 0, ',', ' ')}} CFA 
+                                                         {{number_format(($item->montant), 0, ',', ' ')}} CFA 
                                                         @else
-                                                        <div class="badge badge-soft-danger font-size-14"> {{number_format(($item->montant_interet), 0, ',', ' ')}} CFA </div><br>
+                                                        <div class="badge badge-soft-danger font-size-14"> {{number_format(($item->montant), 0, ',', ' ')}} CFA </div><br>
                                                         <div class="badge badge-soft-success font-size-14"> {{number_format(($item->n_montant), 0, ',', ' ')}} CFA </div>
                                                         @endif
                                                     </td>
@@ -219,8 +226,8 @@
                                                         @if(($item->montant_par_jour) == NULL)
                                                         <td class="text-info">Mettre a jour</td>
                                                         @else
-                                                        <td>{{number_format(($item->montant_par_jour + $item->epargne_par_jour), 0, ',', ' ')}} CFA</td>
-                                                        <td>{{number_format((($item->montant_par_jour + $item->epargne_par_jour) * 6), 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format(($item->capital_par_jour + $item->interet_par_jour + $item->epargne_par_jour), 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format((($item->capital_par_jour + $item->interet_par_jour + $item->epargne_par_jour) * 6), 0, ',', ' ')}} CFA</td>
                                                         @endif
                                                     
                                                   
@@ -233,16 +240,17 @@
                                             
                                                 <tr style="background-color: #1cbb8c; color: white ">
                                                     <td></td>
-                                                    
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td >{{number_format($sum_montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td >{{number_format($sum_montant, 0, ',', ' ')}} CFA</td>
                                                     <td ></td>
-                                                    <td >{{number_format(($sum_montant_par_jour + $sum_epargne_par_jour), 0, ',', ' ')}} CFA</td>
-                                                    <td >{{number_format((($sum_montant_par_jour + $sum_epargne_par_jour) * 6), 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format(($sum_capital_par_jour + $sum_interet_par_jour + $sum_epargne_par_jour), 0, ',', ' ')}} CFA</td>
+                                                    <td >{{number_format((($sum_capital_par_jour + $sum_interet_par_jour + $sum_epargne_par_jour) * 6), 0, ',', ' ')}} CFA</td>
                                                     <td></td>
-                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                     <td></td>
                                                     @endif
                                                    

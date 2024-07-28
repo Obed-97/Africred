@@ -96,11 +96,14 @@
                                                 <th>Assurance</th>
                                                 <th>Retrait</th>
                                                 <th>Total</th>
-                                                @if (auth()->user()->role_id ==1)
-                                                 <th>Action</th>
-                                                 <th></th>
+                                                @if (auth()->user()->role_id == 1)
                                                  <th>Agent</th>
-                                               
+                                                 <th></th>
+                                                @endif
+                                                @if (auth()->user()->role_id == 8)
+                                                <th>Agent</th>
+                                                <th></th>
+                                                <th>Action</th>
                                                @endif
                                               
                                               
@@ -124,11 +127,11 @@
                                                     <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs, 0, ',', ' ')}} CFA</td>
-                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                    @if (auth()->user()->role_id ==1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                        <td><img src="/assets/images/users/{{$item->User['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                                        <td>{{$item->user['nom']}} </td>
                                                     @endif 
-                                                    @if (auth()->user()->role_id == 1)  
+                                                    @if (auth()->user()->role_id == 8)  
                                                        <td class="d-flex">
                                                            <a href="{{route('historique.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
                                                             

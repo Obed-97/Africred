@@ -17,6 +17,8 @@ class Credit extends Model
         'client_id',
         'user_id',
         'marche_id',
+        'filiere_id',
+        'secteur_id',
         'nature',
         'sexe',
         'montant',
@@ -39,6 +41,31 @@ class Credit extends Model
         'date_fin_r',
         'motif_r',
         'reecheloner',
+        'adresse',
+        'telephone',
+        'situation_familiale',
+        'nbre_enfant',
+        'nbre_femme',
+        'projet_immobilier',
+        'nom_entreprise',
+        'type_activite',
+        'date_entreprise',
+        'structure',
+        'adresse_entreprise',
+        'rccm',
+        'annee_experience',
+        'description_produit',
+        'revenu_brute',
+        'revenu_net',
+        'autre_source',
+        'dettes_existantes',
+        'valeur_actif',
+        'duree_souhaitee',
+        'utilisation_fonds',
+        'plan_remboursement',
+        'note',
+        'sponsor',
+        'perte',
         
     ];
     
@@ -108,6 +135,36 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('epargne_jrs');
     }
+
+    public function Recouv_hier()
+    {
+        return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(1))->sum('recouvrement_jrs');
+    }
+    
+    public function Intreret_hier()
+    {
+        return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(1))->sum('interet_jrs');
+    }
+    
+    public function Epargne_hier()
+    {
+        return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(1))->sum('epargne_jrs');
+    }
+
+    public function Recouv_av_hier()
+    {
+        return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(2))->sum('recouvrement_jrs');
+    }
+    
+    public function Intreret_av_hier()
+    {
+        return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(2))->sum('interet_jrs');
+    }
+    
+    public function Epargne_av_hier()
+    {
+        return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(2))->sum('epargne_jrs');
+    }
     
     public function encours($montant_interet)
     {
@@ -128,6 +185,13 @@ class Credit extends Model
        $p = ($montant_par_jour - ($this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('recouvrement_jrs') + $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('interet_jrs')));
 
        return intval($p);
+    }
+
+    public function impaye($date1, $date2)
+    {
+       $i = ($this->hasMany(Recouvrement::class)->whereBetween('date', [$date1, $date2]))->count();
+
+       return intval($i);
     }
 
     public function renouvellement($client_id)

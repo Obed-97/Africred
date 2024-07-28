@@ -52,10 +52,13 @@
                                             <th>Rétrait</th>
                                             
                                             
-                                            @if (auth()->user()->role_id == 1)
+                                            @if (auth()->user()->role_id == 1 )
                                                 <th>Opérateur</th>
                                             @endif
+                                            @if (auth()->user()->role_id == 8)
+                                            <th>Opérateur</th>
                                             <th>Action</th>
+                                            @endif
                                         </tr>
                                         </thead>
     
@@ -70,15 +73,16 @@
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
                                             
                                            
-                                            @if (auth()->user()->role_id == 1)
+                                            @if (auth()->user()->role_id == 1 )
                                                 <td>{{$item->User['nom']}}</td>  
                                             @endif
-                                            <td class="d-flex">
-                                                @if (auth()->user()->role_id == 2)
-                                                <a href="{{route('historique_depot.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                @endif
-                                                <button  class="text-white btn-danger btn-rounded deleteBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#delete"><i class="mdi mdi-trash-can font-size-18"></i></button>
-                                           </td>
+                                            @if (auth()->user()->role_id == 8)
+                                                <td>{{$item->User['nom']}}</td>  
+                                                <td class="d-flex">
+                                                    <a href="{{route('historique_depot.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                    <button  class="text-white btn-danger btn-rounded deleteBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#delete"><i class="mdi mdi-trash-can font-size-18"></i></button>
+                                                </td>
+                                           @endif
                                         </tr>
                                        @endforeach
                                            

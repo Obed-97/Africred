@@ -17,15 +17,17 @@ class DepotController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $tout_depot = Depot::get();
         }else {
             $tout_depot = Depot::where('user_id', auth()->user()->id)->get();
         }
+
+        
         
         $depots = null;
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $depots = Depot::selectRaw(
                 'client_id,
                  SUM(depot) as depot,
@@ -45,7 +47,7 @@ class DepotController extends Controller
 
         $depotss = null;
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $depotss = Depot::selectRaw(
                 'client_id,
                  SUM(depot) as depot,
@@ -65,28 +67,34 @@ class DepotController extends Controller
 
 
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $clients = Client::get();
         }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();
         }
 
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $tontine = Depot::where('type_depot_id', 1)->get();
         }else {
             $tontine = Depot::where('type_depot_id', 1)->where('user_id', auth()->user()->id)->get();
         }
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $epargne = Depot::where('type_depot_id', 2)->get();
         }else {
             $epargne = Depot::where('type_depot_id', 2)->where('user_id', auth()->user()->id)->get();
         }
 
-        $types =Type_depot::get();
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
+            $depot_jour = Depot::whereDate('date', Carbon::now())->get();
+        }else {
+            $depot_jour = Depot::whereDate('date', Carbon::now())->where('user_id', auth()->user()->id)->get();
+        }
 
-        return view('depot.index', compact('depots','depotss','clients','types','tontine','epargne','tout_depot'));
+        $types = Type_depot::get();
+
+        return view('depot.index', compact('depots', 'depot_jour', 'depotss','clients','types','tontine','epargne','tout_depot'));
     }
     
     public function livret(Request $request)
@@ -95,14 +103,14 @@ class DepotController extends Controller
 
         $info = Depot::where('client_id', $request->client_id)->first();
         
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $client = Client::get();
         }else {
             $client = Client::where('user_id', auth()->user()->id)->get();
         }
    
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $livret = Depot::where('client_id', $request->client_id)->get();
         }else {
             $livret = Depot::where('client_id', $request->client_id)->where('user_id', auth()->user()->id)->get();
@@ -116,7 +124,7 @@ class DepotController extends Controller
     {
         $depots = null;
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $depots = Depot::selectRaw(
                 'client_id,
                  SUM(depot) as depot,
@@ -133,14 +141,14 @@ class DepotController extends Controller
                 ->get();
         }
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $clients = Client::get();
         }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();
         }
 
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $tontine = Depot::where('type_depot_id', 1)->get();
         }else {
             $tontine = Depot::where('type_depot_id', 1)->where('user_id', auth()->user()->id)->get();
@@ -157,7 +165,7 @@ class DepotController extends Controller
     {
         $depots = null;
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $depots = Depot::selectRaw(
                 'client_id,
                  SUM(depot) as depot,
@@ -174,7 +182,7 @@ class DepotController extends Controller
                 ->get();
         }
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $clients = Client::get();
         }else {
             $clients = Client::where('user_id', auth()->user()->id)->get();
@@ -183,7 +191,7 @@ class DepotController extends Controller
 
        
 
-        if (auth()->user()->role_id == 1) {
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $epargne = Depot::where('type_depot_id', 2)->get();
         }else {
             $epargne = Depot::where('type_depot_id', 2)->where('user_id', auth()->user()->id)->get();
@@ -213,6 +221,8 @@ class DepotController extends Controller
     public function store(Request $request)
     {
         $depot = new Depot;
+
+        $jour = Carbon::now();
         
         $results = $request['client_id'];
 
@@ -229,7 +239,7 @@ class DepotController extends Controller
             'nature'=>$data_client[1],
             'sexe'=>$data_client[2],
             'type_depot_id'=>$request->type_depot_id,
-            'date'=>$request->date,
+            'date'=>$jour,
             'depot'=>$request->depot,
             'solde'=>$solde,
         ]);
@@ -241,6 +251,8 @@ class DepotController extends Controller
     public function retrait(Request $request)
     {
         $depot = new Depot;
+        
+        $jour = Carbon::now();
         
         $results = $request['client_id'];
 
@@ -257,7 +269,7 @@ class DepotController extends Controller
             'nature'=>$data_client[1],
             'sexe'=>$data_client[2],
             'type_depot_id'=>$request->type_depot_id,
-            'date'=>$request->date,
+            'date'=>$jour,
             'retrait'=>$request->retrait,
             'solde'=>$solde,
         ]);

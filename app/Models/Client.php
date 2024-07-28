@@ -13,6 +13,8 @@ class Client extends Model
         'type_compte_id',
         'user_id',
         'marche_id',
+        'filiere_id',
+        'secteur_id',
         'carte_id',
         'nom_prenom',
         'activite',

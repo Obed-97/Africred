@@ -68,18 +68,21 @@
                                         <thead>
                                             <tr>
                                                 <th></th>
+                                                <th>N* Compte</th>
+                                                <th>N* Prêt</th>
                                                 <th>Bénéficiaire</th>
                                                 <th>Marché</th>
                                                 <th>Date de déblocage</th>
                                                 <th>Date de fin</th>
-                                                <th>Capital + Intérêt</th>
+                                                <th>Renouvellement</th>
+                                                
                                                 <th>Capital</th>
                                                 <th>Intérêt</th>
                                                 <th>Frais de déblocage</th>
                                                 <th>Frais de carte</th>
                                                 
                                                 <th>Encours Global</th>
-                                                    @if (auth()->user()->role_id == 1)
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                         <th>Agent </th>
                                                     @endif
                                                 <th>Action</th>
@@ -92,11 +95,14 @@
                                             @foreach ($credits as $item)
                                                 <tr>
                                                     <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
+                                                    <td>ABF-{{$item->Client['id']}}</td>
+                                                     <td>P-{{$item->id}}</td>
                                                     <td>{{$item->Client['nom_prenom']}}</td>
                                                     <td>{{$item->Marche['libelle']}}</td>
                                                     <td>{{(new DateTime($item->date_deblocage))->format('d-m-Y')}} </td>
                                                     <td>{{(new DateTime($item->date_fin))->format('d-m-Y')}} </td>
-                                                    <td>{{number_format($item->montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td class="text-center">{{$item->renouvellement($item->client_id)}} fois</td>
+                                                    
                                                     <td>{{number_format($item->montant, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->interet, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}}CFA</td>
@@ -106,7 +112,7 @@
                                                         {{number_format($item->encours($item->montant_interet), 0, ',', ' ')}} CFA
                                                     </td>  
                                                    
-                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                         <td>{{$item->User['nom']}}</td>
                                                     @endif
 
@@ -115,7 +121,8 @@
                                                         <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
                                                         
                                                         @endif
-                                                        @if (auth()->user()->role_id == 1)
+                                                        @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
+                                                        <a href="{{route('credit.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
                                                         <a href="{{route('credit.show', $item->id)}}" class="mr-3 text-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Contrat"><i class="mdi mdi-eye font-size-18"></i></a>
                                                         @endif
                                                         
@@ -130,13 +137,15 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                   
-                                                    <td >{{number_format($sum_montant_interet, 0, ',', ' ')}} CFA</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    
                                                     <td >{{number_format($sum_montant, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($sum_interet, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($sum_frais_deblocage, 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($sum_frais_carte, 0, ',', ' ')}} CFA</td>
-                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
+                                                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                     <td></td>
                                                     @endif
                                                     <td></td>

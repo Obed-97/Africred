@@ -22,7 +22,7 @@ class JournalierController extends Controller
         $totalMontantParJour = 0;
        
 
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6){
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8){
 
           $credits = Credit::where('statut', 'Accordé')->where('type_id', '1')->whereDate('date_fin','>', Carbon::today()->subDays(30))->get();
           
