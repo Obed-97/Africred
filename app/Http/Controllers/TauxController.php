@@ -37,7 +37,7 @@ class TauxController extends Controller
     public function store(Request $request)
     {
         $taux = new Taux;
-          
+
         $taux->create([
             'libelle'=>$request->libelle,
             'valeur'=>$request->valeur,
@@ -80,14 +80,14 @@ class TauxController extends Controller
     public function update(Request $request, $id)
     {
         $taux = Taux::where('id', $id)->firstOrFail();
-        
+
         $taux->update([
             'libelle'=>$request->libelle,
             'valeur'=>$request->valeur,
-         
+
         ]);
-        
-        alert()->image('Mise à jour','Le taux a été mis à jour!','assets/images/approved.png','200','200');
+
+        alert()->image('Mise à jour','Le taux a été mis à jour!',asset('assets/images/approved.png'),'200','200');
         return redirect()->route('taux.index');
     }
 

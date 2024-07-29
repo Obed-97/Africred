@@ -29,7 +29,7 @@ class ClientController extends Controller
         }else {
           $clients = Client::where('type_compte_id', 1)->where('user_id', auth()->user()->id)->get();
         }
-      
+
 
         return view('client.index', compact('clients', 'marches', 'filieres', 'secteurs'));
     }
@@ -52,7 +52,7 @@ class ClientController extends Controller
         }else {
           $clients = Client::where('user_id', auth()->user()->id)->get();
         }
-      
+
 
         return view('client.agent', compact('clients', 'marches'));
     }
@@ -74,7 +74,7 @@ class ClientController extends Controller
              ->groupBy('marche_id')->where('user_id', auth()->user()->id)
              ->get();
         }
-      
+
 
         return view('client.marche', compact('clients', 'marches'));
     }
@@ -92,14 +92,15 @@ class ClientController extends Controller
         if($request->hasFile('image')){
 
             $image = $request->file('image');
-            $filename = $image->getClientOriginalName();    
-            $location = '/htdocs/app.africa-africred.com/assets/images/users/'.$filename;
-            Image::make($image)->save($location);   
+            $filename = $image->getClientOriginalName();
+            // $location = '/htdocs/app.africa-africred.com/assets/images/users/'.$filename;
+            $location = public_path('assets/images/users/' . $filename);
+            Image::make($image)->save($location);
         }
-        
-        
+
+
         $client = new Client;
-        
+
         $client->create([
             'nom_prenom'=>$request->nom_prenom,
             'activite'=>$request->activite,
@@ -115,7 +116,7 @@ class ClientController extends Controller
             'user_id'=> auth()->user()->id,
             'image'=> $filename,
         ]);
-        alert()->image('Compte ouvert!','Le compte a été ouvert avec succès!','assets/images/approved.png','200','200');
+        alert()->image('Compte ouvert!','Le compte a été ouvert avec succès!',asset('assets/images/approved.png'),'200','200');
         return redirect()->route('etat_client.index');
     }
 
@@ -162,13 +163,13 @@ class ClientController extends Controller
         if($request->hasFile('image')){
 
             $image = $request->file('image');
-            $filename = $image->getClientOriginalName();    
+            $filename = $image->getClientOriginalName();
             $location = '/htdocs/app.africa-africred.com/assets/images/users/'.$filename;
-            Image::make($image)->save($location);   
+            Image::make($image)->save($location);
         }
-        
+
         $client = Client::where('id', $id)->firstOrFail();
-        
+
         $client->update([
             'nom_prenom'=>$request->nom_prenom,
             'activite'=>$request->activite,
@@ -180,10 +181,10 @@ class ClientController extends Controller
             'lieu_n'=>$request->lieu_n,
             'sexe'=>$request->sexe,
             'image'=> $filename,
-         
+
         ]);
-        
-        alert()->image('Mise à jour','Le compte a été mis à jour!','assets/images/approved.png','200','200');
+
+        alert()->image('Mise à jour','Le compte a été mis à jour!',asset('assets/images/approved.png'),'200','200');
         return redirect()->route('client.index');
     }
 
@@ -200,19 +201,19 @@ class ClientController extends Controller
         alert()->image('Supprimée!','Le compte a été supprimé avec succès!','assets/images/recycle.png','150','150');
         return redirect()->route('client.index');
     }
-    
+
     public function demande(Request $request)
     {
         $client_id = $request->client_id;
-        
+
         $info = Client::where('id', $request->client_id)->first();
-        
+
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $client = Client::get();
         }else {
             $client = Client::where('user_id', auth()->user()->id)->get();
         }
-   
+
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $demande = Client::where('id', $request->client_id)->get();

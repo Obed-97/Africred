@@ -23,8 +23,8 @@ class DepotController extends Controller
             $tout_depot = Depot::where('user_id', auth()->user()->id)->get();
         }
 
-        
-        
+
+
         $depots = null;
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
@@ -96,19 +96,19 @@ class DepotController extends Controller
 
         return view('depot.index', compact('depots', 'depot_jour', 'depotss','clients','types','tontine','epargne','tout_depot'));
     }
-    
+
     public function livret(Request $request)
     {
         $client_id = $request->client_id;
 
         $info = Depot::where('client_id', $request->client_id)->first();
-        
+
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $client = Client::get();
         }else {
             $client = Client::where('user_id', auth()->user()->id)->get();
         }
-   
+
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $livret = Depot::where('client_id', $request->client_id)->get();
@@ -154,7 +154,7 @@ class DepotController extends Controller
             $tontine = Depot::where('type_depot_id', 1)->where('user_id', auth()->user()->id)->get();
         }
 
-        
+
 
         $types =Type_depot::get();
 
@@ -189,7 +189,7 @@ class DepotController extends Controller
         }
 
 
-       
+
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8) {
             $epargne = Depot::where('type_depot_id', 2)->get();
@@ -223,7 +223,7 @@ class DepotController extends Controller
         $depot = new Depot;
 
         $jour = Carbon::now();
-        
+
         $results = $request['client_id'];
 
         $data_client = explode('|', $results);
@@ -251,9 +251,9 @@ class DepotController extends Controller
     public function retrait(Request $request)
     {
         $depot = new Depot;
-        
+
         $jour = Carbon::now();
-        
+
         $results = $request['client_id'];
 
         $data_client = explode('|', $results);
@@ -283,9 +283,11 @@ class DepotController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($clientId)
     {
-        //
+        $depots = Depot::where('client_id', $clientId)->latest()->get();
+
+        return view('depot.show-depot-client', compact('depots'));
     }
 
     /**
@@ -319,6 +321,10 @@ class DepotController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $depot = Depot::findOrFail($id);
+        $depot->delete();
+
+        alert()->image('Suppression','Le dépôt a été supprimé!',asset('assets/images/approved.png'),'200','200');
+        return back();
     }
 }

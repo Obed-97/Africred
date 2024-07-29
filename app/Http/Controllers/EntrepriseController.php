@@ -23,7 +23,7 @@ class EntrepriseController extends Controller
         }else {
           $entreprises = Client::where('type_compte_id', 2)->where('user_id', auth()->user()->id)->get();
         }
-        
+
         return view('entreprise.index', compact('entreprises'));
     }
 
@@ -50,14 +50,14 @@ class EntrepriseController extends Controller
         if($request->hasFile('image')){
 
             $image = $request->file('image');
-            $filename = $image->getClientOriginalName();    
+            $filename = $image->getClientOriginalName();
             $location = '/htdocs/app.africa-africred.com/assets/images/'.$filename;
-            Image::make($image)->save($location);   
+            Image::make($image)->save($location);
         }
-        
-        
+
+
         $client = new Client;
-        
+
         $client->create([
             'type_compte_id'=>$request->type_compte_id,
             'nom_prenom'=>$request->nom_prenom,
@@ -72,7 +72,7 @@ class EntrepriseController extends Controller
             'user_id'=> auth()->user()->id,
             'image'=> $filename,
         ]);
-        alert()->image('Compte ouvert!','Le compte a été ouvert avec succès!','assets/images/approved.png','200','200');
+        alert()->image('Compte ouvert!','Le compte a été ouvert avec succès!',asset('assets/images/approved.png'),'200','200');
         return redirect()->route('entreprise.index');
     }
 
@@ -112,13 +112,13 @@ class EntrepriseController extends Controller
         if($request->hasFile('image')){
 
             $image = $request->file('image');
-            $filename = $image->getClientOriginalName();    
+            $filename = $image->getClientOriginalName();
             $location = '/htdocs/app.africa-africred.com/assets/images/'.$filename;
-            Image::make($image)->save($location);  
+            Image::make($image)->save($location);
         }
-        
+
         $client = Client::where('id', $id)->firstOrFail();
-        
+
         $client->update([
             'type_compte_id'=>$request->type_compte_id,
             'nom_prenom'=>$request->nom_prenom,
@@ -130,12 +130,12 @@ class EntrepriseController extends Controller
             'date_n'=>$request->date_n,
             'lieu_n'=>$request->lieu_n,
             'nif'=>$request->nif,
-            
+
             'image'=> $filename,
-         
+
         ]);
-        
-        alert()->image('Mise à jour','Le compte a été mis à jour!','assets/images/approved.png','200','200');
+
+        alert()->image('Mise à jour','Le compte a été mis à jour!',asset('assets/images/approved.png'),'200','200');
         return redirect()->route('entreprise.index');
     }
 
