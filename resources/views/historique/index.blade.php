@@ -125,7 +125,7 @@
                                             @endif
                                             @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                                                 <td class="d-flex">
-                                                    <a href="{{route('historique.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                    {{-- <a href="{{route('historique.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a> --}}
                                                     <button class="text-white btn-danger btn-rounded histBtn" value="{{$item->id}}" data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#supprimer"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                 </td>
                                             @endif
