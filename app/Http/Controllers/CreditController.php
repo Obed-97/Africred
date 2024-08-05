@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Alert;
 use App\Models\Filiere;
 use App\Models\Secteur;
+use Illuminate\Support\Facades\Log;
 
 class CreditController extends Controller
 {
@@ -511,7 +512,13 @@ class CreditController extends Controller
     public function destroy(Request $request)
     {
         $credit = Credit::findOrFail($request->credit);
+
+        Log::info('Suppression CREDIT : ' . $credit);
+        Log::info('Suppression de l\'élément avec ID : ' . $credit->id);
+        Log::info('PAR : ' . auth()->user()->email);
+
         $credit->delete();
+
         alert()->image('Supprimée!!!','','assets/images/recycle.png','150','150');
         return redirect()->back();
     }

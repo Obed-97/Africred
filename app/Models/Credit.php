@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Services\Tool;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Credit extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'type_id',
@@ -66,10 +67,10 @@ class Credit extends Model
         'note',
         'sponsor',
         'perte',
-        
+
     ];
-    
-    
+
+
     public function Type()
     {
         return $this->belongsTo(Type::class);
@@ -90,7 +91,7 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class);
     }
-    
+
     public function Reecheloner()
     {
         return $this->hasMany(Reecheloner::class);
@@ -100,22 +101,22 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs');
     }
-    
+
     public function totalIntreret()
     {
         return $this->hasMany(Recouvrement::class)->sum('interet_jrs');
     }
-    
+
     public function totalEpargne()
     {
         return $this->hasMany(Recouvrement::class)->sum('epargne_jrs');
     }
-    
+
     public function totalAssurance()
     {
         return $this->hasMany(Recouvrement::class)->sum('assurance');
     }
-    
+
     public function totalRetrait()
     {
         return $this->hasMany(Recouvrement::class)->sum('retrait');
@@ -125,12 +126,12 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('recouvrement_jrs');
     }
-    
+
     public function Intreret()
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('interet_jrs');
     }
-    
+
     public function Epargne()
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('epargne_jrs');
@@ -140,12 +141,12 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(1))->sum('recouvrement_jrs');
     }
-    
+
     public function Intreret_hier()
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(1))->sum('interet_jrs');
     }
-    
+
     public function Epargne_hier()
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(1))->sum('epargne_jrs');
@@ -155,17 +156,17 @@ class Credit extends Model
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(2))->sum('recouvrement_jrs');
     }
-    
+
     public function Intreret_av_hier()
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(2))->sum('interet_jrs');
     }
-    
+
     public function Epargne_av_hier()
     {
         return $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now()->subDays(2))->sum('epargne_jrs');
     }
-    
+
     public function encours($montant_interet)
     {
        $e = ($montant_interet - ($this->hasMany(Recouvrement::class)->sum('recouvrement_jrs') + $this->hasMany(Recouvrement::class)->sum('interet_jrs')));
@@ -197,14 +198,14 @@ class Credit extends Model
     public function renouvellement($client_id)
     {
         $credits = Credit::where('client_id', $client_id)->count();
-        
+
         return $credits;
     }
-    
+
     public function rotation($client_id)
     {
         $credits = Credit::where('client_id', $client_id)->whereYear('date_deblocage', date('Y'))->count();
-        
+
         return $credits;
     }
 
@@ -212,7 +213,7 @@ class Credit extends Model
     {
         return $this->belongsTo(Marche::class);
     }
-    
+
     public function montantParJour()
     {
         $tool = new Tool();
@@ -223,15 +224,15 @@ class Credit extends Model
 
         foreach ($credits as $key => $credit) {
             if ($tool->encours_actualiser($credit->id) > 0){
-                
+
                 $total = intval($credit->montant_par_jour) + $total;
             }
         }
 
         return $total;
-        
-    } 
-    
+
+    }
+
     public function getEpargne($item)
     {
         $epargnes = Recouvrement::where('credit_id', $item)->get();
@@ -243,16 +244,16 @@ class Credit extends Model
             $frais_epargne = $epargne->epargne_jrs + $frais_epargne ;
 
         }
-        
+
          $retrait = 0;
-        
+
         foreach($epargnes as $epargne){
 
             $retrait = $epargne->retrait + $retrait ;
 
         }
-        
-        
+
+
 
         return ($frais_epargne - $retrait);
     }

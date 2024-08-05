@@ -73,7 +73,7 @@ Route::resources([
     '/etat_encaissement' => EtatEncController::class,
     '/etat_decaissement' => EtatDecController::class,
     '/banque' => BanqueController::class,
-    '/etat_actualise' => Etat_actualiseController::class, 
+    '/etat_actualise' => Etat_actualiseController::class,
     '/controle' => ControleController::class,
     '/journalier' => JournalierController::class,
     '/attente' => AttenteController::class,
@@ -148,6 +148,8 @@ Route::post('/update_password', [ProfileController::class, 'update_password'])->
 Route::get('/ab_sugu', [EtatRecouvrementController::class, 'arrete_s'])->name('ab_sugu');
 
 Route::post('/historique_credit', [HistoriqueController::class, 'hist'])->name('hist');
+
+Route::post('/histo/epargne/plus/filtre', [HistDepotController::class, 'filtre'])->name('histo.epargne.plus.filtre');
 
 });
 

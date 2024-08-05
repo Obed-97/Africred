@@ -26,6 +26,24 @@ class HistDepotController extends Controller
         return view('depot.historique', compact('depots'));
     }
 
+    public function filtre(Request $request)
+    {
+
+        $date1 = $request->fdate;
+        $date2 = $request->sdate;
+
+        if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8) {
+            $depots = Depot::whereBetween('created_at', [$request->fdate, $request->sdate])->get();
+        }else {
+            $depots = Depot::whereBetween('created_at', [$request->fdate, $request->sdate])->where('user_id', auth()->user()->id)->get();
+        }
+
+
+        return view('depot.historique', compact('depots', 'date1', 'date2'));
+    }
+
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -75,7 +93,7 @@ class HistDepotController extends Controller
         }
 
         $types = Type_depot::all();
-        
+
         $depot = Depot::where('id', $id)->firstOrFail();
 
         return view('depot.edit', compact('depot','clients','types'));
@@ -91,7 +109,7 @@ class HistDepotController extends Controller
     public function update(Request $request, $id)
     {
         $depot = Depot::where('id', $id)->firstOrFail();
-        
+
         $results = $request['client_id'];
 
         $data_client = explode('|', $results);
@@ -108,7 +126,7 @@ class HistDepotController extends Controller
             'sexe'=>$data_client[2],
             'type_depot_id'=>$request->type_depot_id,
             'date'=>$request->date,
-            
+
         ]);
 
         return redirect()->route('historique_depot.index');

@@ -7,6 +7,7 @@ use App\Models\Depot;
 use App\Models\Type_depot;
 use App\Models\Client;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class DepotController extends Controller
 {
@@ -322,6 +323,11 @@ class DepotController extends Controller
     public function destroy($id)
     {
         $depot = Depot::findOrFail($id);
+
+        Log::info('Suppression EPARGNE PLUS : ' . $depot);
+        Log::info('Suppression de l\'élément avec ID : ' . $depot->id);
+        Log::info('PAR : ' . auth()->user()->email);
+
         $depot->delete();
 
         alert()->image('Suppression','Le dépôt a été supprimé!',asset('assets/images/approved.png'),'200','200');
