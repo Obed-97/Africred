@@ -15,8 +15,8 @@ class PersonnelController extends Controller
      */
     public function index()
     {
-        $users = User::where('id', '!=', auth()->user()->id)->get(); 
-        
+        $users = User::where('id', '!=', auth()->user()->id)->get();
+
         return view('personnel.index', compact('users'));
     }
 
@@ -97,7 +97,31 @@ class PersonnelController extends Controller
     {
         $personnel = User::findOrFail($id);
         $personnel->delete();
-        
+
         return redirect()->route('personnel.index');
+    }
+
+
+    public function permission()
+    {
+        $personnels = User::get();
+
+        return view('permissions.index', compact('personnels'));
+    }
+
+    public function permission_store(Request $request)
+    {
+        $user = User::findOrFail($request->user_id);
+
+        $user->givePermissionTo(['delete']);
+        return redirect()->back();
+    }
+
+    public function permission_revok(Request $request)
+    {
+        $user = User::findOrFail($request->user_id);
+
+        $user->revokePermissionTo(['delete']);
+        return redirect()->back();
     }
 }

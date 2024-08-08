@@ -12,6 +12,7 @@ use App\Services\Tool;
 use App\Models\User;
 use Carbon\Carbon;
 use Alert;
+use Illuminate\Support\Facades\Log;
 
 class RecouvrementController extends Controller
 {
@@ -54,10 +55,10 @@ class RecouvrementController extends Controller
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $listes = Credit::where('statut', 'Accordé')->get();
-              
+
             foreach ($listes as $liste) {
 
-                $encours =  $tool->encours_actualiser($liste->id); 
+                $encours =  $tool->encours_actualiser($liste->id);
 
                 if ($encours > 0){
                     array_push($credits, $liste);
@@ -69,7 +70,7 @@ class RecouvrementController extends Controller
 
             foreach ($listes as $liste) {
 
-                $encours =  $tool->encours_actualiser($liste->id); 
+                $encours =  $tool->encours_actualiser($liste->id);
 
                 if ($encours > 0){
                     array_push($credits, $liste);
@@ -78,15 +79,15 @@ class RecouvrementController extends Controller
             }
         }
 
-        
+
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $epargnes = Credit::where('statut', 'Accordé')->get();
         } else {
             $epargnes = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
 
         }
-        
-        
+
+
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
@@ -95,7 +96,7 @@ class RecouvrementController extends Controller
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
 
         }
-        
+
        $agents = User::where('role_id', '2')->get();
 
        return view('recouvrement.index', compact('epargnes','credits','recouvrements','marches','total','agents'));
@@ -134,15 +135,15 @@ class RecouvrementController extends Controller
             ->where('user_id', auth()->user()->id)->get();
           }
 
-        
+
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
             $credits = Credit::where('statut', 'Accordé')->get();
         } else {
             $credits = Credit::where('statut', 'Accordé')->where('user_id', auth()->user()->id)->get();
         }
-        
-        
-        
+
+
+
         $marches = Marche::get();
 
         if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8 ) {
@@ -150,8 +151,8 @@ class RecouvrementController extends Controller
         } else {
             $total = Recouvrement::where('user_id', auth()->user()->id)->get();
         }
-        
-       
+
+
 
         return view('recouvrement.marche', compact('credits','marches','total','par_marche'));
     }
@@ -166,9 +167,9 @@ class RecouvrementController extends Controller
     {
 
         $recouvrement = new Recouvrement;
-        
+
         $jour = Carbon::now();
-        
+
         $results = $request['credit_id'];
 
         $data_credit = explode('|', $results);
@@ -187,7 +188,7 @@ class RecouvrementController extends Controller
         intval($request->recouvrement_jrs)
         ));
 
-        $recouvrement->create([
+        $r = $recouvrement->create([
             'user_id'=> auth()->user()->id,
             'credit_id'=>$data_credit[0],
             'marche_id'=>$data_credit[1],
@@ -200,6 +201,11 @@ class RecouvrementController extends Controller
             'assurance'=>$request->assurance,
             'penalite'=>$request->penalite,
         ]);
+
+
+        Log::info('creation Recouvrement : ' . $r);
+        Log::info('creation de l\'élément avec ID : ' . $r->id);
+        Log::info('PAR : ' . auth()->user()->email);
 
         alert()->image('Recouvrement réussi','Le recouvrement a été effectué!','assets/images/money.png','175','175');
 
@@ -254,20 +260,25 @@ class RecouvrementController extends Controller
     public function retrait(Request $request)
     {
         $retrait = new Recouvrement;
-        
+
         $results = $request['credit_id'];
 
         $data_credit = explode('|', $results);
 
-        $retrait->create([
+        $r = $retrait->create([
             'user_id'=>auth()->user()->id,
             'credit_id'=>$data_credit[0],
             'marche_id'=>$data_credit[1],
             'type_id'=>$data_credit[3],
             'date'=>$request->date,
-            
+
             'retrait'=>$request->retrait,
         ]);
+
+        Log::info('retrait Recouvrement : ' . $r);
+        Log::info('retrait de l\'élément avec ID : ' . $r->id);
+        Log::info('PAR : ' . auth()->user()->email);
+
         alert()->image('Retrait effectué!','Le retrait a été effectué avec succès!','assets/images/salary.png','125','125');
         return redirect()->back();
     }

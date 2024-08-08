@@ -187,6 +187,7 @@ return [
          */
         Intervention\Image\ImageServiceProvider::class,
         MarvinLabs\DiscordLogger\ServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Application Service Providers...

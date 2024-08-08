@@ -245,6 +245,11 @@ class DepotController extends Controller
             'solde'=>$solde,
         ]);
 
+
+        Log::info('Creation EPARGNE PLUS : ' . $depot);
+        Log::info('creation de l\'élément avec ID : ' . $depot->id);
+        Log::info('PAR : ' . auth()->user()->email);
+
         alert()->image('Dépôt effectué!','Le dépôt a été effectué avec succès!','assets/images/jar.png','125','125');
         return redirect()->route('depot.index');
     }

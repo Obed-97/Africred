@@ -81,7 +81,7 @@
                                             <td>{{$item->Client->User['nom']}}</td>
                                         @endif
                                         <td>
-                                            @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
+                                            @if (auth()->user()->can('delete') || auth()->user()->role_id == 8)
                                             <form action="{{route('depot.destroy', $item->id)}}" method="POST" onsubmit="return confirmDeletion()">
                                                 @csrf
                                                 @method('DELETE')

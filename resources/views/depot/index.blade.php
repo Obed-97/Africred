@@ -229,16 +229,12 @@
                                         @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                                         <td>{{$item->Client->User['nom']}}</td>
                                         @endif
-                                        @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 ||
-                                        auth()->user()->role_id == 8)
+
                                         <td>
                                             <a href="{{ route('depot.show', $item->client_id)}}"
                                                 class="btn btn-info">voir</a>
 
                                         </td>
-                                        @else
-                                        <td></td>
-                                        @endif
                                     </tr>
                                     @endforeach
 

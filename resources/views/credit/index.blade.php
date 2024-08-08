@@ -197,17 +197,7 @@
                                                         </button>
                                                         </form>
                                                         @endif
-                                                        @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
-
-
-                                                        @if (auth()->user()->role_id == 6)
-                                                        <form action="{{route('credit.edit', $item->id)}}" method="GET" enctype="multipart/form-data">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-secondary btn-sm waves-effect waves-light mr-2 " >
-                                                                <i class="mdi mdi-pencil font-size-18"></i>
-                                                            </button>
-                                                        </form>
-                                                        @endif
+                                                        @if (auth()->user()->can('delete') || auth()->user()->role_id == 8)
 
                                                         <button  class="text-white btn btn-danger btn-sm waves-effect waves-light creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                         @endif

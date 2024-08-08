@@ -290,6 +290,10 @@ class CreditController extends Controller
             'sponsor'=>$request->sponsor,
         ]);
 
+        Log::info('Creation CREDIT : ' . $credit);
+        Log::info('creation de l\'élément avec ID : ' . $credit->id);
+        Log::info('PAR : ' . auth()->user()->email);
+
         alert()->image('Demande envoyée!','Patientez que la demande soit accordée!','assets/images/payment.png','175','175');
 
         return redirect()->route('attente.index');
@@ -497,6 +501,10 @@ class CreditController extends Controller
             'plan_remboursement'=>$request->plan_remboursement,
             'sponsor'=>$request->sponsor,
         ]);
+
+        Log::info('Upadate CREDIT : ' . $credit);
+        Log::info('modification de l\'élément avec ID : ' . $credit->id);
+        Log::info('PAR : ' . auth()->user()->email);
 
         alert()->image('Fiche envoyée!','Patientez que la demande soit accordée!','assets/images/payment.png','175','175');
 

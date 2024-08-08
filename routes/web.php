@@ -91,6 +91,11 @@ Route::resources([
     '/secteurs' => SecteurController::class,
 ]);
 
+Route::get('/permission', [PersonnelController::class, 'permission'])->name('permission');
+Route::post('/store/permission', [PersonnelController::class, 'permission_store'])->name('store.permission');
+Route::post('/revok/permission', [PersonnelController::class, 'permission_revok'])->name('revok.permission');
+
+
 Route::get('/afficher', [EtatRecouvrementController::class, 'affiche'])->name('etat_recouvrement.affiche');
 Route::get('/marche', [CreditController::class, 'marche'])->name('credit.marche');
 Route::get('/marche/jour', [EtatCreditController::class, 'marche'])->name('etat_credit.marche');
