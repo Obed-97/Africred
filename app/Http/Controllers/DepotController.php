@@ -234,7 +234,7 @@ class DepotController extends Controller
 
         $solde = abs((intval($depots) + intval($request->depot)) - intval($retraits));
 
-        $depot->create([
+        $d = $depot->create([
             'user_id'=>auth()->user()->id,
             'client_id'=>$data_client[0],
             'nature'=>$data_client[1],
@@ -246,8 +246,8 @@ class DepotController extends Controller
         ]);
 
 
-        Log::info('Creation EPARGNE PLUS : ' . $depot);
-        Log::info('creation de l\'élément avec ID : ' . $depot->id);
+        Log::info('Creation EPARGNE PLUS : ' . $d);
+        Log::info('creation de l\'élément avec ID : ' . $d->id);
         Log::info('PAR : ' . auth()->user()->email);
 
         alert()->image('Dépôt effectué!','Le dépôt a été effectué avec succès!','assets/images/jar.png','125','125');

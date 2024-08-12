@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Permission::create(['name' => 'delete', 'guard_name' => 'web']);
+        // Permission::create(['name' => 'delete', 'guard_name' => 'web']);
+        Permission::create(['name' => 'withdrawal', 'guard_name' => 'web']);
     }
 }

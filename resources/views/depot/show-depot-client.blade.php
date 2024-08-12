@@ -49,10 +49,12 @@
                                         <th>Nom complet</th>
                                         <th>Marché</th>
                                         <th>Téléphone</th>
+                                        <th>Type</th>
                                         <th>Dépôt</th>
                                         <th>Rétrait</th>
                                         <th>Solde</th>
                                         <th>Statut</th>
+                                        <th>Date</th>
                                         @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                                             <th>Opérateur</th>
                                         @endif
@@ -67,6 +69,7 @@
                                         <td>{{$item->Client['nom_prenom']}}</td>
                                         <td>{{$item->Client->Marche['libelle'] ?? '-'}}</td>
                                         <td>{{$item->Client['telephone']}}</td>
+                                        <td>{{ $item->Type_depot['libelle'] }}</td>
                                         <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format(intval($item->depot) - intval($item->retrait), 0, ',', ' ')}} CFA</td>
@@ -77,6 +80,8 @@
                                                 <div class="badge badge-soft-danger font-size-14">Solde nul</div>
                                             @endif
                                         </td>
+                                        <td>{{$item->date}}</td>
+
                                         @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                                             <td>{{$item->Client->User['nom']}}</td>
                                         @endif

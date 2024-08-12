@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Depot;
 use App\Models\Client;
+use App\Models\Marche;
 use App\Models\Type_depot;
 use Carbon\Carbon;
 
@@ -23,7 +24,10 @@ class HistDepotController extends Controller
             $depots = Depot::where('user_id', auth()->user()->id)->get();
         }
 
-        return view('depot.historique', compact('depots'));
+        $marches = Marche::get();
+
+
+        return view('depot.historique', compact('depots', 'marches'));
     }
 
     public function filtre(Request $request)
@@ -41,7 +45,6 @@ class HistDepotController extends Controller
 
         return view('depot.historique', compact('depots', 'date1', 'date2'));
     }
-
 
 
     /**

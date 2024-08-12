@@ -176,7 +176,6 @@
                                     <a href="{{route('depot.epargne')}}"
                                         class="btn btn-success btn-sm waves-effect waves-light"><i
                                             class="ri-store-2-line "></i> Épargne</a>
-
                                 </div>
                             </div>
 

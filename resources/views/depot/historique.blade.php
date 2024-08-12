@@ -53,16 +53,30 @@
                         @endisset
                             <div class="card">
                                 <div class="card-body">
+                                    <div class="row">
+                                        <div class="mb-4 col-xl-4">
+                                            <label for="">Afficher par :</label>
+                                            @if (auth()->user()->role_id == 2)
+                                            <a href="{{route('recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
+                                            <a href="{{route('recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
+                                            @else
+                                            <a href="{{route('recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
+
+                                            <a href="{{route('recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
+                                            @endif
+                                        </div>
+                                    </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
-                                            <th>Date</th>
-                                            <th></th>
-                                            <th>Nom complet</th>
+                                            <th>ID</th>
+                                            <th>Nom
+                                            complet</th>
+                                            <th>Marché</th>
+                                            <th>Type</th>
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
-
-
+                                            <th>Date</th>
                                             @if (auth()->user()->role_id == 1 )
                                                 <th>Opérateur</th>
                                             @endif
@@ -77,13 +91,15 @@
                                         <tbody>
                                        @foreach ($depots as $item)
                                         <tr>
-                                            <td>{{(new DateTime($item->date))->format('d-m-Y')}} </td>
-                                            <td><img src="/assets/images/users/{{$item->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
+                                            <td>{{$item->id}} </td>
                                             <td>{{$item->Client['nom_prenom']}}</td>
+                                            <td>{{$item->Client->Marche['libelle'] ?? '-'}}</td>
+                                            <td>
+                                                <div class="badge badge-soft-info font-size-14">{{$item->type()}}</div>
+                                            </td>
                                             <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
-
-
+                                            <td>{{(new DateTime($item->date))->format('d-m-Y')}} </td>
                                             @if (auth()->user()->role_id == 1 )
                                                 <td>{{$item->User['nom']}}</td>
                                             @endif
@@ -134,6 +150,83 @@
                             </form>
                         </div>
                     </div>
+
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            @isset($date1)
+                        <h5 class=" text-success">Filtre entre le {{ $date1 ?? '' }} et le {{ $date2 ?? '' }} </h5>
+                        @endisset
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="mb-4 col-xl-4">
+                                            <label for="">Afficher par :</label>
+                                            @if (auth()->user()->role_id == 2)
+                                            <a href="{{route('recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
+                                            <a href="{{route('recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
+                                            @else
+                                            <a href="{{route('recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
+
+                                            <a href="{{route('recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nom
+                                            complet</th>
+                                            <th>Marché</th>
+                                            <th>Type</th>
+                                            <th>Dépôt</th>
+                                            <th>Rétrait</th>
+                                            <th>Date</th>
+                                            @if (auth()->user()->role_id == 1 )
+                                                <th>Opérateur</th>
+                                            @endif
+                                            @if (auth()->user()->role_id == 8)
+                                            <th>Opérateur</th>
+                                            <th>Action</th>
+                                            @endif
+                                        </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                       @foreach ($depots as $item)
+                                        <tr>
+                                            <td>{{$item->id}} </td>
+                                            <td>{{$item->Client['nom_prenom']}}</td>
+                                            <td>{{$item->Client->Marche['libelle'] ?? '-'}}</td>
+                                            <td>
+                                                <div class="badge badge-soft-info font-size-14">{{$item->type()}}</div>
+                                            </td>
+                                            <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
+                                            <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                            <td>{{(new DateTime($item->date))->format('d-m-Y')}} </td>
+                                            @if (auth()->user()->role_id == 1 )
+                                                <td>{{$item->User['nom']}}</td>
+                                            @endif
+                                            @if (auth()->user()->role_id == 8)
+                                                <td>{{$item->User['nom']}}</td>
+                                                <td class="d-flex">
+                                                    <a href="{{route('historique_depot.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                    <button  class="text-white btn-danger btn-rounded deleteBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#delete"><i class="mdi mdi-trash-can font-size-18"></i></button>
+                                                </td>
+                                           @endif
+                                        </tr>
+                                       @endforeach
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
                 </div>
 
                 </div> <!-- container-fluid -->

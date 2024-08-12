@@ -5,10 +5,10 @@
 @section('content')
 
 @php
-   
+
     $encours = 0;
     foreach($credits as $credit){
-       
+
             $encours = $credit->encours($credit->montant_interet) + $encours;
         }
     @endphp
@@ -30,14 +30,14 @@
                     </div>
 
                     <div class="modal-body">
-                        
+
                         <div class="form-group">
                             <label class="control-label">Client</label>
                             <select class="form-control select2" name="credit_id" required>
                                 @foreach ($credits as $item)
                                 <option value="{{$item->id}}|{{$item->marche_id}}|{{$item->montant_interet}}|{{$item->type_id}}" >
                                     {{$item->Client['nom_prenom']}} : {{number_format(($item->encours($item->montant_interet)), 0, ',', ' ')}} CFA //
-                                               
+
                                                 @if ((\Carbon\Carbon::now() < $item->date_fin) && (\Carbon\Carbon::now()->diffInDays($item->date_fin) != 0))
                                                    Jours restant : {{\Carbon\Carbon::now()->diffInDays($item->date_fin)}} jrs
                                                 @elseif(\Carbon\Carbon::now()->diffInDays($item->date_fin) == 0)
@@ -48,10 +48,10 @@
                                 </option>
                                @endforeach
                             </select>
-                            
+
                         </div>
-                        
-                       
+
+
                         <div class="row">
                             <div class="col-6 form-group ">
                             <label>Capital</label>
@@ -96,7 +96,7 @@
             </form>
             </div>
         </div>
-        
+
          <div class="modal fade" id="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog" >
                 <form action="{{route('retrait.epargne')}}" method="POST" enctype="multipart/form-data">
@@ -108,9 +108,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                   
+
                     <div class="modal-body">
-                       
+
                         <div class="form-group ">
                             <label>Date</label>
                             <div>
@@ -122,22 +122,22 @@
                             <select class="form-control select2" name="credit_id" required>
                                 @foreach ($epargnes as $item)
                                 <option value="{{$item->id}}|{{$item->marche_id}}|{{$item->montant_interet}}|{{$item->type_id}}">
-                                    {{$item->Client['nom_prenom']}} : {{number_format($item->getEpargne($item->id), 0, ',', ' ')}} CFA 
+                                    {{$item->Client['nom_prenom']}} : {{number_format($item->getEpargne($item->id), 0, ',', ' ')}} CFA
                                 </option>
                                @endforeach
                             </select>
-                            
+
                         </div>
-                        
-                        
+
+
                         <div class="form-group ">
                             <label>Montant du retrait</label>
                             <div>
                                 <input class="form-control" type="number" name="retrait" min="0" id="retrait" required >
                             </div>
                         </div>
-                        
-                      
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -146,9 +146,9 @@
                 </div>
             </form>
             </div>
-        </div> 
+        </div>
         <div class="page-content">
-            
+
             <div class="container-fluid">
                 @php
                     $sum_frais_deblocage = 0;
@@ -188,21 +188,21 @@
                                 <button id="btnGroupVerticalDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     ÉTATS D'ARRÊTÉ <i class="mdi mdi-chevron-down"></i>
                                 </button>
-                                
+
                                 <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1" >
                                     <a class="dropdown-item" data-toggle="modal" data-target="#arrete">ABEYAN FOU</a>
                                     <a class="dropdown-item" href="{{route('ab_sugu')}}">ABEYAN SUGU</a>
-                                   
+
                                 </div>
-                                
-                                
+
+
                             </div>
-                        
-                    
+
+
                     </div>
-                    
-                    
-                    
+
+
+
                     <div class="col-xl-4" id="web">
                        <form  method="POST" action="{{route('date.store')}}" class="d-flex mb-4">
                            @csrf
@@ -211,16 +211,16 @@
                        </form>
                     </div>
                     <div class="col-xl-2" id="web">
-                        
-                        
-                    
+
+
+
                     </div>
-                    
+
                     <div class="col-xl-2"><a href="{{route('historique.index')}}" class="btn btn-primary btn-block  waves-effect waves-light mb-2"><i class="ri-file-list-3-line  align-middle mr-2"></i> HISTORIQUE</a></div>
                     <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"><i class=" ri-bank-line  align-middle mr-2"></i> ÉTAT GLOBAL</a></div>
                 </div>
-                
-        
+
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -228,15 +228,15 @@
                                 <h4 class="card-title text-right mb-4">
                                     @if(auth()->user()->role_id == 2)
                                         <button type="button" class="btn btn-primary waves-effect waves-light mb-3" data-toggle="modal" data-target="#staticBackdrop">
-                                    
+
                                             <i class="ri-calendar-check-line  align-middle mr-2"></i> Recouvrement
                                         </button>
                                         <button type="button" class="btn btn-danger  waves-effect waves-light mb-3" data-toggle="modal" data-target="#static"><i class="ri-arrow-up-fill  align-middle mr-1"></i> Retrait Épargne</button>
                                     @endif
-                                        
-                                    
+
+
                                 </h4>
-                                    
+
                                 <div class="modal fade" id="arrete" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog" >
                                         <form action="{{route('etat_recouvrement.store')}}" method="POST" enctype="multipart/form-data">
@@ -299,13 +299,13 @@
                                     </form>
                                     </div>
                                 </div>
-                                    
+
                                 <div class="row">
                                     <div class="mb-4 col-xl-4">
                                         <label for="">Afficher par :</label>
                                         @if (auth()->user()->role_id == 2)
                                         <a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                        <a href="{{route('etat_recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
+                                        <a href="{{route('etat_recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
                                         @else
                                         <a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
 
@@ -321,7 +321,7 @@
                                                 <th>N* Compte</th>
                                                 <th>Client</th>
                                                 <th>Marché</th>
-                                        
+
                                                 <th>Capital</th>
                                                 <th>Intérêt</th>
                                                 <th>Epargne</th>
@@ -330,10 +330,10 @@
                                                 <th>Pénalité</th>
                                                 <th>Total</th>
                                                 <th>Jours restant</th>
-                                                
-                                                
-                                                
-                                                
+
+
+
+
                                             </tr>
                                         @else
                                         <tr>
@@ -349,8 +349,8 @@
                                             <th style="background-color: #569ad2; color:white">Frais déblocage</th>
                                             <th style="background-color: #569ad2; color:white">Frais carte</th>
                                             <th style="background-color: #1cbb8c;; color: white ">Total</th>
-                                            
-                                            
+
+
                                         </tr>
                                         @endif
 
@@ -365,15 +365,15 @@
                                                     <td style = "text-transform:uppercase;">ABF-{{$item->Credit->Client['id']}}</td>
                                                     <td style = "text-transform:uppercase;">{{$item->Credit->Client['nom_prenom']}}</td>
                                                     <td>{{$item->Credit->Client->Marche['libelle']}}</td>
-                                                    
+
                                                     <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->epargne_jrs, 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
-                                                    
-                                                    <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td> 
-                                                    <td>{{number_format($item->penalite, 0, ',', ' ')}} CFA</td> 
-                                                    <td>{{number_format($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->penalite, 0, ',', ' ')}} CFA</td> 
+
+                                                    <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item->penalite, 0, ',', ' ')}} CFA</td>
+                                                    <td>{{number_format($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->penalite, 0, ',', ' ')}} CFA</td>
                                                     @if ((\Carbon\Carbon::now() < $item->Credit['date_fin']) && (\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) != 0))
                                                         <td><div class="badge badge-soft-success font-size-14">{{\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin'])}} jours</div> </td>
                                                     @elseif(\Carbon\Carbon::now()->diffInDays($item->Credit['date_fin']) == 0)
@@ -381,8 +381,8 @@
                                                     @else
                                                         <td><div class="badge badge-soft-danger font-size-14">Délai expiré</div> </td>
                                                     @endif
-                                                    
-                                                    
+
+
 
                                                 </tr>
                                             @endforeach
@@ -399,7 +399,7 @@
                                                     <td>{{number_format($total->sum('penalite'), 0, ',', ' ')}} CFA</td>
                                                     <td>{{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $total->sum('penalite') + $credit_j->sum('frais_deblocage') + $credit_j->sum('frais_carte')), 0, ',', ' ')}} CFA</td>
                                                     <td></td>
-                                                                                                        
+
                                                 </tr>
                                         @else
                                             @forelse ($recouvrements as $item)
@@ -416,7 +416,7 @@
                                                     <td >{{number_format($item->getFraisDeblocageDay($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->getFraisCarteDay($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->penalite + $item->getFraisDeblocageDay($item->user_id) + $item->getFraisCarteDay($item->user_id)) , 0, ',', ' ')}} CFA</td>
-                                                    
+
 
                                                 </tr>
 
@@ -434,8 +434,8 @@
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
-                                                    
-                                                
+
+
 
                                                 </tr>
                                                 <tr style="background-color: #1cbb8c;; color: white ">
@@ -451,8 +451,8 @@
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
-                                                    
-                                                    
+
+
 
                                                 </tr>
                                                 <tr style="background-color: #1cbb8c;; color: white ">
@@ -468,8 +468,8 @@
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
                                                     <td >0 CFA</td>
-                                                    
-                                                    
+
+
 
                                                 </tr>
                                             @endforelse
@@ -487,7 +487,7 @@
                                                     <td >{{number_format($item->DeblocageHier($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteHier($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageHier($item->user_id) + $item->CarteHier($item->user_id)) , 0, ',', ' ')}} CFA</td>
-                                                    
+
 
                                                 </tr>
                                             @endforeach
@@ -505,7 +505,7 @@
                                                     <td >{{number_format($item->DeblocageJ_2($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteJ_2($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageJ_2($item->user_id) + $item->CarteJ_2($item->user_id) ) , 0, ',', ' ')}} CFA</td>
-                                                    
+
 
                                                 </tr>
                                             @endforeach
@@ -527,7 +527,7 @@
 
                                                 </tr>
                                             @endforeach
-                                            
+
                                                 @foreach ($j_4 as $item)
                                                 <tr>
                                                     <td>{{$item->User['nom']}}  <div class="badge badge-soft-success font-size-12">J-4</div></td>
@@ -542,11 +542,11 @@
                                                     <td >{{number_format($item->DeblocageJ_4($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteJ_4($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageJ_4($item->user_id) + $item->CarteJ_4($item->user_id) ) , 0, ',', ' ')}} CFA</td>
-                                                    
+
 
                                                 </tr>
                                             @endforeach
-                                            
+
                                             @foreach ($j_5 as $item)
                                                 <tr>
                                                     <td>{{$item->User['nom']}}  <div class="badge badge-soft-success font-size-12">J-5</div></td>
@@ -561,22 +561,22 @@
                                                     <td >{{number_format($item->DeblocageJ_5($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format($item->CarteJ_5($item->user_id), 0, ',', ' ')}} CFA</td>
                                                     <td >{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance + $item->DeblocageJ_5($item->user_id) + $item->CarteJ_5($item->user_id) ) , 0, ',', ' ')}} CFA</td>
-                                                    
+
 
                                                 </tr>
                                             @endforeach
-                                            
-                                            
+
+
                                         @endif
                                     </tbody>
                                 </table>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div> <!-- end col -->
-                    
-                        
+
+
                 </div> <!-- end row -->
                 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 6 ||  auth()->user()->role_id == 8)
                     <!-- start page title -->
@@ -587,7 +587,7 @@
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    
+
                                 </ol>
                             </div>
 
@@ -595,18 +595,18 @@
                     </div>
                 </div>
                 <div class="row" id="web">
-                    
+
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                    
-                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $total->sum('penalite') + $sum_frais_deblocage + $sum_frais_carte), 0, ',', ' ')}} CFA </button></div> 
+
+                                <div class="font-size-18 mb-4">{{\Carbon\Carbon::now()->format('d-m-Y')}} <button class="btn btn-success btn-block btn-xl">Total : {{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $total->sum('penalite') + $sum_frais_deblocage + $sum_frais_carte), 0, ',', ' ')}} CFA </button></div>
                                 <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr style="font-size: 16px">
                                             <th><b>Désignations</b> </th>
                                             <th style="text-align:right;"><b>Total</b> </th>
-                                            
+
                                         </tr>
                                     </thead>
 
@@ -624,7 +624,7 @@
                                             <td>Épargne</td>
                                             <td style="text-align:right;">{{number_format($total->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td>Assurance</td>
                                             <td style="text-align:right;">{{number_format($total->sum('assurance'), 0, ',', ' ')}} CFA</td>
@@ -644,14 +644,14 @@
                                         <tr>
                                             <td style="background-color: #569ad2; color: white">Retrait Épargne</td>
                                             <td style="background-color: #569ad2; color: white; text-align:right;">{{number_format($total->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                        </tr>    
+                                        </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div> <!-- end col -->
-                    
+
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
@@ -661,7 +661,7 @@
                                         <tr style="font-size: 16px">
                                             <th><b>Désignations</b> </th>
                                             <th style="text-align:right;"><b>Total</b> </th>
-                                            
+
                                         </tr>
                                     </thead>
 
@@ -698,14 +698,14 @@
                                         <tr>
                                             <td style="background-color: #569ad2; color: white">Retrait Épargne</td>
                                             <td style="background-color: #569ad2; color: white;text-align:right;">{{number_format($total_hier->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                        </tr>  
+                                        </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div> <!-- end col -->
-                    
+
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
@@ -715,7 +715,7 @@
                                         <tr style="font-size: 16px">
                                             <th><b>Désignations</b> </th>
                                             <th style="text-align:right;"><b>Total</b> </th>
-                                            
+
                                         </tr>
                                     </thead>
 
@@ -752,10 +752,10 @@
                                         <tr>
                                             <td style="background-color: #569ad2; color: white">Retrait Épargne</td>
                                             <td style="background-color: #569ad2; color: white;text-align:right;">{{number_format($total_j_2->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                        </tr>   
+                                        </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -768,7 +768,7 @@
                                         <tr style="font-size: 16px">
                                             <th><b>Désignations</b> </th>
                                             <th style="text-align:right;"><b>Total</b> </th>
-                                            
+
                                         </tr>
                                     </thead>
 
@@ -805,10 +805,10 @@
                                         <tr>
                                             <td style="background-color: #569ad2; color: white">Retrait Épargne</td>
                                             <td style="background-color: #569ad2; color: white; text-align:right;">{{number_format($total_j_3->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                        </tr>   
+                                        </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -821,7 +821,7 @@
                                         <tr style="font-size: 16px">
                                             <th><b>Désignations</b> </th>
                                             <th style="text-align:right;"><b>Total</b> </th>
-                                            
+
                                         </tr>
                                     </thead>
 
@@ -858,10 +858,10 @@
                                         <tr>
                                             <td style="background-color: #569ad2; color: white">Retrait Épargne</td>
                                             <td style="background-color: #569ad2; color: white; text-align:right;">{{number_format($total_j_4->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                        </tr>   
+                                        </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -874,7 +874,7 @@
                                         <tr style="font-size: 16px">
                                             <th><b>Désignations</b> </th>
                                             <th style="text-align:right;"><b>Total</b> </th>
-                                            
+
                                         </tr>
                                     </thead>
 
@@ -911,15 +911,15 @@
                                         <tr>
                                             <td style="background-color: #569ad2; color: white">Retrait Épargne</td>
                                             <td style="background-color: #569ad2; color: white;text-align:right;">{{number_format($total_j_5->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                        </tr>   
+                                        </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div> <!-- end col -->
 
-                    
+
                     @endif
                 </div>
             </div> <!-- container-fluid -->

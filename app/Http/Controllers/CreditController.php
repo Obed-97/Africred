@@ -461,7 +461,7 @@ class CreditController extends Controller
              $epargne_par_jour = 5000;
          }
 
-        $credit->update([
+        $c = $credit->update([
             'client_id'=>$data_credit[0],
             'marche_id'=>$request->marche_id,
             'filiere_id'=>$request->filiere_id,
@@ -502,8 +502,8 @@ class CreditController extends Controller
             'sponsor'=>$request->sponsor,
         ]);
 
-        Log::info('Upadate CREDIT : ' . $credit);
-        Log::info('modification de l\'élément avec ID : ' . $credit->id);
+        Log::info('Upadate CREDIT : ' . $c);
+        Log::info('modification de l\'élément avec ID : ' . $c->id);
         Log::info('PAR : ' . auth()->user()->email);
 
         alert()->image('Fiche envoyée!','Patientez que la demande soit accordée!','assets/images/payment.png','175','175');

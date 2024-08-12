@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- end page title -->
                     <div class="row mb-4">
                         <div class="col-xl-10"></div>
@@ -55,7 +55,7 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                   
+
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label class="control-label">Type dépôt</label>
@@ -78,17 +78,17 @@
                                                                 <option value="{{$item->id}}|{{$item->type_compte_id}}|{{$item->sexe}}">{{$item->nom_prenom}} </option>
                                                                @endforeach
                                                             </select>
-                                                            
+
                                                         </div>
-                                                        
+
                                                         <div class="form-group ">
                                                             <label>Montant</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="depot"  id="depot" required >
                                                             </div>
                                                         </div>
-                                                        
-                                                      
+
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -97,7 +97,7 @@
                                                 </div>
                                             </form>
                                             </div>
-                                        </div> 
+                                        </div>
 
                                         <div class="modal fade" id="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog" >
@@ -110,7 +110,7 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                   
+
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label class="control-label">Type retrait</label>
@@ -133,7 +133,7 @@
                                                                 <option value="{{$item->id}}">{{$item->nom_prenom}} </option>
                                                                @endforeach
                                                             </select>
-                                                            
+
                                                         </div>
                                                         <div class="form-group ">
                                                             <label>Montant</label>
@@ -141,8 +141,8 @@
                                                                 <input class="form-control" type="number" name="retrait"  id="retrait" required >
                                                             </div>
                                                         </div>
-                                                        
-                                                      
+
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -151,15 +151,15 @@
                                                 </div>
                                             </form>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="row">
                                             <div class="mb-4 col-xl-4">
                                                 <a href="{{route('depot.tontine')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-recycle-line"></i> Tontine</a>
-                                                <a href="{{route('depot.epargne')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Épargne</a>  
-                                               
+                                                <a href="{{route('depot.epargne')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Épargne</a>
+
                                             </div>
                                         </div>
-                                    
+
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
@@ -170,15 +170,15 @@
                                             <th>Dépôt</th>
                                             <th>Rétrait</th>
                                             <th>Solde</th>
-                                            
+
                                             <th>Statut</th>
                                             @if(auth()->user()->role_id == 1)
                                             <th>Opérateur</th>
                                             @endif
                                         </tr>
                                         </thead>
-    
-    
+
+
                                         <tbody>
                                        @foreach ($depots as $item)
                                         <tr>
@@ -192,7 +192,7 @@
                                             @if ((intval($item->depot) - intval($item->retrait)) > 0)
                                                 <td>
                                                     <div class="badge badge-soft-success font-size-12">Solde positif</div>
-                                                </td>  
+                                                </td>
                                             @else
                                                 <td>
                                                     <div class="badge badge-soft-danger font-size-12">Solde nul</div>
@@ -203,8 +203,8 @@
                                             @endif
                                         </tr>
                                        @endforeach
-                                           
-                                        
+
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -213,7 +213,7 @@
                     </div> <!-- end row -->
 
 
-                    
+
                     <div class="row" id="web">
                         <div class="col-4">
                             <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -221,20 +221,20 @@
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        
+
                                     </ol>
                                 </div>
 
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                      
+
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr style="font-size: 16px">
                                                 <th><b>Désignations</b> </th>
                                                 <th><b>Total</b> </th>
-                                                
+
                                             </tr>
                                         </thead>
 
@@ -254,13 +254,13 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                   
+
                                 </div>
                             </div>
                         </div> <!-- end col -->
-                       
+
                     </div>
-                    
+
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->

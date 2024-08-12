@@ -42,4 +42,13 @@ class Depot extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function type()
+    {
+        if($this->depot == 0){
+            return 'retrait';
+        }else{
+            return 'dépôt';
+        }
+    }
 }
