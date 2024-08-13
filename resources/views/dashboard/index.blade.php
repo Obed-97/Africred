@@ -13,7 +13,7 @@
         $tool = new Tool();
     @endphp
 
-    
+
 <div class="modal fade" id="performance" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog" >
             <form action="{{route('performance.store')}}" method="POST" enctype="multipart/form-data">
@@ -27,9 +27,9 @@
                 </div>
 
                 <div class="modal-body">
-                    
+
                         <div class="row">
-                            
+
                             <div class="col-xl-6">
                                     <div class="form-group">
                                     <label>De</label>
@@ -42,22 +42,22 @@
                                     <input class="form-control" type="date" name="date_f">
                                 </div>
                             </div>
-                            
+
                              <div class="col-xl-12">
                                  <div class="form-group ">
                                     <label>Performance par :</label>
                                     <select class="form-control" name="id" required>
-                                        
+
                                         <option value="agent">AGENT</option>
                                         <option value="marche">MARCH&Eacute;</option>
                                         <option value="credit">CLIENT</option>
                                         <option value="ab_sugu">ABEYAN SUGU</option>
-                                        
+
                                     </select>
                                 </div>
                              </div>
                         </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -73,7 +73,7 @@
             <div class="modal-dialog" role="document">
                 <form method="POST" action="{{route('reporting.store')}}" enctype="multipart/form-data" class="mr-2">
                     @csrf
-                 
+
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel">TRIMESTRE</h5>
@@ -81,19 +81,19 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        
+
                         <div class="modal-body">
                             <div class="form-group">
-                            
+
                             <select class="form-control select2" name="trimestre" required>
                                 <option value="TRIMESTRE 1">1<sup>er</sup> TRIMESTRE</option>
                                 <option value="TRIMESTRE 2">2ème TRIMESTRE</option>
                                 <option value="TRIMESTRE 3">3ème TRIMESTRE</option>
                                 <option value="TRIMESTRE 4">4ème TRIMESTRE</option>
                             </select>
-                            
+
                         </div>
-                            
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -102,7 +102,7 @@
                     </div>
                 </form>
             </div>
-        </div> 
+        </div>
 
         <!-- start page title -->
         <div class="row" >
@@ -112,13 +112,13 @@
                         Aujourd'hui,&nbsp; le &nbsp;
                         <?php
                         echo date('d-m-Y');
-                        ?> 
-                       
+                        ?>
+
                     </h4>
-                    
+
 
                     <div class="page-title-right">
-                        <ol class="breadcrumb m-0" id="web"> 
+                        <ol class="breadcrumb m-0" id="web">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Africred</a></li>
                             <li class="breadcrumb-item active">État du jour</li>
                         </ol>
@@ -142,13 +142,13 @@
             </form>
          </div>
            <div class="col-xl-2" id="web">
-            
+
         </div>
             <div class="col-xl-2"><a href="{{route('prevision.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">PRÉV./RÉAL.</a></div>
             <div class="col-xl-2"><a href="{{route('etat_global.index')}}" class="btn btn-primary btn-block  waves-effect waves-light">ÉTAT GLOBAL</a></div>
         </div>
 
-           
+
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -166,7 +166,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body border-top py-3">
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -185,7 +185,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body border-top py-3">
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body border-top py-3">
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -222,11 +222,11 @@
                                     </div>
                                 </div>
                                 <div class="card-body border-top py-3">
-                                    
+
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <!-- end row -->
                     <!-- end row -->
@@ -235,13 +235,13 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0"> ADMINISTRATION</h4>
-    
+
                         <div class="page-title-right">
-                            <ol class="breadcrumb m-0"> 
-                                
+                            <ol class="breadcrumb m-0">
+
                             </ol>
                         </div>
-    
+
                     </div>
                 </div>
             </div>
@@ -263,8 +263,8 @@
                                             </div>
                                         </div>
                                     </div>
-    
-                                   
+
+
                                 </div>
                             </div>
                             <div class="col-md-3" >
@@ -280,8 +280,8 @@
                                             </div>
                                         </div>
                                     </div>
-    
-                                   
+
+
                                 </div>
                             </div>
 
@@ -304,7 +304,7 @@
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
 @elseif(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
              <!-- end page title -->
             <div class="row mb-4">
@@ -338,7 +338,7 @@
                     <div id="chart_container" class="mb-4"></div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -370,15 +370,15 @@
 
                                                     @if (((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) < 50)
                                                      <p class="mb-1" ><i class="ri-arrow-down-line font-size-15 text-danger"></i>  {{number_format(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
-                                                    @elseif(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) >= 50)    
+                                                    @elseif(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100) >= 50)
                                                      <p class="mb-1" ><i class="ri-arrow-up-line font-size-15 text-success"></i>  {{number_format(((($avant_hier->sum('recouvrement_jrs') + $avant_hier->sum('interet_jrs') + $avant_hier->sum('epargne_jrs') + $avant_hier->sum('assurance') + $credits_av_hier->sum('frais_deblocage') + $credits_av_hier->sum('frais_carte')) / ($totalCapitalParJour + $totalInteretParJour + $totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
                                                     @endif
-                                                @elseif($totalCapitalParJour == 0)    
+                                                @elseif($totalCapitalParJour == 0)
                                                     <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                     <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                     <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                 @endif
-                                                 
+
                                                 </div>
                                             </div>
                                         </div>
@@ -397,7 +397,7 @@
                                 </div>
                             </div>
                         </div>
-                           
+
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-body">
@@ -429,14 +429,14 @@
                                                         @elseif((($avant_hier->sum('recouvrement_jrs')  / ($totalCapitalParJour)) * 100) >= 50)
                                                             <p class="mb-1" ><i class="ri-arrow-up-line font-size-15 text-success"></i>  {{number_format((($avant_hier->sum('recouvrement_jrs') / ($totalCapitalParJour)) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-                                                
-                                                    @elseif($totalCapitalParJour == 0)    
+
+                                                    @elseif($totalCapitalParJour == 0)
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                     @endif
 
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -486,13 +486,13 @@
                                                         @elseif((($avant_hier->sum('interet_jrs')  / ($totalInteretParJour)) * 100) >= 50)
                                                             <p class="mb-1" ><i class="ri-arrow-up-line font-size-15 text-success"></i>  {{number_format((($avant_hier->sum('interet_jrs') / ($totalInteretParJour)) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-                                                    
-                                                    @elseif($totalInteretParJour == 0)    
+
+                                                    @elseif($totalInteretParJour == 0)
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                     @endif
-                                                 
+
                                                 </div>
                                             </div>
                                         </div>
@@ -543,15 +543,15 @@
                                                         @elseif((($avant_hier->sum('epargne_jrs')  / ($totalEpargneParJour)) * 100) >= 50)
                                                             <p class="mb-1 font-size-13" ><i class="ri-arrow-up-line font-size-13 text-success"></i>  {{number_format((($avant_hier->sum('epargne_jrs') / ($totalEpargneParJour)) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-                                                    
-                                                    @elseif($totalEpargneParJour == 0)    
+
+                                                    @elseif($totalEpargneParJour == 0)
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                     @endif
 
-                                                    
-                                                 
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -569,7 +569,7 @@
                             </div>
                         </div>
 
-                        
+
                          <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
@@ -595,20 +595,20 @@
                                                     @elseif((($credits_hier->sum('frais_deblocage')  / ($prev_credits->sum('frais_deblocage'))) * 100) >= 50)
                                                      <p class="mb-1 font-size-13" ><i class="ri-arrow-up-line font-size-13 text-success"></i> {{number_format((($credits_hier->sum('frais_deblocage') / ($prev_credits->sum('frais_deblocage'))) * 100), 0, ',', ' ')}} % </p>
                                                     @endif
-                                                    
+
                                                     @if ((($credits_av_hier->sum('frais_deblocage')  / ($prev_credits->sum('frais_deblocage'))) * 100) < 50)
                                                      <p class="mb-1 font-size-13" ><i class="ri-arrow-down-line font-size-13 text-danger"></i> {{number_format((($credits_av_hier->sum('frais_deblocage')/ ($prev_credits->sum('frais_deblocage'))) * 100), 0, ',', ' ')}} %</p>
                                                     @elseif((($credits_av_hier->sum('frais_deblocage')  / ($prev_credits->sum('frais_deblocage'))) * 100) >= 50)
                                                      <p class="mb-1 font-size-13" ><i class="ri-arrow-up-line font-size-13 text-success"></i> {{number_format((($credits_av_hier->sum('frais_deblocage') / ($prev_credits->sum('frais_deblocage'))) * 100), 0, ',', ' ')}} % </p>
                                                     @endif
-                                                @elseif($prev_credits->sum('frais_deblocage') == 0)   
+                                                @elseif($prev_credits->sum('frais_deblocage') == 0)
                                                     <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                     <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                     <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
-                                                @endif  
-                                                 
+                                                @endif
+
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="text-primary">
@@ -644,26 +644,26 @@
                                                         @elseif((($credits->sum('frais_carte')  / ($prev_credits->sum('frais_carte'))) * 100) >= 50 )
                                                          <p class="mb-1 font-size-13" > <i class="ri-arrow-up-line font-size-13 text-success"></i> {{number_format((($credits->sum('frais_carte') / ($prev_credits->sum('frais_deblocage'))) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-    
+
                                                         @if ((($credits_hier->sum('frais_carte')  / ($prev_credits->sum('frais_carte'))) * 100) < 50 )
                                                          <p class="mb-1 font-size-13" ><i class="ri-arrow-down-line font-size-13 text-danger"></i> {{number_format((($credits_hier->sum('frais_carte')/ ($prev_credits->sum('frais_deblocage'))) * 100), 0, ',', ' ')}} %</p>
                                                         @elseif((($credits_hier->sum('frais_carte')  / ($prev_credits->sum('frais_carte'))) * 100) >= 50 )
                                                          <p class="mb-1 font-size-13" ><i class="ri-arrow-up-line font-size-13 text-success"></i> {{number_format((($credits_hier->sum('frais_carte') / ($prev_credits->sum('frais_deblocage'))) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-                                                        
+
                                                         @if ((($credits_av_hier->sum('frais_carte')  / ($prev_credits->sum('frais_carte'))) * 100) < 50 )
                                                          <p class="mb-1 font-size-13" ><i class="ri-arrow-down-line font-size-13 text-danger"></i> {{number_format((($credits_av_hier->sum('frais_carte')/ ($prev_credits->sum('frais_deblocage'))) * 100), 0, ',', ' ')}} %</p>
                                                         @elseif((($credits_av_hier->sum('frais_carte')  / ($prev_credits->sum('frais_carte'))) * 100) >= 50 )
                                                          <p class="mb-1 font-size-13" ><i class="ri-arrow-up-line font-size-13 text-success"></i> {{number_format((($credits_av_hier->sum('frais_carte') / ($prev_credits->sum('frais_deblocage'))) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-                                                    @elseif($prev_credits->sum('frais_carte') == 0)    
+                                                    @elseif($prev_credits->sum('frais_carte') == 0)
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                     @endif
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="text-primary">
                                             <i class="ri-bank-card-2-line font-size-24"></i>
@@ -679,7 +679,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="col-md-3">
                             <div class="card bg-primary text-white ">
                                 <div class="card-body ">
@@ -699,19 +699,19 @@
                                                         @elseif((($credits->sum('montant')  / ($prev_credits->sum('montant'))) * 100) >= 50 )
                                                          <p class="mb-1 font-size-13" > <i class="ri-arrow-up-line font-size-13 text-success"></i> {{number_format((($credits->sum('montant') / ($prev_credits->sum('montant'))) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-    
+
                                                         @if ((($credits_hier->sum('montant')  / ($prev_credits->sum('montant'))) * 100) < 50 )
                                                          <p class="mb-1 font-size-13" ><i class="ri-arrow-down-line font-size-13 text-danger"></i> {{number_format((($credits_hier->sum('montant')/ ($prev_credits->sum('montant'))) * 100), 0, ',', ' ')}} %</p>
                                                         @elseif((($credits_hier->sum('montant')  / ($prev_credits->sum('montant'))) * 100) >= 50 )
                                                          <p class="mb-1 font-size-13" ><i class="ri-arrow-up-line font-size-13 text-success"></i> {{number_format((($credits_hier->sum('montant') / ($prev_credits->sum('montant'))) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-                                                        
+
                                                         @if ((($credits_av_hier->sum('montant')  / ($prev_credits->sum('montant'))) * 100) < 50 )
                                                          <p class="mb-1 font-size-13" ><i class="ri-arrow-down-line font-size-13 text-danger"></i> {{number_format((($credits_av_hier->sum('montant')/ ($prev_credits->sum('montant'))) * 100), 0, ',', ' ')}} %</p>
                                                         @elseif((($credits_av_hier->sum('montant')  / ($prev_credits->sum('montant'))) * 100) >= 50 )
                                                          <p class="mb-1 font-size-13" ><i class="ri-arrow-up-line font-size-13 text-success"></i> {{number_format((($credits_av_hier->sum('montant') / ($prev_credits->sum('montant'))) * 100), 0, ',', ' ')}} % </p>
                                                         @endif
-                                                    @elseif($prev_credits->sum('montant') == 0)    
+                                                    @elseif($prev_credits->sum('montant') == 0)
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
                                                         <p class="mb-1 font-size-13" > <i class="ri-arrow-down-line font-size-13 text-danger"></i> 0 % </p>
@@ -753,18 +753,18 @@
                                                     @else
                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="13" height="13"><br/>
                                                     @endif
-    
+
                                                     @if (($hier->sum('assurance')) < ($avant_hier->sum('assurance')))
                                                         <img src="{{asset('assets/images/decreasing.png')}}" alt="" width="13" height="13"> <br/>
                                                     @elseif(($hier->sum('assurance')) == ($avant_hier->sum('assurance')))
-                                                        <i class="ri-arrow-right-fill text-primary font-size-13"></i> 
+                                                        <i class="ri-arrow-right-fill text-primary font-size-13"></i>
                                                     @else
                                                        <img src="{{asset('assets/images/growth-chart.png')}}" alt=""  width="13" height="13">
                                                     @endif
-                              
+
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="text-primary">
                                             <i class="ri-vip-crown-line font-size-24"></i>
@@ -861,13 +861,13 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0"> ADMINISTRATION</h4>
-    
+
                         <div class="page-title-right">
-                            <ol class="breadcrumb m-0"> 
-                                
+                            <ol class="breadcrumb m-0">
+
                             </ol>
                         </div>
-    
+
                     </div>
                 </div>
             </div>
@@ -889,8 +889,8 @@
                                             </div>
                                         </div>
                                     </div>
-    
-                                   
+
+
                                 </div>
                             </div>
                             <div class="col-md-3" >
@@ -906,8 +906,8 @@
                                             </div>
                                         </div>
                                     </div>
-    
-                                   
+
+
                                 </div>
                             </div>
                             <div class="col-md-3" >
@@ -923,8 +923,8 @@
                                             </div>
                                         </div>
                                     </div>
-    
-                                   
+
+
                                 </div>
                             </div>
 
@@ -941,26 +941,26 @@
                                             </div>
                                         </div>
                                     </div>
-    
-                                   
+
+
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
 
-               
-                
+
+
             </div>
-        </div>  
+        </div>
  @elseif(auth()->user()->role_id == 7 )
    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title text-right mb-4"><a type="button" href="{{route('transfert.create')}}" class="btn btn-primary waves-effect waves-light">Nouveau transfert</a></h4>
-                        
+
                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
@@ -973,8 +973,8 @@
                             <th>Pays expéditeur</th>
                             <th>Statut</th>
                             <th>Actions</th>
-                           
-                            
+
+
                         </tr>
                         </thead>
 
@@ -988,7 +988,7 @@
                                 <td><div class="badge badge-soft-primary font-size-15">{{number_format($item->montant, 0, ',', ' ')}} CFA</div></td>
                                 <td><div class="badge badge-soft-secondary font-size-15">{{number_format($item->frais, 0, ',', ' ')}} CFA</div></td>
                                 <td><div class="badge badge-soft-success font-size-15">{{number_format($item->montant_p, 0, ',', ' ')}} CFA</div></td>
-                                
+
                                 @if($item->pays_e == 'Mali')
                                 <td><img src="{{asset('assets/images/mali.png')}}" alt="" height="15"> {{$item->pays_e}}</td>
                                 @elseif($item->pays_e == 'Côte d\'ivoire')
@@ -1000,7 +1000,7 @@
                                 @elseif($item->pays_e == 'Togo')
                                 <td><img src="{{asset('assets/images/togo.png')}}" alt="" height="15"> {{$item->pays_e}}</td>
                                 @endif
-                                
+
                                 @if($item->statut == 'En cours..')
                                 <td><div class="badge badge-soft-warning font-size-15">{{$item->statut}}</div></td>
                                 @elseif($item->statut == 'Terminé')
@@ -1008,14 +1008,14 @@
                                 @endif
                                 <td class="d-flex">
                                     <a href="{{route('transfert.show', $item->id)}}" class="mr-3 text-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Fiche client"><i class="mdi mdi-eye font-size-18"></i></a>
-                                   
+
                                 </td>
-                               
-                               
+
+
                             </tr>
                         @endforeach
-                        
-                       
+
+
                         </tbody>
                     </table>
                 </div>
@@ -1025,10 +1025,10 @@
 
  @endif
     </div> <!-- container-fluid -->
-    
-   
-       
-    
+
+
+
+
 </div>
 <!-- End Page-content -->
 
@@ -1046,8 +1046,8 @@
     var datas =<?php echo json_encode($datas)?>;
     var donnes_deblocage =<?php echo json_encode($donnes_deblocage)?>;
     var donnes_attente =<?php echo json_encode($donnes_attente)?>;
-   
-    
+
+
 
     Highcharts.chart('container', {
 
@@ -1057,14 +1057,14 @@
                   fontSize: '18px',
                   fontFamily: 'Inter'
                }
-       }, 
+       },
        subtitle:{
            text: 'Source : AFRICRED',
            style: {
                     fontFamily: 'Inter'
                 }
-       }, 
-       
+       },
+
         credits: {
             enabled: false
         },
@@ -1083,14 +1083,14 @@
                 }
                 ],
 
-      
+
 
        plotOptions:{
            line: {
             dataLabels: {
                 enabled: true
             },
-            
+
             enableMouseTracking: false
             }
        },
@@ -1111,7 +1111,7 @@
             color: '#1cbb8c',
             data: donnes_deblocage
         }
-    
+
     ],
 
        responsive: {
@@ -1129,9 +1129,9 @@
             }]
         }
     });
-    
 
-  
+
+
 </script>
 
 <script>
@@ -1141,7 +1141,7 @@
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie'
-            
+
         },
         title: {
             text: 'Chiffres d\'affaire en <?php echo date('Y')?>',
@@ -1150,12 +1150,12 @@
                   fontSize: '18px',
                   fontFamily: 'Inter'
                }
-    
+
         },
          credits: {
             enabled: false
         },
-        
+
         tooltip: {
             outside: true,
             pointFormat: '{series.name}: <b>{point.y} CFA</b>'
@@ -1169,7 +1169,7 @@
             pie: {
                 allowPointSelect: true,
                 cursor: 'pointer',
-                
+
             }
         },
         series: [{
@@ -1184,8 +1184,8 @@
                     useHTML: true,
                     allowOverlap: true,
                     distance: -130,
-                   
-                    format:'<img src="/assets/images/Logo AfriCRED.png" alt="" height="50" width="150"></img>'  
+
+                    format:'<img src="/assets/images/Logo AfriCRED.png" alt="" height="50" width="150"></img>'
 
               }
             },
@@ -1197,16 +1197,16 @@
             {
                 name: 'Intérêt',
                 y: <?= $interet_recouvre ?>,
-                color: '#1cbb8c' 
+                color: '#1cbb8c'
             },
             {
                 name: 'Capital',
                 y: <?= $capital_recouvre ?>,
-                color: '#5664d2', 
-                
+                color: '#5664d2',
+
             }
            ],
-           
+
             size: 250,
             innerSize: '80%',
             showInLegend: true,
@@ -1215,7 +1215,7 @@
                 format: '<b>{point.name}</b>: {point.percentage:.1f} %'
             }
         }]
-            
+
     });
 
 </script>

@@ -29,9 +29,9 @@
 		@include('sweetalert::alert')
 
 		@yield('scripts')
-		
+
 		@yield('historique_scripts')
-		
+
 		@yield('credit_scripts')
 
 	</body>

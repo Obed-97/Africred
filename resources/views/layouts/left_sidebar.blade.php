@@ -1,4 +1,8 @@
 <!-- Left Sidebar End -->
+@php
+    use App\Services\Tool;
+    $tool = new Tool();
+@endphp
 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
@@ -54,6 +58,7 @@
                         <li><a href="{{route('etat_encours_global.index')}}"><i class="ri-pushpin-fill"></i> Enc. Sans Intérêt</a></li>
 
                         <li><a href="{{route('etat_actualise.index')}}"><i class="ri-pushpin-fill"></i> Encours Global</a></li>
+                        <li><a href="{{route('encours')}}"><i class="ri-pushpin-fill"></i>Encours des clients</a></li>
 
                     </ul>
 
@@ -103,6 +108,7 @@
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class=" ri-bank-card-fill"></i>
                         <span>Comptes </span>
+                        <span>Comptes <div class="badge badge-soft-success font-size-12">{{$tool->getNum()['comptes']}}</div></span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('client.index')}}"><i class="ri-team-fill"></i> Clients</a></li>
@@ -114,6 +120,20 @@
                 </li>
 
                 @if (auth()->user()->role_id == 8 )
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-file-fill"></i>
+                        <span>Rapports <div class="badge badge-soft-success font-size-12"></div></span>
+                    </a>
+
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('reporting.create')}}"><i class="ri-task-fill"></i>élément du rapport</a></li>
+                        <li><a href="{{route('reporting.index')}}"><i class="ri-task-fill"></i>Rapport d'activité</a></li>
+                    </ul>
+
+                </li>
+
+                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6)
                 <li>
                     <a href="{{route('role.index')}}" class="waves-effect">
                         <i class="ri-computer-fill"></i>
@@ -131,6 +151,7 @@
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-repeat-fill"></i>
                         <span>Transferts</span>
+                        <span>Transferts <div class="badge badge-soft-success font-size-12">{{$tool->getNum()['transferts']}}</div></span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('transfert.index')}}"><i class="ri-stack-fill"></i> Les transactions</a></li>

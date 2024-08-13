@@ -12,6 +12,7 @@ use Alert;
 use App\Models\Filiere;
 use App\Models\Secteur;
 use Illuminate\Support\Facades\Log;
+use App\Notifications\PushNotif;
 
 class CreditController extends Controller
 {
@@ -207,6 +208,7 @@ class CreditController extends Controller
     public function store(Request $request)
     {
 
+        $tool = new Tool();
         $credit = new Credit;
 
 
@@ -266,7 +268,12 @@ class CreditController extends Controller
         $statut = "En attente";
 
 
-        $credit->create([
+
+
+        $statut = "En attente";
+
+
+        $credit = $credit->create([
             'type_id'=>$request->type,
             'client_id'=>$data_client[0],
             'marche_id'=>$data_client[1],
@@ -423,7 +430,6 @@ class CreditController extends Controller
         $montant_interet = ($request->montant + 0) + $interet;
 
         $capital = $request->montant + 0;
-
 
 
         if ($request->montant < 100000) {

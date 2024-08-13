@@ -8,6 +8,8 @@ use App\Models\Filiere;
 use App\Models\Marche;
 use App\Models\Secteur;
 use App\Models\User;
+use App\Notifications\PushNotif;
+use App\Services\Tool;
 use Image;
 
 class ClientController extends Controller

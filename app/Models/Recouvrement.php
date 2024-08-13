@@ -372,6 +372,43 @@ class Recouvrement extends Model
         return $frais_carte;
     }
 
+    public function encours($marche_id, $dd)
+    {
+        $dd = Carbon::parse($dd);
+
+        $credits = Credit::where('statut', 'Accordé')->where('marche_id', $marche_id)->get();
+
+        $ti = Recouvrement::whereDate('date', '<=', $dd)->where('marche_id', $marche_id)->sum('interet_jrs');
+        $tr = Recouvrement::whereDate('date', '<=', $dd)->where('marche_id', $marche_id)->sum('recouvrement_jrs');
+
+        $tir = $ti + $tr;
+
+        $result = ($credits->sum('interet') + $credits->sum('montant')) - $tir;
+        return number_format(($result), 0, ',', ' '). ' FCFA';
+    }
+
+    public function encoursClient($credit_id, $dd)
+    {
+        $dd = Carbon::parse($dd);
+
+        $credits = Credit::where('statut', 'Accordé')->where('id', $credit_id)->first();
+
+        $ti = Recouvrement::whereDate('date', '<=', $dd)->where('credit_id', $credit_id)->sum('interet_jrs') ?? 0;
+        $tr = Recouvrement::whereDate('date', '<=', $dd)->where('credit_id', $credit_id)->sum('recouvrement_jrs') ?? 0;
+
+        $tir = $ti + $tr;
+
+        $result = (($credits->interet ?? 0) + ($credits->montant ?? 00)) - $tir;
+        return number_format(($result), 0, ',', ' '). ' FCFA';
+    }
+
+    public function Client($credit_id)
+    {
+        $credit = Credit::find($credit_id);
+
+        return $credit->Client['nom_prenom'] ?? '';
+    }
+
 
 
     public function Marche()

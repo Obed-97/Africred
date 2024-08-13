@@ -169,23 +169,23 @@ class Credit extends Model
 
     public function encours($montant_interet)
     {
-       $e = ($montant_interet - ($this->hasMany(Recouvrement::class)->sum('recouvrement_jrs') + $this->hasMany(Recouvrement::class)->sum('interet_jrs')));
+        $e = ($montant_interet - ($this->hasMany(Recouvrement::class)->sum('recouvrement_jrs') + $this->hasMany(Recouvrement::class)->sum('interet_jrs')));
 
-       return intval($e);
+        return intval($e);
     }
 
     public function solde($montant_credit)
     {
-       $s = ($montant_credit - $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs'));
+        $s = ($montant_credit - $this->hasMany(Recouvrement::class)->sum('recouvrement_jrs'));
 
-       return intval($s);
+        return intval($s);
     }
 
     public function prevision($montant_par_jour)
     {
-       $p = ($montant_par_jour - ($this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('recouvrement_jrs') + $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('interet_jrs')));
+        $p = ($montant_par_jour - ($this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('recouvrement_jrs') + $this->hasMany(Recouvrement::class)->whereDate('date', Carbon::now())->sum('interet_jrs')));
 
-       return intval($p);
+        return intval($p);
     }
 
     public function impaye($date1, $date2)
@@ -230,7 +230,6 @@ class Credit extends Model
         }
 
         return $total;
-
     }
 
     public function getEpargne($item)
@@ -239,23 +238,25 @@ class Credit extends Model
 
         $frais_epargne = 0;
 
-        foreach($epargnes as $epargne){
+        foreach ($epargnes as $epargne) {
 
-            $frais_epargne = $epargne->epargne_jrs + $frais_epargne ;
-
+            $frais_epargne = $epargne->epargne_jrs + $frais_epargne;
         }
 
          $retrait = 0;
 
         foreach($epargnes as $epargne){
 
-            $retrait = $epargne->retrait + $retrait ;
+        $retrait = 0;
 
+        foreach ($epargnes as $epargne) {
+
+            $retrait = $epargne->retrait + $retrait;
         }
 
 
 
         return ($frais_epargne - $retrait);
     }
-
+}
 }

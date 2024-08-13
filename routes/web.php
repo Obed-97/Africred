@@ -38,7 +38,8 @@ use App\Http\Controllers\MarcheController;
 use App\Http\Controllers\SecteurController;
 use App\Http\Controllers\TransfertController;
 use App\Http\Controllers\TauxController;
-
+use App\Http\Controllers\PushController;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,6 +50,14 @@ use App\Http\Controllers\TauxController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/recouv/en/retards', [ReportingController::class, 'pr'])->name('pr');
+
+//make a push notification.
+Route::get('/push/key',[PushController::class, 'key'])->name('push');
+//store a push subscriber.
+Route::post('/push/subscribe',[PushController::class, 'store'])->name('push');
+
 Route::group(['middleware'=>['auth']], function(){
 
 Route::resources([
@@ -96,6 +105,15 @@ Route::post('/store/permission', [PersonnelController::class, 'permission_store'
 Route::post('/revok/permission', [PersonnelController::class, 'permission_revok'])->name('revok.permission');
 
 
+
+Route::delete('/delete/reporting/item', [ReportingController::class, 'del'])->name('del.item.data');
+Route::post('/add/reporting', [ReportingController::class, 'add'])->name('add.item.reporting');
+Route::post('/reporting/item', [ReportingController::class, 'add_data'])->name('data.item.reporting');
+Route::post('/print/reporting', [ReportingController::class, 'print'])->name('print');
+
+
+Route::get('/encours', [Etat_actualiseController::class, 'encours'])->name('encours');
+Route::post('/fliter/encours', [Etat_actualiseController::class, 'encours'])->name('encours.filter');
 Route::get('/afficher', [EtatRecouvrementController::class, 'affiche'])->name('etat_recouvrement.affiche');
 Route::get('/marche', [CreditController::class, 'marche'])->name('credit.marche');
 Route::get('/marche/jour', [EtatCreditController::class, 'marche'])->name('etat_credit.marche');
