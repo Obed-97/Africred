@@ -39,11 +39,25 @@
             </div>
 
             <div class="row">
-
                 <div class="col-12">
-                    @if (isset($dd) && $dd != null)
-                        <h1>Encours des Clients au << {{ $dd->format('d-m-y') }} >></h1>
-                    @endif
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="mb-0 text-success">
+                                    @if (isset($dd) && $dd != null)
+                                    Encours des Clients
+                                    @endif
+                                </h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0" id="web">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);"> au {{ $dd->format('d-m-Y') }}</a></li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <table id="datatable-buttons" class="table  dt-responsive nowrap"
@@ -67,9 +81,25 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    @if (isset($dd) && $dd != null)
-                        <h1>Encours des marchés au << {{ $dd->format('d-m-y') }} >></h1>
-                    @endif
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="mb-0 text-success">
+                                    @if (isset($dd) && $dd != null)
+                                    Encours des marchés
+                                    @endif
+                                </h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0" id="web">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);"> au {{ $dd->format('d-m-Y') }}</a></li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card">
                         <div class="card-body">
                             <table id="datatable-buttons" class="table  dt-responsive nowrap"

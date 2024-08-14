@@ -162,7 +162,6 @@ auth()->user()->role_id == 8)
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-repeat-fill"></i>
-                        <span>Transferts</span>
                         <span>Transferts <div class="badge badge-soft-success font-size-12">
                                 {{$tool->getNum()['transferts']}}</div></span>
                     </a>
