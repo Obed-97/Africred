@@ -212,7 +212,7 @@ class RecouvrementController extends Controller
 
         $pr = new PushNotif(
             'Recouvrement',
-            auth()->user()->nom. 'a récouvert '. $credit->montant .' F chez le client'. $credit->Client['nom_prenom'] .'!',
+            auth()->user()->nom. ' a récouvert '. number_format($credit->montant, 0, ',', ' ') .' F chez le client '. $credit->Client['nom_prenom'] .'!',
         );
 
         $tool->pushNotif($tool->managerUsers(), $pr);
@@ -293,7 +293,7 @@ class RecouvrementController extends Controller
 
         $pr = new PushNotif(
             'Epargne',
-            auth()->user()->nom.' a effectué le retrait de '.$request->retrait .' F au profit du client '.$cl->Client['nom_prenom']. ' !',
+            auth()->user()->nom.' a effectué le retrait de '. number_format($request->retrait, 0, ',', ' ') .' F au profit du client '.$cl->Client['nom_prenom']. ' !',
         );
 
         $tool = new Tool();
