@@ -370,10 +370,10 @@
                                                                 </button>
 
                                                             @endif
-                                                            @if (auth()->user()->role_id == 8 )
+                                                            @if (auth()->user()->role_id == 8  || auth()->user()->can('delete'))
                                                                 <button  class="text-white btn btn-danger btn-sm waves-effect waves-light  creditBtn" value="{{$item->id}}"  data-original-title="Supprimer" type="button" data-toggle="modal" data-target="#credit"><i class="mdi mdi-trash-can font-size-18"></i></button>
                                                             @endif
-                                                        @elseif (auth()->user()->role_id == 2 )
+                                                        @elseif (auth()->user()->role_id == 2 || auth()->user()->user_id == 2)
                                                                 <form action="{{route('credit.edit', $item->id)}}" method="GET" enctype="multipart/form-data">
                                                                 @csrf
                                                                 <button type="submit" class="btn btn-secondary btn-sm waves-effect waves-light mr-2 " >
