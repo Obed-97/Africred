@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\Credit;
 use App\Models\Filiere;
 use App\Models\Marche;
+use App\Models\Recouvrement;
 use App\Models\Secteur;
 use App\Models\User;
 use App\Notifications\PushNotif;
@@ -132,7 +134,11 @@ class ClientController extends Controller
     {
         $client = Client::where('id', $id)->firstOrFail();
 
-        return view('client.carte', compact('client'));
+        $credits = Credit::where('client_id', $client->id)->get();
+        $ids = $credits->pluck('id');
+        $recouvs = Recouvrement::whereIn('id', $ids)->get();
+
+        return view('client.carte', compact('client', 'credits', 'recouvs'));
     }
 
     /**
