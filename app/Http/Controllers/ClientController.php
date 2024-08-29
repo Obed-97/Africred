@@ -136,7 +136,7 @@ class ClientController extends Controller
 
         $credits = Credit::where('client_id', $client->id)->get();
         $ids = $credits->pluck('id');
-        $recouvs = Recouvrement::whereIn('id', $ids)->get();
+        $recouvs = Recouvrement::whereIn('credit_id', $ids)->get();
 
         return view('client.carte', compact('client', 'credits', 'recouvs'));
     }
