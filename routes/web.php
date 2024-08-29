@@ -121,6 +121,7 @@ Route::get('/marche/jour', [EtatCreditController::class, 'marche'])->name('etat_
 Route::get('/credit_en_perte', [EtatCreditController::class, 'perte'])->name('etat_credit.perte');
 
 Route::get('/marche/client', [clientController::class, 'marche'])->name('client.marche');
+Route::get('/client/credit/detail/{id}', [clientController::class, 'clientCredit'])->name('client.details.show');
 
 Route::post('/retrait', [DepotController::class, 'retrait'])->name('depot.retrait');
 Route::get('/tontine', [DepotController::class, 'tontine'])->name('depot.tontine');

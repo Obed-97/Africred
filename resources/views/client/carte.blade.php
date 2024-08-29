@@ -297,6 +297,14 @@
                                         <td>{{number_format($item->frais_deblocage, 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format($item->frais_carte, 0, ',', ' ')}} CFA</td>
                                         <td>{{$item->created_at}}</td>
+                                        <td>
+
+                                            <a href="{{route('client.details.show', $item->id)}}"
+                                                class="btn btn-primary btn-sm waves-effect waves-light mr-2 ">
+                                                <i class="mdi mdi-eye font-size-18"></i>
+                                            </a>
+
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>

@@ -141,6 +141,14 @@ class ClientController extends Controller
         return view('client.carte', compact('client', 'credits', 'recouvs'));
     }
 
+    public function clientCredit($id)
+    {
+
+        $recouvs = Recouvrement::where('credit_id', $id)->get();
+
+        return view('client.detail', compact('recouvs'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
