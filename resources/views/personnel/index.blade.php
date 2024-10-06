@@ -29,12 +29,12 @@
                         </div>
                     </div>
                     <!-- end page title -->
-    
+
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    
+
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
@@ -46,11 +46,11 @@
                                             <th>Email</th>
                                             <th>Téléphone</th>
                                             <th>Action</th>
-                                            
+
                                         </tr>
                                         </thead>
-    
-    
+
+
                                         <tbody>
                                         @foreach ($users as $item)
                                             <tr>
@@ -67,19 +67,17 @@
                                                 @elseif($item->pays_id == 5)
                                                 <td><img src="{{asset('assets/images/nigeria.png')}}" alt="" height="15"> {{$item->Pays['libelle']}}</td>
                                                 @endif
-                                                
+
                                                 <td style = "text-transform:uppercase;">{{$item->nom}}</td>
                                                 <td>{{$item->role['libelle']}}</td>
                                                 <td>{{$item->email}}</td>
                                                 <td>{{$item->telephone}}</td>
                                                 <td class="d-flex">
                                                     <a href="{{route('personnel.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                                    
+                                                    <a href="{{route('personnel.show', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Voir"><i class="mdi mdi-eye font-size-18"></i></a>
                                                 </td>
-                                            
                                             </tr>
                                         @endforeach
-                                        
                                         </tbody>
                                     </table>
                                 </div>
@@ -87,7 +85,7 @@
                         </div> <!-- end col -->
                     </div> <!-- end row -->
 
-                    
+
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->

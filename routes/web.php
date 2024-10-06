@@ -111,9 +111,9 @@ Route::post('/add/reporting', [ReportingController::class, 'add'])->name('add.it
 Route::post('/reporting/item', [ReportingController::class, 'add_data'])->name('data.item.reporting');
 Route::post('/print/reporting', [ReportingController::class, 'print'])->name('print');
 
-
 Route::get('/encours', [Etat_actualiseController::class, 'encours'])->name('encours');
 Route::post('/fliter/encours', [Etat_actualiseController::class, 'encours'])->name('encours.filter');
+Route::post('/fliter/personnel', [PersonnelController::class, 'filtershow'])->name('personnel.histo');
 Route::get('/afficher', [EtatRecouvrementController::class, 'affiche'])->name('etat_recouvrement.affiche');
 Route::get('/marche', [CreditController::class, 'marche'])->name('credit.marche');
 Route::get('/marche/jour', [EtatCreditController::class, 'marche'])->name('etat_credit.marche');

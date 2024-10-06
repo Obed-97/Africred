@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Marche;
+use App\Models\Recouvrement;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
@@ -49,7 +51,24 @@ class PersonnelController extends Controller
      */
     public function show($id)
     {
-        //
+        $personnel = User::findOrFail($id);
+        $roles = Role::all();
+
+        $historiques = Recouvrement::where('user_id', $personnel->id)->latest()->paginate(100);
+        $marches  = Marche::get();
+
+        return view('personnel.show', compact('personnel', 'historiques', 'roles', 'marches'));
+    }
+
+    public function filtershow(Request $request)
+    {
+        $personnel = User::findOrFail($request->id);
+        $roles = Role::all();
+
+        $historiques = Recouvrement::where('user_id', $personnel->id)->where('marche_id', $request->marche_id)->whereDate('date', $request->date)->get();
+        $marches  = Marche::get();
+
+        return view('personnel.show', compact('personnel', 'historiques', 'roles', 'marches'));
     }
 
     /**

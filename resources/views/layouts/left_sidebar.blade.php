@@ -249,25 +249,20 @@ auth()->user()->role_id == 8)
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Gestion</li>
-
                 <li>
                     <a href="{{route('transfert.index')}}" class="waves-effect">
                         <i class="ri-inbox-fill"></i>
                         <span>Réceptions <div class="badge badge-soft-success font-size-12">{{$transferts->count()}}
                             </div></span></span>
                     </a>
-
                 </li>
                 <li>
                     <a href="{{route('transfert.envois')}}" class="waves-effect">
                         <i class=" ri-send-plane-fill"></i>
                         <span>Envois</span>
                     </a>
-
                 </li>
-
             </ul>
-
         </div>
     </div>
 </div>
