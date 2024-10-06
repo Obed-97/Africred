@@ -224,8 +224,8 @@
                                         </td>
                                         <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
-                                        <td>{{number_format($item->other, 0, ',', ' ')}} CFA</td>
-                                        <td>{{number_format(intval($item->depot) - intval($item->retrait), 0, ',', '
+                                        <td>{{number_format($item->frais(), 0, ',', ' ')}} CFA</td>
+                                        <td>{{number_format(intval($item->depot) - intval($item->retrait) - intval($item->frais()), 0, ',', '
                                             ')}} CFA</td>
                                         @if ((intval($item->depot) - intval($item->retrait)) > 0)
                                         <td>

@@ -43,6 +43,11 @@ class Depot extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function frais()
+    {
+        return FraisCompte::where('client_id', $this->client_id)->sum('montant');
+    }
+
     public function type()
     {
         if($this->depot == 0){
