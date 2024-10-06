@@ -373,6 +373,7 @@ class CreditController extends Controller
         return view('credit.show', compact('credit','credits'));
     }
 
+
     public function shownano($id)
     {
         $credit = Credit::where('id', $id)->firstOrFail();

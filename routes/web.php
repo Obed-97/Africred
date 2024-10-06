@@ -118,6 +118,10 @@ Route::post('/fliter/marche', [MarcheController::class, 'filtershow'])->name('ma
 Route::get('/afficher', [EtatRecouvrementController::class, 'affiche'])->name('etat_recouvrement.affiche');
 Route::get('/marche', [CreditController::class, 'marche'])->name('credit.marche');
 Route::get('/marche/jour', [EtatCreditController::class, 'marche'])->name('etat_credit.marche');
+Route::get('/frais/compte/{id}', [DepotController::class, 'fraiscompte'])->name('frais.account');
+Route::post('/frais/retro/', [DepotController::class, 'fraisretro'])->name('frais.retro');
+Route::post('/frais/retro/all', [DepotController::class, 'fraisall'])->name('frais.retro.all');
+Route::delete('/frais/destroy/{id}', [DepotController::class, 'fraisdestroy'])->name('frais.destroy');
 
 Route::get('/credit_en_perte', [EtatCreditController::class, 'perte'])->name('etat_credit.perte');
 

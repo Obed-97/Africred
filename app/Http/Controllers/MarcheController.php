@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Credit;
 use Illuminate\Http\Request;
 use App\Models\Marche;
 use App\Models\Recouvrement;
@@ -58,8 +59,9 @@ class MarcheController extends Controller
         $marche  = Marche::findOrFail($id);
 
         $historiques = Recouvrement::where('marche_id', $marche->id)->latest()->paginate(100);
+        $deblocages = Credit::where('marche_id', $marche->id)->where('statut', 'Accordé')->latest()->paginate(30);
 
-        return view('marche.show', compact('historiques', 'marche'));
+        return view('marche.show', compact('historiques', 'marche', 'deblocages'));
     }
 
     public function filtershow(Request $request)
@@ -67,8 +69,9 @@ class MarcheController extends Controller
         $marche  = Marche::findOrFail($request->id);
 
         $historiques = Recouvrement::where('marche_id', $request->marche_id)->whereDate('date', $request->date)->latest()->paginate(100);
+        $deblocages = Credit::where('marche_id', $marche->id)->where('statut', 'Accordé')->whereDate('date_deblocage', $request->date)->latest()->paginate(30);
 
-        return view('marche.show', compact('historiques', 'marche'));
+        return view('marche.show', compact('historiques', 'marche', 'deblocages'));
     }
 
     /**

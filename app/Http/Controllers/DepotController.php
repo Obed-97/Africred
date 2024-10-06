@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Depot;
 use App\Models\Type_depot;
 use App\Models\Client;
+use App\Models\FraisCompte;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Log;
 
 class DepotController extends Controller
@@ -202,6 +204,73 @@ class DepotController extends Controller
 
         return view('depot.epargne', compact('depots','clients','types','epargne'));
     }
+
+
+
+    public function fraiscompte($id)
+    {
+        $client = Client::find($id);
+        $fds = FraisCompte::where('client_id', $id)->get();
+
+        return view('depot.show-frais-account', compact('fds', 'client'));
+    }
+
+
+    public function fraisretro(Request $request)
+    {
+        FraisCompte::create([
+            'client_id' => $request->client_id,
+            'date' => Date::now(),
+            'montant' => $request->montant,
+        ]);
+
+        alert()->image('Ajout','Le frais a été ajouté!',asset('assets/images/approved.png'),'200','200');
+
+        return back();
+    }
+
+
+    public function fraisall(Request $request)
+    {
+
+        $depotss = Depot::selectRaw(
+            'client_id,
+             SUM(depot) as depot,
+             SUM(retrait) as retrait')
+            ->groupBy('client_id')
+            ->get();
+
+            foreach($depotss as $depot){
+                FraisCompte::create([
+                    'client_id' => $depot->client_id,
+                    'date' => Date::now(),
+                    'montant' => $request->montant,
+                ]);
+            }
+
+        alert()->image('Ajout','Les frais de comptes ont été ajouté!',asset('assets/images/approved.png'),'200','200');
+
+        return back();
+    }
+
+
+
+    public function fraisdestroy($id)
+    {
+        $fd = FraisCompte::findOrFail($id);
+
+        Log::info('Suppression Frais de compte : ' . $fd);
+        Log::info('Suppression de l\'élément avec ID : ' . $fd->id);
+        Log::info('PAR : ' . auth()->user()->email);
+
+        $fd->delete();
+
+        alert()->image('Suppression','Le frais a été supprimé!',asset('assets/images/approved.png'),'200','200');
+        return back();
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.

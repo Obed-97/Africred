@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('command:push_notification')->dailyAt('16:30');
+        $schedule->job(new \App\Jobs\CalculFraisMensuel)->monthly();
     }
 
     /**

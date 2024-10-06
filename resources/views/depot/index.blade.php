@@ -129,6 +129,14 @@
             </div>
             <!-- end page title -->
             <div class="row mb-4">
+                <div class="col-xl-12">
+                    <form method="POST" action="{{route('frais.retro.all')}}" class="d-flex mb-4">
+                        @csrf
+                        <div class="col-xl-3"><input type="number" name="montant"  placeholder="montant du frais de compte" class="form-control"></div>
+                        <div class="col-xl-2"><button type="submit" class="btn btn-primary waves-effect waves-light"><i
+                                    class="ri-add-fill"></i>Appliquer le frais sur tous les comptes</button></div>
+                    </form>
+                </div>
                 <div class="col-xl-3"></div>
                 <div class="col-xl-7" id="web">
                     <form method="POST" action="{{route('depot.livret')}}" class="d-flex mb-4">
@@ -191,6 +199,7 @@
                                         <th>Téléphone</th>
                                         <th>Dépôt</th>
                                         <th>Rétrait</th>
+                                        <th>Frais de compte</th>
                                         <th>Solde</th>
 
                                         <th>Statut</th>
@@ -215,6 +224,7 @@
                                         </td>
                                         <td>{{number_format($item->depot, 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+                                        <td>{{number_format($item->other, 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format(intval($item->depot) - intval($item->retrait), 0, ',', '
                                             ')}} CFA</td>
                                         @if ((intval($item->depot) - intval($item->retrait)) > 0)
@@ -229,10 +239,12 @@
                                         @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
                                         <td>{{$item->Client->User['nom']}}</td>
                                         @endif
-
                                         <td>
                                             <a href="{{ route('depot.show', $item->client_id)}}"
                                                 class="btn btn-info">voir</a>
+
+                                                <a href="{{ route('frais.account', $item->client_id)}}"
+                                                    class="btn btn-info">Frais de compte</a>
 
                                         </td>
                                     </tr>
