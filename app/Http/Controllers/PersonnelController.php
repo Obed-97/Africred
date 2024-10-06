@@ -65,7 +65,7 @@ class PersonnelController extends Controller
         $personnel = User::findOrFail($request->id);
         $roles = Role::all();
 
-        $historiques = Recouvrement::where('user_id', $personnel->id)->where('marche_id', $request->marche_id)->whereDate('date', $request->date)->get();
+        $historiques = Recouvrement::where('user_id', $personnel->id)->where('marche_id', $request->marche_id)->whereDate('date', $request->date)->latest()->paginate(100);
         $marches  = Marche::get();
 
         return view('personnel.show', compact('personnel', 'historiques', 'roles', 'marches'));

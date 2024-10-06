@@ -8,9 +8,9 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-                   
-                    
-                    
+
+
+
                     <!-- start page title -->
                     <div class="row" >
                         <div class="col-12">
@@ -42,11 +42,11 @@
                            </form>
                         </div>
                           <div class="col-xl-6" id="web">
-                               
-                           </div> 
+
+                           </div>
                            <div class="col-xl-2"><a href="{{route('recouvrement.index')}}" class="btn btn-primary btn-block  waves-effect waves-light"><i class=" ri-bank-line align-middle mr-2"></i> ÉTAT GLOBAL</a></div>
                        </div>
-            
+
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -82,14 +82,14 @@
                                                             <select class="form-control select2" name="credit_id" required>
                                                                 @foreach ($credits as $item)
                                                                 <option value="{{$item->id}}|{{$item->marche_id}}|{{$item->montant_interet}}|{{$item->type_id}}">
-                                                                    {{$item->Client['nom_prenom']}} -- {{number_format($item->montant_interet, 0, ',', ' ')}} CFA 
+                                                                    {{$item->Client['nom_prenom']}} -- {{number_format($item->montant_interet, 0, ',', ' ')}} CFA
                                                                 </option>
                                                                @endforeach
                                                             </select>
-                                                            
+
                                                         </div>
-                                                        
-                                                       
+
+
                                                         <div class="row">
                                                             <div class="col-6 form-group ">
                                                             <label>Capital</label>
@@ -135,10 +135,10 @@
                                                 <label for="">Afficher par :</label>
                                                 @if (auth()->user()->role_id == 2)
                                                 <a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                                <a href="{{route('etat_recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
+                                                <a href="{{route('etat_recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
                                                 @else
                                                 <a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
-    
+
                                                 <a href="{{route('etat_recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
                                                 @endif
                                             </div>
@@ -147,7 +147,7 @@
                                         <thead>
                                             @if (auth()->user()->role_id == 2)
                                                 <tr>
-                                                   
+
                                                     <th>Marché</th>
                                                     <th>Capital à ce jour</th>
                                                     <th>Intérêt à ce jour</th>
@@ -156,7 +156,7 @@
                                                     <th style="background-color: #569ad2; color:white">Frais déblocage</th>
                                                     <th style="background-color: #569ad2; color:white">Frais carte</th>
                                                     <th style="background-color: #1cbb8c;; color: white ">Total</th>
-                                                    
+
                                                 </tr>
                                             @else
                                             <tr>
@@ -168,7 +168,7 @@
                                                 <th style="background-color: #569ad2; color:white">Frais déblocage</th>
                                                 <th style="background-color: #569ad2; color:white">Frais carte</th>
                                                 <th style="background-color: #1cbb8c;; color: white ">Total</th>
-                                               
+
                                             </tr>
                                             @endif
 
@@ -178,7 +178,7 @@
                                             @if (auth()->user()->role_id == 2)
                                                 @foreach ($par_marche as $item)
                                                     <tr>
-                                                       
+
                                                         <td>{{$item->Marche['libelle']}}</td>
                                                         <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
@@ -187,13 +187,13 @@
                                                         <td>{{number_format($item->getFraisDeblocageDayMarche($item->marche_id), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->getFraisDeblocageDayMarche($item->marche_id), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
-                                                        
+
 
                                                     </tr>
                                                 @endforeach
                                                     <tr style="background-color: #1cbb8c; color: white ">
                                                         <td></td>
-                                                        
+
                                                         <td>{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($total->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
@@ -201,8 +201,8 @@
                                                         <td>{{number_format($credits->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($credits->sum('frais_carte'), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') ), 0, ',', ' ')}} CFA</td>
-                                                       
-                                                                                                            
+
+
                                                     </tr>
                                             @else
                                                @foreach ($par_marche as $item)
@@ -215,13 +215,13 @@
                                                         <td>{{number_format($item->getFraisDeblocageDayMarche($item->marche_id), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->getFraisDeblocageDayMarche($item->marche_id), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format(($item->recouvrement_jrs + $item->interet_jrs + $item->epargne_jrs + $item->assurance) , 0, ',', ' ')}} CFA</td>
-                                                        
+
 
                                                     </tr>
                                                 @endforeach
                                                     <tr style="background-color: #1cbb8c; color: white ">
                                                         <td></td>
-                                                        
+
                                                         <td>{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($total->sum('epargne_jrs'), 0, ',', ' ')}} CFA</td>
@@ -229,8 +229,8 @@
                                                         <td>{{number_format($credits->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($credits->sum('frais_carte'), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format(($total->sum('recouvrement_jrs') + $total->sum('interet_jrs') + $total->sum('epargne_jrs') + $total->sum('assurance') + $credits->sum('frais_deblocage') + $credits->sum('frais_carte') ), 0, ',', ' ')}} CFA</td>
-                                                       
-                                                                                                            
+
+
                                                     </tr>
                                             @endif
                                         </tbody>
@@ -238,10 +238,10 @@
                                 </div>
                             </div>
                         </div> <!-- end col -->
-                        
-                         
+
+
                     </div> <!-- end row -->
-            
+
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->

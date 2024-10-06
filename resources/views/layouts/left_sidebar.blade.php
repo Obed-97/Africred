@@ -70,6 +70,18 @@ auth()->user()->role_id == 8)
 
                 </li>
 
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class=" ri-store-fill"></i>
+                        <span>Marche</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('les_marches.index')}}"><i class="ri-pushpin-fill"></i> Liste des Marchés</a></li>
+                    </ul>
+
+                </li>
+
                 @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 6 || auth()->user()->role_id == 8)
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">

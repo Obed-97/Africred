@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Marche;
+use App\Models\Recouvrement;
 
 class MarcheController extends Controller
 {
@@ -38,7 +39,7 @@ class MarcheController extends Controller
     public function store(Request $request)
     {
         $marche = new Marche;
-          
+
         $marche->create([
             'libelle'=>$request->libelle,
         ]);
@@ -54,7 +55,20 @@ class MarcheController extends Controller
      */
     public function show($id)
     {
-        //
+        $marche  = Marche::findOrFail($id);
+
+        $historiques = Recouvrement::where('marche_id', $marche->id)->latest()->paginate(100);
+
+        return view('marche.show', compact('historiques', 'marche'));
+    }
+
+    public function filtershow(Request $request)
+    {
+        $marche  = Marche::findOrFail($request->id);
+
+        $historiques = Recouvrement::where('marche_id', $request->marche_id)->whereDate('date', $request->date)->latest()->paginate(100);
+
+        return view('marche.show', compact('historiques', 'marche'));
     }
 
     /**

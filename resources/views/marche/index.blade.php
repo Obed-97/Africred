@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <!-- end page title -->
-    
+
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -46,7 +46,7 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                   
+
                                                     <div class="modal-body">
                                                             <div class="form-group ">
                                                                 <label>Libelle</label>
@@ -54,7 +54,7 @@
                                                                     <input class="form-control" type="text" name="libelle"  id="libelle">
                                                                 </div>
                                                             </div>
-                                                      
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -63,7 +63,7 @@
                                                 </div>
                                             </form>
                                             </div>
-                                        </div> 
+                                        </div>
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
@@ -72,18 +72,18 @@
                                             <th>Filières</th>
                                             <th>Nbre clients</th>
                                             <th>Action</th>
-                                            
+
                                         </tr>
                                         </thead>
-    
-    
+
+
                                         <tbody>
                                         @foreach ($marches as $item)
                                             <tr>
                                                 <td style = "text-transform:uppercase;">M-00-{{$item->id}}</td>
-                                                
+
                                                 <td style = "text-transform:uppercase;">{{$item->libelle}}</td>
-                                                
+
                                                 <td style = "text-transform:uppercase;">
                                                     @foreach ($item->tous_filieres($item->id) as $filiere )
                                                        {{ $filiere['libelle'].' ; ' }}
@@ -93,13 +93,14 @@
                                                     {{$item->tous_clients($item->id)}} clients
                                                 </td>
                                                 <td class="d-flex">
-                                                    <a href="{{route('les_marches.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-eye font-size-18"></i></a>
-                                                    
+                                                    {{-- <a href="{{route('les_marches.edit', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-eye font-size-18"></i></a> --}}
+                                                    <a href="{{route('les_marches.show', $item->id)}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editer"><i class="mdi mdi-eye font-size-18"></i></a>
+
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        
-                                       
+
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -107,7 +108,7 @@
                         </div> <!-- end col -->
                     </div> <!-- end row -->
 
-                    
+
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
