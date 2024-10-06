@@ -161,11 +161,12 @@
                                     data-toggle="modal" data-target="#staticBackdrop"><i
                                         class="  ri-arrow-down-line align-middle mr-2"></i> Dépôt</button>
                                 @endif
-                                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
+                                @if (auth()->user()->can('withdrawal'))
                                 <button type="button" class="btn btn-danger  waves-effect waves-light"
                                     data-toggle="modal" data-target="#static"><i
                                         class="  ri-arrow-up-line align-middle mr-2"></i> Retrait</button>
                                 @endif
+
                             </h4>
 
                             <div class="row">

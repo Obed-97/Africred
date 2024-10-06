@@ -71,6 +71,7 @@
                                                                     <label class="control-label">Permission</label>
                                                                     <select class="form-control " name="perm" required multiple>
                                                                             <option value="delete">Suppression</option>
+                                                                            <option value="withdrawal">Retrait</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -91,6 +92,7 @@
                                         <tr>
                                             <th>Nom</th>
                                             <th>Suppression</th>
+                                            <th>Retrait</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -107,15 +109,34 @@
                                                             <span class="badge badge-soft-warning">NON</span>
                                                         @endif
                                                     </td>
+                                                    <td>
+                                                        @if ($item->can('withdrawal'))
+                                                            <span class="badge badge-soft-success">OUI</span>
+                                                        @else
+                                                            <span class="badge badge-soft-warning">NON</span>
+                                                        @endif
+                                                    </td>
                                                     <td class="d-flex">
                                                         @if ($item->can('delete'))
                                                         <form method="POST" action="{{route('revok.permission')}}">
                                                             @csrf
                                                             <input type="hidden"  name="user_id"  value="{{ $item->id }}">
-                                                        <button  class="text-white btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Revoquer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i> Revoquer</button>
+                                                            <input type="hidden" name="delete" value="delete" id="">
+                                                        <button  class="text-white btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Revoquer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i> Revoquer Suppression</button>
                                                         </form>
                                                     @else
                                                     @endif
+
+
+                                                    @if ($item->can('withdrawal'))
+                                                    <form method="POST" action="{{route('revok.permission')}}">
+                                                        @csrf
+                                                        <input type="hidden"  name="user_id"  value="{{ $item->id }}">
+                                                        <input type="hidden" name="withdrawal" value="withdrawal" id="">
+                                                    <button  class="text-white btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Revoquer" type="submit"><i class="mdi mdi-trash-can font-size-18"></i> Revoquer Retrait</button>
+                                                    </form>
+                                                @else
+                                                @endif
 
                                                     </td>
                                                 </tr>

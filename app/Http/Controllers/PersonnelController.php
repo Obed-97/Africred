@@ -132,7 +132,15 @@ class PersonnelController extends Controller
     {
         $user = User::findOrFail($request->user_id);
 
-        $user->givePermissionTo(['delete']);
+        if($request->perm === 'delete'){
+            $user->givePermissionTo(['delete']);
+        }
+
+
+        if($request->perm === 'withdrawal'){
+            $user->givePermissionTo(['withdrawal']);
+        }
+
         return redirect()->back();
     }
 
@@ -140,7 +148,14 @@ class PersonnelController extends Controller
     {
         $user = User::findOrFail($request->user_id);
 
-        $user->revokePermissionTo(['delete']);
+        if($request->delete === 'delete'){
+            $user->revokePermissionTo(['delete']);
+        }
+
+        if($request->withdrawal === 'withdrawal'){
+            $user->revokePermissionTo(['withdrawal']);
+        }
+
         return redirect()->back();
     }
 }
