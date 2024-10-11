@@ -58,7 +58,7 @@
     </div>
     @endif
 
-    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8)
+    {{-- @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 8) --}}
     <div class="modal fade" id="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -106,7 +106,7 @@
             </form>
         </div>
     </div>
-    @endif
+    {{-- @endif --}}
     <div class="page-content">
 
         <div class="container-fluid">
