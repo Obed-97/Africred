@@ -22,8 +22,8 @@
         @endphp
             <div class="page-content">
                 <div class="container-fluid">
-                    
-                   
+
+
                     <!-- start page title -->
                     <div class="row" >
                         <div class="col-12">
@@ -43,11 +43,11 @@
                     <!-- end page title -->
                     <div class="row mb-4" >
                         <div class="col-xl-2" id="web">
-                        
+
                         <button type="button" class="btn btn-primary btn-block waves-effect waves-light" data-toggle="modal" data-target="#arrete">
                             <i class="ri-survey-line  align-middle mr-2"></i> ÉTATS D'ARRÊTÉ
                         </button>
-                        
+
                         </div>
                         <div class="col-xl-4" id="web">
                            <form  method="POST" action="{{route('date.store')}}" class="d-flex mb-4">
@@ -57,12 +57,12 @@
                            </form>
                         </div>
                         <div class="col-xl-2" id="web">
-                           
+
                         </div>
                            <div class="col-xl-2"><a href="{{route('historique.index')}}" class="btn btn-primary btn-block  waves-effect waves-light mb-2"><i class="ri-file-list-3-line  align-middle mr-2"></i> HISTORIQUE</a></div>
                            <div class="col-xl-2"><a href="{{route('etat_recouvrement.index')}}" class="btn btn-success btn-block  waves-effect waves-light"><i class=" ri-bank-line  align-middle mr-2"></i> ÉTAT DU JOUR</a></div>
                     </div>
-            
+
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -103,10 +103,10 @@
                                                                 </option>
                                                                @endforeach
                                                             </select>
-                                                            
+
                                                         </div>
-                                                        
-                                                       
+
+
                                                         <div class="row">
                                                             <div class="col-6 form-group ">
                                                             <label>Capital</label>
@@ -156,9 +156,9 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                   
+
                                                     <div class="modal-body">
-                                                       
+
                                                         <div class="form-group ">
                                                             <label>Date</label>
                                                             <div>
@@ -170,22 +170,22 @@
                                                             <select class="form-control select2" name="credit_id" required>
                                                                 @foreach ($epargnes as $item)
                                                                 <option value="{{$item->id}}|{{$item->marche_id}}|{{$item->montant_interet}}|{{$item->type_id}}">
-                                                                    {{$item->Client['nom_prenom']}} : {{number_format($item->getEpargne($item->id), 0, ',', ' ')}} CFA 
+                                                                    {{$item->Client['nom_prenom']}} : {{number_format($item->getEpargne($item->id), 0, ',', ' ')}} CFA
                                                                 </option>
                                                                @endforeach
                                                             </select>
-                                                            
+
                                                         </div>
-                                                        
-                                                        
+
+
                                                         <div class="form-group ">
                                                             <label>Montant du retrait</label>
                                                             <div>
                                                                 <input class="form-control" type="number" name="retrait" min="0" id="retrait" required >
                                                             </div>
                                                         </div>
-                                                        
-                                                      
+
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Annuler</button>
@@ -194,7 +194,7 @@
                                                 </div>
                                             </form>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="modal fade" id="arrete" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog" >
                                         <form action="{{route('etat_recouvrement.store')}}" method="POST" enctype="multipart/form-data">
@@ -257,13 +257,13 @@
                                     </form>
                                     </div>
                                 </div>
-                                    
+
                                     <div class="row">
                                         <div class="mb-4 col-xl-4">
                                             <label for="">Afficher par :</label>
                                             @if (auth()->user()->role_id == 2)
                                             <a href="{{route('recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Client</a>
-                                            <a href="{{route('recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>  
+                                            <a href="{{route('recouvrement.create')}}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ri-store-2-line "></i> Marché</a>
                                             @else
                                             <a href="{{route('recouvrement.index')}}" class="btn btn-success btn-sm waves-effect waves-light mr-2"><i class="ri-user-3-line"></i> Agent</a>
 
@@ -274,7 +274,7 @@
 
                                     <table id="datatable-buttons" class="table  dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            
+
                                                 <tr>
                                                     <th></th>
                                                     <th>Client</th>
@@ -288,19 +288,19 @@
                                                     <th>Frais de déblocage</th>
                                                     <th>Frais de carte</th>
                                                     <th style="background-color: #ff3d60; color: white ">Rétrait Épargne</th>
-                                                    
-                                                    
-                                                    
+
+
+
                                                 </tr>
-                                            
+
                                         </thead>
 
 
                                         <tbody>
-                                            
+
                                                 @foreach ($recouvrements as $item)
                                                     <tr>
-                                                        <td><img src="/assets/images/users/{{$item->Credit->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
+                                                        <td><img src="/assets/images/users/{{$item->Credit->Client['image'] ?? ''}}" alt="" class="rounded-circle avatar-sm"></td>
                                                         <td>{{$item->Credit->Client['nom_prenom']}}</td>
                                                         <td>{{$item->Credit->Client->Marche['libelle']}}</td>
                                                         @if(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) < 0)
@@ -311,14 +311,14 @@
                                                             <td>{{number_format(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', ' ')}} CFA</td>
                                                         @endif
                                                         <td>{{number_format(($item->Credit['montant_interet']), 0, ',', ' ')}} CFA</td>
-                                                        <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td> 
-                                                        <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td> 
+                                                        <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
+                                                        <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format(($item->epargne_jrs - $item->retrait), 0, ',', ' ')}} CFA</td>
-                                                        <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td> 
+                                                        <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->getFraisDeblocageCredit($item->credit_id), 0, ',', ' ')}} CFA</td>
                                                         <td>{{number_format($item->getFraisCarteCredit($item->credit_id), 0, ',', ' ')}} CFA</td>
-                                                        <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>  
-                                               
+                                                        <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
+
                                                     </tr>
                                                 @endforeach
                                                     <tr style="background-color: #1cbb8c; color: white ">
@@ -335,21 +335,21 @@
                                                         <td>{{number_format($epargnes->sum('frais_carte'), 0, ',', ' ')}} CFA</td>
 
                                                         <td>{{number_format($total->sum('retrait'), 0, ',', ' ')}} CFA</td>
-                                                        
-                                                       
-                                                        
-                                                                                                            
+
+
+
+
                                                     </tr>
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div> <!-- end col -->
-                        
-                         
+
+
                     </div> <!-- end row -->
-                  
+
 
                 </div> <!-- container-fluid -->
             </div>
