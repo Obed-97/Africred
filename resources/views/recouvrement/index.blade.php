@@ -299,8 +299,15 @@
                                         <tbody>
 
                                                 @foreach ($recouvrements as $item)
+                                                @php
+                                                    use Log;
+
+                                                        Log::info('Recouvrement  : ' . $item);
+                                                        Log::info('creation de l\'élément avec ID : ' . $item->id);
+                                                        Log::info('PAR : ' . auth()->user()->email);
+                                                @endphp
                                                     <tr>
-                                                        <td><img src="/assets/images/users/{{$item->Credit->Client['image'] ?? ''}}" alt="" class="rounded-circle avatar-sm"></td>
+                                                        <td><img src="/assets/images/users/{{$item->Credit->Client['image']}}" alt="" class="rounded-circle avatar-sm"></td>
                                                         <td>{{$item->Credit->Client['nom_prenom']}}</td>
                                                         <td>{{$item->Credit->Client->Marche['libelle']}}</td>
                                                         @if(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) + intval($item->recouvrement_jrs)) < 0)
