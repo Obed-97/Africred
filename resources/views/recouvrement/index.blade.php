@@ -363,10 +363,12 @@ use Illuminate\Support\Facades\Log;
                                     @endphp
                                     @foreach ($recouvrements as $item)
                                     @php
-
-                                    Log::info('Recouvrement : ' . $item);
+                                                            @if(!isset($item->Credit->Client))
+                                                            Log::info('Recouvrement : ' . $item);
                                     Log::info('creation de l\'élément avec ID : ' . $item->id);
                                     Log::info('PAR : ' . auth()->user()->email);
+                                                            @endif
+
                                     @endphp
                                     <tr>
                                         <td><img src="/assets/images/users/{{$item->Credit->Client['image']}}" alt=""
