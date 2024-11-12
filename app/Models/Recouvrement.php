@@ -409,6 +409,11 @@ class Recouvrement extends Model
         return $credit->Client['nom_prenom'] ?? '';
     }
 
+    public function recouv()
+    {
+        return Recouvrement::where('credit_id', $this->credit_id)->get()->sum('recouvrement_jrs');
+    }
+
 
 
     public function Marche()

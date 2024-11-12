@@ -36,15 +36,7 @@
                             <select class="form-control select2" name="credit_id" required>
                                 @foreach ($credits as $item)
                                 <option value="{{$item->id}}|{{$item->marche_id}}|{{$item->montant_interet}}|{{$item->type_id}}" >
-                                    {{$item->Client['nom_prenom']}} : {{number_format(($item->encours($item->montant_interet)), 0, ',', ' ')}} CFA //
-
-                                                @if ((\Carbon\Carbon::now() < $item->date_fin) && (\Carbon\Carbon::now()->diffInDays($item->date_fin) != 0))
-                                                   Jours restant : {{\Carbon\Carbon::now()->diffInDays($item->date_fin)}} jrs
-                                                @elseif(\Carbon\Carbon::now()->diffInDays($item->date_fin) == 0)
-                                                   Jours restant : Aujourd'hui
-                                                @else
-                                                    Prêt en retard
-                                                @endif
+                                    {{$item->Client['nom_prenom']}} ; C = {{ number_format($item->montant, 0, ',', ' ') }}; R = {{ number_format($item->montant_par_jour, 0, ',', ' ') }}; I = {{ number_format($item->interet_par_jour, 0, ',', ' ') }}
                                 </option>
                                @endforeach
                             </select>

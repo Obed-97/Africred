@@ -341,6 +341,7 @@
                                         <th>Encours Global</th>
                                         <th>Capital & Intérêt</th>
                                         <th>Capital</th>
+                                        <th>Capital Restant</th>
                                         <th>Intérêt</th>
                                         <th>Epargne</th>
                                         <th>Assurance</th>
@@ -396,6 +397,7 @@ use Illuminate\Support\Facades\Log;
                                             <td>{{number_format(($item->Credit['montant_interet']), 0, ',', ' ')}} CFA
                                             </td>
                                             <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
+                                            <td>{{number_format( intval($item->Credit->montant) - $item->recouv(), 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
                                             <td>{{number_format(($item->epargne_jrs - $item->retrait), 0, ',', ' ')}}
                                                 CFA</td>

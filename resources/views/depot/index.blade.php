@@ -346,11 +346,15 @@
                                         <td>{{number_format($epargne->sum('retrait'), 0, ',', ' ')}} CFA</td>
                                     </tr>
                                     <tr>
+                                        <td>Frais</td>
+                                        <td>{{number_format($frais, 0, ',', ' ')}} CFA</td>
+
+                                    </tr>
+                                    <tr>
                                         <td>Solde</td>
-                                        <td>{{number_format(($epargne->sum('depot')) - ($epargne->sum('retrait')), 0,
+                                        <td>{{number_format(($epargne->sum('depot')) - $frais -($epargne->sum('retrait')), 0,
                                             ',', ' ')}} CFA</td>
                                     </tr>
-
                                 </tbody>
                             </table>
 

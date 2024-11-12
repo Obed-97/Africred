@@ -97,7 +97,9 @@ class DepotController extends Controller
 
         $types = Type_depot::get();
 
-        return view('depot.index', compact('depots', 'depot_jour', 'depotss','clients','types','tontine','epargne','tout_depot'));
+        $frais = FraisCompte::get()->sum('montant');
+
+        return view('depot.index', compact('frais','depots', 'depot_jour', 'depotss','clients','types','tontine','epargne','tout_depot'));
     }
 
     public function livret(Request $request)
