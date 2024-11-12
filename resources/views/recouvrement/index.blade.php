@@ -343,6 +343,7 @@
                                         <th>Capital</th>
                                         <th>Capital Restant</th>
                                         <th>Intérêt</th>
+                                        <th>Intérêt Restant</th>
                                         <th>Epargne</th>
                                         <th>Assurance</th>
                                         <th>Frais de déblocage</th>
@@ -359,53 +360,71 @@
                                 <tbody>
 
                                     @php
-use Illuminate\Support\Facades\Log;
+                                    use Illuminate\Support\Facades\Log;
 
                                     @endphp
                                     @foreach ($recouvrements as $item)
                                     @php
-                                                            if(!isset($item->Credit->Client)){
+                                    if(!isset($item->Credit->Client)){
 
 
-                                                            Log::info('Recouvrement : ' . $item);
+                                    Log::info('Recouvrement : ' . $item);
                                     Log::info('creation de l\'élément avec ID : ' . $item->id);
                                     Log::info('PAR : ' . auth()->user()->email);
-                                                            }
+                                    }
 
                                     @endphp
                                     <tr>
-                                        <td><img src="/assets/images/users/{{$item->Credit->Client['image']}}" alt=""
-                                                class="rounded-circle avatar-sm"></td>
+                                        <td>
+                                            <img src="/assets/images/users/{{$item->Credit->Client['image']}}" alt=""
+                                                class="rounded-circle avatar-sm">
+                                        </td>
+
                                         <td>{{$item->Credit->Client['nom_prenom']}}</td>
+
                                         <td>{{$item->Credit->Client->Marche['libelle']}}</td>
+
                                         @if(intval($item->Credit->montant_interet) - (intval($item->interet_jrs) +
                                         intval($item->recouvrement_jrs)) < 0) <td>
                                             {{number_format(intval($item->Credit->montant_interet) -
                                             (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',', '
                                             ')}} CFA (Erreur)</td>
-                                            @elseif(intval($item->Credit->montant_interet) - (intval($item->interet_jrs)
+                                        @elseif(intval($item->Credit->montant_interet) - (intval($item->interet_jrs)
                                             + intval($item->recouvrement_jrs)) == 0)
                                             <td>
                                                 <div class="badge badge-soft-success font-size-14"><i
                                                         class="ri-check-line align-middle mr-2"></i>Crédit soldé</div>
                                             </td>
-                                            @else
+                                        @else
                                             <td>{{number_format(intval($item->Credit->montant_interet) -
                                                 (intval($item->interet_jrs) + intval($item->recouvrement_jrs)), 0, ',',
                                                 ' ')}} CFA</td>
-                                            @endif
-                                            <td>{{number_format(($item->Credit['montant_interet']), 0, ',', ' ')}} CFA
+                                        @endif
+
+                                        <td>{{number_format(($item->Credit['montant_interet']), 0, ',', ' ')}} CFA
                                             </td>
+
                                             <td>{{number_format($item->recouvrement_jrs, 0, ',', ' ')}} CFA</td>
-                                            <td>{{number_format( intval($item->Credit->montant) - $item->recouv(), 0, ',', ' ')}} CFA</td>
+
+                                            <td>{{number_format( intval($item->Credit->montant) - $item->recouv(),
+                                                0, ',', ' ')}} CFA</td>
+
                                             <td>{{number_format($item->interet_jrs, 0, ',', ' ')}} CFA</td>
+
+                                            <td>{{number_format( intval($item->Credit->interet) -
+                                                $item->recouvInte(), 0, ',', ' ')}} CFA</td>
+
                                             <td>{{number_format(($item->epargne_jrs - $item->retrait), 0, ',', ' ')}}
                                                 CFA</td>
+
                                             <td>{{number_format($item->assurance, 0, ',', ' ')}} CFA</td>
+
                                             <td>{{number_format($item->getFraisDeblocageCredit($item->credit_id), 0,
                                                 ',', ' ')}} CFA</td>
+
                                             <td>{{number_format($item->getFraisCarteCredit($item->credit_id), 0, ',', '
                                                 ')}} CFA</td>
+
                                             <td>{{number_format($item->retrait, 0, ',', ' ')}} CFA</td>
 
                                     </tr>
@@ -417,20 +436,16 @@ use Illuminate\Support\Facades\Log;
                                         <td></td>
                                         <td>{{number_format($sum_montant_interet, 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format($total->sum('recouvrement_jrs'), 0, ',', ' ')}} CFA</td>
+                                        <td></td>
                                         <td>{{number_format($total->sum('interet_jrs'), 0, ',', ' ')}} CFA</td>
+                                        <td></td>
                                         <td>{{number_format(($total->sum('epargne_jrs') - $total->sum('retrait')), 0,
                                             ',', ' ')}} CFA</td>
                                         <td>{{number_format($total->sum('assurance'), 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format($epargnes->sum('frais_deblocage'), 0, ',', ' ')}} CFA</td>
                                         <td>{{number_format($epargnes->sum('frais_carte'), 0, ',', ' ')}} CFA</td>
-
                                         <td>{{number_format($total->sum('retrait'), 0, ',', ' ')}} CFA</td>
-
-
-
-
                                     </tr>
-
                                 </tbody>
                             </table>
                         </div>
