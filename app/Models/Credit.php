@@ -232,6 +232,18 @@ class Credit extends Model
         return $total;
     }
 
+
+    public function recouvCap()
+    {
+        return Recouvrement::where('credit_id', $this->credit_id)->get()->sum('recouvrement_jrs');
+    }
+
+    public function recouvInte()
+    {
+        return Recouvrement::where('credit_id', $this->credit_id)->get()->sum('interet_jrs');
+    }
+
+
     public function getEpargne($item)
     {
         $epargnes = Recouvrement::where('credit_id', $item)->get();

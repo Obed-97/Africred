@@ -414,6 +414,11 @@ class Recouvrement extends Model
         return Recouvrement::where('credit_id', $this->credit_id)->get()->sum('recouvrement_jrs');
     }
 
+    public function recouvInte()
+    {
+        return Recouvrement::where('credit_id', $this->credit_id)->get()->sum('interet_jrs');
+    }
+
 
 
     public function Marche()
